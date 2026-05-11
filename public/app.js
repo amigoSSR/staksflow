@@ -1,4 +1,4 @@
-﻿/* =============================================
+/* =============================================
    STAKS FLOW — Frontend Application Logic
    ============================================= */
 
@@ -10,11 +10,7 @@ const getToken  = () => sessionStorage.getItem('tf_token');
 const setToken  = (t) => sessionStorage.setItem('tf_token', t);
 const clearToken = () => sessionStorage.removeItem('tf_token');
 
-// Auth Guard
-if (!getToken()) {
-  sessionStorage.setItem('tf_auth_msg', 'Sesi Anda telah berakhir, silakan login kembali.');
-  window.location.href = '/login.html';
-}
+// Auth Guard is handled inside the async IIFE below to avoid race conditions.
 let currentUser = null;
 
 // ─── State ───────────────────────────────────
@@ -38,6 +34,13 @@ const searchInput      = document.getElementById('searchInput');
 const searchClear      = document.getElementById('searchClear');
 const sidebar          = document.getElementById('sidebar');
 const overlay          = document.getElementById('overlay');
+
+const getEl = (id) => document.getElementById(id);
+const getValue = (id) => document.getElementById(id)?.value || '';
+const setText = (id, text) => { const el = getEl(id); if (el) el.textContent = text; };
+const setHTML = (id, html) => { const el = getEl(id); if (el) el.innerHTML = html; };
+const setValue = (id, value) => { const el = getEl(id); if (el) el.value = value; };
+const addListener = (id, event, handler) => { const el = getEl(id); if (el) el.addEventListener(event, handler); return el; };
 
 // ─── API Helpers ──────────────────────────────
 async function apiFetch(url, options = {}) {
@@ -119,6 +122,7 @@ function getFilteredTasks() {
 function renderTasks() {
   showLoading(false);
   const tasks = getFilteredTasks();
+  if (!tasksGrid || !emptyState) return;
 
   if (tasks.length === 0) {
     tasksGrid.innerHTML = '';
@@ -128,8 +132,7 @@ function renderTasks() {
 
   emptyState.classList.add('hidden');
   tasksGrid.innerHTML = tasks.map(buildTaskCard).join('');
-
-    tasksGrid.querySelectorAll('.task-checkbox').forEach(cb => {
+  tasksGrid.querySelectorAll('.task-checkbox').forEach(cb => {
     cb.addEventListener('click', () => {
       const id = cb.closest('.task-card').dataset.id;
       const currentStatus = cb.classList.contains('checked') ? 'selesai' : 'pending';
@@ -200,12 +203,10 @@ function buildDeadline(deadline) {
 // ─── BADGES & STATS ──────────────────────────
 function updateBadges() {
   const categories = ['daily','weekly','monthly','quarterly','semesterly','yearly'];
-  const el = id => document.getElementById(id);
-
-  el('badge-all').textContent = allTasks.length;
+  setText('badge-all', allTasks.length);
   categories.forEach(cat => {
     const count = allTasks.filter(t => t.category === cat).length;
-    el(`badge-${cat}`).textContent = count;
+    setText(`badge-${cat}`, count);
   });
 }
 
@@ -220,23 +221,24 @@ function updateStats() {
   }).length;
 
   // Sidebar stats
-  document.getElementById('statDone').textContent    = done;
-  document.getElementById('statPending').textContent = pending;
-  document.getElementById('statOverdue').textContent = overdue;
+  setText('statDone', done);
+  setText('statPending', pending);
+  setText('statOverdue', overdue);
 
   // Dashboard bar
-  document.getElementById('dashTotalNum').textContent   = total;
-  document.getElementById('dashDoneNum').textContent    = done;
-  document.getElementById('dashPendingNum').textContent = pending;
-  document.getElementById('dashOverdueNum').textContent = overdue;
+  setText('dashTotalNum', total);
+  setText('dashDoneNum', done);
+  setText('dashPendingNum', pending);
+  setText('dashOverdueNum', overdue);
 }
 
 function updateProgress() {
   const total   = allTasks.length;
   const done    = allTasks.filter(t => t.status.startsWith('selesai')).length;
   const pct     = total === 0 ? 0 : Math.round((done / total) * 100);
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressPct').textContent  = pct + '%';
+  const progressBar = getEl('progressBar');
+  if (progressBar) progressBar.style.width = pct + '%';
+  setText('progressPct', pct + '%');
 }
 
 // ─── STATUS TOGGLE ────────────────────────────
@@ -260,26 +262,22 @@ function openModal(task = null) {
   editingTaskId = task ? task.id : null;
   taskStatus = task ? task.status : 'pending';
 
-  document.getElementById('modalTitle').textContent   = task ? 'Edit Tugas' : 'Tambah Tugas Baru';
-  document.getElementById('btnSaveText').textContent  = task ? 'Simpan Perubahan' : 'Simpan Tugas';
-  document.getElementById('taskId').value             = task ? task.id : '';
-  document.getElementById('taskTitle').value          = task ? task.title : '';
-  document.getElementById('taskDescription').value    = task ? (task.description || '') : '';
-  document.getElementById('taskCategory').value       = task ? task.category : '';
-  document.getElementById('taskDeadline').value       = task ? (task.deadline || '') : '';
+  setText('modalTitle', task ? 'Edit Tugas' : 'Tambah Tugas Baru');
+  setText('btnSaveText', task ? 'Simpan Perubahan' : 'Simpan Tugas');
+  setValue('taskId', task ? task.id : '');
+  setValue('taskTitle', task ? task.title : '');
+  setValue('taskDescription', task ? (task.description || '') : '');
+  setValue('taskCategory', task ? task.category : '');
+  setValue('taskDeadline', task ? (task.deadline || '') : '');
 
-  // Show status toggle only in edit mode
-  const statusGroup = document.getElementById('statusGroupEdit');
-  statusGroup.style.display = task ? 'flex' : 'none';
+  const statusGroup = getEl('statusGroupEdit');
+  if (statusGroup) statusGroup.style.display = task ? 'flex' : 'none';
   setStatusBtns(taskStatus);
 
-  // Char count
   updateCharCount();
-
-  // Clear errors
   clearErrors();
-  modalOverlay.classList.add('open');
-  document.getElementById('taskTitle').focus();
+  if (modalOverlay) modalOverlay.classList.add('open');
+  getEl('taskTitle')?.focus();
 }
 
 function openEditModal(id) {
@@ -294,31 +292,32 @@ function closeModal() {
 }
 
 function setStatusBtns(status) {
-  const btnP = document.getElementById('btnPending');
-  const btnD = document.getElementById('btnDone');
-  btnP.classList.toggle('active', status === 'pending');
-  btnD.classList.toggle('active', status.startsWith('selesai'));
+  const btnP = getEl('btnPending');
+  const btnD = getEl('btnDone');
+  if (btnP) btnP.classList.toggle('active', status === 'pending');
+  if (btnD) btnD.classList.toggle('active', status.startsWith('selesai'));
   taskStatus = status;
 }
 
-document.getElementById('btnPending').addEventListener('click', () => setStatusBtns('pending'));
-document.getElementById('btnDone').addEventListener('click', ()    => setStatusBtns('selesai'));
+addListener('btnPending', 'click', () => setStatusBtns('pending'));
+addListener('btnDone', 'click', () => setStatusBtns('selesai'));
 
 // ─── FORM SUBMIT ──────────────────────────────
-taskForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  if (!validateForm()) return;
+if (taskForm) {
+  taskForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  const btnSave = document.getElementById('btnSave');
-  btnSave.disabled = true;
+    const btnSave = getEl('btnSave');
+    if (btnSave) btnSave.disabled = true;
 
-  const payload = {
-    title:       document.getElementById('taskTitle').value.trim(),
-    description: document.getElementById('taskDescription').value.trim(),
-    category:    document.getElementById('taskCategory').value,
-    deadline:    document.getElementById('taskDeadline').value,
-    status:      editingTaskId ? taskStatus : 'pending',
-  };
+    const payload = {
+      title:       getValue('taskTitle').trim(),
+      description: getValue('taskDescription').trim(),
+      category:    getValue('taskCategory'),
+      deadline:    getValue('taskDeadline'),
+      status:      editingTaskId ? taskStatus : 'pending',
+    };
 
   try {
     if (editingTaskId) {
@@ -342,21 +341,22 @@ taskForm.addEventListener('submit', async (e) => {
   } finally {
     btnSave.disabled = false;
   }
-});
+  });
+} // end if (taskForm)
 
 function validateForm() {
   let ok = true;
-  const title    = document.getElementById('taskTitle');
-  const category = document.getElementById('taskCategory');
+  const title    = getEl('taskTitle');
+  const category = getEl('taskCategory');
 
-  if (!title.value.trim()) {
+  if (!title || !title.value.trim()) {
     showFieldError('titleError', title, 'Judul tugas wajib diisi');
     ok = false;
   } else {
     clearFieldError('titleError', title);
   }
 
-  if (!category.value) {
+  if (!category || !category.value) {
     showFieldError('categoryError', category, 'Pilih kategori tugas');
     ok = false;
   } else {
@@ -367,32 +367,34 @@ function validateForm() {
 }
 
 function showFieldError(errId, input, msg) {
-  document.getElementById(errId).textContent = msg;
-  input.classList.add('error');
+  const errEl = getEl(errId);
+  if (errEl) errEl.textContent = msg;
+  if (input) input.classList.add('error');
 }
 function clearFieldError(errId, input) {
-  document.getElementById(errId).textContent = '';
-  input.classList.remove('error');
+  const errEl = getEl(errId);
+  if (errEl) errEl.textContent = '';
+  if (input) input.classList.remove('error');
 }
 function clearErrors() {
-  ['titleError','categoryError'].forEach(id => document.getElementById(id).textContent = '');
-  ['taskTitle','taskCategory'].forEach(id => document.getElementById(id).classList.remove('error'));
+  ['titleError','categoryError'].forEach(id => { const el = getEl(id); if (el) el.textContent = ''; });
+  ['taskTitle','taskCategory'].forEach(id => { const el = getEl(id); if (el) el.classList.remove('error'); });
 }
 
 // ─── DELETE MODAL ─────────────────────────────
 function openDeleteModal(id) {
   deletingTaskId = id;
-  deleteModalOverlay.classList.add('open');
+  if (deleteModalOverlay) deleteModalOverlay.classList.add('open');
 }
 function closeDeleteModal() {
-  deleteModalOverlay.classList.remove('open');
+  if (deleteModalOverlay) deleteModalOverlay.classList.remove('open');
   deletingTaskId = null;
 }
 
-document.getElementById('btnConfirmDelete').addEventListener('click', async () => {
+addListener('btnConfirmDelete', 'click', async () => {
   if (!deletingTaskId) return;
-  const btn = document.getElementById('btnConfirmDelete');
-  btn.disabled = true;
+  const btn = getEl('btnConfirmDelete');
+  if (btn) btn.disabled = true;
   try {
     await apiFetch(`${API_BASE}/${deletingTaskId}`, { method: 'DELETE' });
     allTasks = allTasks.filter(t => t.id !== deletingTaskId);
@@ -402,12 +404,12 @@ document.getElementById('btnConfirmDelete').addEventListener('click', async () =
   } catch (err) {
     showToast('Gagal menghapus: ' + err.message, 'error');
   } finally {
-    btn.disabled = false;
+    if (btn) btn.disabled = false;
   }
 });
 
 // ─── SIDEBAR NAVIGATION ───────────────────────
-document.getElementById('navList').addEventListener('click', (e) => {
+addListener('navList', 'click', (e) => {
   const item = e.target.closest('.nav-item');
   if (!item) return;
 
@@ -425,8 +427,8 @@ document.getElementById('navList').addEventListener('click', (e) => {
     yearly: ['Tugas Tahunan', 'Tugas yang perlu diselesaikan tahun ini'],
   };
   const [title, subtitle] = titles[activeCategory] || ['Tugas', ''];
-  document.getElementById('pageTitle').textContent    = title;
-  document.getElementById('pageSubtitle').textContent = subtitle;
+  setText('pageTitle', title);
+  setText('pageSubtitle', subtitle);
 
   renderAll();
   closeSidebar();
@@ -443,56 +445,61 @@ document.querySelectorAll('.filter-tab').forEach(tab => {
 });
 
 // ─── SORT ─────────────────────────────────────
-document.getElementById('sortSelect').addEventListener('change', (e) => {
+addListener('sortSelect', 'change', (e) => {
   sortBy = e.target.value;
   renderAll();
 });
 
 // ─── SEARCH ───────────────────────────────────
-searchInput.addEventListener('input', (e) => {
-  searchQuery = e.target.value;
-  searchClear.classList.toggle('visible', searchQuery.length > 0);
-  renderTasks();
-});
-searchClear.addEventListener('click', () => {
-  searchQuery = '';
-  searchInput.value = '';
-  searchClear.classList.remove('visible');
-  renderTasks();
-});
+if (searchInput) {
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    if (searchClear) searchClear.classList.toggle('visible', searchQuery.length > 0);
+    renderTasks();
+  });
+}
+if (searchClear) {
+  searchClear.addEventListener('click', () => {
+    searchQuery = '';
+    if (searchInput) searchInput.value = '';
+    searchClear.classList.remove('visible');
+    renderTasks();
+  });
+}
 
 // ─── CHAR COUNT ───────────────────────────────
 function updateCharCount() {
-  const len = document.getElementById('taskDescription').value.length;
-  document.getElementById('descCharCount').textContent = `${len} / 500`;
+  const desc = getEl('taskDescription');
+  const len = desc ? desc.value.length : 0;
+  setText('descCharCount', `${len} / 500`);
 }
-document.getElementById('taskDescription').addEventListener('input', updateCharCount);
+const descInput = getEl('taskDescription');
+if (descInput) descInput.addEventListener('input', updateCharCount);
 
 // ─── MOBILE SIDEBAR ───────────────────────────
 function openSidebar() {
-  sidebar.classList.add('open');
-  overlay.classList.add('show');
+  if (sidebar) sidebar.classList.add('open');
+  if (overlay) overlay.classList.add('show');
   document.body.style.overflow = 'hidden';
 }
 function closeSidebar() {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('show');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('show');
   document.body.style.overflow = '';
 }
 
-document.getElementById('mobileMenuBtn').addEventListener('click', openSidebar);
-document.getElementById('sidebarToggle').addEventListener('click', closeSidebar);
-overlay.addEventListener('click', closeSidebar);
+addListener('mobileMenuBtn', 'click', openSidebar);
+addListener('sidebarToggle', 'click', closeSidebar);
+if (overlay) overlay.addEventListener('click', closeSidebar);
 
 // ─── BUTTON EVENTS ────────────────────────────
-document.getElementById('btnAddTask').addEventListener('click', () => openModal());
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('btnCancel').addEventListener('click', closeModal);
-document.getElementById('btnCancelDelete').addEventListener('click', closeDeleteModal);
+addListener('btnAddTask', 'click', () => openModal());
+addListener('modalClose', 'click', closeModal);
+addListener('btnCancel', 'click', closeModal);
+addListener('btnCancelDelete', 'click', closeDeleteModal);
 
-// Close modal on backdrop click
-modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-deleteModalOverlay.addEventListener('click', (e) => { if (e.target === deleteModalOverlay) closeDeleteModal(); });
+if (modalOverlay) modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+if (deleteModalOverlay) deleteModalOverlay.addEventListener('click', (e) => { if (e.target === deleteModalOverlay) closeDeleteModal(); });
 
 // ESC key
 document.addEventListener('keydown', (e) => {
@@ -502,7 +509,8 @@ document.addEventListener('keydown', (e) => {
 // ─── TOAST ────────────────────────────────────
 function showToast(msg, type = 'info') {
   const icons = { success: 'bi-check-circle-fill', error: 'bi-x-circle-fill', info: 'bi-info-circle-fill' };
-  const container = document.getElementById('toastContainer');
+  const container = getEl('toastContainer');
+  if (!container) return;
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `<i class="bi ${icons[type]} toast-icon"></i><span class="toast-msg">${msg}</span>`;
@@ -512,8 +520,11 @@ function showToast(msg, type = 'info') {
 
 // ─── HELPERS ──────────────────────────────────
 function showLoading(show) {
-  loadingState.style.display = show ? 'flex' : 'none';
-  if (show) { tasksGrid.innerHTML = ''; emptyState.classList.add('hidden'); }
+  if (loadingState) loadingState.style.display = show ? 'flex' : 'none';
+  if (show) {
+    if (tasksGrid) tasksGrid.innerHTML = '';
+    if (emptyState) emptyState.classList.add('hidden');
+  }
 }
 
 function escHtml(str) {
@@ -540,10 +551,10 @@ function renderKanban() {
         <button class="task-btn delete" onclick="openDeleteModal('${t.id}')" title="Hapus"><i class="bi bi-trash3-fill"></i></button>
       </div>
     </div>`;
-  document.getElementById('kanbanPendingCards').innerHTML = pending.map(mkCard).join('') || '<p class="kanban-empty">Tidak ada tugas</p>';
-  document.getElementById('kanbanDoneCards').innerHTML    = done.map(mkCard).join('')    || '<p class="kanban-empty">Tidak ada tugas</p>';
-  document.getElementById('kanbanPendingCount').textContent = pending.length;
-  document.getElementById('kanbanDoneCount').textContent    = done.length;
+  setHTML('kanbanPendingCards', pending.map(mkCard).join('') || '<p class="kanban-empty">Tidak ada tugas</p>');
+  setHTML('kanbanDoneCards', done.map(mkCard).join('') || '<p class="kanban-empty">Tidak ada tugas</p>');
+  setText('kanbanPendingCount', pending.length);
+  setText('kanbanDoneCount', done.length);
 }
 
 let draggedId = null;
@@ -562,16 +573,21 @@ async function handleDrop(e, status) {
 
 // ─── VIEW TOGGLE ──────────────────────────────
 let activeView = 'grid';
-document.getElementById('viewList').addEventListener('click', (e) => {
-  const item = e.target.closest('.nav-item');
-  if (!item || !item.dataset.view) return;
-  activeView = item.dataset.view;
-  document.querySelectorAll('#viewList .nav-item').forEach(n => n.classList.remove('active'));
-  item.classList.add('active');
-  document.getElementById('gridView').classList.toggle('hidden', activeView !== 'grid');
-  document.getElementById('kanbanView').classList.toggle('hidden', activeView !== 'kanban');
-  if (activeView === 'kanban') renderKanban();
-});
+const viewListEl = getEl('viewList');
+if (viewListEl) {
+  viewListEl.addEventListener('click', (e) => {
+    const item = e.target.closest('.nav-item');
+    if (!item || !item.dataset.view) return;
+    activeView = item.dataset.view;
+    document.querySelectorAll('#viewList .nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+    const gridView = getEl('gridView');
+    const kanbanView = getEl('kanbanView');
+    if (gridView) gridView.classList.toggle('hidden', activeView !== 'grid');
+    if (kanbanView) kanbanView.classList.toggle('hidden', activeView !== 'kanban');
+    if (activeView === 'kanban') renderKanban();
+  });
+}
 
 // Override renderAll to also update kanban when visible
 const _origRenderAll = renderAll;
@@ -581,30 +597,32 @@ function renderAll() {
 }
 
 // ─── THEME TOGGLE ─────────────────────────────
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon   = document.getElementById('themeIcon');
+const themeToggle = getEl('themeToggle');
+const themeIcon   = getEl('themeIcon');
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('tf_theme', theme);
-  themeIcon.className = theme === 'dark' ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+  if (themeIcon) themeIcon.className = theme === 'dark' ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
 }
-themeToggle.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme') || 'dark';
-  applyTheme(current === 'dark' ? 'light' : 'dark');
-});
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+}
 applyTheme(localStorage.getItem('tf_theme') || 'dark');
 
 // ─── NOTIFICATION PANEL ───────────────────────
-const notifPanel   = document.getElementById('notifPanel');
-const notifOverlay = document.getElementById('notifOverlay');
-document.getElementById('btnNotification').addEventListener('click', () => {
+const notifPanel   = getEl('notifPanel');
+const notifOverlay = getEl('notifOverlay');
+addListener('btnNotification', 'click', () => {
   buildNotifications();
-  notifPanel.classList.add('open');
-  notifOverlay.classList.add('show');
+  if (notifPanel) notifPanel.classList.add('open');
+  if (notifOverlay) notifOverlay.classList.add('show');
 });
-document.getElementById('notifClose').addEventListener('click', closeNotif);
-notifOverlay.addEventListener('click', closeNotif);
-function closeNotif() { notifPanel.classList.remove('open'); notifOverlay.classList.remove('show'); }
+addListener('notifClose', 'click', closeNotif);
+if (notifOverlay) notifOverlay.addEventListener('click', closeNotif);
+function closeNotif() { if (notifPanel) notifPanel.classList.remove('open'); if (notifOverlay) notifOverlay.classList.remove('show'); }
 function buildNotifications() {
   const today = new Date(); today.setHours(0,0,0,0);
   const urgent = allTasks.filter(t => {
@@ -613,10 +631,13 @@ function buildNotifications() {
     const diff = Math.ceil((d - today) / 86400000);
     return diff <= 3;
   }).sort((a,b) => a.deadline.localeCompare(b.deadline));
-  const badge = document.getElementById('notifBadge');
-  badge.textContent = urgent.length;
-  badge.classList.toggle('hidden', urgent.length === 0);
-  const list = document.getElementById('notifList');
+  const badge = getEl('notifBadge');
+  if (badge) {
+    badge.textContent = urgent.length;
+    badge.classList.toggle('hidden', urgent.length === 0);
+  }
+  const list = getEl('notifList');
+  if (!list) return;
   if (urgent.length === 0) {
     list.innerHTML = '<div class="notif-empty">Tidak ada tugas mendekati deadline 🎉</div>';
     return;
@@ -637,12 +658,12 @@ function buildNotifications() {
 // ─── AUTH & INIT ───────────────────────────────
 function showApp(user) {
   currentUser = user;
-  document.getElementById('userNameDisplay').textContent  = user.username;
-  document.getElementById('userEmailDisplay').textContent = user.email;
-  document.getElementById('userAvatar').textContent = user.username.charAt(0).toUpperCase();
+  setText('userNameDisplay', user.username);
+  setText('userEmailDisplay', user.email);
+  setText('userAvatar', user.username.charAt(0).toUpperCase());
 
   if (user.role === 'admin') {
-    const adminLink = document.getElementById('adminPanelLink');
+    const adminLink = getEl('adminPanelLink');
     if (adminLink) adminLink.classList.remove('hidden');
   }
 
@@ -654,33 +675,56 @@ function doLogout() {
   window.location.href = '/login.html';
 }
 
-const btnLogout = document.getElementById('btnLogout');
+const btnLogout = getEl('btnLogout');
 if (btnLogout) {
   btnLogout.addEventListener('click', doLogout);
 }
 
 // ─── INIT ─────────────────────────────────────
 (async () => {
+  const loader = getEl('authLoading');
+  const hideLoader = () => { if (loader) loader.style.display = 'none'; };
+
   const token = getToken();
-  if (token) {
-    try {
-      const res = await fetch(`${AUTH_BASE}/me`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (res.ok) {
-        const data = await res.json();
-        const loader = document.getElementById('authLoading');
-        if (loader) loader.style.display = 'none';
+  if (!token) {
+    sessionStorage.setItem('tf_auth_msg', 'Sesi Anda telah berakhir, silakan login kembali.');
+    hideLoader();
+    window.location.href = '/login.html';
+    return;
+  }
+
+  try {
+    // Add 10s timeout so loader never hangs forever
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 10000);
+
+    const res = await fetch(`${AUTH_BASE}/me`, {
+      headers: { 'Authorization': `Bearer ${token}` },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.user) {
+        hideLoader();
         showApp(data.user);
       } else {
+        // Unexpected response shape
         clearToken();
+        hideLoader();
         window.location.href = '/login.html';
       }
-    } catch {
+    } else {
       clearToken();
+      hideLoader();
       window.location.href = '/login.html';
     }
-  } else {
+  } catch (err) {
+    // Network error or timeout
+    console.warn('Auth check failed:', err.message);
+    clearToken();
+    hideLoader();
     window.location.href = '/login.html';
   }
 })();
@@ -694,68 +738,73 @@ const DAY_ICONS_U  = { "Senin":"🌟", "Selasa":"🌸", "Rabu":"🍀", "Kamis":"
 let activeCommunity = null; // 'house-rules' | 'duty' | 'calendar'
 
 // Nav click handler for community items
-document.getElementById('communityList')?.addEventListener('click', e => {
-  const item = e.target.closest('.nav-item');
-  if (!item) return;
-  const type = item.dataset.community;
-  switchCommunity(type);
-  closeSidebar();
-});
+const communityListEl = getEl('communityList');
+if (communityListEl) {
+  communityListEl.addEventListener('click', e => {
+    const item = e.target.closest('.nav-item');
+    if (!item) return;
+    const type = item.dataset.community;
+    switchCommunity(type);
+    closeSidebar();
+  });
+}
 
-// Mobile menu btn for community main
-document.getElementById('mobileMenuBtnC')?.addEventListener('click', openSidebar);
+const mobileMenuBtnC = getEl('mobileMenuBtnC');
+if (mobileMenuBtnC) mobileMenuBtnC.addEventListener('click', openSidebar);
 
 function switchCommunity(type) {
   activeCommunity = type;
 
-  // Deactivate task nav items
   document.querySelectorAll('#navList .nav-item, #viewList .nav-item').forEach(n => n.classList.remove('active'));
-
-  // Activate community nav item
   document.querySelectorAll('#communityList .nav-item').forEach(n => n.classList.remove('active'));
-  const navEl = document.getElementById(`nav-${type}`);
+  const navEl = getEl(`nav-${type}`);
   if (navEl) navEl.classList.add('active');
 
-  // Show communityMain, hide appScreen main
-  document.getElementById('mainContent').classList.add('hidden');
-  document.getElementById('communityMain').classList.remove('hidden');
+  const mainContent = getEl('mainContent');
+  const communityMain = getEl('communityMain');
+  if (mainContent) mainContent.classList.add('hidden');
+  if (communityMain) communityMain.classList.remove('hidden');
 
-  // Show correct sub-view
-  document.getElementById('viewHouseRules').classList.toggle('hidden', type !== 'house-rules');
-  document.getElementById('viewDuty').classList.toggle('hidden', type !== 'duty');
-  document.getElementById('viewCalendar').classList.toggle('hidden', type !== 'calendar');
+  const viewHouseRules = getEl('viewHouseRules');
+  const viewDuty = getEl('viewDuty');
+  const viewCalendar = getEl('viewCalendar');
+  if (viewHouseRules) viewHouseRules.classList.toggle('hidden', type !== 'house-rules');
+  if (viewDuty) viewDuty.classList.toggle('hidden', type !== 'duty');
+  if (viewCalendar) viewCalendar.classList.toggle('hidden', type !== 'calendar');
 
   if (type === 'house-rules') {
-    document.getElementById('communityTitle').textContent    = 'House Rules';
-    document.getElementById('communitySubtitle').textContent = 'Peraturan dan tata tertib hunian';
+    setText('communityTitle', 'House Rules');
+    setText('communitySubtitle', 'Peraturan dan tata tertib hunian');
     loadUserHouseRules();
   } else if (type === 'duty') {
-    document.getElementById('communityTitle').textContent    = 'Jadwal Piket';
-    document.getElementById('communitySubtitle').textContent = 'Jadwal tugas kebersihan anggota';
+    setText('communityTitle', 'Jadwal Piket');
+    setText('communitySubtitle', 'Jadwal tugas kebersihan anggota');
     loadUserDutySchedules();
   } else if (type === 'calendar') {
-    document.getElementById('communityTitle').textContent    = 'Calendar / Schedule';
-    document.getElementById('communitySubtitle').textContent = 'Jadwal dan agenda kegiatan';
+    setText('communityTitle', 'Calendar / Schedule');
+    setText('communitySubtitle', 'Jadwal dan agenda kegiatan');
     loadUserSchedules();
   }
 }
 
-// Call this when switching BACK to task views (nav clicks on task categories)
 function switchToTaskView() {
   activeCommunity = null;
-  document.getElementById('mainContent').classList.remove('hidden');
-  document.getElementById('communityMain').classList.add('hidden');
+  const mainContent = getEl('mainContent');
+  const communityMain = getEl('communityMain');
+  if (mainContent) mainContent.classList.remove('hidden');
+  if (communityMain) communityMain.classList.add('hidden');
   document.querySelectorAll('#communityList .nav-item').forEach(n => n.classList.remove('active'));
 }
 
 // Patch existing nav handlers to call switchToTaskView
-const _origNavClick = document.getElementById('navList').onclick;
-document.getElementById('navList').addEventListener('click', () => { switchToTaskView(); });
-document.getElementById('viewList').addEventListener('click', () => { switchToTaskView(); });
+const navListEl = getEl('navList');
+if (navListEl) navListEl.addEventListener('click', () => { switchToTaskView(); });
+if (viewListEl) viewListEl.addEventListener('click', () => { switchToTaskView(); });
 
 // ── House Rules ──────────────────────────────────────────────
 async function loadUserHouseRules() {
-  const container = document.getElementById('userRulesList');
+  const container = getEl('userRulesList');
+  if (!container) return;
   container.innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
   try {
     const data = await apiFetch('/api/community/house-rules');
@@ -783,7 +832,8 @@ async function loadUserHouseRules() {
 
 // ── Duty Schedules ───────────────────────────────────────────
 async function loadUserDutySchedules() {
-  const container = document.getElementById('userDutyGrid');
+  const container = getEl('userDutyGrid');
+  if (!container) return;
   container.innerHTML = '<div class="loading-state" style="grid-column:1/-1"><div class="spinner"></div></div>';
   try {
     const data = await apiFetch('/api/community/duty-schedules');
@@ -836,7 +886,7 @@ function nextMonthUser() {
 }
 
 async function loadUserSchedules() {
-  const grid = document.getElementById('userCalendarGrid');
+  const grid = getEl('userCalendarGrid');
   if (grid) grid.innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
   try {
     const data = await apiFetch('/api/community/schedules');
@@ -848,12 +898,12 @@ async function loadUserSchedules() {
 }
 
 function renderUserSchedules() {
-  const grid = document.getElementById('userCalendarGrid');
+  const grid = getEl('userCalendarGrid');
   if (!grid) return;
-  const title = document.getElementById('userCalendarTitle');
+  const title = getEl('userCalendarTitle');
   
   const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-  title.textContent = `${monthNames[currentMonthUser]} ${currentYearUser}`;
+  if (title) title.textContent = `${monthNames[currentMonthUser]} ${currentYearUser}`;
 
   grid.innerHTML = `
     <div class="fc-day-head">Senin</div>
@@ -898,10 +948,11 @@ function renderUserSchedules() {
 function openEventModal(id) {
   const s = currentUserSchedules.find(x => x.id === id);
   if (!s) return;
-  document.getElementById('eventDetailTitle').textContent = s.title;
-  document.getElementById('eventDetailDesc').textContent = s.description || 'Tidak ada deskripsi.';
-  document.getElementById('eventDetailDate').textContent = new Date(s.date).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('eventDetailTime').textContent = s.time;
-  document.getElementById('eventDetailCreator').textContent = s.created_by_username;
-  document.getElementById('eventModalOverlay').classList.add('open');
+  setText('eventDetailTitle', s.title);
+  setText('eventDetailDesc', s.description || 'Tidak ada deskripsi.');
+  setText('eventDetailDate', new Date(s.date).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'}));
+  setText('eventDetailTime', s.time);
+  setText('eventDetailCreator', s.created_by_username);
+  const eventModal = getEl('eventModalOverlay');
+  if (eventModal) eventModal.classList.add('open');
 }

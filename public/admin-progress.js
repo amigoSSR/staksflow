@@ -1,15 +1,19 @@
-﻿/**
+/**
  * admin-progress.js — Progress Monitoring Module
  * Handles: user progress cards, detail modal, Chart.js charts
+ *
+ * NOTE: getEl, getValue, setText, setHTML, adminFetch, showToast
+ * are provided by admin.js which loads before this file.
  */
 'use strict';
+
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let allProgressData = [];
 let weeklyChartInst = null;
 let monthlyChartInst = null;
 
-const CATEGORIES = ['daily', 'weekly', 'monthly', 'quarterly', 'semesterly', 'yearly'];
+const PM_CATEGORIES = ['daily', 'weekly', 'monthly', 'quarterly', 'semesterly', 'yearly'];
 const CAT_LABELS = {
   daily: 'Harian', weekly: 'Mingguan', monthly: 'Bulanan',
   quarterly: 'Per 3 Bln', semesterly: 'Per 6 Bln', yearly: 'Tahunan',
@@ -32,17 +36,36 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Hook into nav click for progress section
-  const navProgress = document.getElementById('nav-progress');
+  const navProgress = getEl('nav-progress');
   if (navProgress) {
     navProgress.addEventListener('click', () => {
       loadProgressSection();
     });
   }
+
+  // Setup CSP-compliant event listeners
+  const btnExport = getEl('btnExportExcel');
+  if (btnExport) {
+    btnExport.addEventListener('click', exportProgressExcel);
+    btnExport.addEventListener('mouseover', function() {
+      this.style.transform = 'translateY(-1px)';
+      this.style.boxShadow = '0 4px 8px rgba(16,185,129,0.3)';
+    });
+    btnExport.addEventListener('mouseout', function() {
+      this.style.transform = 'none';
+      this.style.boxShadow = '0 2px 4px rgba(16,185,129,0.2)';
+    });
+  }
+
+  const searchInput = getEl('progressSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', filterProgress);
+  }
 });
 
 // ── Load Progress Data ────────────────────────────────────────────────────────
 async function loadProgressSection(silent = false) {
-  const grid = document.getElementById('pmUserGrid');
+  const grid = getEl('pmUserGrid');
   if (!grid) return;
 
   if (!silent) {
@@ -58,7 +81,7 @@ async function loadProgressSection(silent = false) {
     filterProgress(); // Re-render grid with current filter
 
     // If modal is open, refresh it silently
-    const overlay = document.getElementById('progressDetailOverlay');
+    const overlay = getEl('progressDetailOverlay');
     if (overlay && overlay.classList.contains('open')) {
       const activeUserId = overlay.dataset.userId;
       if (activeUserId) {
@@ -66,13 +89,13 @@ async function loadProgressSection(silent = false) {
       }
     }
   } catch (e) {
-    if (!silent) grid.innerHTML = `<p style="color:var(--at-3);padding:24px">Gagal memuat data: ${e.message}</p>`;
+    if (!silent) setHTML('pmUserGrid', `<p style="color:var(--at-3);padding:24px">Gagal memuat data: ${e.message}</p>`);
   }
 }
 
 // ── Render Summary Cards ──────────────────────────────────────────────────────
 function renderProgressSummary(data) {
-  const row = document.getElementById('pmSummaryRow');
+  const row = getEl('pmSummaryRow');
   if (!row) return;
 
   const totalUsers = data.length;
@@ -125,7 +148,7 @@ function renderProgressSummary(data) {
 
 // ── Render User Progress Grid ─────────────────────────────────────────────────
 function renderProgressGrid(data) {
-  const grid = document.getElementById('pmUserGrid');
+  const grid = getEl('pmUserGrid');
   if (!grid) return;
   if (!data.length) {
     grid.innerHTML = '<p class="a-empty" style="padding:40px">Belum ada user terdaftar.</p>';
@@ -135,9 +158,9 @@ function renderProgressGrid(data) {
   grid.innerHTML = data.map(u => {
     const pct = u.productivity;
     const pctColor = pct >= 70 ? '#22c55e' : pct >= 40 ? '#f59e0b' : '#ef4444';
-    const topCat = CATEGORIES.reduce(
+    const topCat = PM_CATEGORIES.reduce(
       (top, c) => (u.byCategory[c]?.done || 0) > (u.byCategory[top]?.done || 0) ? c : top,
-      CATEGORIES[0]
+      PM_CATEGORIES[0]
     );
 
     return `
@@ -184,7 +207,7 @@ function renderProgressGrid(data) {
 
 // ── Filter Progress Grid ──────────────────────────────────────────────────────
 function filterProgress() {
-  const q = document.getElementById('progressSearch')?.value.toLowerCase() || '';
+  const q = getValue('progressSearch').toLowerCase();
   const filtered = allProgressData.filter(u =>
     u.username.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
   );
@@ -193,7 +216,8 @@ function filterProgress() {
 
 // ── Open Detail Modal ─────────────────────────────────────────────────────────
 async function openProgressDetail(userId) {
-  const overlay = document.getElementById('progressDetailOverlay');
+  const overlay = getEl('progressDetailOverlay');
+  if (!overlay) return;
   overlay.dataset.userId = userId;
   overlay.classList.add('open');
 
@@ -201,10 +225,10 @@ async function openProgressDetail(userId) {
   destroyCharts();
 
   // Show loading state
-  document.getElementById('pdStats').innerHTML = '<div class="a-spinner" style="margin:20px auto;display:block"></div>';
-  document.getElementById('pdCategoryGrid').innerHTML = '';
-  document.getElementById('pdActivityList').innerHTML = '';
-  document.getElementById('pdRecentTasks').innerHTML  = '';
+  setHTML('pdStats', '<div class="a-spinner" style="margin:20px auto;display:block"></div>');
+  setHTML('pdCategoryGrid', '');
+  setHTML('pdActivityList', '');
+  setHTML('pdRecentTasks', '');
 
   try {
     const res = await adminFetch(`/api/admin/progress/${userId}`);
@@ -212,8 +236,7 @@ async function openProgressDetail(userId) {
     const { data } = await res.json();
     renderDetailModal(data, false);
   } catch (e) {
-    document.getElementById('pdStats').innerHTML =
-      `<p style="color:var(--at-3)">Gagal memuat: ${e.message}</p>`;
+    setHTML('pdStats', `<p style="color:var(--at-3)">Gagal memuat: ${e.message}</p>`);
   }
 }
 
@@ -229,7 +252,8 @@ async function refreshProgressDetail(userId) {
 }
 
 function closeProgressDetail() {
-  document.getElementById('progressDetailOverlay').classList.remove('open');
+  const overlay = getEl('progressDetailOverlay');
+  if (overlay) overlay.classList.remove('open');
   destroyCharts();
 }
 
@@ -240,7 +264,7 @@ function destroyCharts() {
 
 // Close on backdrop click
 document.addEventListener('DOMContentLoaded', () => {
-  const overlay = document.getElementById('progressDetailOverlay');
+  const overlay = getEl('progressDetailOverlay');
   if (overlay) {
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) closeProgressDetail();
@@ -254,15 +278,15 @@ function renderDetailModal(d, isUpdate = false) {
           weeklyChart, monthlyChart, recentTasks, topCategory, activityLog } = d;
 
   // Header
-  document.getElementById('pdAvatar').textContent = user.username.charAt(0).toUpperCase();
-  document.getElementById('pdName').textContent   = user.username;
-  document.getElementById('pdEmail').textContent  = user.email;
+  setText('pdAvatar', user.username.charAt(0).toUpperCase());
+  setText('pdName', user.username);
+  setText('pdEmail', user.email);
 
   // Productivity color
   const pctColor = productivity >= 70 ? '#22c55e' : productivity >= 40 ? '#f59e0b' : '#ef4444';
 
   // Stats
-  document.getElementById('pdStats').innerHTML = `
+  setHTML('pdStats', `
     <div class="pd-stat-card">
       <div class="pd-stat-num">${total}</div>
       <div class="pd-stat-lbl">Total Task</div>
@@ -282,7 +306,7 @@ function renderDetailModal(d, isUpdate = false) {
     <div class="pd-stat-card gold">
       <div class="pd-stat-num pd-stat-sm">${CAT_LABELS[topCategory] || topCategory || '-'}</div>
       <div class="pd-stat-lbl">Kategori Terbaik</div>
-    </div>`;
+    </div>`);
 
   // Weekly Chart
   if (isUpdate && weeklyChartInst) {
@@ -290,7 +314,10 @@ function renderDetailModal(d, isUpdate = false) {
     weeklyChartInst.data.datasets[1].data = weeklyChart.map(d => d.created);
     weeklyChartInst.update();
   } else {
-    const wCtx = document.getElementById('weeklyChart').getContext('2d');
+    const wCanvas = getEl('weeklyChart');
+    if (!wCanvas) return;
+    const wCtx = wCanvas.getContext('2d');
+    if (!wCtx) return;
     weeklyChartInst = new Chart(wCtx, {
       type: 'bar',
       data: {
@@ -320,7 +347,10 @@ function renderDetailModal(d, isUpdate = false) {
     monthlyChartInst.data.datasets[1].data = monthlyChart.map(d => d.created);
     monthlyChartInst.update();
   } else {
-    const mCtx = document.getElementById('monthlyChart').getContext('2d');
+    const mCanvas = getEl('monthlyChart');
+    if (!mCanvas) return;
+    const mCtx = mCanvas.getContext('2d');
+    if (!mCtx) return;
     monthlyChartInst = new Chart(mCtx, {
       type: 'line',
       data: {
@@ -353,28 +383,30 @@ function renderDetailModal(d, isUpdate = false) {
   }
 
   // Category Performance Grid
-  const catGrid = document.getElementById('pdCategoryGrid');
-  catGrid.innerHTML = CATEGORIES.map(cat => {
-    const c = byCategory[cat] || { total: 0, done: 0, pending: 0 };
-    const pct = c.total > 0 ? Math.round((c.done / c.total) * 100) : 0;
-    const barColor = pct >= 70 ? '#22c55e' : pct >= 40 ? '#f59e0b' : pct > 0 ? '#ef4444' : '#5a5e8a';
-    return `
-      <div class="pm-cat-item">
-        <div class="pm-cat-header">
-          <span class="pm-cat-label">${CAT_LABELS[cat]}</span>
-          <span class="pm-cat-pct" style="color:${barColor}">${pct}%</span>
-        </div>
-        <div class="pm-cat-bar-wrap">
-          <div class="pm-cat-bar-fill" style="width:${pct}%;background:${barColor}"></div>
-        </div>
-        <div class="pm-cat-sub">${c.done} selesai / ${c.total} total</div>
-      </div>`;
-  }).join('');
+  const catGrid = getEl('pdCategoryGrid');
+  if (catGrid) {
+    catGrid.innerHTML = PM_CATEGORIES.map(cat => {
+      const c = byCategory[cat] || { total: 0, done: 0, pending: 0 };
+      const pct = c.total > 0 ? Math.round((c.done / c.total) * 100) : 0;
+      const barColor = pct >= 70 ? '#22c55e' : pct >= 40 ? '#f59e0b' : pct > 0 ? '#ef4444' : '#5a5e8a';
+      return `
+        <div class="pm-cat-item">
+          <div class="pm-cat-header">
+            <span class="pm-cat-label">${CAT_LABELS[cat]}</span>
+            <span class="pm-cat-pct" style="color:${barColor}">${pct}%</span>
+          </div>
+          <div class="pm-cat-bar-wrap">
+            <div class="pm-cat-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+          </div>
+          <div class="pm-cat-sub">${c.done} selesai / ${c.total} total</div>
+        </div>`;
+    }).join('');
+  }
 
   // Activity Log
-  const actList = document.getElementById('pdActivityList');
+  const actList = getEl('pdActivityList');
   if (!activityLog.length) {
-    actList.innerHTML = '<p class="pm-empty-msg">Belum ada aktivitas</p>';
+    if (actList) actList.innerHTML = '<p class="pm-empty-msg">Belum ada aktivitas</p>';
   } else {
     actList.innerHTML = activityLog.map(a => {
       const info = ACTION_MAP[a.action] || { label: a.action, icon: 'bi-circle', cls: '' };
@@ -391,9 +423,9 @@ function renderDetailModal(d, isUpdate = false) {
   }
 
   // Recent Tasks
-  const taskList = document.getElementById('pdRecentTasks');
+  const taskList = getEl('pdRecentTasks');
   if (!recentTasks.length) {
-    taskList.innerHTML = '<p class="pm-empty-msg">Belum ada task</p>';
+    if (taskList) taskList.innerHTML = '<p class="pm-empty-msg">Belum ada task</p>';
   } else {
     taskList.innerHTML = recentTasks.map(t => {
       const isDone = t.status.startsWith('selesai');
@@ -471,18 +503,18 @@ function timeAgoLocal(str) {
 
 // ── Export Excel ─────────────────────────────────────────────────────────────
 async function exportProgressExcel() {
-  const btn = document.getElementById('btnExportExcel');
+  const btn = getEl('btnExportExcel');
   if (btn) {
     btn.disabled = true;
     btn.innerHTML = '<div class="a-spinner" style="width:14px;height:14px;border-width:2px;margin-right:6px;"></div> Exporting...';
   }
   
   try {
-    const cat = document.getElementById('exportCatFilter')?.value || 'all';
-    const start = document.getElementById('exportStartDate')?.value || '';
-    const end = document.getElementById('exportEndDate')?.value || '';
+    const cat = getValue('exportCatFilter') || 'all';
+    const start = getValue('exportStartDate') || '';
+    const end = getValue('exportEndDate') || '';
     
-    const overlay = document.getElementById('progressDetailOverlay');
+    const overlay = getEl('progressDetailOverlay');
     let userId = '';
     // Optional: if the admin has a detail modal open, export only that user's data
     // if (overlay && overlay.classList.contains('open') && overlay.dataset.userId) {

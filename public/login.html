@@ -1,105 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="STAKS FLOW — Login" />
+    <title>STAKS FLOW — Login</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="STAKS FLOW — Login" />
-  <title>STAKS FLOW — Login</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
 
-  <link rel="stylesheet" href="/style.css" />
-</head>
-
-<body>
-
-  <div id="authScreen" class="auth-screen">
-    <!-- Left Panel: Branding -->
-    <div class="auth-brand-panel">
-      <div class="auth-brand-content">
-        <div class="auth-logo">
-          <img src="/img/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
+  <body>
+    <div id="authScreen" class="auth-screen">
+      <!-- Left Panel: Branding -->
+      <div class="auth-brand-panel">
+        <div class="auth-brand-content">
+          <div class="auth-logo">
+            <img
+              src="/img/logo.png"
+              alt="Logo"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: inherit;
+              "
+            />
+          </div>
+          <h1 class="auth-brand-name">STAKS FLOW</h1>
+          <p class="auth-brand-tagline">
+            Kelola tugas Anda dengan cerdas dan terorganisir
+          </p>
+          <div class="auth-features">
+            <div class="auth-feature-item">
+              <i class="bi bi-kanban-fill"></i>
+              <span>Kanban Drag & Drop</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="bi bi-bar-chart-fill"></i>
+              <span>Dashboard Statistik</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="bi bi-bell-fill"></i>
+              <span>Notifikasi Deadline</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="bi bi-moon-stars-fill"></i>
+              <span>Dark / Light Mode</span>
+            </div>
+          </div>
         </div>
-        <h1 class="auth-brand-name">STAKS FLOW</h1>
-        <p class="auth-brand-tagline">Kelola tugas Anda dengan cerdas dan terorganisir</p>
-        <div class="auth-features">
-          <div class="auth-feature-item">
-            <i class="bi bi-kanban-fill"></i>
-            <span>Kanban Drag & Drop</span>
-          </div>
-          <div class="auth-feature-item">
-            <i class="bi bi-bar-chart-fill"></i>
-            <span>Dashboard Statistik</span>
-          </div>
-          <div class="auth-feature-item">
-            <i class="bi bi-bell-fill"></i>
-            <span>Notifikasi Deadline</span>
-          </div>
-          <div class="auth-feature-item">
-            <i class="bi bi-moon-stars-fill"></i>
-            <span>Dark / Light Mode</span>
-          </div>
+        <div class="auth-bg-orbs">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
         </div>
       </div>
-      <div class="auth-bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+
+      <!-- Right Panel: Forms -->
+      <div class="auth-form-panel">
+        <!-- Login Form -->
+        <div class="auth-card" id="loginCard">
+          <div class="auth-card-header">
+            <h2>Selamat Datang Kembali 👋</h2>
+            <p>Masuk ke akun STAKS FLOW Anda</p>
+          </div>
+          <form id="loginForm" novalidate>
+            <div class="form-group">
+              <label for="loginIdentifier">Username atau Email</label>
+              <div class="input-icon-wrap">
+                <input
+                  type="text"
+                  id="loginIdentifier"
+                  placeholder="username atau email@domain.com"
+                  autocomplete="username"
+                  required
+                />
+              </div>
+              <span class="form-error" id="loginIdentifierError"></span>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <div class="input-icon-wrap">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  placeholder="Masukkan password Anda"
+                  autocomplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="loginTogglePwd"
+                  aria-label="Toggle password visibility"
+                >
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+              <span class="form-error" id="loginPasswordError"></span>
+            </div>
+            <button type="submit" class="btn-auth" id="btnLogin">
+              <span id="loginBtnText">Masuk</span>
+              <div class="btn-spinner hidden" id="loginSpinner"></div>
+            </button>
+          </form>
+          <div class="auth-switch">
+            Belum punya akun?
+            <a href="/register.html" class="auth-link">Daftar sekarang</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Right Panel: Forms -->
-    <div class="auth-form-panel">
-      <!-- Login Form -->
-      <div class="auth-card" id="loginCard">
-        <div class="auth-card-header">
-          <h2>Selamat Datang Kembali 👋</h2>
-          <p>Masuk ke akun STAKS FLOW Anda</p>
-        </div>
-        <form id="loginForm" novalidate>
-          <div class="form-group">
-            <label for="loginIdentifier">Username atau Email</label>
-            <div class="input-icon-wrap">
-              <input type="text" id="loginIdentifier" placeholder="username atau email@domain.com"
-                autocomplete="username" required />
-            </div>
-            <span class="form-error" id="loginIdentifierError"></span>
-          </div>
-          <div class="form-group">
-            <label for="loginPassword">Password</label>
-            <div class="input-icon-wrap">
-              <input type="password" id="loginPassword" placeholder="Masukkan password Anda"
-                autocomplete="current-password" required />
-              <button type="button" class="toggle-password" id="loginTogglePwd" aria-label="Toggle password visibility">
-                <i class="bi bi-eye-fill"></i>
-              </button>
-            </div>
-            <span class="form-error" id="loginPasswordError"></span>
-          </div>
-          <button type="submit" class="btn-auth" id="btnLogin">
-            <span id="loginBtnText">Masuk</span>
-            <div class="btn-spinner hidden" id="loginSpinner"></div>
-          </button>
-        </form>
-        <div class="auth-switch">
-          Belum punya akun?
-          <a href="/register.html" class="auth-link">Daftar sekarang</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-
-  <script src="/auth.js"></script>
-</body>
-
+    <script src="/auth.js"></script>
+  </body>
 </html>

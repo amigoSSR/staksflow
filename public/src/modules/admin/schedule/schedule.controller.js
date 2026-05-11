@@ -1,5 +1,7 @@
 ﻿import { scheduleService } from './schedule.service.js';
 
+const getEl = (id) => document.getElementById(id);
+
 let allSchedules = [];
 let currentMonthAdmin = new Date().getMonth();
 let currentYearAdmin = new Date().getFullYear();
@@ -10,7 +12,7 @@ export async function initScheduleModule() {
 }
 
 export async function loadSchedules() {
-  const grid = document.getElementById('adminCalendarGrid');
+  const grid = getEl('adminCalendarGrid');
   if (grid) grid.innerHTML = '<div class="a-empty"><div class="a-spinner"></div></div>';
   
   allSchedules = await scheduleService.getSchedules();
@@ -46,12 +48,12 @@ function escapeHtml(unsafe) {
 }
 
 export function renderSchedules() {
-  const grid = document.getElementById("adminCalendarGrid");
+  const grid = getEl("adminCalendarGrid");
   if (!grid) return;
-  const title = document.getElementById("adminCalendarTitle");
+  const title = getEl("adminCalendarTitle");
   
   const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-  title.textContent = `${monthNames[currentMonthAdmin]} ${currentYearAdmin}`;
+  if (title) title.textContent = `${monthNames[currentMonthAdmin]} ${currentYearAdmin}`;
 
   let html = `
     <div class="fc-day-head">Senin</div>

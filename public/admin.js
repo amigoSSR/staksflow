@@ -5,6 +5,12 @@
 
 // ── Auth ─────────────────────────────────────────────────────────────────────
 const getToken = () => sessionStorage.getItem("tf_token");
+const getEl = (id) => document.getElementById(id);
+const getValue = (id) => getEl(id)?.value || '';
+const setText = (id, text) => { const el = getEl(id); if (el) el.textContent = text; };
+const setHTML = (id, html) => { const el = getEl(id); if (el) el.innerHTML = html; };
+const setValue = (id, value) => { const el = getEl(id); if (el) el.value = value; };
+const addListener = (id, event, handler) => { const el = getEl(id); if (el) el.addEventListener(event, handler); return el; };
 
 // Auth Guard
 if (!getToken()) {
@@ -55,14 +61,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     // Hide loader
-    const loader = document.getElementById("authLoading");
+    const loader = getEl("authLoading");
     if (loader) loader.style.display = "none";
 
     const u = data.user;
-    document.getElementById("adminName").textContent = u.username;
-    document.getElementById("adminAvatar").textContent = u.username
-      .charAt(0)
-      .toUpperCase();
+    setText("adminName", u.username);
+    setText("adminAvatar", u.username.charAt(0).toUpperCase());
   } catch (e) {
     window.location.href = "/";
     return;
@@ -91,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   currentSection = section;
 
   // Ensure nav is visually active
-  const navEl = document.getElementById(`nav-${section}`);
+  const navEl = getEl(`nav-${section}`);
   if (navEl) {
     document.querySelectorAll(".a-nav-item").forEach(n => n.classList.remove("active"));
     navEl.classList.add("active");
@@ -212,15 +216,15 @@ async function showSection(section) {
   document
     .querySelectorAll(".a-nav-item")
     .forEach((n) => n.classList.remove("active"));
-  const navEl = document.getElementById(`nav-${section}`);
+  const navEl = getEl(`nav-${section}`);
   if (navEl) navEl.classList.add("active");
   
   const [title, sub] = sectionTitles[section] || ["", ""];
-  document.getElementById("pageTitle").textContent = title;
-  document.getElementById("pageSub").textContent = sub;
+  setText("pageTitle", title);
+  setText("pageSub", sub);
 
   // Dynamic loading of HTML modules
-  const container = document.getElementById("app-sections");
+  const container = getEl("app-sections");
   let folder = section;
   if (section === 'duty') folder = 'piket';
   if (section === 'calendar') folder = 'schedule';
@@ -232,7 +236,7 @@ async function showSection(section) {
     container.innerHTML = html;
     
     // Ensure the section becomes visible
-    const secElement = document.getElementById(`sec-${section}`);
+    const secElement = getEl(`sec-${section}`);
     if (secElement) {
       secElement.style.display = 'flex';
       secElement.classList.add("active");
@@ -271,7 +275,7 @@ function toggleTheme() {
   updateThemeIcon(next);
 }
 function updateThemeIcon(theme) {
-  const icon = document.getElementById("themeIcon");
+  const icon = getEl("themeIcon");
   if (icon)
     icon.className =
       theme === "dark" ? "bi bi-sun-fill" : "bi bi-moon-stars-fill";
@@ -279,7 +283,8 @@ function updateThemeIcon(theme) {
 
 // ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
 function toggleSidebar() {
-  document.getElementById("aSidebar").classList.toggle("open");
+  const sidebar = getEl("aSidebar");
+  if (sidebar) sidebar.classList.toggle("open");
 }
 
 // ── Logout ────────────────────────────────────────────────────────────────────
@@ -294,19 +299,19 @@ async function loadStats(nocache = false) {
   const res = await adminFetch(url);
   if (!res) return;
   const { data } = await res.json();
-  const elUsers = document.getElementById("s-users");
+  const elUsers = getEl("s-users");
   if (elUsers) elUsers.textContent = data.totalUsers;
   
-  const elTasks = document.getElementById("s-tasks");
+  const elTasks = getEl("s-tasks");
   if (elTasks) elTasks.textContent = data.totalTasks;
   
-  const elDone = document.getElementById("s-done");
+  const elDone = getEl("s-done");
   if (elDone) elDone.textContent = data.doneTasks;
   
-  const elPending = document.getElementById("s-pending");
+  const elPending = getEl("s-pending");
   if (elPending) elPending.textContent = data.pendingTasks;
   
-  const elActive = document.getElementById("s-active");
+  const elActive = getEl("s-active");
   if (elActive) elActive.textContent = data.mostActiveUser;
   
   // Update sidebar badges globally
@@ -316,7 +321,7 @@ async function loadStats(nocache = false) {
 }
 
 function updateSidebarBadge(id, count) {
-  const badge = document.getElementById(id);
+  const badge = getEl(id);
   if (!badge) return;
   if (count && count > 0) {
     badge.textContent = count;
@@ -336,7 +341,8 @@ async function loadUsers() {
 }
 
 function renderUsers(users) {
-  const tbody = document.getElementById("usersTableBody");
+  const tbody = getEl("usersTableBody");
+  if (!tbody) return;
   if (!users.length) {
     tbody.innerHTML =
       '<tr><td colspan="6" class="a-empty">Belum ada user terdaftar</td></tr>';
@@ -368,7 +374,7 @@ function renderUsers(users) {
 }
 
 function filterUsers() {
-  const q = document.getElementById("userSearch").value.toLowerCase();
+  const q = getValue("userSearch").toLowerCase();
   renderUsers(
     allUsers.filter(
       (u) =>
@@ -388,7 +394,8 @@ async function loadTasks() {
 }
 
 function renderTasks(tasks) {
-  const tbody = document.getElementById("tasksTableBody");
+  const tbody = getEl("tasksTableBody");
+  if (!tbody) return;
   if (!tasks.length) {
     tbody.innerHTML =
       '<tr><td colspan="6" class="a-empty">Tidak ada task</td></tr>';
@@ -419,9 +426,9 @@ function renderTasks(tasks) {
 }
 
 function filterTasks() {
-  const cat = document.getElementById("filterCategory").value;
-  const status = document.getElementById("filterStatus").value;
-  const q = document.getElementById("taskSearch").value.toLowerCase();
+  const cat = getValue("filterCategory");
+  const status = getValue("filterStatus");
+  const q = getValue("taskSearch").toLowerCase();
   let filtered = allTasks;
   if (cat !== "all") filtered = filtered.filter((t) => t.category === cat);
   if (status !== "all") filtered = filtered.filter((t) => t.status === status);
@@ -445,7 +452,7 @@ async function loadActivities(reset = true) {
     activityPage = 1;
     allActivity = [];
     hasMoreActivity = true;
-    const tbody = document.getElementById("activityTableBody");
+    const tbody = getEl("activityTableBody");
     if (tbody) {
       // Skeleton loader
       tbody.innerHTML = Array(5).fill('<tr><td colspan="5"><div class="skeleton" style="height:20px;width:100%;border-radius:4px;"></div></td></tr>').join('');
@@ -467,7 +474,7 @@ async function loadActivities(reset = true) {
   if (!meta && data.length < activityLimit) hasMoreActivity = false;
 
   filterActivity();
-  if (document.getElementById("recentActivityBody")) {
+  if (getEl("recentActivityBody")) {
     renderActivity(allActivity.slice(0, 10), "recentActivityBody");
   }
 
@@ -475,7 +482,7 @@ async function loadActivities(reset = true) {
 }
 
 function renderActivity(logs, targetId) {
-  const tbody = document.getElementById(targetId);
+  const tbody = getEl(targetId);
   if (!tbody) return;
   
   if (!logs.length) {
@@ -514,9 +521,8 @@ function renderActivity(logs, targetId) {
 }
 
 function filterActivity() {
-  const qEl = document.getElementById("activitySearch");
-  if (!qEl) return;
-  const q = qEl.value.toLowerCase();
+  const q = getValue("activitySearch").toLowerCase();
+  if (!q && !allActivity.length) return;
   const filtered = allActivity.filter(
     (l) =>
       (l.username || "").toLowerCase().includes(q) ||
@@ -537,15 +543,17 @@ window.addEventListener('scroll', () => {
 
 // ── Role Modal ────────────────────────────────────────────────────────────────
 function openRoleModal(userId, username) {
-  document.getElementById("roleModalUser").textContent = username;
-  document.getElementById("roleModalUserId").value = userId;
-  document.getElementById("roleModalOverlay").classList.add("open");
+  setText("roleModalUser", username);
+  setValue("roleModalUserId", userId);
+  const overlay = getEl("roleModalOverlay");
+  if (overlay) overlay.classList.add("open");
 }
 function closeRoleModal() {
-  document.getElementById("roleModalOverlay").classList.remove("open");
+  const overlay = getEl("roleModalOverlay");
+  if (overlay) overlay.classList.remove("open");
 }
 async function confirmRoleChange(role) {
-  const userId = document.getElementById("roleModalUserId").value;
+  const userId = getValue("roleModalUserId");
   closeRoleModal();
   const res = await adminFetch(`/api/admin/users/${userId}/role`, {
     method: "PATCH",
@@ -566,12 +574,16 @@ let _deleteType = null,
 function openDeleteModal(type, id, desc) {
   _deleteType = type;
   _deleteId = id;
-  document.getElementById("deleteModalDesc").innerHTML = desc;
-  document.getElementById("deleteModalOverlay").classList.add("open");
-  document.getElementById("confirmDeleteBtn").onclick = executeDelete;
+  const descEl = getEl("deleteModalDesc");
+  if (descEl) descEl.innerHTML = desc;
+  const overlay = getEl("deleteModalOverlay");
+  if (overlay) overlay.classList.add("open");
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) confirmBtn.onclick = executeDelete;
 }
 function closeDeleteModal() {
-  document.getElementById("deleteModalOverlay").classList.remove("open");
+  const overlay = getEl("deleteModalOverlay");
+  if (overlay) overlay.classList.remove("open");
   _deleteType = null;
   _deleteId = null;
 }
@@ -664,7 +676,8 @@ function showToast(msg, type = "info") {
   const toast = document.createElement("div");
   toast.className = `a-toast ${type}`;
   toast.innerHTML = `<i class="bi ${icons[type]}"></i><span>${msg}</span>`;
-  document.getElementById("toastContainer").prepend(toast);
+  const container = getEl("toastContainer");
+  if (container) container.prepend(toast);
   setTimeout(() => toast.remove(), 3200);
 }
 
@@ -685,20 +698,23 @@ sectionTitles["duty"] = ["Jadwal Piket", "Atur jadwal piket anggota per hari"];
 
 // ── Load & Render Rules ──────────────────────────────────────
 async function loadHouseRules() {
-  const container = document.getElementById("rulesListContainer");
-  container.innerHTML =
-    '<div class="hr-empty"><div class="a-spinner"></div></div>';
+  const container = getEl("rulesListContainer");
+  if (container) {
+    container.innerHTML =
+      '<div class="hr-empty"><div class="a-spinner"></div></div>';
+  }
   const res = await adminFetch("/api/community/house-rules");
   if (!res) return;
   const { data } = await res.json();
   allRules = data || [];
-  const badge = document.getElementById("navRulesCount");
+  const badge = getEl("navRulesCount");
   if (badge) badge.textContent = allRules.length;
   renderHouseRules();
 }
 
 function renderHouseRules() {
-  const container = document.getElementById("rulesListContainer");
+  const container = getEl("rulesListContainer");
+  if (!container) return;
   if (!allRules.length) {
     container.innerHTML = `<div class="hr-empty"><i class="bi bi-journal-x"></i>Belum ada house rule. Tambahkan peraturan pertama!</div>`;
     return;
@@ -728,47 +744,47 @@ function renderHouseRules() {
 // ── Rule Modal ───────────────────────────────────────────────
 function openRuleModal(id) {
   editingRuleId = id || null;
-  document.getElementById("ruleModalTitle").textContent = id
-    ? "Edit House Rule"
-    : "Tambah House Rule";
-  document.getElementById("ruleTitleErr").textContent = "";
-  document.getElementById("ruleContentErr").textContent = "";
+  setText("ruleModalTitle", id ? "Edit House Rule" : "Tambah House Rule");
+  setText("ruleTitleErr", "");
+  setText("ruleContentErr", "");
   if (id) {
     const r = allRules.find((x) => x.id === id);
     if (r) {
-      document.getElementById("ruleTitle").value = r.title;
-      document.getElementById("ruleContent").value = r.content;
+      setValue("ruleTitle", r.title);
+      setValue("ruleContent", r.content);
     }
   } else {
-    document.getElementById("ruleTitle").value = "";
-    document.getElementById("ruleContent").value = "";
+      setValue("ruleTitle", "");
+      setValue("ruleContent", "");
   }
-  document.getElementById("editingRuleId").value = id || "";
-  document.getElementById("ruleModalOverlay").classList.add("open");
-  document.getElementById("ruleTitle").focus();
+  setValue("editingRuleId", id || "");
+  const overlay = getEl("ruleModalOverlay");
+  if (overlay) overlay.classList.add("open");
+  getEl("ruleTitle")?.focus();
 }
 function closeRuleModal() {
-  document.getElementById("ruleModalOverlay").classList.remove("open");
+  const overlay = getEl("ruleModalOverlay");
+  if (overlay) overlay.classList.remove("open");
   editingRuleId = null;
 }
 
 async function saveRule() {
-  const title = document.getElementById("ruleTitle").value.trim();
-  const content = document.getElementById("ruleContent").value.trim();
+  const title = getValue("ruleTitle").trim();
+  const content = getValue("ruleContent").trim();
   let ok = true;
   if (!title) {
-    document.getElementById("ruleTitleErr").textContent = "Judul wajib diisi.";
+    setText("ruleTitleErr", "Judul wajib diisi.");
     ok = false;
-  } else document.getElementById("ruleTitleErr").textContent = "";
+  } else setText("ruleTitleErr", "");
   if (!content) {
-    document.getElementById("ruleContentErr").textContent = "Isi wajib diisi.";
+    setText("ruleContentErr", "Isi wajib diisi.");
     ok = false;
-  } else document.getElementById("ruleContentErr").textContent = "";
+  } else setText("ruleContentErr", "");
   if (!ok) return;
 
-  const btn = document.getElementById("btnSaveRule");
-  btn.disabled = true;
-  const id = document.getElementById("editingRuleId").value;
+  const btn = getEl("btnSaveRule");
+  if (btn) btn.disabled = true;
+  const id = getValue("editingRuleId");
   const method = id ? "PUT" : "POST";
   const url = id
     ? `/api/community/house-rules/${id}`
@@ -798,18 +814,21 @@ async function deleteRule(id, title) {
     id,
     `Hapus rule <strong>${esc(title)}</strong>?`,
   );
-  document.getElementById("confirmDeleteBtn").onclick = async () => {
-    closeDeleteModal();
-    const res = await adminFetch(`/api/community/house-rules/${id}`, {
-      method: "DELETE",
-    });
-    if (!res) return;
-    const data = await res.json();
-    if (data.success) {
-      showToast("Rule dihapus!", "success");
-      await loadHouseRules();
-    } else showToast(data.error || "Gagal hapus", "error");
-  };
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) {
+    confirmBtn.onclick = async () => {
+      closeDeleteModal();
+      const res = await adminFetch(`/api/community/house-rules/${id}`, {
+        method: "DELETE",
+      });
+      if (!res) return;
+      const data = await res.json();
+      if (data.success) {
+        showToast("Rule dihapus!", "success");
+        await loadHouseRules();
+      } else showToast(data.error || "Gagal hapus", "error");
+    };
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -821,9 +840,11 @@ let editingDutyId = null;
 
 // ── Load & Render ────────────────────────────────────────────
 async function loadDutySchedules() {
-  const container = document.getElementById("dutyScheduleContainer");
-  container.innerHTML =
-    '<div style="padding:40px;text-align:center"><div class="a-spinner"></div></div>';
+  const container = getEl("dutyScheduleContainer");
+  if (container) {
+    container.innerHTML =
+      '<div style="padding:40px;text-align:center"><div class="a-spinner"></div></div>';
+  }
   const res = await adminFetch("/api/community/duty-schedules");
   if (!res) return;
   const json = await res.json();
@@ -832,7 +853,8 @@ async function loadDutySchedules() {
 }
 
 function renderDutySchedules() {
-  const container = document.getElementById("dutyScheduleContainer");
+  const container = getEl("dutyScheduleContainer");
+  if (!container) return;
   const dayIcons = {
     "Senin": "💼", "Selasa": "🚀", "Rabu": "🔥", "Kamis": "⚡",
     "Jumat Ganjil": "🌙", "Sabtu Ganjil": "🎉",
@@ -890,7 +912,8 @@ function renderDutySchedules() {
 
 // Quick inline add
 async function quickAddDuty(day) {
-  const input = document.getElementById(`dutyInline-${day}`);
+  const input = getEl(`dutyInline-${day}`);
+  if (!input) return;
   const name = input.value.trim();
   if (!name) {
     input.focus();
@@ -917,48 +940,53 @@ async function quickAddDuty(day) {
 // ── Duty Modal (for modal-based add) ────────────────────────
 function openDutyModal() {
   editingDutyId = null;
-  document.getElementById("dutyModalTitle").textContent = "Tambah Jadwal Piket";
-  document.getElementById("dutyDay").value = "";
-  document.getElementById("dutyMember").value = "";
-  document.getElementById("dutyDay").disabled = false;
-  document.getElementById("dutyDayErr").textContent = "";
-  document.getElementById("dutyMemberErr").textContent = "";
-  document.getElementById("editingDutyId").value = "";
-  document.getElementById("dutyModalOverlay").classList.add("open");
+  setText("dutyModalTitle", "Tambah Jadwal Piket");
+  setValue("dutyDay", "");
+  setValue("dutyMember", "");
+  const dutyDay = getEl("dutyDay");
+  if (dutyDay) dutyDay.disabled = false;
+  setText("dutyDayErr", "");
+  setText("dutyMemberErr", "");
+  setValue("editingDutyId", "");
+  const overlay = getEl("dutyModalOverlay");
+  if (overlay) overlay.classList.add("open");
 }
 function openDutyEditModal(id, day, name) {
   editingDutyId = id;
-  document.getElementById("dutyModalTitle").textContent = "Edit Jadwal Piket";
-  document.getElementById("dutyDay").value = day;
-  document.getElementById("dutyDay").disabled = false;
-  document.getElementById("dutyMember").value = name;
-  document.getElementById("dutyDayErr").textContent = "";
-  document.getElementById("dutyMemberErr").textContent = "";
-  document.getElementById("editingDutyId").value = id;
-  document.getElementById("dutyModalOverlay").classList.add("open");
+  setText("dutyModalTitle", "Edit Jadwal Piket");
+  setValue("dutyDay", day);
+  const dutyDay = getEl("dutyDay");
+  if (dutyDay) dutyDay.disabled = false;
+  setValue("dutyMember", name);
+  setText("dutyDayErr", "");
+  setText("dutyMemberErr", "");
+  setValue("editingDutyId", id);
+  const overlay = getEl("dutyModalOverlay");
+  if (overlay) overlay.classList.add("open");
 }
 function closeDutyModal() {
-  document.getElementById("dutyModalOverlay").classList.remove("open");
+  const overlay = getEl("dutyModalOverlay");
+  if (overlay) overlay.classList.remove("open");
   editingDutyId = null;
 }
 
 async function saveDuty() {
-  const day = document.getElementById("dutyDay").value;
-  const name = document.getElementById("dutyMember").value.trim();
+  const day = getValue("dutyDay");
+  const name = getValue("dutyMember").trim();
   let ok = true;
   if (!day) {
-    document.getElementById("dutyDayErr").textContent = "Pilih hari.";
+    setText("dutyDayErr", "Pilih hari.");
     ok = false;
-  } else document.getElementById("dutyDayErr").textContent = "";
+  } else setText("dutyDayErr", "");
   if (!name) {
-    document.getElementById("dutyMemberErr").textContent = "Nama wajib diisi.";
+    setText("dutyMemberErr", "Nama wajib diisi.");
     ok = false;
-  } else document.getElementById("dutyMemberErr").textContent = "";
+  } else setText("dutyMemberErr", "");
   if (!ok) return;
 
-  const btn = document.getElementById("btnSaveDuty");
-  btn.disabled = true;
-  const id = document.getElementById("editingDutyId").value;
+  const btn = getEl("btnSaveDuty");
+  if (btn) btn.disabled = true;
+  const id = getValue("editingDutyId");
   const method = id ? "PUT" : "POST";
   const url = id
     ? `/api/community/duty-schedules/${id}`
@@ -985,18 +1013,21 @@ async function deleteDutyEntry(id, day, name) {
     id,
     `Hapus <strong>${esc(name)}</strong> dari hari <strong>${day}</strong>?`,
   );
-  document.getElementById("confirmDeleteBtn").onclick = async () => {
-    closeDeleteModal();
-    const res = await adminFetch(`/api/community/duty-schedules/${id}`, {
-      method: "DELETE",
-    });
-    if (!res) return;
-    const data = await res.json();
-    if (data.success) {
-      showToast("Anggota dihapus!", "success");
-      await loadDutySchedules();
-    } else showToast(data.error || "Gagal hapus", "error");
-  };
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) {
+    confirmBtn.onclick = async () => {
+      closeDeleteModal();
+      const res = await adminFetch(`/api/community/duty-schedules/${id}`, {
+        method: "DELETE",
+      });
+      if (!res) return;
+      const data = await res.json();
+      if (data.success) {
+        showToast("Anggota dihapus!", "success");
+        await loadDutySchedules();
+      } else showToast(data.error || "Gagal hapus", "error");
+    };
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1006,7 +1037,7 @@ let allSchedules = [];
 let editingScheduleId = null;
 
 async function loadSchedules() {
-  const grid = document.getElementById("adminCalendarGrid");
+  const grid = getEl("adminCalendarGrid");
   if (grid) grid.innerHTML = '<div class="a-empty"><div class="a-spinner"></div></div>';
   const res = await adminFetch("/api/community/schedules");
   if (!res) return;
@@ -1037,12 +1068,12 @@ function nextMonthAdmin() {
 }
 
 function renderSchedules() {
-  const grid = document.getElementById("adminCalendarGrid");
+  const grid = getEl("adminCalendarGrid");
   if (!grid) return;
-  const title = document.getElementById("adminCalendarTitle");
+  const title = getEl("adminCalendarTitle");
   
   const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-  title.textContent = `${monthNames[currentMonthAdmin]} ${currentYearAdmin}`;
+  if (title) title.textContent = `${monthNames[currentMonthAdmin]} ${currentYearAdmin}`;
 
   grid.innerHTML = `
     <div class="fc-day-head">Senin</div>
@@ -1086,21 +1117,21 @@ function renderSchedules() {
 
 function openScheduleModal(id = null, selectedDate = null) {
   editingScheduleId = id;
-  document.getElementById("scheduleModalTitle").textContent = id ? "Edit Schedule" : "Tambah Schedule";
-  document.getElementById("scheduleTitleErr").textContent = "";
-  document.getElementById("scheduleDateErr").textContent = "";
-  document.getElementById("scheduleTimeErr").textContent = "";
+  setText("scheduleModalTitle", id ? "Edit Schedule" : "Tambah Schedule");
+  setText("scheduleTitleErr", "");
+  setText("scheduleDateErr", "");
+  setText("scheduleTimeErr", "");
   
   if (id) {
     const s = allSchedules.find(x => x.id === id);
     if (s) {
-      document.getElementById("scheduleTitle").value = s.title;
-      document.getElementById("scheduleDesc").value = s.description || "";
-      document.getElementById("scheduleDate").value = s.date;
-      document.getElementById("scheduleTime").value = s.time;
+      setValue("scheduleTitle", s.title);
+      setValue("scheduleDesc", s.description || "");
+      setValue("scheduleDate", s.date);
+      setValue("scheduleTime", s.time);
       
       // Also show delete button dynamically inside modal if edit mode
-      let btnDel = document.getElementById("btnDeleteScheduleInside");
+      let btnDel = getEl("btnDeleteScheduleInside");
       if (!btnDel) {
         btnDel = document.createElement("button");
         btnDel.type = "button";
@@ -1108,48 +1139,52 @@ function openScheduleModal(id = null, selectedDate = null) {
         btnDel.className = "a-btn-secondary";
         btnDel.style.marginRight = "auto";
         btnDel.innerHTML = '<i class="bi bi-trash3-fill" style="color:var(--danger)"></i> Hapus';
-        document.querySelector("#scheduleModalOverlay .a-modal-actions").prepend(btnDel);
+        document.querySelector("#scheduleModalOverlay .a-modal-actions")?.prepend(btnDel);
       }
-      btnDel.style.display = "flex";
-      btnDel.onclick = () => { closeScheduleModal(); deleteSchedule(id, s.title); };
+      if (btnDel) {
+        btnDel.style.display = "flex";
+        btnDel.onclick = () => { closeScheduleModal(); deleteSchedule(id, s.title); };
+      }
     }
   } else {
-    document.getElementById("scheduleTitle").value = "";
-    document.getElementById("scheduleDesc").value = "";
-    document.getElementById("scheduleDate").value = selectedDate || "";
-    document.getElementById("scheduleTime").value = "";
+    setValue("scheduleTitle", "");
+    setValue("scheduleDesc", "");
+    setValue("scheduleDate", selectedDate || "");
+    setValue("scheduleTime", "");
     
-    let btnDel = document.getElementById("btnDeleteScheduleInside");
+    const btnDel = getEl("btnDeleteScheduleInside");
     if (btnDel) btnDel.style.display = "none";
   }
-  document.getElementById("editingScheduleId").value = id || "";
-  document.getElementById("scheduleModalOverlay").classList.add("open");
+  setValue("editingScheduleId", id || "");
+  const overlay = getEl("scheduleModalOverlay");
+  if (overlay) overlay.classList.add("open");
 }
 
 function closeScheduleModal() {
-  document.getElementById("scheduleModalOverlay").classList.remove("open");
+  const overlay = getEl("scheduleModalOverlay");
+  if (overlay) overlay.classList.remove("open");
   editingScheduleId = null;
 }
 
 async function saveSchedule() {
-  const title = document.getElementById("scheduleTitle").value.trim();
-  const desc = document.getElementById("scheduleDesc").value.trim();
-  const date = document.getElementById("scheduleDate").value;
-  const time = document.getElementById("scheduleTime").value;
+  const title = getValue("scheduleTitle").trim();
+  const desc = getValue("scheduleDesc").trim();
+  const date = getValue("scheduleDate");
+  const time = getValue("scheduleTime");
   
   let ok = true;
-  if (!title) { document.getElementById("scheduleTitleErr").textContent = "Wajib diisi"; ok = false; }
-  else document.getElementById("scheduleTitleErr").textContent = "";
-  if (!date) { document.getElementById("scheduleDateErr").textContent = "Wajib diisi"; ok = false; }
-  else document.getElementById("scheduleDateErr").textContent = "";
-  if (!time) { document.getElementById("scheduleTimeErr").textContent = "Wajib diisi"; ok = false; }
-  else document.getElementById("scheduleTimeErr").textContent = "";
+  if (!title) { setText("scheduleTitleErr", "Wajib diisi"); ok = false; }
+  else setText("scheduleTitleErr", "");
+  if (!date) { setText("scheduleDateErr", "Wajib diisi"); ok = false; }
+  else setText("scheduleDateErr", "");
+  if (!time) { setText("scheduleTimeErr", "Wajib diisi"); ok = false; }
+  else setText("scheduleTimeErr", "");
   
   if (!ok) return;
 
-  const btn = document.getElementById("btnSaveSchedule");
-  btn.disabled = true;
-  const id = document.getElementById("editingScheduleId").value;
+  const btn = getEl("btnSaveSchedule");
+  if (btn) btn.disabled = true;
+  const id = getValue("editingScheduleId");
   const method = id ? "PUT" : "POST";
   const url = id ? `/api/community/schedules/${id}` : "/api/community/schedules";
   
@@ -1158,7 +1193,7 @@ async function saveSchedule() {
     body: JSON.stringify({ title, description: desc, date, time })
   });
   
-  btn.disabled = false;
+  if (btn) btn.disabled = false;
   if (!res) return;
   const data = await res.json();
   if (data.success) {
@@ -1172,14 +1207,17 @@ async function saveSchedule() {
 
 async function deleteSchedule(id, title) {
   openDeleteModal("schedule", id, `Hapus agenda <strong>${esc(title)}</strong>?`);
-  document.getElementById("confirmDeleteBtn").onclick = async () => {
-    closeDeleteModal();
-    const res = await adminFetch(`/api/community/schedules/${id}`, { method: "DELETE" });
-    if (!res) return;
-    const data = await res.json();
-    if (data.success) {
-      showToast("Schedule dihapus!", "success");
-      await loadSchedules();
-    } else showToast(data.error || "Gagal hapus", "error");
-  };
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) {
+    confirmBtn.onclick = async () => {
+      closeDeleteModal();
+      const res = await adminFetch(`/api/community/schedules/${id}`, { method: "DELETE" });
+      if (!res) return;
+      const data = await res.json();
+      if (data.success) {
+        showToast("Schedule dihapus!", "success");
+        await loadSchedules();
+      } else showToast(data.error || "Gagal hapus", "error");
+    };
+  }
 }
