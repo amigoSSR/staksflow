@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STAKS FLOW — Admin Dashboard</title>
-    <link rel="icon" type="image/png" href="/img/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -19,41 +18,15 @@
 
   <body>
     <!-- AUTH LOADING -->
-    <div
-      id="authLoading"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--bg-1);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: var(--at-2);
-      "
-    >
-      <div
-        class="a-spinner"
-        style="
-          width: 40px;
-          height: 40px;
-          border-width: 4px;
-          margin-bottom: 16px;
-        "
-      ></div>
-      <div style="font-weight: 600; font-size: 14px; letter-spacing: 1px">
-        Validasi Session...
-      </div>
+    <div id="authLoading" style="position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg-1);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--at-2);">
+      <div class="a-spinner" style="width:40px;height:40px;border-width:4px;margin-bottom:16px;"></div>
+      <div style="font-weight:600;font-size:14px;letter-spacing:1px;">Validasi Session...</div>
     </div>
 
     <!-- SIDEBAR -->
     <aside class="a-sidebar" id="aSidebar">
       <div class="a-sidebar-logo">
-        <img src="/img/logo.png" alt="STAKS FLOW" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;" />
+        <div class="a-logo-icon"><i class="bi bi-shield-fill-check"></i></div>
         <div class="a-logo-text">
           <div class="a-logo-name">STAKS FLOW</div>
           <div class="a-logo-sub">Admin Panel</div>
@@ -62,24 +35,24 @@
 
       <nav class="a-nav">
         <div class="a-nav-section-label">MENU</div>
-        <div class="a-nav-item" data-section="overview" id="nav-overview">
+        <div
+          class="a-nav-item"
+          data-section="overview"
+          id="nav-overview"
+        >
           <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
         </div>
         <div class="a-nav-item" data-section="users" id="nav-users">
           <i class="bi bi-people-fill"></i><span>Manajemen User</span>
-          <span class="a-badge" id="navUserCount" style="display: none"></span>
+          <span class="a-badge" id="navUserCount" style="display: none;"></span>
         </div>
         <div class="a-nav-item" data-section="tasks" id="nav-tasks">
           <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
-          <span class="a-badge" id="navTaskCount" style="display: none"></span>
+          <span class="a-badge" id="navTaskCount" style="display: none;"></span>
         </div>
         <div class="a-nav-item" data-section="activity" id="nav-activity">
           <i class="bi bi-activity"></i><span>Activity Log</span>
-          <span
-            class="a-badge"
-            id="navActivityCount"
-            style="display: none"
-          ></span>
+          <span class="a-badge" id="navActivityCount" style="display: none;"></span>
         </div>
         <div class="a-nav-item" data-section="progress" id="nav-progress">
           <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
@@ -147,71 +120,64 @@
         </div>
       </header>
       <!-- MODULAR ROUTER OUTLET -->
-      <section id="sec-duty" class="a-section active" style="display: flex">
+      ﻿<section id="sec-duty" class="a-section active" style="display:flex;">
         <div class="a-card">
           <div class="a-card-header">
             <h2><i class="bi bi-calendar2-week-fill"></i> Jadwal Piket</h2>
-            <button
-              class="a-btn-primary"
-              id="btnAddDuty"
-              onclick="openDutyModal()"
-            >
+            <button class="a-btn-primary" id="btnAddDuty" onclick="openDutyModal()">
               <i class="bi bi-plus-lg"></i> Tambah Jadwal
             </button>
           </div>
           <div id="dutyScheduleContainer" class="duty-grid"></div>
         </div>
       </section>
-      <!-- DUTY MODAL -->
-      <div class="a-modal-overlay" id="dutyModalOverlay">
-        <div class="a-modal" style="max-width: 420px">
-          <div class="a-modal-header">
-            <h3 id="dutyModalTitle">Tambah Jadwal Piket</h3>
-            <button onclick="closeDutyModal()">
-              <i class="bi bi-x-lg"></i>
-            </button>
-          </div>
-          <div class="a-form-group">
-            <label class="a-form-label"
-              >Kategori <span style="color: var(--danger)">*</span></label
-            >
-            <select id="dutyDay" class="a-select" style="width: 100%">
-              <option value="">— Pilih Hari —</option>
-              <option value="Senin">Senin</option>
-              <option value="Selasa">Selasa</option>
-              <option value="Rabu">Rabu</option>
-              <option value="Kamis">Kamis</option>
-              <option value="Jumat Ganjil">Jumat Ganjil</option>
-              <option value="Sabtu Ganjil">Sabtu Ganjil</option>
-              <option value="Jumat Genap">Jumat Genap</option>
-              <option value="Sabtu Genap">Sabtu Genap</option>
-            </select>
-            <span class="a-form-error" id="dutyDayErr"></span>
-          </div>
-          <div class="a-form-group">
-            <label class="a-form-label"
-              >Nama Anggota <span style="color: var(--danger)">*</span></label
-            >
-            <input
-              type="text"
-              id="dutyMember"
-              class="a-form-input"
-              placeholder="Contoh: Budi Santoso"
-              maxlength="80"
-            />
-            <span class="a-form-error" id="dutyMemberErr"></span>
-          </div>
-          <div class="a-modal-actions" style="margin-top: 8px">
-            <button class="a-btn-cancel" onclick="closeDutyModal()">
-              Batal
-            </button>
-            <button class="a-btn-save" id="btnSaveDuty" onclick="saveDuty()">
-              <i class="bi bi-floppy-fill"></i> Simpan
-            </button>
-          </div>
-          <input type="hidden" id="editingDutyId" />
+<!-- DUTY MODAL -->
+    <div class="a-modal-overlay" id="dutyModalOverlay">
+      <div class="a-modal" style="max-width: 420px">
+        <div class="a-modal-header">
+          <h3 id="dutyModalTitle">Tambah Jadwal Piket</h3>
+          <button onclick="closeDutyModal()"><i class="bi bi-x-lg"></i></button>
         </div>
+        <div class="a-form-group">
+          <label class="a-form-label"
+            >Kategori <span style="color: var(--danger)">*</span></label
+          >
+          <select id="dutyDay" class="a-select" style="width: 100%">
+            <option value="">— Pilih Hari —</option>
+            <option value="Senin">Senin</option>
+            <option value="Selasa">Selasa</option>
+            <option value="Rabu">Rabu</option>
+            <option value="Kamis">Kamis</option>
+            <option value="Jumat Ganjil">Jumat Ganjil</option>
+            <option value="Sabtu Ganjil">Sabtu Ganjil</option>
+            <option value="Jumat Genap">Jumat Genap</option>
+            <option value="Sabtu Genap">Sabtu Genap</option>
+          </select>
+          <span class="a-form-error" id="dutyDayErr"></span>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label"
+            >Nama Anggota <span style="color: var(--danger)">*</span></label
+          >
+          <input
+            type="text"
+            id="dutyMember"
+            class="a-form-input"
+            placeholder="Contoh: Budi Santoso"
+            maxlength="80"
+          />
+          <span class="a-form-error" id="dutyMemberErr"></span>
+        </div>
+        <div class="a-modal-actions" style="margin-top: 8px">
+          <button class="a-btn-cancel" onclick="closeDutyModal()">Batal</button>
+          <button class="a-btn-save" id="btnSaveDuty" onclick="saveDuty()">
+            <i class="bi bi-floppy-fill"></i> Simpan
+          </button>
+        </div>
+        <input type="hidden" id="editingDutyId" />
       </div>
+    </div>
+
     </main>
     <!-- DELETE MODAL -->
     <div class="a-modal-overlay" id="deleteModalOverlay">
@@ -232,6 +198,7 @@
 
     <!-- TOAST -->
     <div class="a-toast-container" id="toastContainer"></div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
