@@ -99,12 +99,18 @@ app.get('/api/health', (req, res) => {
 });
 
 // ── SPA Fallback ──────────────────────────────────────────────────────────────
+// Only serve index.html for routes without file extensions (true SPA routes).
+// Static files (.html, .css, .js, .png, etc.) are handled by express.static above.
 app.get('*', (req, res) => {
-  if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  } else {
-    res.status(404).json({ error: 'Endpoint tidak ditemukan' });
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'Endpoint tidak ditemukan' });
   }
+  // Let static middleware handle .html/.css/.js/.png paths; only SPA routes fall here
+  const hasExtension = /\.[a-zA-Z0-9]+$/.test(req.path);
+  if (hasExtension) {
+    return res.status(404).send('File tidak ditemukan');
+  }
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // ── Global Error Handler ──────────────────────────────────────────────────────
