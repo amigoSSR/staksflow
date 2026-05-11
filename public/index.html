@@ -1,0 +1,749 @@
+﻿<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="STAKS FLOW — Aplikasi To-Do List modern dengan autentikasi, Kanban drag & drop, dashboard statistik, dan notifikasi deadline."
+    />
+    <title>STAKS FLOW — Smart To-Do List</title>
+
+    <!-- Google Fonts -->
+    <link rel="icon" type="image/png" href="img/Logo_staks.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- AUTH LOADING -->
+    <div
+      id="authLoading"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-1, #1a1c29);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-color, #e2e8f0);
+      "
+    >
+      <div
+        class="spinner"
+        style="
+          width: 40px;
+          height: 40px;
+          border-width: 4px;
+          margin-bottom: 16px;
+        "
+      ></div>
+      <div style="font-weight: 600; font-size: 14px; letter-spacing: 1px">
+        Validasi Session...
+      </div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║              MAIN APP                    ║
+       ╚══════════════════════════════════════════╝ -->
+    <div id="appScreen">
+      <!-- ─── SIDEBAR ─── -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="brand">
+            <div class="">
+              <img
+                src="img/Logo_staks.png"
+                alt="Logo"
+                style="width: 2rem; height: 2rem"
+              />
+            </div>
+            <span class="brand-name">STAKS FLOW</span>
+          </div>
+          <div class="sidebar-header-right">
+            <button
+              class="icon-btn theme-btn"
+              id="themeToggle"
+              aria-label="Toggle dark/light mode"
+              title="Ganti tema"
+            >
+              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+            </button>
+            <button
+              class="icon-btn"
+              id="sidebarToggle"
+              aria-label="Toggle sidebar"
+            >
+              <i class="bi bi-list"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="user-profile" id="userProfile">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="userNameDisplay">Pengguna</div>
+            <div class="user-email" id="userEmailDisplay">email@domain.com</div>
+          </div>
+          <a
+            href="/admin.html"
+            id="adminPanelLink"
+            class="icon-btn hidden"
+            title="Ke Panel Admin"
+            aria-label="Admin Panel"
+            style="margin-right: -4px"
+          >
+            <i
+              class="bi bi-shield-fill-check"
+              style="color: var(--accent2)"
+            ></i>
+          </a>
+          <button
+            class="icon-btn logout-btn"
+            id="btnLogout"
+            title="Keluar"
+            aria-label="Logout"
+          >
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="nav-section">
+            <div class="nav-label">TAMPILAN</div>
+            <ul class="nav-list" id="viewList">
+              <li class="nav-item active" data-view="grid" id="view-grid">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+                <span>Grid View</span>
+              </li>
+              <li class="nav-item" data-view="kanban" id="view-kanban">
+                <i class="bi bi-kanban-fill"></i>
+                <span>Kanban View</span>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-section">
+            <div class="nav-label">KATEGORI</div>
+            <ul class="nav-list" id="navList">
+              <li class="nav-item active" data-category="all" id="nav-all">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+                <span>Semua Tugas</span>
+                <span class="badge" id="badge-all">0</span>
+              </li>
+              <li class="nav-item" data-category="daily" id="nav-daily">
+                <i class="bi bi-sun-fill"></i>
+                <span>Harian</span>
+                <span class="badge" id="badge-daily">0</span>
+              </li>
+              <li class="nav-item" data-category="weekly" id="nav-weekly">
+                <i class="bi bi-calendar-week-fill"></i>
+                <span>Mingguan</span>
+                <span class="badge" id="badge-weekly">0</span>
+              </li>
+              <li class="nav-item" data-category="monthly" id="nav-monthly">
+                <i class="bi bi-calendar-month-fill"></i>
+                <span>Bulanan</span>
+                <span class="badge" id="badge-monthly">0</span>
+              </li>
+              <li class="nav-item" data-category="quarterly" id="nav-quarterly">
+                <i class="bi bi-calendar3-fill"></i>
+                <span>Per 3 Bulan</span>
+                <span class="badge" id="badge-quarterly">0</span>
+              </li>
+              <li
+                class="nav-item"
+                data-category="semesterly"
+                id="nav-semesterly"
+              >
+                <i class="bi bi-calendar4-range"></i>
+                <span>Per 6 Bulan</span>
+                <span class="badge" id="badge-semesterly">0</span>
+              </li>
+              <li class="nav-item" data-category="yearly" id="nav-yearly">
+                <i class="bi bi-calendar2-check-fill"></i>
+                <span>Tahunan</span>
+                <span class="badge" id="badge-yearly">0</span>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-section">
+            <div class="nav-label">KOMUNITAS</div>
+            <ul class="nav-list" id="communityList">
+              <li class="nav-item" data-community="calendar" id="nav-calendar">
+                <i class="bi bi-calendar-event-fill"></i>
+                <span>Calendar / Schedule</span>
+              </li>
+              <li
+                class="nav-item"
+                data-community="house-rules"
+                id="nav-house-rules"
+              >
+                <i class="bi bi-journal-bookmark-fill"></i>
+                <span>House Rules</span>
+              </li>
+              <li class="nav-item" data-community="duty" id="nav-duty">
+                <i class="bi bi-calendar2-week-fill"></i>
+                <span>Jadwal Piket</span>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Sidebar Stats -->
+        <div class="sidebar-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="statDone">0</span>
+            <span class="stat-label">Selesai</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value" id="statPending">0</span>
+            <span class="stat-label">Pending</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value overdue-val" id="statOverdue">0</span>
+            <span class="stat-label">Terlambat</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ─── MAIN CONTENT ─── -->
+      <main class="main-content" id="mainContent">
+        <!-- Top Bar -->
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              class="icon-btn mobile-menu-btn"
+              id="mobileMenuBtn"
+              aria-label="Open menu"
+            >
+              <i class="bi bi-list"></i>
+            </button>
+            <div class="page-title-wrap">
+              <h1 class="page-title" id="pageTitle">Semua Tugas</h1>
+              <p class="page-subtitle" id="pageSubtitle">
+                Kelola semua tugas Anda di sini
+              </p>
+            </div>
+          </div>
+          <div class="topbar-right">
+            <div class="search-box">
+              <i class="bi bi-search search-icon"></i>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari tugas..."
+                autocomplete="off"
+              />
+              <button
+                class="search-clear"
+                id="searchClear"
+                aria-label="Clear search"
+              >
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+            <button
+              class="icon-btn notif-btn"
+              id="btnNotification"
+              aria-label="Notifikasi"
+              title="Cek notifikasi deadline"
+            >
+              <i class="bi bi-bell-fill"></i>
+              <span class="notif-badge hidden" id="notifBadge">0</span>
+            </button>
+            <button
+              class="btn-add"
+              id="btnAddTask"
+              aria-label="Tambah tugas baru"
+            >
+              <i class="bi bi-plus-lg"></i>
+              <span>Tambah Tugas</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Dashboard Stats Bar -->
+        <div class="dashboard-bar" id="dashboardBar">
+          <div class="dash-stat-card" id="dashTotal">
+            <div class="dash-stat-icon purple">
+              <i class="bi bi-clipboard-data-fill"></i>
+            </div>
+            <div class="dash-stat-info">
+              <span class="dash-stat-num" id="dashTotalNum">0</span>
+              <span class="dash-stat-label">Total Tugas</span>
+            </div>
+          </div>
+          <div class="dash-stat-card" id="dashDone">
+            <div class="dash-stat-icon green">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="dash-stat-info">
+              <span class="dash-stat-num" id="dashDoneNum">0</span>
+              <span class="dash-stat-label">Selesai</span>
+            </div>
+          </div>
+          <div class="dash-stat-card" id="dashPending">
+            <div class="dash-stat-icon yellow">
+              <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div class="dash-stat-info">
+              <span class="dash-stat-num" id="dashPendingNum">0</span>
+              <span class="dash-stat-label">Pending</span>
+            </div>
+          </div>
+          <div class="dash-stat-card" id="dashOverdue">
+            <div class="dash-stat-icon red">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div class="dash-stat-info">
+              <span class="dash-stat-num" id="dashOverdueNum">0</span>
+              <span class="dash-stat-label">Terlambat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-status="all" id="filter-all">
+              Semua
+            </button>
+            <button
+              class="filter-tab"
+              data-status="pending"
+              id="filter-pending"
+            >
+              <span class="dot dot-pending"></span> Pending
+            </button>
+            <button class="filter-tab" data-status="done" id="filter-done">
+              <span class="dot dot-done"></span> Selesai
+            </button>
+          </div>
+          <div class="filter-right">
+            <select
+              id="sortSelect"
+              class="sort-select"
+              aria-label="Urutkan tugas"
+            >
+              <option value="newest">⬇ Terbaru</option>
+              <option value="oldest">⬆ Terlama</option>
+              <option value="deadline">📅 Deadline</option>
+              <option value="title">🔤 Judul A-Z</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section" id="progressSection">
+          <div class="progress-info">
+            <span class="progress-label">Progress Keseluruhan</span>
+            <span class="progress-pct" id="progressPct">0%</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBar"></div>
+          </div>
+        </div>
+
+        <!-- ─── GRID VIEW ─── -->
+        <div id="gridView">
+          <div class="tasks-container">
+            <div class="loading-state" id="loadingState">
+              <div class="spinner"></div>
+              <p>Memuat tugas dari Google Sheets...</p>
+            </div>
+            <div class="empty-state hidden" id="emptyState">
+              <div class="empty-icon">
+                <i class="bi bi-clipboard-x"></i>
+              </div>
+              <h3>Belum ada tugas</h3>
+              <p>
+                Klik tombol <strong>Tambah Tugas</strong> untuk membuat tugas
+                baru.
+              </p>
+              <button class="btn-add empty-btn" onclick="openModal()">
+                <i class="bi bi-plus-lg"></i> Tambah Tugas Pertama
+              </button>
+            </div>
+            <div class="tasks-grid" id="tasksGrid"></div>
+          </div>
+        </div>
+
+        <!-- ─── KANBAN VIEW ─── -->
+        <div id="kanbanView" class="hidden">
+          <div class="kanban-board">
+            <!-- Pending Column -->
+            <div class="kanban-col" id="kanbanPending" data-status="pending">
+              <div class="kanban-col-header">
+                <div class="kanban-col-title">
+                  <span class="kanban-col-dot dot-pending"></span>
+                  <span>Pending</span>
+                </div>
+                <span class="kanban-count" id="kanbanPendingCount">0</span>
+              </div>
+              <div
+                class="kanban-cards"
+                id="kanbanPendingCards"
+                ondragover="handleDragOver(event)"
+                ondragleave="handleDragLeave(event)"
+                ondrop="handleDrop(event, 'pending')"
+              ></div>
+            </div>
+
+            <!-- Done Column -->
+            <div class="kanban-col" id="kanbanDone" data-status="done">
+              <div class="kanban-col-header">
+                <div class="kanban-col-title">
+                  <span class="kanban-col-dot dot-done"></span>
+                  <span>Selesai</span>
+                </div>
+                <span class="kanban-count" id="kanbanDoneCount">0</span>
+              </div>
+              <div
+                class="kanban-cards"
+                id="kanbanDoneCards"
+                ondragover="handleDragOver(event)"
+                ondragleave="handleDragLeave(event)"
+                ondrop="handleDrop(event, 'done')"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ─── HOUSE RULES VIEW ─── -->
+      <main class="main-content hidden" id="communityMain">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button
+              class="icon-btn mobile-menu-btn"
+              id="mobileMenuBtnC"
+              aria-label="Open menu"
+            >
+              <i class="bi bi-list"></i>
+            </button>
+            <div class="page-title-wrap">
+              <h1 class="page-title" id="communityTitle">House Rules</h1>
+              <p class="page-subtitle" id="communitySubtitle">
+                Peraturan dan tata tertib hunian
+              </p>
+            </div>
+          </div>
+          <div class="topbar-right">
+            <button
+              class="icon-btn notif-btn"
+              id="btnNotificationC"
+              aria-label="Notifikasi"
+              title="Cek notifikasi deadline"
+              style="display: none"
+            ></button>
+          </div>
+        </header>
+
+        <!-- HOUSE RULES SECTION -->
+        <div id="viewHouseRules">
+          <div class="community-panel">
+            <div class="community-panel-body" id="userRulesList">
+              <div class="loading-state"><div class="spinner"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALENDAR SCHEDULE SECTION -->
+        <div id="viewCalendar" class="hidden">
+          <div class="community-panel">
+            <div class="community-panel-body">
+              <div class="fc-wrap">
+                <div class="fc-header">
+                  <div class="fc-title" id="userCalendarTitle">Bulan Tahun</div>
+                  <div class="fc-nav-btns">
+                    <button class="fc-nav-btn" onclick="prevMonthUser()">
+                      <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="fc-nav-btn" onclick="nextMonthUser()">
+                      <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="fc-grid-wrap">
+                  <div class="fc-grid" id="userCalendarGrid">
+                    <!-- JS me-render kalender user di sini -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DUTY SCHEDULE SECTION -->
+        <div id="viewDuty" class="hidden">
+          <div
+            class="community-panel"
+            style="background: transparent; border: none"
+          >
+            <div id="userDutyGrid" class="duty-grid">
+              <div class="loading-state"><div class="spinner"></div></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Mobile overlay -->
+      <div class="overlay" id="overlay"></div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║         MODAL: ADD / EDIT TASK           ║
+       ╚══════════════════════════════════════════╝ -->
+    <div
+      class="modal-overlay"
+      id="modalOverlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal" id="taskModal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Tambah Tugas Baru</h2>
+          <button class="modal-close" id="modalClose" aria-label="Tutup modal">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <form class="modal-form" id="taskForm" novalidate>
+          <input type="hidden" id="taskId" />
+
+          <div class="form-group">
+            <label for="taskTitle"
+              >Judul Tugas <span class="required">*</span></label
+            >
+            <div class="input-icon-wrap">
+              <input
+                type="text"
+                id="taskTitle"
+                placeholder="Masukkan judul tugas..."
+                maxlength="100"
+                required
+              />
+            </div>
+            <span class="form-error" id="titleError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="taskDescription">Deskripsi</label>
+            <textarea
+              id="taskDescription"
+              placeholder="Tambahkan deskripsi tugas (opsional)..."
+              rows="3"
+              maxlength="500"
+            ></textarea>
+            <span class="char-count" id="descCharCount">0 / 500</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="taskCategory"
+                >Kategori <span class="required">*</span></label
+              >
+              <select id="taskCategory" required>
+                <option value="">— Pilih Kategori —</option>
+                <option value="daily">🌅 Harian (Daily)</option>
+                <option value="weekly">📅 Mingguan (Weekly)</option>
+                <option value="monthly">🗓️ Bulanan (Monthly)</option>
+                <option value="quarterly">📊 Per 3 Bulan</option>
+                <option value="semesterly">📆 Per 6 Bulan</option>
+                <option value="yearly">🗃️ Tahunan (Yearly)</option>
+              </select>
+              <span class="form-error" id="categoryError"></span>
+            </div>
+
+            <div class="form-group" style="display: none">
+              <label for="taskDeadline">Deadline (Otomatis)</label>
+              <div class="input-icon-wrap">
+                <input type="date" id="taskDeadline" disabled />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" id="statusGroupEdit" style="display: none">
+            <label>Status</label>
+            <div class="status-toggle">
+              <button
+                type="button"
+                class="status-btn active"
+                id="btnPending"
+                data-status="pending"
+              >
+                <i class="bi bi-hourglass-split"></i> Pending
+              </button>
+              <button
+                type="button"
+                class="status-btn"
+                id="btnDone"
+                data-status="done"
+              >
+                <i class="bi bi-check-circle-fill"></i> Selesai
+              </button>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="btnCancel">
+              Batal
+            </button>
+            <button type="submit" class="btn-save" id="btnSave">
+              <i class="bi bi-floppy-fill"></i>
+              <span id="btnSaveText">Simpan Tugas</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║        MODAL: DELETE CONFIRMATION        ║
+       ╚══════════════════════════════════════════╝ -->
+    <div
+      class="modal-overlay"
+      id="deleteModalOverlay"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal modal-sm" id="deleteModal">
+        <div class="delete-icon-wrap">
+          <div class="delete-icon">
+            <i class="bi bi-trash3-fill"></i>
+          </div>
+        </div>
+        <h3 class="delete-title">Hapus Tugas?</h3>
+        <p class="delete-desc">
+          Tindakan ini tidak dapat dibatalkan. Tugas akan dihapus secara
+          permanen.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="btnCancelDelete">
+            Batal
+          </button>
+          <button type="button" class="btn-delete" id="btnConfirmDelete">
+            <i class="bi bi-trash3-fill"></i> Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║         NOTIFICATION PANEL               ║
+       ╚══════════════════════════════════════════╝ -->
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-panel-header">
+        <span><i class="bi bi-bell-fill"></i> Notifikasi Deadline</span>
+        <button class="notif-close" id="notifClose">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+      <div class="notif-list" id="notifList">
+        <div class="notif-empty">Tidak ada tugas mendekati deadline 🎉</div>
+      </div>
+    </div>
+    <div class="notif-overlay" id="notifOverlay"></div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║        MODAL: VIEW EVENT DETAILS         ║
+       ╚══════════════════════════════════════════╝ -->
+    <div
+      class="modal-overlay"
+      id="eventModalOverlay"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal modal-sm" id="eventModal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="eventModalTitle">Detail Event</h2>
+          <button
+            class="modal-close"
+            id="eventModalClose"
+            aria-label="Tutup modal"
+          >
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div style="text-align: left">
+          <h3
+            style="font-size: 18px; color: var(--text-1); margin-bottom: 8px"
+            id="eventDetailTitle"
+          >
+            Title
+          </h3>
+          <p
+            style="
+              font-size: 14px;
+              color: var(--text-2);
+              line-height: 1.6;
+              margin-bottom: 16px;
+            "
+            id="eventDetailDesc"
+          ></p>
+          <div
+            style="
+              font-size: 13px;
+              color: var(--text-3);
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+            "
+          >
+            <div>
+              <i class="bi bi-calendar3"></i> <span id="eventDetailDate"></span>
+            </div>
+            <div>
+              <i class="bi bi-clock"></i> <span id="eventDetailTime"></span>
+            </div>
+            <div>
+              <i class="bi bi-person"></i> <span id="eventDetailCreator"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions" style="margin-top: 24px">
+          <button
+            type="button"
+            class="btn-cancel"
+            onclick="
+              document
+                .getElementById('eventModalOverlay')
+                .classList.remove('open')
+            "
+            style="width: 100%"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║           TOAST NOTIFICATIONS            ║
+       ╚══════════════════════════════════════════╝ -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

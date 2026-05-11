@@ -1,0 +1,124 @@
+﻿<section id="sec-progress" class="a-section">
+        <!-- Summary Cards Row -->
+        <div class="pm-summary-row" id="pmSummaryRow">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- User Progress Cards -->
+        <div class="a-card" style="margin-top: 20px">
+          <div class="a-card-header" style="flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+            <h2 style="margin: 0; display: flex; align-items: center; gap: 8px;"><i class="bi bi-people-fill" style="color: var(--primary);"></i> Progress Semua User</h2>
+            
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; flex: 1; justify-content: flex-end;">
+              <!-- Export Group -->
+              <div style="display: flex; align-items: center; gap: 8px; background: var(--bg-2); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                <i class="bi bi-funnel-fill" style="color: var(--at-2); font-size: 14px;"></i>
+                <select id="exportCatFilter" class="a-input" style="width: auto; padding: 4px 8px; font-size: 13px; border: none; background: transparent; cursor: pointer; color: var(--text);">
+                  <option value="all">Semua Kategori</option>
+                  <option value="daily">Harian</option>
+                  <option value="weekly">Mingguan</option>
+                  <option value="monthly">Bulanan</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="semesterly">Semesterly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+                <div style="width: 1px; height: 16px; background: var(--border); margin: 0 4px;"></div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span style="font-size:12px;color:var(--at-2);font-weight: 500;">Mulai:</span>
+                  <input type="date" id="exportStartDate" class="a-input" style="width: auto; padding: 4px 8px; font-size: 13px; border: none; background: transparent; color: var(--text); cursor: pointer;" title="Tanggal Mulai">
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span style="font-size:12px;color:var(--at-2);font-weight: 500;">Sampai:</span>
+                  <input type="date" id="exportEndDate" class="a-input" style="width: auto; padding: 4px 8px; font-size: 13px; border: none; background: transparent; color: var(--text); cursor: pointer;" title="Tanggal Akhir">
+                </div>
+                <button class="a-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 6px 14px; font-size: 13px; border-radius: 6px; display: flex; align-items: center; gap: 6px; border: none; font-weight: 600; box-shadow: 0 2px 4px rgba(16,185,129,0.2); transition: all 0.2s; cursor: pointer;" onclick="exportProgressExcel()" id="btnExportExcel" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 8px rgba(16,185,129,0.3)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 4px rgba(16,185,129,0.2)'">
+                  <i class="bi bi-file-earmark-excel-fill"></i> Export
+                </button>
+              </div>
+
+              <!-- Search Box -->
+              <div class="a-search-box" style="margin: 0;">
+                <i class="bi bi-search"></i>
+                <input
+                  type="text"
+                  id="progressSearch"
+                  placeholder="Cari user..."
+                  oninput="filterProgress()"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="pm-user-grid" id="pmUserGrid">
+            <div class="a-spinner" style="margin: 40px auto"></div>
+          </div>
+        </div>
+      </section>
+<!-- PROGRESS DETAIL MODAL -->
+      <div class="a-modal-overlay" id="progressDetailOverlay">
+        <div class="pm-detail-modal" id="progressDetailModal">
+          <div class="pm-detail-header">
+            <div class="pm-detail-user-info">
+              <div class="pm-detail-avatar" id="pdAvatar">U</div>
+              <div>
+                <div class="pm-detail-name" id="pdName">Username</div>
+                <div class="pm-detail-email" id="pdEmail">email@domain.com</div>
+              </div>
+            </div>
+            <button
+              class="a-icon-btn"
+              onclick="closeProgressDetail()"
+              style="flex-shrink: 0"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="pm-detail-stats" id="pdStats"></div>
+
+          <!-- Charts Row -->
+          <div class="pm-charts-row">
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-bar-chart-fill"></i> Aktivitas 7 Hari Terakhir
+              </div>
+              <div class="pm-chart-wrap">
+                <canvas id="weeklyChart"></canvas>
+              </div>
+            </div>
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-calendar3"></i> Progress 6 Bulan
+              </div>
+              <div class="pm-chart-wrap">
+                <canvas id="monthlyChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Performance -->
+          <div class="pm-chart-card" style="margin-top: 16px">
+            <div class="pm-chart-title">
+              <i class="bi bi-grid-3x2-gap-fill"></i> Performa per Kategori
+            </div>
+            <div class="pm-category-grid" id="pdCategoryGrid"></div>
+          </div>
+
+          <!-- Recent Tasks & Activity -->
+          <div class="pm-two-col">
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-clock-history"></i> Riwayat Aktivitas
+              </div>
+              <div class="pm-activity-list" id="pdActivityList"></div>
+            </div>
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-list-task"></i> Task Terbaru
+              </div>
+              <div class="pm-activity-list" id="pdRecentTasks"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>

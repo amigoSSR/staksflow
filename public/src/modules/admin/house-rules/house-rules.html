@@ -1,0 +1,53 @@
+﻿<section id="sec-house-rules" class="a-section">
+        <div class="a-card">
+          <div class="a-card-header">
+            <h2><i class="bi bi-journal-bookmark-fill"></i> House Rules</h2>
+            <button class="a-btn-primary" id="btnAddRule" onclick="openRuleModal()">
+              <i class="bi bi-plus-lg"></i> Tambah Rule
+            </button>
+          </div>
+          <div id="rulesListContainer" class="hr-list"></div>
+        </div>
+      </section>
+<!-- HOUSE RULE MODAL -->
+    <div class="a-modal-overlay" id="ruleModalOverlay">
+      <div class="a-modal" style="max-width: 520px">
+        <div class="a-modal-header">
+          <h3 id="ruleModalTitle">Tambah House Rule</h3>
+          <button onclick="closeRuleModal()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label"
+            >Judul Rule <span style="color: var(--danger)">*</span></label
+          >
+          <input
+            type="text"
+            id="ruleTitle"
+            class="a-form-input"
+            placeholder="Contoh: Kebersihan Kamar"
+            maxlength="120"
+          />
+          <span class="a-form-error" id="ruleTitleErr"></span>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label"
+            >Isi / Deskripsi <span style="color: var(--danger)">*</span></label
+          >
+          <textarea
+            id="ruleContent"
+            class="a-form-input"
+            rows="5"
+            placeholder="Jelaskan peraturan secara detail..."
+            maxlength="1000"
+          ></textarea>
+          <span class="a-form-error" id="ruleContentErr"></span>
+        </div>
+        <div class="a-modal-actions" style="margin-top: 8px">
+          <button class="a-btn-cancel" onclick="closeRuleModal()">Batal</button>
+          <button class="a-btn-save" id="btnSaveRule" onclick="saveRule()">
+            <i class="bi bi-floppy-fill"></i> Simpan
+          </button>
+        </div>
+        <input type="hidden" id="editingRuleId" />
+      </div>
+    </div>

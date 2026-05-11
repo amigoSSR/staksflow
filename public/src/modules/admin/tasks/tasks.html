@@ -1,0 +1,62 @@
+﻿<section id="sec-tasks" class="a-section">
+        <div class="a-card">
+          <div class="a-card-header">
+            <h2><i class="bi bi-clipboard-data-fill"></i> Semua Tasks</h2>
+            <div class="a-filters">
+              <select
+                id="filterCategory"
+                onchange="filterTasks()"
+                class="a-select"
+              >
+                <option value="all">Semua Kategori</option>
+                <option value="daily">Harian</option>
+                <option value="weekly">Mingguan</option>
+                <option value="monthly">Bulanan</option>
+                <option value="quarterly">Per 3 Bulan</option>
+                <option value="semesterly">Per 6 Bulan</option>
+                <option value="yearly">Tahunan</option>
+              </select>
+              <select
+                id="filterStatus"
+                onchange="filterTasks()"
+                class="a-select"
+              >
+                <option value="all">Semua Status</option>
+                <option value="pending">Pending</option>
+                <option value="selesai">Selesai</option>
+                <option value="selesai_terlambat">Selesai (Terlambat)</option>
+              </select>
+              <div class="a-search-box">
+                <i class="bi bi-search"></i>
+                <input
+                  type="text"
+                  id="taskSearch"
+                  placeholder="Cari task..."
+                  oninput="filterTasks()"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="a-table-wrap">
+            <table class="a-table">
+              <thead>
+                <tr>
+                  <th>Judul</th>
+                  <th>User</th>
+                  <th>Kategori</th>
+                  <th>Status</th>
+                  <th>Deadline</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tasksTableBody">
+                <tr>
+                  <td colspan="6" class="a-empty">
+                    <div class="a-spinner"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>

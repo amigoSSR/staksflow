@@ -1,0 +1,58 @@
+﻿<section id="sec-users" class="a-section">
+        <div class="a-card">
+          <div class="a-card-header">
+            <h2><i class="bi bi-people-fill"></i> Manajemen User</h2>
+            <div class="a-search-box">
+              <i class="bi bi-search"></i>
+              <input
+                type="text"
+                id="userSearch"
+                placeholder="Cari username / email..."
+                oninput="filterUsers()"
+              />
+            </div>
+          </div>
+          <div class="a-table-wrap">
+            <table class="a-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Tasks</th>
+                  <th>Bergabung</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr>
+                  <td colspan="6" class="a-empty">
+                    <div class="a-spinner"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+<!-- ROLE MODAL -->
+    <div class="a-modal-overlay" id="roleModalOverlay">
+      <div class="a-modal">
+        <div class="a-modal-header">
+          <h3>Ubah Role User</h3>
+          <button onclick="closeRoleModal()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <p style="color: var(--at-2); margin-bottom: 16px">
+          User: <strong id="roleModalUser"></strong>
+        </p>
+        <div class="a-role-btns">
+          <button class="a-role-btn user" onclick="confirmRoleChange('user')">
+            <i class="bi bi-person-fill"></i> User
+          </button>
+          <button class="a-role-btn admin" onclick="confirmRoleChange('admin')">
+            <i class="bi bi-shield-fill-check"></i> Admin
+          </button>
+        </div>
+        <input type="hidden" id="roleModalUserId" />
+      </div>
+    </div>

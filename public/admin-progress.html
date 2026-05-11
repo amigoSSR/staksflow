@@ -1,0 +1,276 @@
+﻿<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STAKS FLOW — Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="img/Logo_staks.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+
+  <body>
+    <!-- AUTH LOADING -->
+    <div id="authLoading" style="position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg-1);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--at-2);">
+      <div class="a-spinner" style="width:40px;height:40px;border-width:4px;margin-bottom:16px;"></div>
+      <div style="font-weight:600;font-size:14px;letter-spacing:1px;">Validasi Session...</div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="a-sidebar" id="aSidebar">
+      <div class="a-sidebar-logo">
+        <img src="img/Logo_staks.png" alt="STAKS FLOW" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;" />
+        <div class="a-logo-text">
+          <div class="a-logo-name">STAKS FLOW</div>
+          <div class="a-logo-sub">Admin Panel</div>
+        </div>
+      </div>
+
+      <nav class="a-nav">
+        <div class="a-nav-section-label">MENU</div>
+        <div
+          class="a-nav-item"
+          data-section="overview"
+          id="nav-overview"
+        >
+          <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
+        </div>
+        <div class="a-nav-item" data-section="users" id="nav-users">
+          <i class="bi bi-people-fill"></i><span>Manajemen User</span>
+          <span class="a-badge" id="navUserCount" style="display: none;"></span>
+        </div>
+        <div class="a-nav-item" data-section="tasks" id="nav-tasks">
+          <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
+          <span class="a-badge" id="navTaskCount" style="display: none;"></span>
+        </div>
+        <div class="a-nav-item" data-section="activity" id="nav-activity">
+          <i class="bi bi-activity"></i><span>Activity Log</span>
+          <span class="a-badge" id="navActivityCount" style="display: none;"></span>
+        </div>
+        <div class="a-nav-item active" data-section="progress" id="nav-progress">
+          <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
+        </div>
+
+        <div class="a-nav-section-label" style="margin-top: 16px">
+          KOMUNITAS
+        </div>
+        <div class="a-nav-item" data-section="calendar" id="nav-calendar">
+          <i class="bi bi-calendar-event-fill"></i
+          ><span>Calendar / Schedule</span>
+        </div>
+        <div class="a-nav-item" data-section="house-rules" id="nav-house-rules">
+          <i class="bi bi-journal-bookmark-fill"></i><span>House Rules</span>
+        </div>
+        <div class="a-nav-item" data-section="duty" id="nav-duty">
+          <i class="bi bi-calendar2-week-fill"></i><span>Jadwal Piket</span>
+        </div>
+      </nav>
+
+      <div class="a-sidebar-footer">
+        <div class="a-admin-profile">
+          <div class="a-admin-avatar" id="adminAvatar">A</div>
+          <div class="a-admin-info">
+            <div class="a-admin-name" id="adminName">Admin</div>
+            <div class="a-admin-role">Administrator</div>
+          </div>
+        </div>
+        <button class="a-logout-btn" onclick="doLogout()" title="Logout">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="a-main" id="aMain">
+      <!-- Topbar -->
+      <header class="a-topbar">
+        <div class="a-topbar-left">
+          <button class="a-icon-btn" onclick="toggleSidebar()">
+            <i class="bi bi-list"></i>
+          </button>
+          <div>
+            <h1 class="a-page-title" id="pageTitle">Progress Monitoring</h1>
+            <p class="a-page-sub" id="pageSub">
+              Selamat datang di panel administrasi STAKS FLOW
+            </p>
+          </div>
+        </div>
+        <div class="a-topbar-right">
+          <button
+            class="a-icon-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+            title="Toggle theme"
+          >
+            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+          </button>
+          <button class="a-icon-btn" onclick="refreshData()" title="Refresh">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+          <a href="/" class="a-btn-back"
+            ><i class="bi bi-arrow-left-circle"></i><span>Todo App</span></a
+          >
+        </div>
+      </header>
+      <!-- MODULAR ROUTER OUTLET -->
+      <section id="sec-progress" class="a-section active" style="display:flex;">
+        <!-- Summary Cards Row -->
+        <div class="pm-summary-row" id="pmSummaryRow">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- User Progress Cards -->
+        <div class="a-card" style="margin-top: 20px">
+          <div class="a-card-header" style="flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+            <h2 style="margin: 0; display: flex; align-items: center; gap: 8px;"><i class="bi bi-people-fill" style="color: var(--primary);"></i> Progress Semua User</h2>
+            
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; flex: 1; justify-content: flex-end;">
+              <!-- Export Group -->
+              <div style="display: flex; align-items: center; gap: 8px; background: var(--bg-2); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                <i class="bi bi-funnel-fill" style="color: var(--at-2); font-size: 14px;"></i>
+                <select id="exportCatFilter" class="a-input" style="width: auto; padding: 4px 8px; font-size: 13px; border: none; background: transparent; cursor: pointer; color: var(--text);">
+                  <option value="all">Semua Kategori</option>
+                  <option value="daily">Harian</option>
+                  <option value="weekly">Mingguan</option>
+                  <option value="monthly">Bulanan</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="semesterly">Semesterly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+                <div style="width: 1px; height: 16px; background: var(--border); margin: 0 4px;"></div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span style="font-size:12px;color:var(--at-2);font-weight: 500;">Mulai:</span>
+                  <input type="date" id="exportStartDate" class="a-input" style="width: auto; padding: 4px 8px; font-size: 13px; border: none; background: transparent; color: var(--text); cursor: pointer;" title="Tanggal Mulai">
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span style="font-size:12px;color:var(--at-2);font-weight: 500;">Sampai:</span>
+                  <input type="date" id="exportEndDate" class="a-input" style="width: auto; padding: 4px 8px; font-size: 13px; border: none; background: transparent; color: var(--text); cursor: pointer;" title="Tanggal Akhir">
+                </div>
+                <button class="a-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 6px 14px; font-size: 13px; border-radius: 6px; display: flex; align-items: center; gap: 6px; border: none; font-weight: 600; box-shadow: 0 2px 4px rgba(16,185,129,0.2); transition: all 0.2s; cursor: pointer;" onclick="exportProgressExcel()" id="btnExportExcel" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 8px rgba(16,185,129,0.3)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 2px 4px rgba(16,185,129,0.2)'">
+                  <i class="bi bi-file-earmark-excel-fill"></i> Export
+                </button>
+              </div>
+
+              <!-- Search Box -->
+              <div class="a-search-box" style="margin: 0;">
+                <i class="bi bi-search"></i>
+                <input
+                  type="text"
+                  id="progressSearch"
+                  placeholder="Cari user..."
+                  oninput="filterProgress()"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="pm-user-grid" id="pmUserGrid">
+            <div class="a-spinner" style="margin: 40px auto"></div>
+          </div>
+        </div>
+      </section>
+<!-- PROGRESS DETAIL MODAL -->
+      <div class="a-modal-overlay" id="progressDetailOverlay">
+        <div class="pm-detail-modal" id="progressDetailModal">
+          <div class="pm-detail-header">
+            <div class="pm-detail-user-info">
+              <div class="pm-detail-avatar" id="pdAvatar">U</div>
+              <div>
+                <div class="pm-detail-name" id="pdName">Username</div>
+                <div class="pm-detail-email" id="pdEmail">email@domain.com</div>
+              </div>
+            </div>
+            <button
+              class="a-icon-btn"
+              onclick="closeProgressDetail()"
+              style="flex-shrink: 0"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="pm-detail-stats" id="pdStats"></div>
+
+          <!-- Charts Row -->
+          <div class="pm-charts-row">
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-bar-chart-fill"></i> Aktivitas 7 Hari Terakhir
+              </div>
+              <div class="pm-chart-wrap">
+                <canvas id="weeklyChart"></canvas>
+              </div>
+            </div>
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-calendar3"></i> Progress 6 Bulan
+              </div>
+              <div class="pm-chart-wrap">
+                <canvas id="monthlyChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Performance -->
+          <div class="pm-chart-card" style="margin-top: 16px">
+            <div class="pm-chart-title">
+              <i class="bi bi-grid-3x2-gap-fill"></i> Performa per Kategori
+            </div>
+            <div class="pm-category-grid" id="pdCategoryGrid"></div>
+          </div>
+
+          <!-- Recent Tasks & Activity -->
+          <div class="pm-two-col">
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-clock-history"></i> Riwayat Aktivitas
+              </div>
+              <div class="pm-activity-list" id="pdActivityList"></div>
+            </div>
+            <div class="pm-chart-card">
+              <div class="pm-chart-title">
+                <i class="bi bi-list-task"></i> Task Terbaru
+              </div>
+              <div class="pm-activity-list" id="pdRecentTasks"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    </main>
+    <!-- DELETE MODAL -->
+    <div class="a-modal-overlay" id="deleteModalOverlay">
+      <div class="a-modal a-modal-sm">
+        <div class="a-delete-icon"><i class="bi bi-trash3-fill"></i></div>
+        <h3 class="a-delete-title">Konfirmasi Hapus</h3>
+        <p class="a-delete-desc" id="deleteModalDesc">
+          Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div class="a-modal-actions">
+          <button class="a-btn-cancel" onclick="closeDeleteModal()">
+            Batal
+          </button>
+          <button class="a-btn-danger" id="confirmDeleteBtn">Hapus</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="a-toast-container" id="toastContainer"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="admin.js"></script>
+    <script src="admin-progress.js"></script>
+  </body>
+</html>

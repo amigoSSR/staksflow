@@ -1,0 +1,246 @@
+﻿<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STAKS FLOW — Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="img/Logo_staks.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+
+  <body>
+    <!-- AUTH LOADING -->
+    <div
+      id="authLoading"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-1);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--at-2);
+      "
+    >
+      <div
+        class="a-spinner"
+        style="
+          width: 40px;
+          height: 40px;
+          border-width: 4px;
+          margin-bottom: 16px;
+        "
+      ></div>
+      <div style="font-weight: 600; font-size: 14px; letter-spacing: 1px">
+        Validasi Session...
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="a-sidebar" id="aSidebar">
+      <div class="a-sidebar-logo">
+        <img src="img/Logo_staks.png" alt="STAKS FLOW" style="width:36px;height:36px;object-fit:contain;flex-shrink:0;" />
+        <div class="a-logo-text">
+          <div class="a-logo-name">STAKS FLOW</div>
+          <div class="a-logo-sub">Admin Panel</div>
+        </div>
+      </div>
+
+      <nav class="a-nav">
+        <div class="a-nav-section-label">MENU</div>
+        <div class="a-nav-item" data-section="overview" id="nav-overview">
+          <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
+        </div>
+        <div class="a-nav-item" data-section="users" id="nav-users">
+          <i class="bi bi-people-fill"></i><span>Manajemen User</span>
+          <span class="a-badge" id="navUserCount" style="display: none"></span>
+        </div>
+        <div class="a-nav-item" data-section="tasks" id="nav-tasks">
+          <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
+          <span class="a-badge" id="navTaskCount" style="display: none"></span>
+        </div>
+        <div class="a-nav-item" data-section="activity" id="nav-activity">
+          <i class="bi bi-activity"></i><span>Activity Log</span>
+          <span
+            class="a-badge"
+            id="navActivityCount"
+            style="display: none"
+          ></span>
+        </div>
+        <div class="a-nav-item" data-section="progress" id="nav-progress">
+          <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
+        </div>
+
+        <div class="a-nav-section-label" style="margin-top: 16px">
+          KOMUNITAS
+        </div>
+        <div class="a-nav-item" data-section="calendar" id="nav-calendar">
+          <i class="bi bi-calendar-event-fill"></i
+          ><span>Calendar / Schedule</span>
+        </div>
+        <div
+          class="a-nav-item active"
+          data-section="house-rules"
+          id="nav-house-rules"
+        >
+          <i class="bi bi-journal-bookmark-fill"></i><span>House Rules</span>
+        </div>
+        <div class="a-nav-item" data-section="duty" id="nav-duty">
+          <i class="bi bi-calendar2-week-fill"></i><span>Jadwal Piket</span>
+        </div>
+      </nav>
+
+      <div class="a-sidebar-footer">
+        <div class="a-admin-profile">
+          <div class="a-admin-avatar" id="adminAvatar">A</div>
+          <div class="a-admin-info">
+            <div class="a-admin-name" id="adminName">Admin</div>
+            <div class="a-admin-role">Administrator</div>
+          </div>
+        </div>
+        <button class="a-logout-btn" onclick="doLogout()" title="Logout">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="a-main" id="aMain">
+      <!-- Topbar -->
+      <header class="a-topbar">
+        <div class="a-topbar-left">
+          <button class="a-icon-btn" onclick="toggleSidebar()">
+            <i class="bi bi-list"></i>
+          </button>
+          <div>
+            <h1 class="a-page-title" id="pageTitle">House Rules</h1>
+            <p class="a-page-sub" id="pageSub">
+              Selamat datang di panel administrasi STAKS FLOW
+            </p>
+          </div>
+        </div>
+        <div class="a-topbar-right">
+          <button
+            class="a-icon-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+            title="Toggle theme"
+          >
+            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+          </button>
+          <button class="a-icon-btn" onclick="refreshData()" title="Refresh">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+          <a href="/" class="a-btn-back"
+            ><i class="bi bi-arrow-left-circle"></i><span>Todo App</span></a
+          >
+        </div>
+      </header>
+      <!-- MODULAR ROUTER OUTLET -->
+      <section
+        id="sec-house-rules"
+        class="a-section active"
+        style="display: flex"
+      >
+        <div class="a-card">
+          <div class="a-card-header">
+            <h2><i class="bi bi-journal-bookmark-fill"></i> House Rules</h2>
+            <button
+              class="a-btn-primary"
+              id="btnAddRule"
+              onclick="openRuleModal()"
+            >
+              <i class="bi bi-plus-lg"></i> Tambah Rule
+            </button>
+          </div>
+          <div id="rulesListContainer" class="hr-list"></div>
+        </div>
+      </section>
+      <!-- HOUSE RULE MODAL -->
+      <div class="a-modal-overlay" id="ruleModalOverlay">
+        <div class="a-modal" style="max-width: 520px">
+          <div class="a-modal-header">
+            <h3 id="ruleModalTitle">Tambah House Rule</h3>
+            <button onclick="closeRuleModal()">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <div class="a-form-group">
+            <label class="a-form-label"
+              >Judul Rule <span style="color: var(--danger)">*</span></label
+            >
+            <input
+              type="text"
+              id="ruleTitle"
+              class="a-form-input"
+              placeholder="Contoh: Kebersihan Kamar"
+              maxlength="120"
+            />
+            <span class="a-form-error" id="ruleTitleErr"></span>
+          </div>
+          <div class="a-form-group">
+            <label class="a-form-label"
+              >Isi / Deskripsi
+              <span style="color: var(--danger)">*</span></label
+            >
+            <textarea
+              id="ruleContent"
+              class="a-form-input"
+              rows="5"
+              placeholder="Jelaskan peraturan secara detail..."
+              maxlength="1000"
+            ></textarea>
+            <span class="a-form-error" id="ruleContentErr"></span>
+          </div>
+          <div class="a-modal-actions" style="margin-top: 8px">
+            <button class="a-btn-cancel" onclick="closeRuleModal()">
+              Batal
+            </button>
+            <button class="a-btn-save" id="btnSaveRule" onclick="saveRule()">
+              <i class="bi bi-floppy-fill"></i> Simpan
+            </button>
+          </div>
+          <input type="hidden" id="editingRuleId" />
+        </div>
+      </div>
+    </main>
+    <!-- DELETE MODAL -->
+    <div class="a-modal-overlay" id="deleteModalOverlay">
+      <div class="a-modal a-modal-sm">
+        <div class="a-delete-icon"><i class="bi bi-trash3-fill"></i></div>
+        <h3 class="a-delete-title">Konfirmasi Hapus</h3>
+        <p class="a-delete-desc" id="deleteModalDesc">
+          Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div class="a-modal-actions">
+          <button class="a-btn-cancel" onclick="closeDeleteModal()">
+            Batal
+          </button>
+          <button class="a-btn-danger" id="confirmDeleteBtn">Hapus</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="a-toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="admin.js"></script>
+    <script src="admin-progress.js"></script>
+  </body>
+</html>

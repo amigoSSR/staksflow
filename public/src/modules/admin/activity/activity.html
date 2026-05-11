@@ -1,0 +1,36 @@
+﻿<section id="sec-activity" class="a-section">
+        <div class="a-card">
+          <div class="a-card-header">
+            <h2><i class="bi bi-activity"></i> Activity Log</h2>
+            <div class="a-search-box">
+              <i class="bi bi-search"></i>
+              <input
+                type="text"
+                id="activitySearch"
+                placeholder="Cari aktivitas..."
+                oninput="filterActivity()"
+              />
+            </div>
+          </div>
+          <div class="a-table-wrap">
+            <table class="a-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Aktivitas</th>
+                  <th>Task</th>
+                  <th>Kategori</th>
+                  <th>Waktu</th>
+                </tr>
+              </thead>
+              <tbody id="activityTableBody">
+                <tr>
+                  <td colspan="5" class="a-empty">
+                    <div class="a-spinner"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>

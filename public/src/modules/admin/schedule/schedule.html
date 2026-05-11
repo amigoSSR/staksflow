@@ -1,0 +1,86 @@
+﻿<section id="sec-calendar" class="a-section">
+        <div class="a-card">
+          <div class="a-card-header">
+            <h2><i class="bi bi-calendar-event-fill"></i> Calendar / Schedule</h2>
+            <button class="a-btn-primary" id="btnAddSchedule" onclick="openScheduleModal()">
+              <i class="bi bi-plus-lg"></i> Tambah Schedule
+            </button>
+          </div>
+          <div class="fc-wrap">
+            <div class="fc-header">
+              <div class="fc-title" id="adminCalendarTitle">Bulan Tahun</div>
+              <div class="fc-nav-btns">
+                <button class="fc-nav-btn" onclick="prevMonthAdmin()"><i class="bi bi-chevron-left"></i></button>
+                <button class="fc-nav-btn" onclick="nextMonthAdmin()"><i class="bi bi-chevron-right"></i></button>
+              </div>
+            </div>
+            <div class="fc-grid-wrap">
+              <div class="fc-grid" id="adminCalendarGrid">
+                <!-- JS akan me-render grid sel kalender di sini -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+<!-- CALENDAR SCHEDULE MODAL -->
+    <div class="a-modal-overlay" id="scheduleModalOverlay">
+      <div class="a-modal" style="max-width: 520px">
+        <div class="a-modal-header">
+          <h3 id="scheduleModalTitle">Tambah Schedule</h3>
+          <button onclick="closeScheduleModal()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label"
+            >Judul / Kegiatan <span style="color: var(--danger)">*</span></label
+          >
+          <input
+            type="text"
+            id="scheduleTitle"
+            class="a-form-input"
+            placeholder="Contoh: Rapat Mingguan"
+            maxlength="120"
+          />
+          <span class="a-form-error" id="scheduleTitleErr"></span>
+        </div>
+        <div class="a-form-group">
+          <label class="a-form-label">Deskripsi</label>
+          <textarea
+            id="scheduleDesc"
+            class="a-form-input"
+            rows="3"
+            placeholder="Opsional..."
+          ></textarea>
+        </div>
+        <div style="display: flex; gap: 16px">
+          <div class="a-form-group" style="flex: 1">
+            <label class="a-form-label"
+              >Tanggal <span style="color: var(--danger)">*</span></label
+            >
+            <input type="date" id="scheduleDate" class="a-form-input" />
+            <span class="a-form-error" id="scheduleDateErr"></span>
+          </div>
+          <div class="a-form-group" style="flex: 1">
+            <label class="a-form-label"
+              >Waktu <span style="color: var(--danger)">*</span></label
+            >
+            <input type="time" id="scheduleTime" class="a-form-input" />
+            <span class="a-form-error" id="scheduleTimeErr"></span>
+          </div>
+        </div>
+        <div class="a-modal-actions" style="margin-top: 16px">
+          <button class="a-btn-cancel" onclick="closeScheduleModal()">
+            Batal
+          </button>
+          <button
+            class="a-btn-save"
+            id="btnSaveSchedule"
+            onclick="saveSchedule()"
+          >
+            <i class="bi bi-floppy-fill"></i> Simpan
+          </button>
+        </div>
+        <input type="hidden" id="editingScheduleId" />
+      </div>
+    </div>
