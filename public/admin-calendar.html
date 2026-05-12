@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STAKS FLOW — Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="/img/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -18,9 +19,35 @@
 
   <body>
     <!-- AUTH LOADING -->
-    <div id="authLoading" style="position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg-1);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--at-2);">
-      <div class="a-spinner" style="width:40px;height:40px;border-width:4px;margin-bottom:16px;"></div>
-      <div style="font-weight:600;font-size:14px;letter-spacing:1px;">Validasi Session...</div>
+    <div
+      id="authLoading"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-1);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--at-2);
+      "
+    >
+      <div
+        class="a-spinner"
+        style="
+          width: 40px;
+          height: 40px;
+          border-width: 4px;
+          margin-bottom: 16px;
+        "
+      ></div>
+      <div style="font-weight: 600; font-size: 14px; letter-spacing: 1px">
+        Validasi Session...
+      </div>
     </div>
 
     <!-- SIDEBAR -->
@@ -35,24 +62,24 @@
 
       <nav class="a-nav">
         <div class="a-nav-section-label">MENU</div>
-        <div
-          class="a-nav-item"
-          data-section="overview"
-          id="nav-overview"
-        >
+        <div class="a-nav-item" data-section="overview" id="nav-overview">
           <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
         </div>
         <div class="a-nav-item" data-section="users" id="nav-users">
           <i class="bi bi-people-fill"></i><span>Manajemen User</span>
-          <span class="a-badge" id="navUserCount" style="display: none;"></span>
+          <span class="a-badge" id="navUserCount" style="display: none"></span>
         </div>
         <div class="a-nav-item" data-section="tasks" id="nav-tasks">
           <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
-          <span class="a-badge" id="navTaskCount" style="display: none;"></span>
+          <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
         <div class="a-nav-item" data-section="activity" id="nav-activity">
           <i class="bi bi-activity"></i><span>Activity Log</span>
-          <span class="a-badge" id="navActivityCount" style="display: none;"></span>
+          <span
+            class="a-badge"
+            id="navActivityCount"
+            style="display: none"
+          ></span>
         </div>
         <div class="a-nav-item" data-section="progress" id="nav-progress">
           <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
@@ -61,7 +88,11 @@
         <div class="a-nav-section-label" style="margin-top: 16px">
           KOMUNITAS
         </div>
-        <div class="a-nav-item active" data-section="calendar" id="nav-calendar">
+        <div
+          class="a-nav-item active"
+          data-section="calendar"
+          id="nav-calendar"
+        >
           <i class="bi bi-calendar-event-fill"></i
           ><span>Calendar / Schedule</span>
         </div>
@@ -120,11 +151,18 @@
         </div>
       </header>
       <!-- MODULAR ROUTER OUTLET -->
-      ﻿<section id="sec-calendar" class="a-section active" style="display:flex;">
+      ﻿
+      <section id="sec-calendar" class="a-section active" style="display: flex">
         <div class="a-card">
           <div class="a-card-header">
-            <h2><i class="bi bi-calendar-event-fill"></i> Calendar / Schedule</h2>
-            <button class="a-btn-primary" id="btnAddSchedule" onclick="openScheduleModal()">
+            <h2>
+              <i class="bi bi-calendar-event-fill"></i> Calendar / Schedule
+            </h2>
+            <button
+              class="a-btn-primary"
+              id="btnAddSchedule"
+              onclick="openScheduleModal()"
+            >
               <i class="bi bi-plus-lg"></i> Tambah Schedule
             </button>
           </div>
@@ -132,8 +170,12 @@
             <div class="fc-header">
               <div class="fc-title" id="adminCalendarTitle">Bulan Tahun</div>
               <div class="fc-nav-btns">
-                <button class="fc-nav-btn" onclick="prevMonthAdmin()"><i class="bi bi-chevron-left"></i></button>
-                <button class="fc-nav-btn" onclick="nextMonthAdmin()"><i class="bi bi-chevron-right"></i></button>
+                <button class="fc-nav-btn" onclick="prevMonthAdmin()">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+                <button class="fc-nav-btn" onclick="nextMonthAdmin()">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
               </div>
             </div>
             <div class="fc-grid-wrap">
@@ -144,69 +186,69 @@
           </div>
         </div>
       </section>
-<!-- CALENDAR SCHEDULE MODAL -->
-    <div class="a-modal-overlay" id="scheduleModalOverlay">
-      <div class="a-modal" style="max-width: 520px">
-        <div class="a-modal-header">
-          <h3 id="scheduleModalTitle">Tambah Schedule</h3>
-          <button onclick="closeScheduleModal()">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-        <div class="a-form-group">
-          <label class="a-form-label"
-            >Judul / Kegiatan <span style="color: var(--danger)">*</span></label
-          >
-          <input
-            type="text"
-            id="scheduleTitle"
-            class="a-form-input"
-            placeholder="Contoh: Rapat Mingguan"
-            maxlength="120"
-          />
-          <span class="a-form-error" id="scheduleTitleErr"></span>
-        </div>
-        <div class="a-form-group">
-          <label class="a-form-label">Deskripsi</label>
-          <textarea
-            id="scheduleDesc"
-            class="a-form-input"
-            rows="3"
-            placeholder="Opsional..."
-          ></textarea>
-        </div>
-        <div style="display: flex; gap: 16px">
-          <div class="a-form-group" style="flex: 1">
-            <label class="a-form-label"
-              >Tanggal <span style="color: var(--danger)">*</span></label
-            >
-            <input type="date" id="scheduleDate" class="a-form-input" />
-            <span class="a-form-error" id="scheduleDateErr"></span>
+      <!-- CALENDAR SCHEDULE MODAL -->
+      <div class="a-modal-overlay" id="scheduleModalOverlay">
+        <div class="a-modal" style="max-width: 520px">
+          <div class="a-modal-header">
+            <h3 id="scheduleModalTitle">Tambah Schedule</h3>
+            <button onclick="closeScheduleModal()">
+              <i class="bi bi-x-lg"></i>
+            </button>
           </div>
-          <div class="a-form-group" style="flex: 1">
+          <div class="a-form-group">
             <label class="a-form-label"
-              >Waktu <span style="color: var(--danger)">*</span></label
+              >Judul / Kegiatan
+              <span style="color: var(--danger)">*</span></label
             >
-            <input type="time" id="scheduleTime" class="a-form-input" />
-            <span class="a-form-error" id="scheduleTimeErr"></span>
+            <input
+              type="text"
+              id="scheduleTitle"
+              class="a-form-input"
+              placeholder="Contoh: Rapat Mingguan"
+              maxlength="120"
+            />
+            <span class="a-form-error" id="scheduleTitleErr"></span>
           </div>
+          <div class="a-form-group">
+            <label class="a-form-label">Deskripsi</label>
+            <textarea
+              id="scheduleDesc"
+              class="a-form-input"
+              rows="3"
+              placeholder="Opsional..."
+            ></textarea>
+          </div>
+          <div style="display: flex; gap: 16px">
+            <div class="a-form-group" style="flex: 1">
+              <label class="a-form-label"
+                >Tanggal <span style="color: var(--danger)">*</span></label
+              >
+              <input type="date" id="scheduleDate" class="a-form-input" />
+              <span class="a-form-error" id="scheduleDateErr"></span>
+            </div>
+            <div class="a-form-group" style="flex: 1">
+              <label class="a-form-label"
+                >Waktu <span style="color: var(--danger)">*</span></label
+              >
+              <input type="time" id="scheduleTime" class="a-form-input" />
+              <span class="a-form-error" id="scheduleTimeErr"></span>
+            </div>
+          </div>
+          <div class="a-modal-actions" style="margin-top: 16px">
+            <button class="a-btn-cancel" onclick="closeScheduleModal()">
+              Batal
+            </button>
+            <button
+              class="a-btn-save"
+              id="btnSaveSchedule"
+              onclick="saveSchedule()"
+            >
+              <i class="bi bi-floppy-fill"></i> Simpan
+            </button>
+          </div>
+          <input type="hidden" id="editingScheduleId" />
         </div>
-        <div class="a-modal-actions" style="margin-top: 16px">
-          <button class="a-btn-cancel" onclick="closeScheduleModal()">
-            Batal
-          </button>
-          <button
-            class="a-btn-save"
-            id="btnSaveSchedule"
-            onclick="saveSchedule()"
-          >
-            <i class="bi bi-floppy-fill"></i> Simpan
-          </button>
-        </div>
-        <input type="hidden" id="editingScheduleId" />
       </div>
-    </div>
-
     </main>
     <!-- DELETE MODAL -->
     <div class="a-modal-overlay" id="deleteModalOverlay">
@@ -227,7 +269,6 @@
 
     <!-- TOAST -->
     <div class="a-toast-container" id="toastContainer"></div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>

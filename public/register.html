@@ -1,126 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="STAKS FLOW — Register" />
+    <title>STAKS FLOW — Buat Akun</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="STAKS FLOW — Register" />
-  <title>STAKS FLOW — Buat Akun</title>
+    <!-- Google Fonts -->
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet" />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
 
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
 
-  <link rel="stylesheet" href="/style.css" />
-</head>
-
-<body>
-
-  <div id="authScreen" class="auth-screen">
-    <!-- Left Panel: Branding -->
-    <div class="auth-brand-panel">
-      <div class="auth-brand-content">
-        <div class="auth-logo">
-          <img src="/img/logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
+  <body>
+    <div id="authScreen" class="auth-screen">
+      <!-- Left Panel: Branding -->
+      <div class="auth-brand-panel">
+        <div class="auth-brand-content">
+          <div class="auth-logo">
+            <img
+              src="/img/logo.png"
+              alt="Logo"
+              style="
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                border-radius: inherit;
+              "
+            />
+          </div>
+          <h1 class="auth-brand-name">STAKS FLOW</h1>
+          <p class="auth-brand-tagline">
+            Kelola tugas Anda dengan cerdas dan terorganisir
+          </p>
+          <div class="auth-features">
+            <div class="auth-feature-item">
+              <i class="bi bi-kanban-fill"></i>
+              <span>Kanban Drag & Drop</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="bi bi-bar-chart-fill"></i>
+              <span>Dashboard Statistik</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="bi bi-bell-fill"></i>
+              <span>Notifikasi Deadline</span>
+            </div>
+            <div class="auth-feature-item">
+              <i class="bi bi-moon-stars-fill"></i>
+              <span>Dark / Light Mode</span>
+            </div>
+          </div>
         </div>
-        <h1 class="auth-brand-name">STAKS FLOW</h1>
-        <p class="auth-brand-tagline">Kelola tugas Anda dengan cerdas dan terorganisir</p>
-        <div class="auth-features">
-          <div class="auth-feature-item">
-            <i class="bi bi-kanban-fill"></i>
-            <span>Kanban Drag & Drop</span>
-          </div>
-          <div class="auth-feature-item">
-            <i class="bi bi-bar-chart-fill"></i>
-            <span>Dashboard Statistik</span>
-          </div>
-          <div class="auth-feature-item">
-            <i class="bi bi-bell-fill"></i>
-            <span>Notifikasi Deadline</span>
-          </div>
-          <div class="auth-feature-item">
-            <i class="bi bi-moon-stars-fill"></i>
-            <span>Dark / Light Mode</span>
-          </div>
+        <div class="auth-bg-orbs">
+          <div class="orb orb-1"></div>
+          <div class="orb orb-2"></div>
+          <div class="orb orb-3"></div>
         </div>
       </div>
-      <div class="auth-bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+
+      <!-- Right Panel: Forms -->
+      <div class="auth-form-panel">
+        <!-- Register Form -->
+        <div class="auth-card" id="registerCard">
+          <div class="auth-card-header">
+            <h2>Buat Akun Baru ✨</h2>
+            <p>Mulai kelola tugas Anda dengan STAKS FLOW</p>
+          </div>
+          <form id="registerForm" novalidate>
+            <div class="form-group">
+              <label for="regUsername">Username</label>
+              <div class="input-icon-wrap">
+                <i class="bi bi-person-fill input-icon"></i>
+                <input
+                  type="text"
+                  id="regUsername"
+                  placeholder="Pilih username unik Anda"
+                  autocomplete="username"
+                  required
+                />
+              </div>
+              <span class="form-error" id="regUsernameError"></span>
+            </div>
+            <div class="form-group">
+              <label for="regEmail">Email</label>
+              <div class="input-icon-wrap">
+                <i class="bi bi-envelope-fill input-icon"></i>
+                <input
+                  type="email"
+                  id="regEmail"
+                  placeholder="email@domain.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <span class="form-error" id="regEmailError"></span>
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password</label>
+              <div class="input-icon-wrap">
+                <i class="bi bi-lock-fill input-icon"></i>
+                <input
+                  type="password"
+                  id="regPassword"
+                  placeholder="Minimal 6 karakter"
+                  autocomplete="new-password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  id="regTogglePwd"
+                  aria-label="Toggle password visibility"
+                >
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+              <span class="form-error" id="regPasswordError"></span>
+            </div>
+            <div class="form-group">
+              <label for="regPasswordConfirm">Konfirmasi Password</label>
+              <div class="input-icon-wrap">
+                <i class="bi bi-shield-lock-fill input-icon"></i>
+                <input
+                  type="password"
+                  id="regPasswordConfirm"
+                  placeholder="Ulangi password Anda"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+              <span class="form-error" id="regPasswordConfirmError"></span>
+            </div>
+            <button type="submit" class="btn-auth" id="btnRegister">
+              <span id="registerBtnText">Daftar</span>
+              <div class="btn-spinner hidden" id="registerSpinner"></div>
+            </button>
+          </form>
+          <div class="auth-switch">
+            Sudah punya akun?
+            <a href="/login.html" class="auth-link">Masuk sekarang</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Right Panel: Forms -->
-    <div class="auth-form-panel">
-      <!-- Register Form -->
-      <div class="auth-card" id="registerCard">
-        <div class="auth-card-header">
-          <h2>Buat Akun Baru ✨</h2>
-          <p>Mulai kelola tugas Anda dengan STAKS FLOW</p>
-        </div>
-        <form id="registerForm" novalidate>
-          <div class="form-group">
-            <label for="regUsername">Username</label>
-            <div class="input-icon-wrap">
-              <i class="bi bi-person-fill input-icon"></i>
-              <input type="text" id="regUsername" placeholder="Pilih username unik Anda" autocomplete="username"
-                required />
-            </div>
-            <span class="form-error" id="regUsernameError"></span>
-          </div>
-          <div class="form-group">
-            <label for="regEmail">Email</label>
-            <div class="input-icon-wrap">
-              <i class="bi bi-envelope-fill input-icon"></i>
-              <input type="email" id="regEmail" placeholder="email@domain.com" autocomplete="email" required />
-            </div>
-            <span class="form-error" id="regEmailError"></span>
-          </div>
-          <div class="form-group">
-            <label for="regPassword">Password</label>
-            <div class="input-icon-wrap">
-              <i class="bi bi-lock-fill input-icon"></i>
-              <input type="password" id="regPassword" placeholder="Minimal 6 karakter" autocomplete="new-password"
-                required />
-              <button type="button" class="toggle-password" id="regTogglePwd" aria-label="Toggle password visibility">
-                <i class="bi bi-eye-fill"></i>
-              </button>
-            </div>
-            <span class="form-error" id="regPasswordError"></span>
-          </div>
-          <div class="form-group">
-            <label for="regPasswordConfirm">Konfirmasi Password</label>
-            <div class="input-icon-wrap">
-              <i class="bi bi-shield-lock-fill input-icon"></i>
-              <input type="password" id="regPasswordConfirm" placeholder="Ulangi password Anda"
-                autocomplete="new-password" required />
-            </div>
-            <span class="form-error" id="regPasswordConfirmError"></span>
-          </div>
-          <button type="submit" class="btn-auth" id="btnRegister">
-            <span id="registerBtnText">Daftar</span>
-            <div class="btn-spinner hidden" id="registerSpinner"></div>
-          </button>
-        </form>
-        <div class="auth-switch">
-          Sudah punya akun?
-          <a href="/login.html" class="auth-link">Masuk sekarang</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-
-  <script src="/auth.js"></script>
-</body>
-
+    <script src="/auth.js"></script>
+  </body>
 </html>
-

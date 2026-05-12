@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STAKS FLOW — Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="/img/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -18,9 +19,35 @@
 
   <body>
     <!-- AUTH LOADING -->
-    <div id="authLoading" style="position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg-1);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--at-2);">
-      <div class="a-spinner" style="width:40px;height:40px;border-width:4px;margin-bottom:16px;"></div>
-      <div style="font-weight:600;font-size:14px;letter-spacing:1px;">Validasi Session...</div>
+    <div
+      id="authLoading"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-1);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--at-2);
+      "
+    >
+      <div
+        class="a-spinner"
+        style="
+          width: 40px;
+          height: 40px;
+          border-width: 4px;
+          margin-bottom: 16px;
+        "
+      ></div>
+      <div style="font-weight: 600; font-size: 14px; letter-spacing: 1px">
+        Validasi Session...
+      </div>
     </div>
 
     <!-- SIDEBAR -->
@@ -35,24 +62,24 @@
 
       <nav class="a-nav">
         <div class="a-nav-section-label">MENU</div>
-        <div
-          class="a-nav-item"
-          data-section="overview"
-          id="nav-overview"
-        >
+        <div class="a-nav-item" data-section="overview" id="nav-overview">
           <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
         </div>
         <div class="a-nav-item active" data-section="users" id="nav-users">
           <i class="bi bi-people-fill"></i><span>Manajemen User</span>
-          <span class="a-badge" id="navUserCount" style="display: none;"></span>
+          <span class="a-badge" id="navUserCount" style="display: none"></span>
         </div>
         <div class="a-nav-item" data-section="tasks" id="nav-tasks">
           <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
-          <span class="a-badge" id="navTaskCount" style="display: none;"></span>
+          <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
         <div class="a-nav-item" data-section="activity" id="nav-activity">
           <i class="bi bi-activity"></i><span>Activity Log</span>
-          <span class="a-badge" id="navActivityCount" style="display: none;"></span>
+          <span
+            class="a-badge"
+            id="navActivityCount"
+            style="display: none"
+          ></span>
         </div>
         <div class="a-nav-item" data-section="progress" id="nav-progress">
           <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
@@ -120,7 +147,8 @@
         </div>
       </header>
       <!-- MODULAR ROUTER OUTLET -->
-      ﻿<section id="sec-users" class="a-section active" style="display:flex;">
+      ﻿
+      <section id="sec-users" class="a-section active" style="display: flex">
         <div class="a-card">
           <div class="a-card-header">
             <h2><i class="bi bi-people-fill"></i> Manajemen User</h2>
@@ -157,28 +185,32 @@
           </div>
         </div>
       </section>
-<!-- ROLE MODAL -->
-    <div class="a-modal-overlay" id="roleModalOverlay">
-      <div class="a-modal">
-        <div class="a-modal-header">
-          <h3>Ubah Role User</h3>
-          <button onclick="closeRoleModal()"><i class="bi bi-x-lg"></i></button>
+      <!-- ROLE MODAL -->
+      <div class="a-modal-overlay" id="roleModalOverlay">
+        <div class="a-modal">
+          <div class="a-modal-header">
+            <h3>Ubah Role User</h3>
+            <button onclick="closeRoleModal()">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <p style="color: var(--at-2); margin-bottom: 16px">
+            User: <strong id="roleModalUser"></strong>
+          </p>
+          <div class="a-role-btns">
+            <button class="a-role-btn user" onclick="confirmRoleChange('user')">
+              <i class="bi bi-person-fill"></i> User
+            </button>
+            <button
+              class="a-role-btn admin"
+              onclick="confirmRoleChange('admin')"
+            >
+              <i class="bi bi-shield-fill-check"></i> Admin
+            </button>
+          </div>
+          <input type="hidden" id="roleModalUserId" />
         </div>
-        <p style="color: var(--at-2); margin-bottom: 16px">
-          User: <strong id="roleModalUser"></strong>
-        </p>
-        <div class="a-role-btns">
-          <button class="a-role-btn user" onclick="confirmRoleChange('user')">
-            <i class="bi bi-person-fill"></i> User
-          </button>
-          <button class="a-role-btn admin" onclick="confirmRoleChange('admin')">
-            <i class="bi bi-shield-fill-check"></i> Admin
-          </button>
-        </div>
-        <input type="hidden" id="roleModalUserId" />
       </div>
-    </div>
-
     </main>
     <!-- DELETE MODAL -->
     <div class="a-modal-overlay" id="deleteModalOverlay">
@@ -199,7 +231,6 @@
 
     <!-- TOAST -->
     <div class="a-toast-container" id="toastContainer"></div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
