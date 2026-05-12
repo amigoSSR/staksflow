@@ -73,13 +73,9 @@ body {
 .auth-logo {
   width: 72px;
   height: 72px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  border-radius: 20px;
+  background: transparent;
   display: grid;
   place-items: center;
-  font-size: 34px;
-  color: #fff;
-  box-shadow: 0 0 40px var(--accent-glow);
   margin-bottom: 28px;
 }
 
@@ -2607,4 +2603,60 @@ body {
     rgba(0, 0, 0, 0.08) 50%,
     rgba(0, 0, 0, 0.03) 75%
   );
+}
+
+/* ── MOBILE OVERLAY ── */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 190;
+  backdrop-filter: blur(2px);
+}
+.overlay.show {
+  display: block;
+}
+
+/* ── RESPONSIVE STYLES ── */
+@media (max-width: 1024px) {
+  .dashboard-bar {
+    padding: 0 16px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-screen { flex-direction: column; }
+  .auth-brand-panel { min-height: 250px; padding: 30px 20px; flex: none; }
+  .auth-form-panel { width: 100%; min-width: 100%; border-left: none; padding: 30px 20px; }
+
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.5); }
+  
+  .mobile-menu-btn { display: block; }
+
+  .main-content { margin-left: 0; }
+  .topbar { padding: 0 16px; gap: 10px; }
+  .topbar-right { gap: 10px; }
+  
+  .search-box { width: 140px; }
+  .search-box input { width: 140px; }
+
+  .dashboard-bar { flex-direction: column; gap: 10px; padding: 0 16px 16px; }
+  .dash-stat-card { width: 100%; }
+
+  .kanban-board { flex-direction: column; }
+  .kanban-col { min-width: unset; width: 100%; }
+  
+  .fc-grid { min-width: unset; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .fc-day-head { font-size: 10px; }
+  .fc-day-cell { min-height: 60px; padding: 4px; }
+  .fc-events { display: none; }
+  .fc-day-num { width: 20px; height: 20px; font-size: 11px; }
+
+  .task-board { grid-template-columns: 1fr; padding: 0 16px; }
+  .task-card { flex-direction: column; align-items: flex-start; }
+  .task-card-top { width: 100%; }
+  .task-meta { width: 100%; margin-top: 10px; justify-content: space-between; }
+  .task-actions { align-self: flex-end; margin-top: 10px; }
 }

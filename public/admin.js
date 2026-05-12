@@ -1,4 +1,4 @@
-﻿/**
+/**
  * public/admin.js — Admin Dashboard Logic
  */
 "use strict";
@@ -284,8 +284,19 @@ function updateThemeIcon(theme) {
 // ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
 function toggleSidebar() {
   const sidebar = getEl("aSidebar");
+  const overlay = getEl("aOverlay");
   if (sidebar) sidebar.classList.toggle("open");
+  if (overlay) overlay.classList.toggle("show");
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = getEl("aOverlay");
+  if (overlay) overlay.addEventListener("click", () => {
+    const sidebar = getEl("aSidebar");
+    if (sidebar) sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+  });
+});
 
 // ── Logout ────────────────────────────────────────────────────────────────────
 function doLogout() {

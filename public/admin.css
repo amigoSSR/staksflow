@@ -1875,3 +1875,50 @@ body {
     background-position: 200% 0;
   }
 }
+
+/* ── MOBILE OVERLAY ── */
+.a-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 190;
+  backdrop-filter: blur(2px);
+}
+.a-overlay.show {
+  display: block;
+}
+
+/* ── RESPONSIVE STYLES ── */
+@media (min-width: 769px) {
+  .a-topbar-left .a-icon-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .a-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .duty-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .a-sidebar { transform: translateX(-100%); }
+  .a-sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.5); }
+  
+  .a-topbar-left .a-icon-btn { display: grid; } /* to show it on mobile */
+  
+  .a-main { margin-left: 0; }
+  .a-topbar { padding: 0 16px; }
+  .a-stats-row { grid-template-columns: 1fr; }
+  .a-table-wrap { overflow-x: auto; }
+  .a-page-title { font-size: 18px; }
+  .a-page-sub { font-size: 11px; }
+  
+  /* House Rules / Duty / Calendar specific */
+  .duty-day-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .fc-grid { min-width: unset; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .fc-day-head { font-size: 10px; }
+  .fc-day-cell { min-height: 60px; padding: 4px; }
+  .fc-events { display: none; }
+  .fc-day-num { width: 20px; height: 20px; font-size: 11px; }
+}
