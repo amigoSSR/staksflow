@@ -1,4 +1,4 @@
-﻿/**
+/**
  * routes/community.js
  * House Rules & Duty Schedules API
  * Admin  → full CRUD
@@ -10,6 +10,15 @@ const authMW    = require('../middleware/auth');
 const adminMW   = require('../middleware/admin');
 const prisma    = require('../prisma/client');
 const DAYS = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat Ganjil', 'Sabtu Ganjil', 'Jumat Genap', 'Sabtu Genap'];
+
+const DEFAULT_CATEGORIES = [
+  { name: 'Daily', color: 'blue' },
+  { name: 'Weekly', color: 'green' },
+  { name: 'Monthly', color: 'orange' },
+  { name: 'Quarterly', color: 'purple' },
+  { name: 'Semesterly', color: 'cyan' },
+  { name: 'Yearly', color: 'red' }
+];
 
 // ─── READ ENDPOINTS (any authenticated user) ────────────────────────────────
 
@@ -46,19 +55,125 @@ router.get('/duty-schedules', authMW, async (req, res) => {
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
+// GET /api/community/categories
+router.get('/categories', authMW, async (req, res) => {
+  try {
+    let categories = await prisma.scheduleCategory.findMany({
+      orderBy: { created_at: 'asc' }
+    });
+    if (categories.length === 0) {
+      await prisma.scheduleCategory.createMany({
+        data: DEFAULT_CATEGORIES
+      });
+      categories = await prisma.scheduleCategory.findMany({
+        orderBy: { created_at: 'asc' }
+      });
+    }
+    res.json({ success: true, data: categories });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// POST /api/community/categories
+router.post('/categories', adminMW, async (req, res) => {
+  try {
+    const { name, color } = req.body;
+    if (!name?.trim() || !color?.trim())
+      return res.status(400).json({ success: false, error: 'Nama dan warna kategori wajib diisi.' });
+    
+    const allowedColors = ['blue', 'green', 'orange', 'purple', 'cyan', 'red'];
+    if (!allowedColors.includes(color.trim().toLowerCase()))
+      return res.status(400).json({ success: false, error: 'Warna kategori tidak valid. Pilih: blue, green, orange, purple, cyan, red' });
+
+    const exists = await prisma.scheduleCategory.findFirst({
+      where: { name: name.trim() }
+    });
+    if (exists)
+      return res.status(400).json({ success: false, error: 'Kategori dengan nama tersebut sudah ada.' });
+
+    const category = await prisma.scheduleCategory.create({
+      data: { name: name.trim(), color: color.trim().toLowerCase() }
+    });
+    res.json({ success: true, data: category });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// PUT /api/community/categories/:id
+router.put('/categories/:id', adminMW, async (req, res) => {
+  try {
+    const { name, color } = req.body;
+    if (!name?.trim() || !color?.trim())
+      return res.status(400).json({ success: false, error: 'Nama dan warna kategori wajib diisi.' });
+
+    const allowedColors = ['blue', 'green', 'orange', 'purple', 'cyan', 'red'];
+    if (!allowedColors.includes(color.trim().toLowerCase()))
+      return res.status(400).json({ success: false, error: 'Warna kategori tidak valid. Pilih: blue, green, orange, purple, cyan, red' });
+
+    const oldCategory = await prisma.scheduleCategory.findUnique({
+      where: { id: req.params.id }
+    });
+    if (!oldCategory)
+      return res.status(404).json({ success: false, error: 'Kategori tidak ditemukan.' });
+
+    const exists = await prisma.scheduleCategory.findFirst({
+      where: { name: name.trim(), id: { not: req.params.id } }
+    });
+    if (exists)
+      return res.status(400).json({ success: false, error: 'Kategori dengan nama tersebut sudah ada.' });
+
+    const updatedCategory = await prisma.scheduleCategory.update({
+      where: { id: req.params.id },
+      data: { name: name.trim(), color: color.trim().toLowerCase() }
+    });
+
+    if (oldCategory.name !== updatedCategory.name) {
+      await prisma.schedule.updateMany({
+        where: { category: oldCategory.name },
+        data: { category: updatedCategory.name }
+      });
+    }
+
+    res.json({ success: true, data: updatedCategory });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// DELETE /api/community/categories/:id
+router.delete('/categories/:id', adminMW, async (req, res) => {
+  try {
+    const category = await prisma.scheduleCategory.findUnique({
+      where: { id: req.params.id }
+    });
+    if (!category)
+      return res.status(404).json({ success: false, error: 'Kategori tidak ditemukan.' });
+
+    const schedulesCount = await prisma.schedule.count({
+      where: { category: category.name }
+    });
+    if (schedulesCount > 0) {
+      return res.status(400).json({
+        success: false,
+        error: `Kategori ini sedang digunakan oleh ${schedulesCount} schedule dan tidak dapat dihapus.`
+      });
+    }
+
+    await prisma.scheduleCategory.delete({ where: { id: req.params.id } });
+    res.json({ success: true, message: 'Kategori berhasil dihapus.' });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
 // GET /api/community/schedules
 router.get('/schedules', authMW, async (req, res) => {
   try {
     const schedules = await prisma.schedule.findMany({
-      orderBy: [{ date: 'asc' }, { time: 'asc' }],
+      orderBy: { start_date: 'asc' },
       include: { creator: { select: { username: true } } }
     });
     res.json({ success: true, data: schedules.map(s => ({
       id: s.id,
       title: s.title,
       description: s.description,
-      date: s.date,
-      time: s.time,
+      category: s.category,
+      start_date: s.start_date,
+      end_date: s.end_date,
       created_by: s.created_by,
       created_by_username: s.creator?.username || '-',
       created_at: s.created_at
@@ -166,16 +281,23 @@ router.delete('/duty-schedules/day/:day', adminMW, async (req, res) => {
 // POST /api/community/schedules
 router.post('/schedules', adminMW, async (req, res) => {
   try {
-    const { title, description, date, time } = req.body;
-    if (!title || !date || !time)
-      return res.status(400).json({ success: false, error: 'Title, date, dan time wajib diisi.' });
+    const { title, description, category, start_date, end_date } = req.body;
+    if (!title?.trim() || !category?.trim() || !start_date || !end_date)
+      return res.status(400).json({ success: false, error: 'Title, category, start_date, dan end_date wajib diisi.' });
+
+    const catExists = await prisma.scheduleCategory.findFirst({
+      where: { name: category.trim() }
+    });
+    if (!catExists)
+      return res.status(400).json({ success: false, error: 'Kategori schedule tidak valid.' });
 
     const entry = await prisma.schedule.create({
       data: {
         title: title.trim(),
         description: description?.trim() || null,
-        date: date,
-        time: time,
+        category: category.trim(),
+        start_date: start_date,
+        end_date: end_date,
         created_by: req.user.id
       },
       include: { creator: { select: { username: true } } }
@@ -187,17 +309,24 @@ router.post('/schedules', adminMW, async (req, res) => {
 // PUT /api/community/schedules/:id
 router.put('/schedules/:id', adminMW, async (req, res) => {
   try {
-    const { title, description, date, time } = req.body;
-    if (!title || !date || !time)
-      return res.status(400).json({ success: false, error: 'Title, date, dan time wajib diisi.' });
+    const { title, description, category, start_date, end_date } = req.body;
+    if (!title?.trim() || !category?.trim() || !start_date || !end_date)
+      return res.status(400).json({ success: false, error: 'Title, category, start_date, dan end_date wajib diisi.' });
+
+    const catExists = await prisma.scheduleCategory.findFirst({
+      where: { name: category.trim() }
+    });
+    if (!catExists)
+      return res.status(400).json({ success: false, error: 'Kategori schedule tidak valid.' });
 
     const entry = await prisma.schedule.update({
       where: { id: req.params.id },
       data: {
         title: title.trim(),
         description: description?.trim() || null,
-        date: date,
-        time: time
+        category: category.trim(),
+        start_date: start_date,
+        end_date: end_date
       },
       include: { creator: { select: { username: true } } }
     });

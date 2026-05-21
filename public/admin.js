@@ -38,6 +38,7 @@ async function adminFetch(url, options = {}) {
 // ── State ─────────────────────────────────────────────────────────────────────
 let allUsers = [];
 let allTasks = [];
+let allProjects = [];
 let allActivity = [];
 let currentSection = "overview";
 
@@ -109,6 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadActivities(true); // Load recent activities for overview
   }
   if (section === "users") await loadUsers();
+  if (section === "projects") await loadProjects();
   if (section === "tasks") await loadTasks();
   if (section === "activity") await loadActivities(true);
   if (section === "progress" && typeof loadProgressSection === "function") loadProgressSection();
@@ -124,48 +126,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       socket.emit("join_admin");
     });
 
-    socket.on("task_created", ({ task, log }) => {
-      allTasks.unshift(task);
+    socket.on("diary_created", ({ diary, log }) => {
+      allTasks.unshift(diary);
       if (log) allActivity.unshift(log);
-      filterTasks();
+      if (typeof filterDiaries === "function") filterDiaries();
       filterActivity();
-      loadStats(true); // Update stats summary
-      if (
-        currentSection === "progress" &&
-        typeof loadProgressSection === "function"
-      )
-        loadProgressSection(true);
+      loadStats(true);
       showToast(
-        `Aktivitas Baru: Task "${task.title}" ditambahkan oleh ${task.username}`,
-        "info",
+        `Aktivitas Baru: Diary "${diary.title}" ditulis oleh ${diary.username}`,
+        "info"
       );
     });
 
-    socket.on("task_updated", ({ task, log }) => {
-      const idx = allTasks.findIndex((t) => t.id === task.id);
-      if (idx !== -1) allTasks[idx] = task;
+    socket.on("diary_updated", ({ diary, log }) => {
+      const idx = allTasks.findIndex((t) => t.id === diary.id);
+      if (idx !== -1) allTasks[idx] = diary;
       if (log) allActivity.unshift(log);
-      filterTasks();
+      if (typeof filterDiaries === "function") filterDiaries();
       filterActivity();
       loadStats(true);
-      if (
-        currentSection === "progress" &&
-        typeof loadProgressSection === "function"
-      )
-        loadProgressSection(true);
     });
 
-    socket.on("task_deleted", ({ taskId, log }) => {
-      allTasks = allTasks.filter((t) => t.id !== taskId);
+    socket.on("diary_deleted", ({ diaryId, log }) => {
+      allTasks = allTasks.filter((t) => t.id !== diaryId);
       if (log) allActivity.unshift(log);
-      filterTasks();
+      if (typeof filterDiaries === "function") filterDiaries();
       filterActivity();
       loadStats(true);
-      if (
-        currentSection === "progress" &&
-        typeof loadProgressSection === "function"
-      )
-        loadProgressSection(true);
     });
 
     socket.on("user_registered", ({ user }) => {
@@ -184,6 +171,7 @@ async function loadAll() {
     await loadActivities(true);
   }
   if (currentSection === "users") await loadUsers();
+  if (currentSection === "projects") await loadProjects();
   if (currentSection === "tasks") await loadTasks();
   if (currentSection === "activity") await loadActivities(true);
 }
@@ -200,7 +188,8 @@ const sectionTitles = {
     "Selamat datang di panel administrasi STAKS FLOW",
   ],
   users: ["Manajemen User", "Kelola akun dan role pengguna"],
-  tasks: ["Semua Tasks", "Lihat dan kelola task semua pengguna"],
+  projects: ["Manajemen Proyek", "Kelola proyek aktif, leader, mentee, dan timeline"],
+  tasks: ["Diary & Aktivitas", "Lihat dan kelola diary/aktivitas harian pengguna"],
   activity: ["Activity Log", "Rekam jejak aktivitas pengguna"],
   progress: [
     "Progress Monitoring",
@@ -250,6 +239,7 @@ async function showSection(section) {
   // Load data logic after DOM is injected
   if (section === "overview") await loadStats();
   if (section === "users") await loadUsers();
+  if (section === "projects") await loadProjects();
   if (section === "tasks") await loadTasks();
   if (section === "activity") await loadActivities();
   if (section === "progress" && typeof loadProgressSection === "function") {
@@ -273,12 +263,13 @@ function toggleTheme() {
   document.documentElement.setAttribute("data-theme", next);
   localStorage.setItem("tf_theme", next);
   updateThemeIcon(next);
+  window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme: next } }));
 }
 function updateThemeIcon(theme) {
   const icon = getEl("themeIcon");
   if (icon)
     icon.className =
-      theme === "dark" ? "bi bi-sun-fill" : "bi bi-moon-stars-fill";
+      theme === "dark" ? "bi bi-moon-stars-fill" : "bi bi-sun-fill";
 }
 
 // ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
@@ -314,20 +305,14 @@ async function loadStats(nocache = false) {
   if (elUsers) elUsers.textContent = data.totalUsers;
   
   const elTasks = getEl("s-tasks");
-  if (elTasks) elTasks.textContent = data.totalTasks;
-  
-  const elDone = getEl("s-done");
-  if (elDone) elDone.textContent = data.doneTasks;
-  
-  const elPending = getEl("s-pending");
-  if (elPending) elPending.textContent = data.pendingTasks;
+  if (elTasks) elTasks.textContent = data.totalDiaries;
   
   const elActive = getEl("s-active");
   if (elActive) elActive.textContent = data.mostActiveUser;
   
   // Update sidebar badges globally
   updateSidebarBadge("navUserCount", data.totalUsers);
-  updateSidebarBadge("navTaskCount", data.pendingTasks);
+  updateSidebarBadge("navTaskCount", data.totalDiaries);
   updateSidebarBadge("navActivityCount", data.totalActivities);
 }
 
@@ -397,37 +382,69 @@ function filterUsers() {
 
 // ── Tasks ─────────────────────────────────────────────────────────────────────
 async function loadTasks() {
-  const res = await adminFetch("/api/admin/tasks");
-  if (!res) return;
-  const { data } = await res.json();
-  allTasks = data;
+  const [resDiaries, resProjects, resUsers] = await Promise.all([
+    adminFetch("/api/admin/diaries"),
+    adminFetch("/api/admin/projects"),
+    adminFetch("/api/admin/users")
+  ]);
+  if (!resDiaries || !resProjects || !resUsers) return;
+  const jsonDiaries = await resDiaries.json();
+  const jsonProjects = await resProjects.json();
+  const jsonUsers = await resUsers.json();
+  
+  allTasks = jsonDiaries.data || [];
+  const projects = jsonProjects.data || [];
+  const users = jsonUsers.data || [];
+  
+  const projSelect = getEl("filterProject");
+  if (projSelect) {
+    projSelect.innerHTML = '<option value="all">Semua Proyek</option>' +
+      projects.map(p => `<option value="${p.id}">${esc(p.project_name)}</option>`).join('');
+  }
+  
+  const userSelect = getEl("filterUser");
+  if (userSelect) {
+    userSelect.innerHTML = '<option value="all">Semua Anggota</option>' +
+      users.map(u => `<option value="${u.id}">${esc(u.username)}</option>`).join('');
+  }
+  
   renderTasks(allTasks);
 }
 
-function renderTasks(tasks) {
+function renderTasks(diaries) {
   const tbody = getEl("tasksTableBody");
   if (!tbody) return;
-  if (!tasks.length) {
+  if (!diaries.length) {
     tbody.innerHTML =
-      '<tr><td colspan="6" class="a-empty">Tidak ada task</td></tr>';
+      '<tr><td colspan="6" class="a-empty">Belum ada catatan diary</td></tr>';
     return;
   }
-  tbody.innerHTML = tasks
+  tbody.innerHTML = diaries
     .map(
-      (t) => `
+      (d) => `
     <tr>
-      <td style="font-weight:600;color:var(--at-1);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t.title)}</td>
+      <td style="max-width:260px;">
+        <div style="font-weight:600;color:var(--at-1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(d.diary_title)}">${esc(d.diary_title)}</div>
+        <div style="font-size:11px;color:var(--at-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(d.activity_description)}">${esc(d.activity_description || '-')}</div>
+      </td>
       <td>
         <div class="a-user-cell">
-          <div class="a-cell-avatar" style="width:26px;height:26px;font-size:11px">${(t.username || "?").charAt(0).toUpperCase()}</div>
-          <span style="font-size:12px">${esc(t.username || "Unknown")}</span>
+          <div class="a-cell-avatar" style="width:26px;height:26px;font-size:11px">${(d.username || "?").charAt(0).toUpperCase()}</div>
+          <span style="font-size:12px;font-weight:500;color:var(--at-1)">${esc(d.username || "Unknown")}</span>
         </div>
       </td>
-      <td><span class="a-cat-badge cat-${t.category}">${t.category || "-"}</span></td>
-      <td><span class="a-status-badge ${t.status}">${t.status === "selesai" ? "✓ Selesai" : t.status === "selesai_terlambat" ? "⚠️ Selesai (Telat)" : "⏳ Pending"}</span></td>
-      <td style="font-size:12px;color:var(--at-3)">${t.deadline ? formatDate(t.deadline) : "-"}</td>
+      <td style="font-size:13px;color:var(--at-1)">${esc(d.project_name || "-")}</td>
       <td>
-        <button class="a-tbl-btn del" onclick="openDeleteModal('task','${t.id}','Hapus task <strong>${esc(t.title)}</strong>?')" title="Hapus task">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div style="flex:1; height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+            <div style="width:${d.work_progress || 0}%; height:100%; background:var(--accent);"></div>
+          </div>
+          <span style="font-size:11px; font-weight:600; color:var(--accent); min-width:32px; text-align:right;">${d.work_progress || 0}%</span>
+        </div>
+      </td>
+      <td style="font-size:12px;color:var(--at-3);white-space:nowrap">${formatDate(d.created_at)}</td>
+      <td>
+        <button class="a-tbl-btn del" onclick="openDeleteModal('diary','${d.id}','Hapus diary <strong>${esc(d.diary_title)}</strong> oleh <strong>${esc(d.username)}</strong>?')" title="Hapus diary">
           <i class="bi bi-trash3-fill"></i>
         </button>
       </td>
@@ -436,21 +453,338 @@ function renderTasks(tasks) {
     .join("");
 }
 
-function filterTasks() {
-  const cat = getValue("filterCategory");
-  const status = getValue("filterStatus");
-  const q = getValue("taskSearch").toLowerCase();
+function filterDiaries() {
+  const proj = getValue("filterProject");
+  const user = getValue("filterUser");
+  const month = getValue("filterMonth");
+  const q = getValue("diarySearch").toLowerCase();
+  
   let filtered = allTasks;
-  if (cat !== "all") filtered = filtered.filter((t) => t.category === cat);
-  if (status !== "all") filtered = filtered.filter((t) => t.status === status);
-  if (q)
-    filtered = filtered.filter(
-      (t) =>
-        t.title.toLowerCase().includes(q) ||
-        (t.username || "").toLowerCase().includes(q),
+  if (proj && proj !== "all") filtered = filtered.filter(t => t.project_id === proj);
+  if (user && user !== "all") filtered = filtered.filter(t => t.created_by === user);
+  if (month) filtered = filtered.filter(t => t.created_at && t.created_at.startsWith(month));
+  if (q) {
+    filtered = filtered.filter(t =>
+      (t.diary_title || "").toLowerCase().includes(q) ||
+      (t.activity_description || "").toLowerCase().includes(q) ||
+      (t.username || "").toLowerCase().includes(q)
     );
+  }
   renderTasks(filtered);
 }
+window.filterDiaries = filterDiaries;
+
+// ── Projects Management ────────────────────────────────────────────────────────
+async function loadProjects() {
+  const res = await adminFetch("/api/admin/projects");
+  if (!res) return;
+  const json = await res.json();
+  allProjects = json.data || [];
+  
+  // Also fetch users to populate Mentor/Mentee selectors with active role limits
+  const resUsers = await adminFetch("/api/admin/users");
+  if (resUsers) {
+    const jsonUsers = await resUsers.json();
+    allUsers = jsonUsers.data || [];
+  }
+
+  renderProjects(allProjects);
+}
+
+function renderProjects(projects) {
+  const tbody = getEl("projectsTableBody");
+  if (!tbody) return;
+  if (!projects.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="a-empty">Belum ada proyek dibuat.</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = projects.map(p => {
+    const startStr = formatDate(p.start_date);
+    const endStr = formatDate(p.end_date);
+    const statusBadges = {
+      ongoing: '<span class="a-cat-badge cat-piket-ganjil" style="background:#00bcd4;color:#fff;">Ongoing</span>',
+      upcoming: '<span class="a-cat-badge cat-piket-genap" style="background:#ff9800;color:#fff;">Upcoming</span>',
+      completed: '<span class="a-cat-badge cat-default" style="background:#4caf50;color:#fff;">Completed</span>'
+    };
+    const statusBadge = statusBadges[p.project_status] || p.project_status;
+    
+    const menteeNames = p.mentees && p.mentees.length 
+      ? p.mentees.map(m => esc(m.username)).join(', ') 
+      : '<span style="opacity:0.4;">Tidak ada mentee</span>';
+      
+    return `
+      <tr>
+        <td>
+          <div style="font-weight:600; color:var(--text-1);">${esc(p.project_name)}</div>
+          <div style="font-size:11px; opacity:0.6; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${esc(p.description)}">${esc(p.description || '-')}</div>
+        </td>
+        <td>${statusBadge}</td>
+        <td style="font-size:12px; white-space:nowrap;">
+          <div>Mulai: <b>${startStr}</b></div>
+          <div style="opacity:0.6; margin-top:2px;">Selesai: <b>${endStr}</b></div>
+        </td>
+        <td>
+          <div class="a-user-cell">
+            <div class="a-cell-avatar" style="width:26px; height:26px; font-size:11px; background:var(--accent); color:#fff;">
+              ${(p.leader?.username || "?").charAt(0).toUpperCase()}
+            </div>
+            <span style="font-size:12px; font-weight:600; color:var(--text-1)">${esc(p.leader?.username || '-')}</span>
+          </div>
+        </td>
+        <td style="font-size:12px; max-width:180px; overflow:hidden; text-overflow:ellipsis;" title="${menteeNames}">
+          ${menteeNames}
+        </td>
+        <td>
+          <strong style="color:var(--accent);">${p.diary_count || 0}</strong> diary
+        </td>
+        <td>
+          <div class="a-action-btns" style="justify-content:center;">
+            <button class="a-tbl-btn edit" onclick="openProjectTimeline('${p.id}', '${esc(p.project_name)}')" title="Lihat Timeline" style="background:rgba(76, 175, 80, 0.1); color:#4caf50;">
+              <i class="bi bi-clock-history"></i>
+            </button>
+            <button class="a-tbl-btn edit" onclick="openEditProjectModal('${p.id}')" title="Edit Proyek">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="a-tbl-btn del" onclick="deleteProject('${p.id}', '${esc(p.project_name)}')" title="Hapus Proyek">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function filterProjects() {
+  const q = getValue("projectSearch").toLowerCase();
+  const filtered = allProjects.filter(p => p.project_name.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q));
+  renderProjects(filtered);
+}
+window.filterProjects = filterProjects;
+
+function renderMemberSelectors(currentProjectId = null) {
+  const leaderSelect = getEl("projectFormLeader");
+  if (leaderSelect) {
+    leaderSelect.innerHTML = '<option value="">— Pilih Project Leader —</option>' +
+      allUsers.map(u => {
+        const activeAsLeader = (u.activeMemberships || []).find(m => m.role === 'leader' && m.projectId !== currentProjectId);
+        
+        let disabled = false;
+        let labelText = `${esc(u.username)} (${u.email})`;
+        if (activeAsLeader) { disabled = true; labelText += ' - [Active Leader]'; }
+        
+        return `<option value="${u.id}" ${disabled ? 'disabled' : ''}>${labelText}</option>`;
+      }).join('');
+  }
+  
+  const menteesContainer = getEl("projectFormMenteesContainer");
+  if (menteesContainer) {
+    menteesContainer.innerHTML = allUsers.map(u => {
+      const activeAsLeader = (u.activeMemberships || []).find(m => m.role === 'leader' && m.projectId !== currentProjectId);
+      const activeAsMenteeCount = (u.activeMemberships || []).filter(m => m.role === 'mentee' && m.projectId !== currentProjectId).length;
+      
+      let disabled = false;
+      let badge = '<span style="font-size:10px; background:rgba(76,175,80,0.1); color:#4caf50; padding:2px 6px; border-radius:10px; margin-left:auto;">Available</span>';
+      
+      if (activeAsLeader) {
+         disabled = true;
+         badge = '<span style="font-size:10px; background:rgba(255,152,0,0.1); color:#ff9800; padding:2px 6px; border-radius:10px; margin-left:auto;">Active Leader</span>';
+      } else if (activeAsMenteeCount >= 2) {
+         disabled = true;
+         badge = '<span style="font-size:10px; background:rgba(244,67,54,0.1); color:#f44336; padding:2px 6px; border-radius:10px; margin-left:auto;">Mentee Limit Reached</span>';
+      }
+      
+      return `
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-1); cursor: ${disabled ? 'not-allowed' : 'pointer'}; padding: 4px 0; opacity: ${disabled ? '0.5' : '1'}; width: 100%;">
+        <input type="checkbox" name="projectMentees" value="${u.id}" style="accent-color: var(--accent);" ${disabled ? 'disabled' : ''} />
+        <span>${esc(u.username)} (${u.email})</span>
+        ${badge}
+      </label>
+      `;
+    }).join('');
+  }
+}
+
+function openAddProjectModal() {
+  getEl("projectForm").reset();
+  setValue("projectFormId", "");
+  setText("projectModalTitle", "Tambah Proyek");
+  setValue("projectFormStatus", "ongoing");
+  const errBox = getEl("projectFormError");
+  if (errBox) { errBox.style.display = "none"; errBox.textContent = ""; }
+  
+  renderMemberSelectors(null);
+
+  // Uncheck all mentees
+  document.querySelectorAll('input[name="projectMentees"]').forEach(cb => cb.checked = false);
+
+  const overlay = getEl("projectModalOverlay");
+  if (overlay) overlay.classList.add("open");
+}
+
+function openEditProjectModal(id) {
+  const p = allProjects.find(x => x.id === id);
+  if (!p) return;
+  
+  setValue("projectFormId", p.id);
+  setValue("projectFormName", p.project_name);
+  setValue("projectFormDesc", p.description || "");
+  setValue("projectFormStart", p.start_date.substring(0, 10));
+  setValue("projectFormEnd", p.end_date.substring(0, 10));
+  setValue("projectFormStatus", p.project_status);
+  
+  renderMemberSelectors(p.id);
+  
+  setValue("projectFormLeader", p.leader ? p.leader.id : "");
+  
+  const errBox = getEl("projectFormError");
+  if (errBox) { errBox.style.display = "none"; errBox.textContent = ""; }
+
+  // Check mentees
+  const menteeIds = (p.mentees || []).map(m => m.id);
+  document.querySelectorAll('input[name="projectMentees"]').forEach(cb => {
+    cb.checked = menteeIds.includes(cb.value);
+  });
+
+  setText("projectModalTitle", "Edit Proyek");
+  const overlay = getEl("projectModalOverlay");
+  if (overlay) overlay.classList.add("open");
+}
+
+function closeProjectModal() {
+  const overlay = getEl("projectModalOverlay");
+  if (overlay) overlay.classList.remove("open");
+}
+window.closeProjectModal = closeProjectModal;
+window.openAddProjectModal = openAddProjectModal;
+window.openEditProjectModal = openEditProjectModal;
+
+async function saveProject(event) {
+  event.preventDefault();
+  const id = getValue("projectFormId");
+  const project_name = getValue("projectFormName").trim();
+  const description = getValue("projectFormDesc").trim();
+  const start_date = getValue("projectFormStart");
+  const end_date = getValue("projectFormEnd");
+  const project_status = getValue("projectFormStatus");
+  const leader_id = getValue("projectFormLeader") || null;
+  
+  const mentee_ids = [];
+  document.querySelectorAll('input[name="projectMentees"]:checked').forEach(cb => {
+    mentee_ids.push(cb.value);
+  });
+
+  const errBox = getEl("projectFormError");
+  if (errBox) { errBox.style.display = "none"; errBox.textContent = ""; }
+
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/api/admin/projects/${id}` : "/api/admin/projects";
+
+  const res = await adminFetch(url, {
+    method,
+    body: JSON.stringify({
+      project_name,
+      description,
+      start_date,
+      end_date,
+      project_status,
+      leader_id,
+      mentee_ids
+    })
+  });
+
+  if (!res) return;
+  const json = await res.json();
+  if (json.success) {
+    showToast(id ? "Proyek diperbarui!" : "Proyek ditambahkan!", "success");
+    closeProjectModal();
+    await loadProjects();
+    await loadStats(true);
+  } else {
+    if (errBox) {
+      errBox.textContent = json.error || "Gagal menyimpan proyek";
+      errBox.style.display = "block";
+    } else {
+      showToast(json.error || "Gagal menyimpan proyek", "error");
+    }
+  }
+}
+window.saveProject = saveProject;
+
+async function deleteProject(id, name) {
+  openDeleteModal("project", id, `Hapus proyek <strong>${esc(name)}</strong>? Semua log relasi member proyek akan dihapus.`);
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) {
+    confirmBtn.onclick = async () => {
+      closeDeleteModal();
+      const res = await adminFetch(`/api/admin/projects/${id}`, { method: "DELETE" });
+      if (!res) return;
+      const json = await res.json();
+      if (json.success) {
+        showToast("Proyek berhasil dihapus!", "success");
+        await loadProjects();
+        await loadStats(true);
+      } else {
+        showToast(json.error || "Gagal menghapus proyek", "error");
+      }
+    };
+  }
+}
+window.deleteProject = deleteProject;
+
+async function openProjectTimeline(id, name) {
+  setText("projectTimelineTitle", `Timeline Proyek: ${name}`);
+  const container = getEl("projectTimelineLogs");
+  if (container) container.innerHTML = '<div class="a-spinner" style="margin:20px auto;"></div>';
+  
+  const overlay = getEl("projectTimelineModalOverlay");
+  if (overlay) overlay.classList.add("open");
+
+  try {
+    const res = await fetch(`/api/projects/${id}/timeline`, {
+      headers: { "Authorization": `Bearer ${getToken()}` }
+    });
+    if (!res.ok) throw new Error("Gagal mengambil timeline");
+    const json = await res.json();
+    const diaries = json.data || [];
+    
+    if (container) {
+      if (!diaries.length) {
+        container.innerHTML = '<div style="text-align:center; padding:30px; opacity:0.5;">Belum ada aktivitas diary terhubung dengan proyek ini.</div>';
+        return;
+      }
+      container.innerHTML = diaries.map(d => {
+        const timeStr = formatDate(d.created_at);
+        return `
+          <div style="border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 20px; position: relative;">
+            <div style="position: absolute; left: -6px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);"></div>
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 8px;">
+              <div style="display:flex; justify-content:space-between; align-items:start; gap:8px;">
+                <h4 style="margin:0; font-size:14px; color:var(--text-1); font-weight:600;">${esc(d.diary_title)}</h4>
+                <span style="font-size:11px; opacity:0.5;">${timeStr}</span>
+              </div>
+              <p style="margin: 8px 0; font-size: 13px; line-height: 1.4; color: var(--text-2);">${esc(d.activity_description)}</p>
+              <div style="display:flex; justify-content:space-between; font-size:11px; opacity:0.6; align-items:center;">
+                <span>Oleh: <b>${esc(d.username)}</b></span>
+                <span style="color:var(--accent); font-weight:600;">Progress: ${d.work_progress}%</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  } catch (err) {
+    if (container) container.innerHTML = `<div style="color:var(--danger); text-align:center; padding:20px;">${err.message}</div>`;
+  }
+}
+window.openProjectTimeline = openProjectTimeline;
+
+function closeProjectTimelineModal() {
+  const overlay = getEl("projectTimelineModalOverlay");
+  if (overlay) overlay.classList.remove("open");
+}
+window.closeProjectTimelineModal = closeProjectTimelineModal;
 
 // ── Activity Log ──────────────────────────────────────────────────────────────
 let activityPage = 1;
@@ -603,6 +937,10 @@ async function executeDelete() {
   const url =
     _deleteType === "user"
       ? `/api/admin/users/${_deleteId}`
+      : _deleteType === "diary"
+      ? `/api/admin/diaries/${_deleteId}`
+      : _deleteType === "project"
+      ? `/api/admin/projects/${_deleteId}`
       : `/api/admin/tasks/${_deleteId}`;
   const res = await adminFetch(url, { method: "DELETE" });
   if (!res) return;
@@ -673,6 +1011,11 @@ const ACTION_LABELS = {
   COMPLETE_TASK: "✅ Selesaikan",
   REOPEN_TASK: "🔄 Buka Kembali",
   DELETE_TASK_ADMIN: "🛡️ Hapus (Admin)",
+  
+  CREATE_DIARY: "➕ Tulis Diary",
+  EDIT_DIARY: "✏️ Edit Diary",
+  DELETE_DIARY: "🗑️ Hapus Diary",
+  DELETE_DIARY_ADMIN: "🛡️ Hapus Diary (Admin)"
 };
 function actionLabel(action) {
   return ACTION_LABELS[action] || action;
@@ -1045,11 +1388,48 @@ async function deleteDutyEntry(id, day, name) {
 //  CALENDAR SCHEDULE
 // ══════════════════════════════════════════════════════════════
 let allSchedules = [];
+let allCategories = [];
 let editingScheduleId = null;
+
+// Helper: get category color class from category name
+function getCategoryColorClass(categoryName) {
+  const cat = allCategories.find(c => c.name === categoryName);
+  if (!cat) return 'cat-daily';
+  return `cat-${cat.color}`;
+}
+
+// Helper: get category color label
+function getCategoryColorLabel(color) {
+  const labels = { blue: 'Blue', green: 'Green', orange: 'Orange', purple: 'Purple', cyan: 'Cyan', red: 'Red' };
+  return labels[color] || color;
+}
+
+async function loadCategories() {
+  const res = await adminFetch('/api/community/categories');
+  if (!res) return;
+  const json = await res.json();
+  allCategories = json.data || [];
+  populateCategorySelect();
+}
+
+function populateCategorySelect() {
+  const select = getEl('scheduleCategory');
+  if (!select) return;
+  const currentVal = select.value;
+  select.innerHTML = '<option value="">— Pilih Kategori —</option>';
+  allCategories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat.name;
+    opt.textContent = cat.name;
+    select.appendChild(opt);
+  });
+  if (currentVal) select.value = currentVal;
+}
 
 async function loadSchedules() {
   const grid = getEl("adminCalendarGrid");
   if (grid) grid.innerHTML = '<div class="a-empty"><div class="a-spinner"></div></div>';
+  await loadCategories();
   const res = await adminFetch("/api/community/schedules");
   if (!res) return;
   const json = await res.json();
@@ -1082,11 +1462,11 @@ function renderSchedules() {
   const grid = getEl("adminCalendarGrid");
   if (!grid) return;
   const title = getEl("adminCalendarTitle");
-  
+
   const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
   if (title) title.textContent = `${monthNames[currentMonthAdmin]} ${currentYearAdmin}`;
 
-  grid.innerHTML = `
+  let html = `
     <div class="fc-day-head">Senin</div>
     <div class="fc-day-head">Selasa</div>
     <div class="fc-day-head">Rabu</div>
@@ -1098,50 +1478,62 @@ function renderSchedules() {
 
   const firstDay = new Date(currentYearAdmin, currentMonthAdmin, 1).getDay();
   const daysInMonth = new Date(currentYearAdmin, currentMonthAdmin + 1, 0).getDate();
-  const startOffset = firstDay === 0 ? 6 : firstDay - 1; // Make Monday = 0
-  
+  const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+
   const today = new Date();
-  
+
   for (let i = 0; i < startOffset; i++) {
-    grid.innerHTML += `<div class="fc-day-cell other-month"></div>`;
+    html += `<div class="fc-day-cell other-month"></div>`;
   }
-  
+
   for (let day = 1; day <= daysInMonth; day++) {
     const isToday = day === today.getDate() && currentMonthAdmin === today.getMonth() && currentYearAdmin === today.getFullYear();
-    const dateStr = `${currentYearAdmin}-${String(currentMonthAdmin+1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    
-    const dayEvents = allSchedules.filter(s => s.date === dateStr);
-    const eventsHtml = dayEvents.map(s => 
-      `<div class="fc-event-pill" onclick="event.stopPropagation(); openScheduleModal('${s.id}')" title="${esc(s.title)}\nOleh: ${esc(s.created_by_username)}">
-        ${s.time} ${esc(s.title)}
-      </div>`
-    ).join('');
+    const dateStr = `${currentYearAdmin}-${String(currentMonthAdmin + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-    grid.innerHTML += `
+    // Multi-day: show if dateStr is within [start_date, end_date]
+    const dayEvents = allSchedules.filter(s => s.start_date <= dateStr && dateStr <= s.end_date);
+    const eventsHtml = dayEvents.map(s => {
+      const colorClass = getCategoryColorClass(s.category);
+      const isStart = s.start_date === dateStr;
+      const isEnd = s.end_date === dateStr;
+      const pillStyle = isStart && !isEnd ? 'border-radius: 6px 0 0 6px; margin-right: -2px;' :
+                        isEnd && !isStart ? 'border-radius: 0 6px 6px 0; margin-left: -2px;' :
+                        !isStart && !isEnd ? 'border-radius: 0; margin-left: -2px; margin-right: -2px;' : '';
+      return `<div class="fc-event-pill ${colorClass}" onclick="event.stopPropagation(); openScheduleModal('${s.id}')" title="${esc(s.title)}\nKategori: ${esc(s.category)}\nOleh: ${esc(s.created_by_username)}" style="${pillStyle}">
+        <span class="a-cat-badge ${colorClass}" style="padding:1px 5px; font-size:9px; margin-right:3px;">${esc(s.category)}</span>${isStart ? esc(s.title) : ''}
+      </div>`;
+    }).join('');
+
+    html += `
       <div class="fc-day-cell ${isToday ? 'today' : ''}" onclick="openScheduleModal(null, '${dateStr}')">
         <div class="fc-day-num">${day}</div>
         <div class="fc-events">${eventsHtml}</div>
       </div>
     `;
   }
+  grid.innerHTML = html;
 }
 
 function openScheduleModal(id = null, selectedDate = null) {
   editingScheduleId = id;
   setText("scheduleModalTitle", id ? "Edit Schedule" : "Tambah Schedule");
   setText("scheduleTitleErr", "");
-  setText("scheduleDateErr", "");
-  setText("scheduleTimeErr", "");
-  
+  setText("scheduleCategoryErr", "");
+  setText("scheduleStartDateErr", "");
+  setText("scheduleEndDateErr", "");
+
+  // Ensure category select is populated
+  populateCategorySelect();
+
   if (id) {
     const s = allSchedules.find(x => x.id === id);
     if (s) {
       setValue("scheduleTitle", s.title);
       setValue("scheduleDesc", s.description || "");
-      setValue("scheduleDate", s.date);
-      setValue("scheduleTime", s.time);
-      
-      // Also show delete button dynamically inside modal if edit mode
+      setValue("scheduleCategory", s.category);
+      setValue("scheduleStartDate", s.start_date);
+      setValue("scheduleEndDate", s.end_date);
+
       let btnDel = getEl("btnDeleteScheduleInside");
       if (!btnDel) {
         btnDel = document.createElement("button");
@@ -1160,9 +1552,10 @@ function openScheduleModal(id = null, selectedDate = null) {
   } else {
     setValue("scheduleTitle", "");
     setValue("scheduleDesc", "");
-    setValue("scheduleDate", selectedDate || "");
-    setValue("scheduleTime", "");
-    
+    setValue("scheduleCategory", "");
+    setValue("scheduleStartDate", selectedDate || "");
+    setValue("scheduleEndDate", selectedDate || "");
+
     const btnDel = getEl("btnDeleteScheduleInside");
     if (btnDel) btnDel.style.display = "none";
   }
@@ -1180,17 +1573,24 @@ function closeScheduleModal() {
 async function saveSchedule() {
   const title = getValue("scheduleTitle").trim();
   const desc = getValue("scheduleDesc").trim();
-  const date = getValue("scheduleDate");
-  const time = getValue("scheduleTime");
-  
+  const category = getValue("scheduleCategory");
+  const start_date = getValue("scheduleStartDate");
+  const end_date = getValue("scheduleEndDate");
+
   let ok = true;
   if (!title) { setText("scheduleTitleErr", "Wajib diisi"); ok = false; }
   else setText("scheduleTitleErr", "");
-  if (!date) { setText("scheduleDateErr", "Wajib diisi"); ok = false; }
-  else setText("scheduleDateErr", "");
-  if (!time) { setText("scheduleTimeErr", "Wajib diisi"); ok = false; }
-  else setText("scheduleTimeErr", "");
-  
+  if (!category) { setText("scheduleCategoryErr", "Pilih kategori terlebih dahulu"); ok = false; }
+  else setText("scheduleCategoryErr", "");
+  if (!start_date) { setText("scheduleStartDateErr", "Wajib diisi"); ok = false; }
+  else setText("scheduleStartDateErr", "");
+  if (!end_date) { setText("scheduleEndDateErr", "Wajib diisi"); ok = false; }
+  else setText("scheduleEndDateErr", "");
+  if (start_date && end_date && end_date < start_date) {
+    setText("scheduleEndDateErr", "Tanggal selesai tidak boleh sebelum tanggal mulai");
+    ok = false;
+  }
+
   if (!ok) return;
 
   const btn = getEl("btnSaveSchedule");
@@ -1198,12 +1598,12 @@ async function saveSchedule() {
   const id = getValue("editingScheduleId");
   const method = id ? "PUT" : "POST";
   const url = id ? `/api/community/schedules/${id}` : "/api/community/schedules";
-  
+
   const res = await adminFetch(url, {
     method,
-    body: JSON.stringify({ title, description: desc, date, time })
+    body: JSON.stringify({ title, description: desc, category, start_date, end_date })
   });
-  
+
   if (btn) btn.disabled = false;
   if (!res) return;
   const data = await res.json();
@@ -1232,3 +1632,124 @@ async function deleteSchedule(id, title) {
     };
   }
 }
+
+// ── Category Management ────────────────────────────────────────
+let editingCategoryId = null;
+
+function openCategoryModal() {
+  const overlay = getEl("categoryModalOverlay");
+  if (overlay) overlay.classList.add("open");
+  cancelCategoryEdit();
+  renderCategoryTable();
+}
+
+function closeCategoryModal() {
+  const overlay = getEl("categoryModalOverlay");
+  if (overlay) overlay.classList.remove("open");
+  cancelCategoryEdit();
+}
+
+function cancelCategoryEdit() {
+  editingCategoryId = null;
+  setValue("categoryName", "");
+  setValue("categoryColor", "blue");
+  setValue("editingCategoryId", "");
+  setText("categoryNameErr", "");
+  setText("categoryFormTitle", "Tambah Kategori Baru");
+  setText("categorySubmitText", "Tambah");
+  const icon = getEl("categorySubmitIcon");
+  if (icon) { icon.className = "bi bi-plus-lg"; }
+  const cancelBtn = getEl("btnCancelCategoryEdit");
+  if (cancelBtn) cancelBtn.style.display = "none";
+}
+
+function editCategory(id) {
+  const cat = allCategories.find(c => c.id === id);
+  if (!cat) return;
+  editingCategoryId = id;
+  setValue("categoryName", cat.name);
+  setValue("categoryColor", cat.color);
+  setValue("editingCategoryId", id);
+  setText("categoryNameErr", "");
+  setText("categoryFormTitle", `Edit Kategori: ${cat.name}`);
+  setText("categorySubmitText", "Simpan");
+  const icon = getEl("categorySubmitIcon");
+  if (icon) { icon.className = "bi bi-floppy-fill"; }
+  const cancelBtn = getEl("btnCancelCategoryEdit");
+  if (cancelBtn) cancelBtn.style.display = "inline-flex";
+}
+
+async function saveCategory() {
+  const name = getValue("categoryName").trim();
+  const color = getValue("categoryColor");
+  const id = getValue("editingCategoryId");
+
+  if (!name) { setText("categoryNameErr", "Nama kategori wajib diisi"); return; }
+  setText("categoryNameErr", "");
+
+  const method = id ? "PUT" : "POST";
+  const url = id ? `/api/community/categories/${id}` : "/api/community/categories";
+
+  const res = await adminFetch(url, {
+    method,
+    body: JSON.stringify({ name, color })
+  });
+  if (!res) return;
+  const data = await res.json();
+  if (data.success) {
+    showToast(id ? "Kategori diperbarui!" : "Kategori ditambahkan!", "success");
+    cancelCategoryEdit();
+    await loadCategories();
+    renderCategoryTable();
+    populateCategorySelect();
+  } else {
+    setText("categoryNameErr", data.error || "Gagal menyimpan");
+  }
+}
+
+async function deleteCategoryConfirm(id, name) {
+  openDeleteModal("category", id, `Hapus kategori <strong>${esc(name)}</strong>?`);
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) {
+    confirmBtn.onclick = async () => {
+      closeDeleteModal();
+      const res = await adminFetch(`/api/community/categories/${id}`, { method: "DELETE" });
+      if (!res) return;
+      const data = await res.json();
+      if (data.success) {
+        showToast("Kategori dihapus!", "success");
+        await loadCategories();
+        renderCategoryTable();
+        populateCategorySelect();
+      } else showToast(data.error || "Gagal hapus", "error");
+    };
+  }
+}
+
+function renderCategoryTable() {
+  const tbody = getEl("categoryTableBody");
+  if (!tbody) return;
+  if (allCategories.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--at-2); padding: 20px;">Belum ada kategori</td></tr>';
+    return;
+  }
+  tbody.innerHTML = allCategories.map(cat => `
+    <tr>
+      <td><strong>${esc(cat.name)}</strong></td>
+      <td><span class="a-cat-badge cat-${esc(cat.color)}">${getCategoryColorLabel(cat.color)}</span></td>
+      <td style="text-align: right">
+        <div style="display: inline-flex; gap: 6px;">
+          <button class="a-icon-btn" onclick="editCategory('${cat.id}')" title="Edit Kategori" style="width: 30px; height: 30px; font-size: 13px;">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button class="a-icon-btn" onclick="deleteCategoryConfirm('${cat.id}', '${esc(cat.name)}')" title="Hapus Kategori" style="width: 30px; height: 30px; font-size: 13px; color: var(--danger);">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+
+

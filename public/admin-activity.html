@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="id" data-theme="dark">
   <head>
+    <script>
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('tf_theme') || 'dark');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STAKS FLOW — Admin Dashboard</title>
@@ -62,31 +65,32 @@
 
       <nav class="a-nav">
         <div class="a-nav-section-label">MENU</div>
-        <div class="a-nav-item" data-section="overview" id="nav-overview">
+        <div
+          class="a-nav-item"
+          data-section="overview"
+          id="nav-overview"
+        >
           <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
         </div>
         <div class="a-nav-item" data-section="users" id="nav-users">
           <i class="bi bi-people-fill"></i><span>Manajemen User</span>
           <span class="a-badge" id="navUserCount" style="display: none"></span>
         </div>
+        <div class="a-nav-item" data-section="projects" id="nav-projects">
+          <i class="bi bi-folder-fill"></i><span>Manajemen Proyek</span>
+          <span class="a-badge" id="navProjectCount" style="display: none"></span>
+        </div>
         <div class="a-nav-item" data-section="tasks" id="nav-tasks">
-          <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
+          <i class="bi bi-journal-text"></i><span>Diary & Aktivitas</span>
           <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
-        <div
-          class="a-nav-item active"
-          data-section="activity"
-          id="nav-activity"
-        >
+        <div class="a-nav-item active" data-section="activity" id="nav-activity">
           <i class="bi bi-activity"></i><span>Activity Log</span>
           <span
             class="a-badge"
             id="navActivityCount"
             style="display: none"
           ></span>
-        </div>
-        <div class="a-nav-item" data-section="progress" id="nav-progress">
-          <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
         </div>
 
         <div class="a-nav-section-label" style="margin-top: 16px">
@@ -151,8 +155,7 @@
         </div>
       </header>
       <!-- MODULAR ROUTER OUTLET -->
-      ﻿
-      <section id="sec-activity" class="a-section active" style="display: flex">
+      <section id="sec-activity" class="a-section active" style="display:flex;">
         <div class="a-card">
           <div class="a-card-header">
             <h2><i class="bi bi-activity"></i> Activity Log</h2>
@@ -172,7 +175,7 @@
                 <tr>
                   <th>User</th>
                   <th>Aktivitas</th>
-                  <th>Task</th>
+                  <th>Judul Diary</th>
                   <th>Kategori</th>
                   <th>Waktu</th>
                 </tr>
@@ -212,6 +215,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/admin.js"></script>
-    <script src="/admin-progress.js"></script>
   </body>
 </html>
+

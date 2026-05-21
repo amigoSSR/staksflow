@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="id" data-theme="dark">
   <head>
+    <script>
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('tf_theme') || 'dark');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>STAKS FLOW — Admin Dashboard</title>
@@ -62,15 +65,23 @@
 
       <nav class="a-nav">
         <div class="a-nav-section-label">MENU</div>
-        <div class="a-nav-item" data-section="overview" id="nav-overview">
+        <div
+          class="a-nav-item"
+          data-section="overview"
+          id="nav-overview"
+        >
           <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
         </div>
         <div class="a-nav-item" data-section="users" id="nav-users">
           <i class="bi bi-people-fill"></i><span>Manajemen User</span>
           <span class="a-badge" id="navUserCount" style="display: none"></span>
         </div>
+        <div class="a-nav-item" data-section="projects" id="nav-projects">
+          <i class="bi bi-folder-fill"></i><span>Manajemen Proyek</span>
+          <span class="a-badge" id="navProjectCount" style="display: none"></span>
+        </div>
         <div class="a-nav-item active" data-section="tasks" id="nav-tasks">
-          <i class="bi bi-clipboard-data-fill"></i><span>Semua Tasks</span>
+          <i class="bi bi-journal-text"></i><span>Diary & Aktivitas</span>
           <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
         <div class="a-nav-item" data-section="activity" id="nav-activity">
@@ -80,9 +91,6 @@
             id="navActivityCount"
             style="display: none"
           ></span>
-        </div>
-        <div class="a-nav-item" data-section="progress" id="nav-progress">
-          <i class="bi bi-graph-up-arrow"></i><span>Progress Monitoring</span>
         </div>
 
         <div class="a-nav-section-label" style="margin-top: 16px">
@@ -123,7 +131,7 @@
             <i class="bi bi-list"></i>
           </button>
           <div>
-            <h1 class="a-page-title" id="pageTitle">Semua Tasks</h1>
+            <h1 class="a-page-title" id="pageTitle">Diary & Aktivitas</h1>
             <p class="a-page-sub" id="pageSub">
               Selamat datang di panel administrasi STAKS FLOW
             </p>
@@ -147,69 +155,52 @@
         </div>
       </header>
       <!-- MODULAR ROUTER OUTLET -->
-      ﻿
-      <section id="sec-tasks" class="a-section active" style="display: flex">
-        <div class="a-card">
-          <div class="a-card-header">
-            <h2><i class="bi bi-clipboard-data-fill"></i> Semua Tasks</h2>
-            <div class="a-filters">
-              <select
-                id="filterCategory"
-                onchange="filterTasks()"
-                class="a-select"
-              >
-                <option value="all">Semua Kategori</option>
-                <option value="daily">Harian</option>
-                <option value="weekly">Mingguan</option>
-                <option value="monthly">Bulanan</option>
-                <option value="quarterly">Per 3 Bulan</option>
-                <option value="semesterly">Per 6 Bulan</option>
-                <option value="yearly">Tahunan</option>
-              </select>
-              <select
-                id="filterStatus"
-                onchange="filterTasks()"
-                class="a-select"
-              >
-                <option value="all">Semua Status</option>
-                <option value="pending">Pending</option>
-                <option value="selesai">Selesai</option>
-                <option value="selesai_terlambat">Selesai (Terlambat)</option>
-              </select>
-              <div class="a-search-box">
-                <i class="bi bi-search"></i>
-                <input
-                  type="text"
-                  id="taskSearch"
-                  placeholder="Cari task..."
-                  oninput="filterTasks()"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="a-table-wrap">
-            <table class="a-table">
-              <thead>
-                <tr>
-                  <th>Judul</th>
-                  <th>User</th>
-                  <th>Kategori</th>
-                  <th>Status</th>
-                  <th>Deadline</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="tasksTableBody">
-                <tr>
-                  <td colspan="6" class="a-empty">
-                    <div class="a-spinner"></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <section id="sec-tasks" class="a-section active" style="display:flex;">
+  <div class="a-card">
+    <div class="a-card-header">
+      <h2><i class="bi bi-journal-text"></i> Diary & Aktivitas Anggota</h2>
+      <div class="a-filters" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <select id="filterProject" onchange="filterDiaries()" class="a-select">
+          <option value="all">Semua Proyek</option>
+        </select>
+        <select id="filterUser" onchange="filterDiaries()" class="a-select">
+          <option value="all">Semua Anggota</option>
+        </select>
+        <input type="month" id="filterMonth" onchange="filterDiaries()" class="a-select" style="min-width: 140px;" />
+        <div class="a-search-box">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            id="diarySearch"
+            placeholder="Cari diary atau user..."
+            oninput="filterDiaries()"
+          />
         </div>
-      </section>
+      </div>
+    </div>
+    <div class="a-table-wrap">
+      <table class="a-table">
+        <thead>
+          <tr>
+            <th>Judul Diary & Deskripsi</th>
+            <th>Anggota</th>
+            <th>Proyek</th>
+            <th>Progress Kerja</th>
+            <th>Tanggal</th>
+            <th style="width: 80px; text-align: center;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tasksTableBody">
+          <tr>
+            <td colspan="6" class="a-empty">
+              <div class="a-spinner"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
     </main>
     <!-- DELETE MODAL -->
     <div class="a-modal-overlay" id="deleteModalOverlay">
@@ -234,6 +225,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/admin.js"></script>
-    <script src="/admin-progress.js"></script>
   </body>
 </html>
+

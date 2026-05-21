@@ -1,10 +1,15 @@
-﻿<section id="sec-calendar" class="a-section">
+<section id="sec-calendar" class="a-section">
         <div class="a-card">
           <div class="a-card-header">
             <h2><i class="bi bi-calendar-event-fill"></i> Calendar / Schedule</h2>
-            <button class="a-btn-primary" id="btnAddSchedule" onclick="openScheduleModal()">
-              <i class="bi bi-plus-lg"></i> Tambah Schedule
-            </button>
+            <div style="display: flex; gap: 10px;">
+              <button class="a-btn-secondary" onclick="openCategoryModal()" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; font-size: 13px; font-weight: 600; background: var(--at-card); border: 1px solid var(--at-border); color: var(--at-1); border-radius: var(--radius-sm); cursor: pointer;">
+                <i class="bi bi-tags-fill"></i> Kelola Kategori
+              </button>
+              <button class="a-btn-primary" id="btnAddSchedule" onclick="openScheduleModal()">
+                <i class="bi bi-plus-lg"></i> Tambah Schedule
+              </button>
+            </div>
           </div>
           <div class="fc-wrap">
             <div class="fc-header">
@@ -53,20 +58,23 @@
             placeholder="Opsional..."
           ></textarea>
         </div>
+        <div class="a-form-group">
+          <label class="a-form-label">Kategori <span style="color: var(--danger)">*</span></label>
+          <select id="scheduleCategory" class="a-form-input" required>
+            <!-- Diisi secara dinamis -->
+          </select>
+          <span class="a-form-error" id="scheduleCategoryErr"></span>
+        </div>
         <div style="display: flex; gap: 16px">
           <div class="a-form-group" style="flex: 1">
-            <label class="a-form-label"
-              >Tanggal <span style="color: var(--danger)">*</span></label
-            >
-            <input type="date" id="scheduleDate" class="a-form-input" />
-            <span class="a-form-error" id="scheduleDateErr"></span>
+            <label class="a-form-label">Tanggal Mulai <span style="color: var(--danger)">*</span></label>
+            <input type="date" id="scheduleStartDate" class="a-form-input" />
+            <span class="a-form-error" id="scheduleStartDateErr"></span>
           </div>
           <div class="a-form-group" style="flex: 1">
-            <label class="a-form-label"
-              >Waktu <span style="color: var(--danger)">*</span></label
-            >
-            <input type="time" id="scheduleTime" class="a-form-input" />
-            <span class="a-form-error" id="scheduleTimeErr"></span>
+            <label class="a-form-label">Tanggal Selesai <span style="color: var(--danger)">*</span></label>
+            <input type="date" id="scheduleEndDate" class="a-form-input" />
+            <span class="a-form-error" id="scheduleEndDateErr"></span>
           </div>
         </div>
         <div class="a-modal-actions" style="margin-top: 16px">
@@ -84,3 +92,63 @@
         <input type="hidden" id="editingScheduleId" />
       </div>
     </div>
+
+<!-- CATEGORY MANAGEMENT MODAL -->
+<div class="a-modal-overlay" id="categoryModalOverlay">
+  <div class="a-modal" style="max-width: 600px;">
+    <div class="a-modal-header">
+      <h3>Manajemen Kategori</h3>
+      <button onclick="closeCategoryModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    
+    <!-- Form Tambah/Edit Kategori -->
+    <div class="a-card" style="padding: 16px; margin-bottom: 20px; border: 1px solid var(--at-border); background: rgba(255, 255, 255, 0.02);">
+      <h4 style="margin-bottom: 12px; font-size: 14px; font-weight: 600;" id="categoryFormTitle">Tambah Kategori Baru</h4>
+      <div style="display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;">
+        <div class="a-form-group" style="flex: 2; min-width: 180px; margin-bottom: 0;">
+          <input type="text" id="categoryName" class="a-form-input" placeholder="Nama Kategori (contoh: Internal Event)" maxlength="40" />
+          <span class="a-form-error" id="categoryNameErr"></span>
+        </div>
+        <div class="a-form-group" style="flex: 1; min-width: 120px; margin-bottom: 0;">
+          <select id="categoryColor" class="a-form-input">
+            <option value="blue">Blue (Biru)</option>
+            <option value="green">Green (Hijau)</option>
+            <option value="orange">Orange (Oranye)</option>
+            <option value="purple">Purple (Ungu)</option>
+            <option value="cyan">Cyan (Sian)</option>
+            <option value="red">Red (Merah)</option>
+          </select>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="a-btn-secondary" id="btnCancelCategoryEdit" onclick="cancelCategoryEdit()" style="display: none; padding: 8px 12px; height: 38px;">Batal</button>
+          <button class="a-btn-primary" onclick="saveCategory()" style="padding: 8px 16px; font-size: 13px; font-weight: 600; height: 38px;">
+            <i class="bi bi-plus-lg" id="categorySubmitIcon"></i> <span id="categorySubmitText">Tambah</span>
+          </button>
+        </div>
+      </div>
+      <input type="hidden" id="editingCategoryId" />
+    </div>
+
+    <!-- Tabel Daftar Kategori -->
+    <div class="a-table-wrap" style="max-height: 250px; overflow-y: auto;">
+      <table class="a-table">
+        <thead>
+          <tr>
+            <th>Nama Kategori</th>
+            <th>Warna Badge</th>
+            <th style="text-align: right">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="categoryTableBody">
+          <!-- Diisi secara dinamis -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="a-modal-actions" style="margin-top: 16px">
+      <button class="a-btn-cancel" onclick="closeCategoryModal()">Tutup</button>
+    </div>
+  </div>
+</div>

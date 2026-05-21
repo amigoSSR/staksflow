@@ -9,9 +9,10 @@ const morgan     = require('morgan');
 const { Server } = require('socket.io');
 
 const authRouter      = require('./routes/auth');
-const tasksRouter     = require('./routes/tasks');
+const diariesRouter   = require('./routes/diaries');
 const adminRouter     = require('./routes/admin');
 const communityRouter = require('./routes/community');
+const projectsRouter  = require('./routes/projects');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -84,7 +85,8 @@ app.use(express.static(path.join(__dirname, 'public'), {
 
 // ── API Routes ────────────────────────────────────────────────────────────────
 app.use('/api/auth',      authRouter);
-app.use('/api/tasks',     tasksRouter);
+app.use('/api/diaries',   diariesRouter);
+app.use('/api/projects',  projectsRouter);
 app.use('/api/admin',     adminRouter);
 app.use('/api/community', communityRouter);
 
@@ -128,7 +130,7 @@ app.use((err, req, res, next) => {
 const server = app.listen(PORT, () => {
   console.log(`\n🚀 STAKS FLOW [${process.env.NODE_ENV || 'development'}] running at http://localhost:${PORT}`);
   console.log(`🔐 Auth  → http://localhost:${PORT}/api/auth`);
-  console.log(`📋 Tasks → http://localhost:${PORT}/api/tasks`);
+  console.log(`📋 Diaries → http://localhost:${PORT}/api/diaries`);
   console.log(`🏘️  Comm  → http://localhost:${PORT}/api/community`);
   console.log(`❤️  Health→ http://localhost:${PORT}/api/health\n`);
 });

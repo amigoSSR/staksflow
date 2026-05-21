@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/client"
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -25,57 +26,47 @@ model User {
   role            String           @default("user")
   created_at      DateTime         @default(now())
 
-  tasks           Task[]
+  diaries         Diary[]
   activities      ActivityLog[]
-  progressReports ProgressReport[]
   houseRules      HouseRule[]
   dutySchedules   DutySchedule[]
   schedules       Schedule[]
+  projectMembers  ProjectMember[]
+  projectDiaries  ProjectDiary[]
 
   @@map("users")
 }
 
-model Task {
+model Diary {
+  id                   String   @id @default(uuid())
+  title                String
+  activity_description String
+  project_event        String
+  category             String
+  date                 String
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  created_by           String
+  creator              User     @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  
+  schedule_id          String?
+  schedule             Schedule? @relation(fields: [schedule_id], references: [id], onDelete: SetNull)
+
+  @@map("diaries")
+}
+
+model ActivityLog {
   id          String   @id @default(uuid())
-  title       String
-  description String?
-  category    String   @default("daily")
-  deadline    String?
-  status      String   @default("pending")
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  action      String
+  diary_title String?
+  category    String?
+  timestamp   DateTime @default(now())
 
   user_id     String
   user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  @@map("tasks")
-}
-
-model ActivityLog {
-  id         String   @id @default(uuid())
-  action     String
-  task_title String?
-  category   String?
-  timestamp  DateTime @default(now())
-
-  user_id    String
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
   @@map("activity_logs")
-}
-
-model ProgressReport {
-  id                      String   @id @default(uuid())
-  completed_tasks         Int      @default(0)
-  pending_tasks           Int      @default(0)
-  productivity_percentage Int      @default(0)
-  report_period           String
-  created_at              DateTime @default(now())
-
-  user_id                 String
-  user                    User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@map("progress_reports")
 }
 
 model HouseRule {
@@ -105,12 +96,70 @@ model Schedule {
   id          String   @id @default(uuid())
   title       String
   description String?
-  date        String
-  time        String
+  category    String   @default("Daily")
+  start_date  String   @default("2026-05-21")
+  end_date    String   @default("2026-05-21")
   created_by  String
   created_at  DateTime @default(now())
 
   creator     User     @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  diaries     Diary[]
 
   @@map("schedules")
+}
+
+model ScheduleCategory {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  color      String   @default("blue") // blue, green, orange, purple, cyan, red
+  created_at DateTime @default(now())
+
+  @@map("schedule_categories")
+}
+
+
+model Project {
+  id             String          @id @default(uuid())
+  project_name   String
+  description    String?
+  start_date     String
+  end_date       String
+  project_status String          @default("ongoing") // ongoing, upcoming, completed
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+
+  members        ProjectMember[]
+  diaries        ProjectDiary[]
+
+  @@map("projects")
+}
+
+model ProjectMember {
+  id         String   @id @default(uuid())
+  project_id String
+  user_id    String
+  role       String   // "leader" or "mentee"
+  created_at DateTime @default(now())
+
+  project    Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([project_id, user_id])
+  @@map("project_members")
+}
+
+model ProjectDiary {
+  id                   String   @id @default(uuid())
+  project_id           String
+  diary_title          String
+  activity_description String
+  work_progress        Int      // progress percentage (0-100)
+  created_by           String
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  project              Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  creator              User     @relation(fields: [created_by], references: [id], onDelete: Cascade)
+
+  @@map("project_diaries")
 }

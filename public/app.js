@@ -2,7 +2,7 @@
    STAKS FLOW — Frontend Application Logic
    ============================================= */
 
-const API_BASE  = '/api/tasks';
+const API_BASE  = '/api/diaries';
 const AUTH_BASE = '/api/auth';
 
 // ─── Auth Token ───────────────────────────────
@@ -14,17 +14,16 @@ const clearToken = () => sessionStorage.removeItem('tf_token');
 let currentUser = null;
 
 // ─── State ───────────────────────────────────
-let allTasks        = [];
-let activeCategory  = 'all';
-let activeStatus    = 'all';
+let allDiaries      = [];
+let allProjects     = [];
+let activeProjectId = 'all';
 let searchQuery     = '';
 let sortBy          = 'newest';
 let editingTaskId   = null;
 let deletingTaskId  = null;
-let taskStatus      = 'pending'; // for modal toggle
+let currentTab      = 'diaries';
 
 // ─── DOM References ───────────────────────────
-const tasksGrid        = document.getElementById('tasksGrid');
 const loadingState     = document.getElementById('loadingState');
 const emptyState       = document.getElementById('emptyState');
 const modalOverlay     = document.getElementById('modalOverlay');
@@ -69,210 +68,321 @@ async function authFetch(url, body) {
 async function loadTasks() {
   showLoading(true);
   try {
-    const res = await apiFetch(API_BASE);
-    allTasks = res.data || [];
+    const [diariesRes, projectsRes] = await Promise.all([
+      apiFetch(API_BASE),
+      apiFetch('/api/projects/my')
+    ]);
+    allDiaries = diariesRes.data || [];
+    allProjects = projectsRes.data || [];
+    
+    populateProjectSelects();
     renderAll();
   } catch (err) {
-    showToast('Gagal memuat tugas: ' + err.message, 'error');
+    showToast('Gagal memuat data: ' + err.message, 'error');
     showLoading(false);
+  }
+}
+
+function populateProjectSelects() {
+  const taskProject = getEl('taskProject');
+  const filterSelect = getEl('filterProjectSelect');
+  
+  if (taskProject) {
+    taskProject.innerHTML = '<option value="">— Pilih Proyek Anda —</option>' +
+      allProjects.map(p => `<option value="${p.id}">${escHtml(p.project_name)} [${escHtml(p.project_status)}]</option>`).join('');
+  }
+  
+  if (filterSelect) {
+    filterSelect.innerHTML = '<option value="all">Semua Proyek</option>' +
+      allProjects.map(p => `<option value="${p.id}">${escHtml(p.project_name)}</option>`).join('');
   }
 }
 
 function renderAll() {
   updateBadges();
-  renderTasks();
-  updateProgress();
+  if (currentTab === 'diaries') {
+    renderTasks();
+  } else {
+    renderProjects();
+  }
   updateStats();
 }
 
-function getFilteredTasks() {
-  let tasks = [...allTasks];
+function getFilteredDiaries() {
+  let diaries = [...allDiaries];
 
-  // Category filter
-  if (activeCategory !== 'all') {
-    tasks = tasks.filter(t => t.category === activeCategory);
+  if (activeProjectId && activeProjectId !== 'all') {
+    diaries = diaries.filter(d => d.project_id === activeProjectId);
   }
 
-  // Status filter
-  if (activeStatus !== 'all') {
-    tasks = tasks.filter(t => t.status === activeStatus);
-  }
-
-  // Search filter
   if (searchQuery.trim()) {
     const q = searchQuery.toLowerCase();
-    tasks = tasks.filter(t =>
-      t.title.toLowerCase().includes(q) ||
-      (t.description || '').toLowerCase().includes(q)
+    diaries = diaries.filter(d =>
+      d.diary_title.toLowerCase().includes(q) ||
+      (d.activity_description || '').toLowerCase().includes(q) ||
+      (d.project_name || '').toLowerCase().includes(q)
     );
   }
 
-  // Sort
-  tasks.sort((a, b) => {
-    if (sortBy === 'newest')   return new Date(b.created_at) - new Date(a.created_at);
-    if (sortBy === 'oldest')   return new Date(a.created_at) - new Date(b.created_at);
-    if (sortBy === 'deadline') return (a.deadline || 'z').localeCompare(b.deadline || 'z');
-    if (sortBy === 'title')    return a.title.localeCompare(b.title);
+  diaries.sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.created_at) - new Date(a.created_at);
+    if (sortBy === 'oldest') return new Date(a.created_at) - new Date(b.created_at);
+    if (sortBy === 'title')  return a.diary_title.localeCompare(b.diary_title);
     return 0;
   });
 
-  return tasks;
+  return diaries;
 }
 
 function renderTasks() {
   showLoading(false);
-  const tasks = getFilteredTasks();
-  if (!tasksGrid || !emptyState) return;
+  const diaries = getFilteredDiaries();
+  const timeline = getEl('diaryTimeline');
+  if (!timeline || !emptyState) return;
 
-  if (tasks.length === 0) {
-    tasksGrid.innerHTML = '';
+  if (diaries.length === 0) {
+    timeline.innerHTML = '';
     emptyState.classList.remove('hidden');
     return;
   }
 
   emptyState.classList.add('hidden');
-  tasksGrid.innerHTML = tasks.map(buildTaskCard).join('');
-  tasksGrid.querySelectorAll('.task-checkbox').forEach(cb => {
-    cb.addEventListener('click', () => {
-      const id = cb.closest('.task-card').dataset.id;
-      const currentStatus = cb.classList.contains('checked') ? 'selesai' : 'pending';
-      toggleStatus(id, currentStatus === 'selesai' ? 'pending' : 'selesai');
-    });
-  });
+  timeline.innerHTML = diaries.map(buildDiaryRow).join('');
 }
 
-function buildTaskCard(task) {
-  const isDone     = task.status.startsWith('selesai');
-  const catClass   = `cat-${task.category}`;
-  const deadlineHTML = buildDeadline(task.deadline);
-
-  const catLabels = {
-    daily: 'Harian', weekly: 'Mingguan', monthly: 'Bulanan',
-    quarterly: 'Per 3 Bln', semesterly: 'Per 6 Bln', yearly: 'Tahunan'
-  };
+function buildDiaryRow(d) {
+  const formattedDate = new Date(d.created_at).toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 
   return `
-  <article class="task-card ${isDone ? 'done' : ''}" data-id="${task.id}">
-    <div class="task-card-top">
-      <div class="task-checkbox ${isDone ? 'checked' : ''}" role="checkbox" aria-checked="${isDone}" aria-label="Toggle status">
-        <i class="bi bi-check check-icon"></i>
+  <div class="timeline-item" data-id="${d.id}">
+    <div class="timeline-badge">
+      <i class="bi bi-journal-bookmark-fill"></i>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-header">
+        <h3 class="timeline-title">${escHtml(d.diary_title)}</h3>
+        <span class="timeline-date">${formattedDate}</span>
       </div>
-      <div class="task-content">
-        <div class="task-title" title="${escHtml(task.title)}">${escHtml(task.title)}</div>
-        ${task.description ? `<div class="task-description">${escHtml(task.description)}</div>` : ''}
+      <div class="timeline-body">
+        <p class="timeline-description">${escHtml(d.activity_description || 'Tidak ada deskripsi.')}</p>
+        <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+          <div style="flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+            <div style="width: ${d.work_progress}%; height: 100%; background: var(--accent);"></div>
+          </div>
+          <span style="font-size: 12px; font-weight: 600; min-width: 35px; text-align: right; color: var(--accent);">${d.work_progress}%</span>
+        </div>
+      </div>
+      <div class="timeline-footer">
+        <div class="timeline-meta">
+          <span class="meta-item event" title="Proyek">
+            <i class="bi bi-folder-fill"></i> ${escHtml(d.project_name)}
+          </span>
+        </div>
+        <div class="timeline-actions">
+          <button class="task-btn edit" onclick="openEditModal('${d.id}')" title="Edit Diary">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button class="task-btn delete" onclick="openDeleteModal('${d.id}')" title="Hapus Diary">
+            <i class="bi bi-trash3-fill"></i>
+          </button>
+        </div>
       </div>
     </div>
+  </div>`;
+}
 
-    <div class="task-meta">
-      <div class="task-tags">
-        <span class="tag-category ${catClass}">${catLabels[task.category] || task.category}</span>
-        <span class="tag-status ${task.status}">
-          <i class="bi ${isDone ? 'bi-check-circle-fill' : 'bi-hourglass-split'}"></i>
-          ${isDone ? 'Selesai' : 'Pending'}
-        </span>
+function renderProjects() {
+  const grid = getEl('myProjectsGrid');
+  const loading = getEl('projectsLoadingState');
+  const empty = getEl('projectsEmptyState');
+  if (!grid) return;
+
+  if (loading) loading.style.display = 'none';
+
+  if (allProjects.length === 0) {
+    grid.innerHTML = '';
+    if (empty) empty.classList.remove('hidden');
+    return;
+  }
+
+  if (empty) empty.classList.add('hidden');
+
+  grid.innerHTML = allProjects.map(p => {
+    const formattedStart = new Date(p.start_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    const formattedEnd = new Date(p.end_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+    
+    let statusClass = 'status-ongoing';
+    let statusLabel = 'Ongoing';
+    if (p.project_status === 'upcoming') {
+      statusClass = 'status-upcoming';
+      statusLabel = 'Upcoming';
+    } else if (p.project_status === 'completed') {
+      statusClass = 'status-completed';
+      statusLabel = 'Completed';
+    }
+
+    const leaderName = p.leader ? p.leader.username : '-';
+    const menteesCount = p.mentees ? p.mentees.length : 0;
+    const isLeader = p.my_role === 'leader';
+    const roleBadge = isLeader 
+      ? `<span class="badge-role leader" style="background: rgba(13, 110, 253, 0.15); color: #0d6efd; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600;">Leader (Mentor)</span>`
+      : `<span class="badge-role mentee" style="background: rgba(25, 135, 84, 0.15); color: #198754; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600;">Mentee</span>`;
+
+    return `
+      <div class="project-card" style="background: var(--bg-card, #1a2333); border: 1px solid var(--border-color, rgba(255,255,255,0.08)); padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; transition: transform 0.2s, box-shadow 0.2s; position: relative;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: start; gap: 12px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-1); margin: 0;">${escHtml(p.project_name)}</h3>
+            <span class="project-status-badge ${statusClass}" style="font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase;">
+              ${statusLabel}
+            </span>
+          </div>
+          <div style="margin-top: 8px; display: flex; gap: 6px; align-items: center;">
+            ${roleBadge}
+          </div>
+          <p style="font-size: 14px; opacity: 0.7; margin-top: 12px; line-height: 1.5; height: 63px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            ${escHtml(p.description || 'Tidak ada deskripsi proyek.')}
+          </p>
+        </div>
+        
+        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between;">
+            <span style="opacity: 0.6;"><i class="bi bi-person-badge"></i> Leader:</span>
+            <span style="font-weight: 500;">${escHtml(leaderName)}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="opacity: 0.6;"><i class="bi bi-people"></i> Mentees:</span>
+            <span style="font-weight: 500;">${menteesCount} Anggota</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="opacity: 0.6;"><i class="bi bi-calendar-range"></i> Durasi:</span>
+            <span style="font-weight: 500; font-size: 12px;">${formattedStart} - ${formattedEnd}</span>
+          </div>
+        </div>
+        
+        <button onclick="openProjectDetails('${p.id}')" class="btn-cancel" style="width: 100%; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+          <i class="bi bi-info-circle"></i> Lihat Detail & Timeline
+        </button>
       </div>
-      ${deadlineHTML}
-    </div>
-
-    <div class="task-actions">
-      <button class="task-btn edit" onclick="openEditModal('${task.id}')" aria-label="Edit task" title="Edit">
-        <i class="bi bi-pencil-fill"></i>
-      </button>
-      <button class="task-btn delete" onclick="openDeleteModal('${task.id}')" aria-label="Delete task" title="Hapus">
-        <i class="bi bi-trash3-fill"></i>
-      </button>
-    </div>
-  </article>`;
+    `;
+  }).join('');
 }
 
-function buildDeadline(deadline) {
-  if (!deadline) return '';
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(deadline + 'T00:00:00');
-  const diff = Math.ceil((d - today) / 86400000);
+async function openProjectDetails(id) {
+  const p = allProjects.find(x => x.id === id);
+  if (!p) return;
 
-  let cls = '', label = '';
-  if (diff < 0)       { cls = 'overdue'; label = `Terlambat ${Math.abs(diff)} hari`; }
-  else if (diff === 0){ cls = 'soon';    label = 'Hari ini!'; }
-  else if (diff <= 3) { cls = 'soon';    label = `${diff} hari lagi`; }
-  else { label = new Date(deadline).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' }); }
+  setText('projectDetailsTitle', p.project_name);
+  setText('projectDetailsDesc', p.description || 'Tidak ada deskripsi proyek.');
 
-  return `<span class="task-deadline ${cls}"><i class="bi bi-calendar3"></i> ${label}</span>`;
-}
+  const overlay = getEl('projectDetailsModalOverlay');
+  const membersList = getEl('projectDetailsMembersList');
+  const timeline = getEl('projectDetailTimeline');
 
-// ─── BADGES & STATS ──────────────────────────
-function updateBadges() {
-  const categories = ['daily','weekly','monthly','quarterly','semesterly','yearly'];
-  setText('badge-all', allTasks.length);
-  categories.forEach(cat => {
-    const count = allTasks.filter(t => t.category === cat).length;
-    setText(`badge-${cat}`, count);
-  });
-}
+  if (overlay) overlay.classList.add('open');
+  if (membersList) membersList.innerHTML = '<p style="opacity:0.6; font-size:13px;">Memuat anggota...</p>';
+  if (timeline) timeline.innerHTML = '<p style="opacity:0.6; font-size:13px;">Memuat timeline...</p>';
 
-function updateStats() {
-  const total   = allTasks.length;
-  const done    = allTasks.filter(t => t.status.startsWith('selesai')).length;
-  const pending = allTasks.filter(t => t.status === 'pending').length;
-  const today   = new Date(); today.setHours(0,0,0,0);
-  const overdue = allTasks.filter(t => {
-    if (t.status.startsWith('selesai') || !t.deadline) return false;
-    return new Date(t.deadline + 'T00:00:00') < today;
-  }).length;
-
-  // Sidebar stats
-  setText('statDone', done);
-  setText('statPending', pending);
-  setText('statOverdue', overdue);
-
-  // Dashboard bar
-  setText('dashTotalNum', total);
-  setText('dashDoneNum', done);
-  setText('dashPendingNum', pending);
-  setText('dashOverdueNum', overdue);
-}
-
-function updateProgress() {
-  const total   = allTasks.length;
-  const done    = allTasks.filter(t => t.status.startsWith('selesai')).length;
-  const pct     = total === 0 ? 0 : Math.round((done / total) * 100);
-  const progressBar = getEl('progressBar');
-  if (progressBar) progressBar.style.width = pct + '%';
-  setText('progressPct', pct + '%');
-}
-
-// ─── STATUS TOGGLE ────────────────────────────
-async function toggleStatus(id, newStatus) {
   try {
-    const res = await apiFetch(`${API_BASE}/${id}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status: newStatus }),
-    });
-    const idx = allTasks.findIndex(t => t.id === id);
-    if (idx !== -1) allTasks[idx] = res.data;
-    renderAll();
-    showToast(newStatus.startsWith('selesai') ? '✅ Tugas selesai!' : '🔄 Tugas dikembalikan ke pending', 'success');
+    const [membersRes, timelineRes] = await Promise.all([
+      apiFetch(`/api/projects/${id}/members`),
+      apiFetch(`/api/projects/${id}/timeline`)
+    ]);
+
+    const members = membersRes.data || [];
+    const diaries = timelineRes.data || [];
+
+    if (membersList) {
+      if (members.length === 0) {
+        membersList.innerHTML = '<p style="opacity:0.6; font-size:13px;">Tidak ada anggota.</p>';
+      } else {
+        membersList.innerHTML = members.map(m => {
+          const roleLabel = m.role === 'leader' ? 'Leader' : 'Mentee';
+          const roleStyle = m.role === 'leader' 
+            ? 'background: rgba(13, 110, 253, 0.15); color: #0d6efd;'
+            : 'background: rgba(25, 135, 84, 0.15); color: #198754;';
+          return `
+            <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+              <div>
+                <div style="font-weight: 500; font-size: 13px;">${escHtml(m.username)}</div>
+                <div style="font-size: 11px; opacity: 0.5;">${escHtml(m.email)}</div>
+              </div>
+              <span style="font-size: 10px; padding: 2px 6px; border-radius: 8px; font-weight: 600; ${roleStyle}">${roleLabel}</span>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    if (timeline) {
+      if (diaries.length === 0) {
+        timeline.innerHTML = '<p style="opacity:0.6; font-size:13px; text-align: center; padding: 20px 0;">Belum ada diary aktivitas dalam proyek ini.</p>';
+      } else {
+        timeline.innerHTML = diaries.map(d => {
+          const formattedDate = new Date(d.created_at).toLocaleDateString('id-ID', {
+            day: 'numeric', month: 'short', year: 'numeric'
+          });
+          return `
+            <div class="timeline-item" style="margin-left: 15px; margin-bottom: 20px; position: relative;">
+              <div style="position: absolute; left: -21px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg-body, #0a0f1d);"></div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: start; gap: 8px;">
+                  <h4 style="font-size: 13px; font-weight: 600; color: var(--text-1); margin: 0;">${escHtml(d.diary_title)}</h4>
+                  <span style="font-size: 11px; opacity: 0.5;">${formattedDate}</span>
+                </div>
+                <p style="font-size: 12px; opacity: 0.7; margin-top: 6px; line-height: 1.4;">${escHtml(d.activity_description)}</p>
+                <div style="margin-top: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 11px;">
+                  <span style="opacity: 0.5;"><i class="bi bi-person"></i> Oleh: <b>${escHtml(d.username)}</b></span>
+                  <span style="color: var(--accent); font-weight: 600;">${d.work_progress}% Progress</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
   } catch (err) {
-    showToast('Gagal update status: ' + err.message, 'error');
+    showToast('Gagal memuat detail proyek: ' + err.message, 'error');
   }
 }
 
+function closeProjectDetails() {
+  const overlay = getEl('projectDetailsModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+}
+
+addListener('projectDetailsClose', 'click', closeProjectDetails);
+
+// ─── BADGES & STATS ──────────────────────────
+function updateBadges() {
+  setText('badge-all', allDiaries.length);
+  setText('badge-projects', allProjects.length);
+}
+
+function updateStats() {
+  setText('statTotalDiaries', allDiaries.length);
+}
+
 // ─── MODAL: ADD / EDIT ───────────────────────
-function openModal(task = null) {
-  editingTaskId = task ? task.id : null;
-  taskStatus = task ? task.status : 'pending';
+function openModal(diary = null) {
+  editingTaskId = diary ? diary.id : null;
 
-  setText('modalTitle', task ? 'Edit Tugas' : 'Tambah Tugas Baru');
-  setText('btnSaveText', task ? 'Simpan Perubahan' : 'Simpan Tugas');
-  setValue('taskId', task ? task.id : '');
-  setValue('taskTitle', task ? task.title : '');
-  setValue('taskDescription', task ? (task.description || '') : '');
-  setValue('taskCategory', task ? task.category : '');
-  setValue('taskDeadline', task ? (task.deadline || '') : '');
-
-  const statusGroup = getEl('statusGroupEdit');
-  if (statusGroup) statusGroup.style.display = task ? 'flex' : 'none';
-  setStatusBtns(taskStatus);
+  setText('modalTitle', diary ? 'Edit Catatan Diary' : 'Tulis Diary Baru');
+  setText('btnSaveText', diary ? 'Simpan Perubahan' : 'Simpan Diary');
+  setValue('taskId', diary ? diary.id : '');
+  setValue('taskTitle', diary ? diary.diary_title : '');
+  setValue('taskDescription', diary ? (diary.activity_description || '') : '');
+  setValue('taskProject', diary ? diary.project_id : '');
+  
+  const progressVal = diary ? diary.work_progress : 0;
+  setValue('taskProgress', progressVal);
+  const progOut = getEl('progressOutput');
+  if (progOut) progOut.textContent = progressVal + '%';
 
   updateCharCount();
   clearErrors();
@@ -281,8 +391,8 @@ function openModal(task = null) {
 }
 
 function openEditModal(id) {
-  const task = allTasks.find(t => t.id === id);
-  if (task) openModal(task);
+  const diary = allDiaries.find(d => d.id === id);
+  if (diary) openModal(diary);
 }
 
 function closeModal() {
@@ -290,17 +400,6 @@ function closeModal() {
   taskForm.reset();
   editingTaskId = null;
 }
-
-function setStatusBtns(status) {
-  const btnP = getEl('btnPending');
-  const btnD = getEl('btnDone');
-  if (btnP) btnP.classList.toggle('active', status === 'pending');
-  if (btnD) btnD.classList.toggle('active', status.startsWith('selesai'));
-  taskStatus = status;
-}
-
-addListener('btnPending', 'click', () => setStatusBtns('pending'));
-addListener('btnDone', 'click', () => setStatusBtns('selesai'));
 
 // ─── FORM SUBMIT ──────────────────────────────
 if (taskForm) {
@@ -312,55 +411,70 @@ if (taskForm) {
     if (btnSave) btnSave.disabled = true;
 
     const payload = {
-      title:       getValue('taskTitle').trim(),
-      description: getValue('taskDescription').trim(),
-      category:    getValue('taskCategory'),
-      deadline:    getValue('taskDeadline'),
-      status:      editingTaskId ? taskStatus : 'pending',
+      diary_title:          getValue('taskTitle').trim(),
+      activity_description: getValue('taskDescription').trim(),
+      project_id:           getValue('taskProject'),
+      work_progress:        parseInt(getValue('taskProgress')),
     };
 
-  try {
-    if (editingTaskId) {
-      const res = await apiFetch(`${API_BASE}/${editingTaskId}`, {
-        method: 'PUT', body: JSON.stringify(payload),
-      });
-      const idx = allTasks.findIndex(t => t.id === editingTaskId);
-      if (idx !== -1) allTasks[idx] = res.data;
-      showToast('✏️ Tugas berhasil diperbarui!', 'success');
-    } else {
-      const res = await apiFetch(API_BASE, {
-        method: 'POST', body: JSON.stringify(payload),
-      });
-      allTasks.unshift(res.data);
-      showToast('🎉 Tugas baru berhasil ditambahkan!', 'success');
+    try {
+      if (editingTaskId) {
+        const res = await apiFetch(`${API_BASE}/${editingTaskId}`, {
+          method: 'PUT', body: JSON.stringify(payload),
+        });
+        const idx = allDiaries.findIndex(d => d.id === editingTaskId);
+        if (idx !== -1) allDiaries[idx] = res.data;
+        showToast('✏️ Diary berhasil diperbarui!', 'success');
+      } else {
+        const res = await apiFetch(API_BASE, {
+          method: 'POST', body: JSON.stringify(payload),
+        });
+        allDiaries.unshift(res.data);
+        showToast('🎉 Diary baru berhasil disimpan!', 'success');
+      }
+      closeModal();
+      renderAll();
+    } catch (err) {
+      showToast('Gagal menyimpan: ' + err.message, 'error');
+    } finally {
+      btnSave.disabled = false;
     }
-    closeModal();
-    renderAll();
-  } catch (err) {
-    showToast('Gagal menyimpan: ' + err.message, 'error');
-  } finally {
-    btnSave.disabled = false;
-  }
   });
-} // end if (taskForm)
+}
 
 function validateForm() {
   let ok = true;
-  const title    = getEl('taskTitle');
-  const category = getEl('taskCategory');
+  const title = getEl('taskTitle');
+  const desc  = getEl('taskDescription');
+  const proj  = getEl('taskProject');
+  const prog  = getEl('taskProgress');
 
   if (!title || !title.value.trim()) {
-    showFieldError('titleError', title, 'Judul tugas wajib diisi');
+    showFieldError('titleError', title, 'Judul kegiatan wajib diisi');
     ok = false;
   } else {
     clearFieldError('titleError', title);
   }
 
-  if (!category || !category.value) {
-    showFieldError('categoryError', category, 'Pilih kategori tugas');
+  if (!desc || !desc.value.trim()) {
+    showFieldError('descError', desc, 'Deskripsi kegiatan wajib diisi');
     ok = false;
   } else {
-    clearFieldError('categoryError', category);
+    clearFieldError('descError', desc);
+  }
+
+  if (!proj || !proj.value) {
+    showFieldError('projectError', proj, 'Pilih proyek Anda');
+    ok = false;
+  } else {
+    clearFieldError('projectError', proj);
+  }
+
+  if (!prog || prog.value === '') {
+    showFieldError('progressError', prog, 'Tentukan progress kerja');
+    ok = false;
+  } else {
+    clearFieldError('progressError', prog);
   }
 
   return ok;
@@ -377,8 +491,8 @@ function clearFieldError(errId, input) {
   if (input) input.classList.remove('error');
 }
 function clearErrors() {
-  ['titleError','categoryError'].forEach(id => { const el = getEl(id); if (el) el.textContent = ''; });
-  ['taskTitle','taskCategory'].forEach(id => { const el = getEl(id); if (el) el.classList.remove('error'); });
+  ['titleError','descError','projectError','progressError'].forEach(id => { const el = getEl(id); if (el) el.textContent = ''; });
+  ['taskTitle','taskDescription','taskProject','taskProgress'].forEach(id => { const el = getEl(id); if (el) el.classList.remove('error'); });
 }
 
 // ─── DELETE MODAL ─────────────────────────────
@@ -397,10 +511,10 @@ addListener('btnConfirmDelete', 'click', async () => {
   if (btn) btn.disabled = true;
   try {
     await apiFetch(`${API_BASE}/${deletingTaskId}`, { method: 'DELETE' });
-    allTasks = allTasks.filter(t => t.id !== deletingTaskId);
+    allDiaries = allDiaries.filter(d => d.id !== deletingTaskId);
     closeDeleteModal();
     renderAll();
-    showToast('🗑️ Tugas berhasil dihapus', 'info');
+    showToast('🗑️ Catatan diary berhasil dihapus', 'info');
   } catch (err) {
     showToast('Gagal menghapus: ' + err.message, 'error');
   } finally {
@@ -413,35 +527,47 @@ addListener('navList', 'click', (e) => {
   const item = e.target.closest('.nav-item');
   if (!item) return;
 
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('#navList .nav-item, #communityList .nav-item').forEach(n => n.classList.remove('active'));
   item.classList.add('active');
-  activeCategory = item.dataset.category;
+  
+  switchToTaskView();
 
-  const titles = {
-    all: ['Semua Tugas', 'Kelola semua tugas Anda di sini'],
-    daily: ['Tugas Harian', 'Tugas yang perlu diselesaikan setiap hari'],
-    weekly: ['Tugas Mingguan', 'Tugas yang perlu diselesaikan minggu ini'],
-    monthly: ['Tugas Bulanan', 'Tugas yang perlu diselesaikan bulan ini'],
-    quarterly: ['Tugas Per 3 Bulan', 'Tugas kuartalan Anda'],
-    semesterly: ['Tugas Per 6 Bulan', 'Tugas semesteran Anda'],
-    yearly: ['Tugas Tahunan', 'Tugas yang perlu diselesaikan tahun ini'],
-  };
-  const [title, subtitle] = titles[activeCategory] || ['Tugas', ''];
-  setText('pageTitle', title);
-  setText('pageSubtitle', subtitle);
+  const tab = item.dataset.tab;
+  currentTab = tab;
 
-  renderAll();
+  const gridView = getEl('gridView');
+  const viewMyProjects = getEl('viewMyProjects');
+  const userFilterBar = getEl('userFilterBar');
+  const userSearchContainer = getEl('userSearchContainer');
+  const btnAddTask = getEl('btnAddTask');
+
+  if (tab === 'diaries') {
+    setText('pageTitle', 'Diary Proyek Saya');
+    setText('pageSubtitle', 'Catat kegiatan harian Anda dan hubungkan dengan proyek aktif Anda.');
+    if (gridView) gridView.classList.remove('hidden');
+    if (viewMyProjects) viewMyProjects.classList.add('hidden');
+    if (userFilterBar) userFilterBar.style.display = 'flex';
+    if (userSearchContainer) userSearchContainer.style.display = 'flex';
+    if (btnAddTask) btnAddTask.style.display = 'inline-flex';
+    renderTasks();
+  } else if (tab === 'projects') {
+    setText('pageTitle', 'Proyek Saya');
+    setText('pageSubtitle', 'Daftar proyek aktif dan selesai yang Anda ikuti.');
+    if (gridView) gridView.classList.add('hidden');
+    if (viewMyProjects) viewMyProjects.classList.remove('hidden');
+    if (userFilterBar) userFilterBar.style.display = 'none';
+    if (userSearchContainer) userSearchContainer.style.display = 'none';
+    if (btnAddTask) btnAddTask.style.display = 'none';
+    renderProjects();
+  }
+
   closeSidebar();
 });
 
-// ─── FILTER TABS ──────────────────────────────
-document.querySelectorAll('.filter-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    activeStatus = tab.dataset.status;
-    renderAll();
-  });
+// ─── FILTER PROJECT SELECT ─────────────────────
+addListener('filterProjectSelect', 'change', (e) => {
+  activeProjectId = e.target.value;
+  renderTasks();
 });
 
 // ─── SORT ─────────────────────────────────────
@@ -522,7 +648,8 @@ function showToast(msg, type = 'info') {
 function showLoading(show) {
   if (loadingState) loadingState.style.display = show ? 'flex' : 'none';
   if (show) {
-    if (tasksGrid) tasksGrid.innerHTML = '';
+    const timeline = getEl('diaryTimeline');
+    if (timeline) timeline.innerHTML = '';
     if (emptyState) emptyState.classList.add('hidden');
   }
 }
@@ -536,66 +663,6 @@ function escHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// ─── KANBAN VIEW ─────────────────────────────
-function renderKanban() {
-  const tasks = getFilteredTasks();
-  const pending = tasks.filter(t => t.status === 'pending');
-  const done    = tasks.filter(t => t.status.startsWith('selesai'));
-  const mkCard  = (t) => `
-    <div class="kanban-card" draggable="true" data-id="${t.id}"
-      ondragstart="handleDragStart(event)">
-      <div class="kanban-card-title">${escHtml(t.title)}</div>
-      ${t.deadline ? `<div class="task-deadline">${buildDeadline(t.deadline)}</div>` : ''}
-      <div class="kanban-card-actions">
-        <button class="task-btn edit" onclick="openEditModal('${t.id}')" title="Edit"><i class="bi bi-pencil-fill"></i></button>
-        <button class="task-btn delete" onclick="openDeleteModal('${t.id}')" title="Hapus"><i class="bi bi-trash3-fill"></i></button>
-      </div>
-    </div>`;
-  setHTML('kanbanPendingCards', pending.map(mkCard).join('') || '<p class="kanban-empty">Tidak ada tugas</p>');
-  setHTML('kanbanDoneCards', done.map(mkCard).join('') || '<p class="kanban-empty">Tidak ada tugas</p>');
-  setText('kanbanPendingCount', pending.length);
-  setText('kanbanDoneCount', done.length);
-}
-
-let draggedId = null;
-function handleDragStart(e) { draggedId = e.currentTarget.dataset.id; e.dataTransfer.effectAllowed = 'move'; }
-function handleDragOver(e)  { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-function handleDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
-async function handleDrop(e, status) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  if (!draggedId) return;
-  const task = allTasks.find(t => t.id === draggedId);
-  if (!task || task.status === status) return;
-  await toggleStatus(draggedId, status);
-  draggedId = null;
-}
-
-// ─── VIEW TOGGLE ──────────────────────────────
-let activeView = 'grid';
-const viewListEl = getEl('viewList');
-if (viewListEl) {
-  viewListEl.addEventListener('click', (e) => {
-    const item = e.target.closest('.nav-item');
-    if (!item || !item.dataset.view) return;
-    activeView = item.dataset.view;
-    document.querySelectorAll('#viewList .nav-item').forEach(n => n.classList.remove('active'));
-    item.classList.add('active');
-    const gridView = getEl('gridView');
-    const kanbanView = getEl('kanbanView');
-    if (gridView) gridView.classList.toggle('hidden', activeView !== 'grid');
-    if (kanbanView) kanbanView.classList.toggle('hidden', activeView !== 'kanban');
-    if (activeView === 'kanban') renderKanban();
-  });
-}
-
-// Override renderAll to also update kanban when visible
-const _origRenderAll = renderAll;
-function renderAll() {
-  updateBadges(); renderTasks(); updateProgress(); updateStats();
-  if (activeView === 'kanban') renderKanban();
-}
-
 // ─── THEME TOGGLE ─────────────────────────────
 const themeToggle = getEl('themeToggle');
 const themeIcon   = getEl('themeIcon');
@@ -603,6 +670,7 @@ function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('tf_theme', theme);
   if (themeIcon) themeIcon.className = theme === 'dark' ? 'bi bi-moon-stars-fill' : 'bi bi-sun-fill';
+  window.dispatchEvent(new CustomEvent('themechanged', { detail: { theme } }));
 }
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
@@ -611,49 +679,6 @@ if (themeToggle) {
   });
 }
 applyTheme(localStorage.getItem('tf_theme') || 'dark');
-
-// ─── NOTIFICATION PANEL ───────────────────────
-const notifPanel   = getEl('notifPanel');
-const notifOverlay = getEl('notifOverlay');
-addListener('btnNotification', 'click', () => {
-  buildNotifications();
-  if (notifPanel) notifPanel.classList.add('open');
-  if (notifOverlay) notifOverlay.classList.add('show');
-});
-addListener('notifClose', 'click', closeNotif);
-if (notifOverlay) notifOverlay.addEventListener('click', closeNotif);
-function closeNotif() { if (notifPanel) notifPanel.classList.remove('open'); if (notifOverlay) notifOverlay.classList.remove('show'); }
-function buildNotifications() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const urgent = allTasks.filter(t => {
-    if (t.status.startsWith('selesai') || !t.deadline) return false;
-    const d = new Date(t.deadline + 'T00:00:00');
-    const diff = Math.ceil((d - today) / 86400000);
-    return diff <= 3;
-  }).sort((a,b) => a.deadline.localeCompare(b.deadline));
-  const badge = getEl('notifBadge');
-  if (badge) {
-    badge.textContent = urgent.length;
-    badge.classList.toggle('hidden', urgent.length === 0);
-  }
-  const list = getEl('notifList');
-  if (!list) return;
-  if (urgent.length === 0) {
-    list.innerHTML = '<div class="notif-empty">Tidak ada tugas mendekati deadline 🎉</div>';
-    return;
-  }
-  list.innerHTML = urgent.map(t => {
-    const today2 = new Date(); today2.setHours(0,0,0,0);
-    const d = new Date(t.deadline + 'T00:00:00');
-    const diff = Math.ceil((d - today2) / 86400000);
-    const label = diff < 0 ? `Terlambat ${Math.abs(diff)} hari` : diff === 0 ? 'Hari ini!' : `${diff} hari lagi`;
-    const cls   = diff <= 0 ? 'overdue' : 'soon';
-    return `<div class="notif-item">
-      <div class="notif-title">${escHtml(t.title)}</div>
-      <div class="notif-meta task-deadline ${cls}"><i class="bi bi-calendar3"></i> ${label}</div>
-    </div>`;
-  }).join('');
-}
 
 // ─── AUTH & INIT ───────────────────────────────
 function showApp(user) {
@@ -694,7 +719,6 @@ if (btnLogout) {
   }
 
   try {
-    // Add 10s timeout so loader never hangs forever
     const controller = new AbortController();
     const timeoutId  = setTimeout(() => controller.abort(), 10000);
 
@@ -710,7 +734,6 @@ if (btnLogout) {
         hideLoader();
         showApp(data.user);
       } else {
-        // Unexpected response shape
         clearToken();
         hideLoader();
         window.location.href = '/login.html';
@@ -721,7 +744,6 @@ if (btnLogout) {
       window.location.href = '/login.html';
     }
   } catch (err) {
-    // Network error or timeout
     console.warn('Auth check failed:', err.message);
     clearToken();
     hideLoader();
@@ -755,7 +777,7 @@ if (mobileMenuBtnC) mobileMenuBtnC.addEventListener('click', openSidebar);
 function switchCommunity(type) {
   activeCommunity = type;
 
-  document.querySelectorAll('#navList .nav-item, #viewList .nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('#navList .nav-item').forEach(n => n.classList.remove('active'));
   document.querySelectorAll('#communityList .nav-item').forEach(n => n.classList.remove('active'));
   const navEl = getEl(`nav-${type}`);
   if (navEl) navEl.classList.add('active');
@@ -799,7 +821,6 @@ function switchToTaskView() {
 // Patch existing nav handlers to call switchToTaskView
 const navListEl = getEl('navList');
 if (navListEl) navListEl.addEventListener('click', () => { switchToTaskView(); });
-if (viewListEl) viewListEl.addEventListener('click', () => { switchToTaskView(); });
 
 // ── House Rules ──────────────────────────────────────────────
 async function loadUserHouseRules() {
@@ -843,7 +864,7 @@ async function loadUserDutySchedules() {
       const membersHTML = members.length
         ? members.map(m => `
             <div class="duty-member-row">
-              <div class="duty-member-avatar">${m.member_name.charAt(0).toUpperCase()}</div>
+               <div class="duty-member-avatar">${m.member_name.charAt(0).toUpperCase()}</div>
               <span class="duty-member-name">${escHtml(m.member_name)}</span>
             </div>`).join('')
         : '<div class="duty-empty">Tidak ada jadwal</div>';
@@ -864,6 +885,7 @@ async function loadUserDutySchedules() {
 
 // ── Calendar Schedules ───────────────────────────────────────
 let currentUserSchedules = [];
+let currentUserCategories = [];
 let currentMonthUser = new Date().getMonth();
 let currentYearUser = new Date().getFullYear();
 
@@ -885,10 +907,42 @@ function nextMonthUser() {
   renderUserSchedules();
 }
 
+// Helper: get category color class from category name
+function getUserCategoryColorClass(categoryName) {
+  const cat = currentUserCategories.find(c => c.name === categoryName);
+  if (!cat) return 'cat-daily';
+  return `cat-${cat.color}`;
+}
+
+async function loadUserCategories() {
+  try {
+    const data = await apiFetch('/api/community/categories');
+    currentUserCategories = data?.data || [];
+    populateUserCategoryFilter();
+  } catch (e) {
+    console.error('Failed to load categories', e);
+  }
+}
+
+function populateUserCategoryFilter() {
+  const select = getEl('userCategoryFilter');
+  if (!select) return;
+  const currentVal = select.value;
+  select.innerHTML = '<option value="">Semua Kategori</option>';
+  currentUserCategories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat.name;
+    opt.textContent = cat.name;
+    select.appendChild(opt);
+  });
+  if (currentVal) select.value = currentVal;
+}
+
 async function loadUserSchedules() {
   const grid = getEl('userCalendarGrid');
   if (grid) grid.innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
   try {
+    await loadUserCategories();
     const data = await apiFetch('/api/community/schedules');
     currentUserSchedules = data?.data || [];
     renderUserSchedules();
@@ -924,17 +978,30 @@ function renderUserSchedules() {
   for (let i = 0; i < startOffset; i++) {
     grid.innerHTML += `<div class="fc-day-cell other-month"></div>`;
   }
+
+  const selectedCategory = getEl('userCategoryFilter')?.value;
   
   for (let day = 1; day <= daysInMonth; day++) {
     const isToday = day === today.getDate() && currentMonthUser === today.getMonth() && currentYearUser === today.getFullYear();
     const dateStr = `${currentYearUser}-${String(currentMonthUser+1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     
-    const dayEvents = currentUserSchedules.filter(s => s.date === dateStr);
-    const eventsHtml = dayEvents.map(s => 
-      `<div class="fc-event-pill" onclick="event.stopPropagation(); openEventModal('${s.id}')" title="${escHtml(s.title)}\nOleh: ${escHtml(s.created_by_username)}">
-        ${s.time} ${escHtml(s.title)}
-      </div>`
-    ).join('');
+    // Multi-day filter and category filter
+    let dayEvents = currentUserSchedules.filter(s => s.start_date <= dateStr && dateStr <= s.end_date);
+    if (selectedCategory) {
+      dayEvents = dayEvents.filter(s => s.category === selectedCategory);
+    }
+
+    const eventsHtml = dayEvents.map(s => {
+      const colorClass = getUserCategoryColorClass(s.category);
+      const isStart = s.start_date === dateStr;
+      const isEnd = s.end_date === dateStr;
+      const pillStyle = isStart && !isEnd ? 'border-radius: 6px 0 0 6px; margin-right: -2px;' :
+                        isEnd && !isStart ? 'border-radius: 0 6px 6px 0; margin-left: -2px;' :
+                        !isStart && !isEnd ? 'border-radius: 0; margin-left: -2px; margin-right: -2px;' : '';
+      return `<div class="fc-event-pill ${colorClass}" onclick="event.stopPropagation(); openEventModal('${s.id}')" title="${escHtml(s.title)}\nKategori: ${escHtml(s.category)}\nOleh: ${escHtml(s.created_by_username)}" style="${pillStyle}">
+        <span class="a-cat-badge ${colorClass}" style="padding:1px 5px; font-size:9px; margin-right:3px;">${escHtml(s.category)}</span>${isStart ? escHtml(s.title) : ''}
+      </div>`;
+    }).join('');
 
     grid.innerHTML += `
       <div class="fc-day-cell ${isToday ? 'today' : ''}" style="cursor:default;">
@@ -945,13 +1012,30 @@ function renderUserSchedules() {
   }
 }
 
+function formatDateIndo(dateStr) {
+  if (!dateStr) return '';
+  return new Date(dateStr).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
+}
+
 function openEventModal(id) {
   const s = currentUserSchedules.find(x => x.id === id);
   if (!s) return;
   setText('eventDetailTitle', s.title);
   setText('eventDetailDesc', s.description || 'Tidak ada deskripsi.');
-  setText('eventDetailDate', new Date(s.date).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'}));
-  setText('eventDetailTime', s.time);
+  
+  const dateText = s.start_date === s.end_date 
+    ? formatDateIndo(s.start_date)
+    : `${formatDateIndo(s.start_date)} s/d ${formatDateIndo(s.end_date)}`;
+  setText('eventDetailDate', dateText);
+  
+  // Update category badge
+  const categoryBadge = getEl('eventDetailCategory');
+  if (categoryBadge) {
+    categoryBadge.textContent = s.category;
+    // Clear previous classes
+    categoryBadge.className = 'a-cat-badge ' + getUserCategoryColorClass(s.category);
+  }
+  
   setText('eventDetailCreator', s.created_by_username);
   const eventModal = getEl('eventModalOverlay');
   if (eventModal) eventModal.classList.add('open');

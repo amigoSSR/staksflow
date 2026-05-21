@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="id" data-theme="dark">
   <head>
+    <script>
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('tf_theme') || 'dark');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -128,59 +131,17 @@
 
         <nav class="sidebar-nav">
           <div class="nav-section">
-            <div class="nav-label">TAMPILAN</div>
-            <ul class="nav-list" id="viewList">
-              <li class="nav-item active" data-view="grid" id="view-grid">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-                <span>Grid View</span>
-              </li>
-              <li class="nav-item" data-view="kanban" id="view-kanban">
-                <i class="bi bi-kanban-fill"></i>
-                <span>Kanban View</span>
-              </li>
-            </ul>
-          </div>
-          <div class="nav-section">
-            <div class="nav-label">KATEGORI</div>
+            <div class="nav-label">PROYEK</div>
             <ul class="nav-list" id="navList">
-              <li class="nav-item active" data-category="all" id="nav-all">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-                <span>Semua Tugas</span>
+              <li class="nav-item active" data-tab="diaries" id="nav-project-diaries">
+                <i class="bi bi-journal-text"></i>
+                <span>Diary Proyek Saya</span>
                 <span class="badge" id="badge-all">0</span>
               </li>
-              <li class="nav-item" data-category="daily" id="nav-daily">
-                <i class="bi bi-sun-fill"></i>
-                <span>Harian</span>
-                <span class="badge" id="badge-daily">0</span>
-              </li>
-              <li class="nav-item" data-category="weekly" id="nav-weekly">
-                <i class="bi bi-calendar-week-fill"></i>
-                <span>Mingguan</span>
-                <span class="badge" id="badge-weekly">0</span>
-              </li>
-              <li class="nav-item" data-category="monthly" id="nav-monthly">
-                <i class="bi bi-calendar-month-fill"></i>
-                <span>Bulanan</span>
-                <span class="badge" id="badge-monthly">0</span>
-              </li>
-              <li class="nav-item" data-category="quarterly" id="nav-quarterly">
-                <i class="bi bi-calendar3-fill"></i>
-                <span>Per 3 Bulan</span>
-                <span class="badge" id="badge-quarterly">0</span>
-              </li>
-              <li
-                class="nav-item"
-                data-category="semesterly"
-                id="nav-semesterly"
-              >
-                <i class="bi bi-calendar4-range"></i>
-                <span>Per 6 Bulan</span>
-                <span class="badge" id="badge-semesterly">0</span>
-              </li>
-              <li class="nav-item" data-category="yearly" id="nav-yearly">
-                <i class="bi bi-calendar2-check-fill"></i>
-                <span>Tahunan</span>
-                <span class="badge" id="badge-yearly">0</span>
+              <li class="nav-item" data-tab="projects" id="nav-my-projects">
+                <i class="bi bi-folder-fill"></i>
+                <span>Proyek Saya</span>
+                <span class="badge" id="badge-projects" style="background: var(--accent2)">0</span>
               </li>
             </ul>
           </div>
@@ -208,20 +169,10 @@
         </nav>
 
         <!-- Sidebar Stats -->
-        <div class="sidebar-stats">
-          <div class="stat-item">
-            <span class="stat-value" id="statDone">0</span>
-            <span class="stat-label">Selesai</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value" id="statPending">0</span>
-            <span class="stat-label">Pending</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value overdue-val" id="statOverdue">0</span>
-            <span class="stat-label">Terlambat</span>
+        <div class="sidebar-stats" style="grid-template-columns: 1fr; gap: 0;">
+          <div class="stat-item" style="border: none;">
+            <span class="stat-value" id="statTotalDiaries">0</span>
+            <span class="stat-label">Total Diary</span>
           </div>
         </div>
       </aside>
@@ -239,19 +190,19 @@
               <i class="bi bi-list"></i>
             </button>
             <div class="page-title-wrap">
-              <h1 class="page-title" id="pageTitle">Semua Tugas</h1>
+              <h1 class="page-title" id="pageTitle">Diary Proyek Saya</h1>
               <p class="page-subtitle" id="pageSubtitle">
-                Kelola semua tugas Anda di sini
+                Catat kegiatan harian Anda dan hubungkan dengan proyek aktif Anda.
               </p>
             </div>
           </div>
           <div class="topbar-right">
-            <div class="search-box">
+            <div class="search-box" id="userSearchContainer">
               <i class="bi bi-search search-icon"></i>
               <input
                 type="text"
                 id="searchInput"
-                placeholder="Cari tugas..."
+                placeholder="Cari catatan diary..."
                 autocomplete="off"
               />
               <button
@@ -263,169 +214,76 @@
               </button>
             </div>
             <button
-              class="icon-btn notif-btn"
-              id="btnNotification"
-              aria-label="Notifikasi"
-              title="Cek notifikasi deadline"
-            >
-              <i class="bi bi-bell-fill"></i>
-              <span class="notif-badge hidden" id="notifBadge">0</span>
-            </button>
-            <button
               class="btn-add"
               id="btnAddTask"
-              aria-label="Tambah tugas baru"
+              aria-label="Tulis diary baru"
             >
-              <i class="bi bi-plus-lg"></i>
-              <span>Tambah Tugas</span>
+              <i class="bi bi-pencil-square"></i>
+              <span>Tulis Diary</span>
             </button>
           </div>
         </header>
 
-        <!-- Dashboard Stats Bar -->
-        <div class="dashboard-bar" id="dashboardBar">
-          <div class="dash-stat-card" id="dashTotal">
-            <div class="dash-stat-icon purple">
-              <i class="bi bi-clipboard-data-fill"></i>
-            </div>
-            <div class="dash-stat-info">
-              <span class="dash-stat-num" id="dashTotalNum">0</span>
-              <span class="dash-stat-label">Total Tugas</span>
-            </div>
-          </div>
-          <div class="dash-stat-card" id="dashDone">
-            <div class="dash-stat-icon green">
-              <i class="bi bi-check-circle-fill"></i>
-            </div>
-            <div class="dash-stat-info">
-              <span class="dash-stat-num" id="dashDoneNum">0</span>
-              <span class="dash-stat-label">Selesai</span>
-            </div>
-          </div>
-          <div class="dash-stat-card" id="dashPending">
-            <div class="dash-stat-icon yellow">
-              <i class="bi bi-hourglass-split"></i>
-            </div>
-            <div class="dash-stat-info">
-              <span class="dash-stat-num" id="dashPendingNum">0</span>
-              <span class="dash-stat-label">Pending</span>
-            </div>
-          </div>
-          <div class="dash-stat-card" id="dashOverdue">
-            <div class="dash-stat-icon red">
-              <i class="bi bi-exclamation-triangle-fill"></i>
-            </div>
-            <div class="dash-stat-info">
-              <span class="dash-stat-num" id="dashOverdueNum">0</span>
-              <span class="dash-stat-label">Terlambat</span>
-            </div>
-          </div>
-        </div>
-
         <!-- Filter Bar -->
-        <div class="filter-bar">
-          <div class="filter-tabs">
-            <button class="filter-tab active" data-status="all" id="filter-all">
-              Semua
-            </button>
-            <button
-              class="filter-tab"
-              data-status="pending"
-              id="filter-pending"
-            >
-              <span class="dot dot-pending"></span> Pending
-            </button>
-            <button class="filter-tab" data-status="done" id="filter-done">
-              <span class="dot dot-done"></span> Selesai
-            </button>
+        <div class="filter-bar" id="userFilterBar">
+          <div class="filter-tabs" id="diaryFilterContainer" style="display: flex; gap: 8px; align-items: center;">
+            <span style="font-size: 13px; font-weight: 500; opacity: 0.8;"><i class="bi bi-funnel-fill"></i> Filter Proyek:</span>
+            <select id="filterProjectSelect" class="sort-select" style="max-width: 250px;">
+              <option value="all">Semua Proyek</option>
+            </select>
           </div>
           <div class="filter-right">
             <select
               id="sortSelect"
               class="sort-select"
-              aria-label="Urutkan tugas"
+              aria-label="Urutkan diary"
             >
               <option value="newest">⬇ Terbaru</option>
               <option value="oldest">⬆ Terlama</option>
-              <option value="deadline">📅 Deadline</option>
               <option value="title">🔤 Judul A-Z</option>
             </select>
           </div>
         </div>
 
-        <!-- Progress Bar -->
-        <div class="progress-section" id="progressSection">
-          <div class="progress-info">
-            <span class="progress-label">Progress Keseluruhan</span>
-            <span class="progress-pct" id="progressPct">0%</span>
-          </div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" id="progressBar"></div>
-          </div>
-        </div>
-
-        <!-- ─── GRID VIEW ─── -->
+        <!-- ─── DIARY TIMELINE VIEW ─── -->
         <div id="gridView">
           <div class="tasks-container">
             <div class="loading-state" id="loadingState">
               <div class="spinner"></div>
-              <p>Memuat tugas dari Google Sheets...</p>
+              <p>Memuat catatan diary...</p>
             </div>
             <div class="empty-state hidden" id="emptyState">
               <div class="empty-icon">
-                <i class="bi bi-clipboard-x"></i>
+                <i class="bi bi-journal-x"></i>
               </div>
-              <h3>Belum ada tugas</h3>
+              <h3>Belum ada catatan diary</h3>
               <p>
-                Klik tombol <strong>Tambah Tugas</strong> untuk membuat tugas
-                baru.
+                Tulis aktivitas harian Anda hari ini. Hubungkan dengan proyek aktif Anda.
               </p>
               <button class="btn-add empty-btn" onclick="openModal()">
-                <i class="bi bi-plus-lg"></i> Tambah Tugas Pertama
+                <i class="bi bi-pencil-square"></i> Tulis Diary Pertama
               </button>
             </div>
-            <div class="tasks-grid" id="tasksGrid"></div>
+            <!-- Diary timeline container -->
+            <div class="diary-timeline" id="diaryTimeline"></div>
           </div>
         </div>
 
-        <!-- ─── KANBAN VIEW ─── -->
-        <div id="kanbanView" class="hidden">
-          <div class="kanban-board">
-            <!-- Pending Column -->
-            <div class="kanban-col" id="kanbanPending" data-status="pending">
-              <div class="kanban-col-header">
-                <div class="kanban-col-title">
-                  <span class="kanban-col-dot dot-pending"></span>
-                  <span>Pending</span>
-                </div>
-                <span class="kanban-count" id="kanbanPendingCount">0</span>
-              </div>
-              <div
-                class="kanban-cards"
-                id="kanbanPendingCards"
-                ondragover="handleDragOver(event)"
-                ondragleave="handleDragLeave(event)"
-                ondrop="handleDrop(event, 'pending')"
-              ></div>
+        <!-- ─── MY PROJECTS VIEW ─── -->
+        <div id="viewMyProjects" class="hidden" style="padding: 24px 0;">
+          <div class="loading-state" id="projectsLoadingState" style="display: none;">
+            <div class="spinner"></div>
+            <p>Memuat daftar proyek...</p>
+          </div>
+          <div class="empty-state hidden" id="projectsEmptyState">
+            <div class="empty-icon">
+              <i class="bi bi-folder-x"></i>
             </div>
-
-            <!-- Done Column -->
-            <div class="kanban-col" id="kanbanDone" data-status="done">
-              <div class="kanban-col-header">
-                <div class="kanban-col-title">
-                  <span class="kanban-col-dot dot-done"></span>
-                  <span>Selesai</span>
-                </div>
-                <span class="kanban-count" id="kanbanDoneCount">0</span>
-              </div>
-              <div
-                class="kanban-cards"
-                id="kanbanDoneCards"
-                ondragover="handleDragOver(event)"
-                ondragleave="handleDragLeave(event)"
-                ondrop="handleDrop(event, 'done')"
-              ></div>
-            </div>
+            <h3>Anda belum bergabung di proyek manapun</h3>
+            <p>Hubungi Administrator untuk mendaftarkan Anda ke dalam sebuah proyek.</p>
+          </div>
+          <div class="projects-grid" id="myProjectsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+            <!-- Rendered dynamically -->
           </div>
         </div>
       </main>
@@ -473,15 +331,20 @@
           <div class="community-panel">
             <div class="community-panel-body">
               <div class="fc-wrap">
-                <div class="fc-header">
+                <div class="fc-header" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
                   <div class="fc-title" id="userCalendarTitle">Bulan Tahun</div>
-                  <div class="fc-nav-btns">
-                    <button class="fc-nav-btn" onclick="prevMonthUser()">
-                      <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <button class="fc-nav-btn" onclick="nextMonthUser()">
-                      <i class="bi bi-chevron-right"></i>
-                    </button>
+                  <div style="display: flex; gap: 12px; align-items: center;">
+                    <select id="userCategoryFilter" onchange="renderUserSchedules()" style="padding: 6px 12px; font-size: 13px; font-weight: 500; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-1); border-radius: var(--radius-sm); cursor: pointer; outline: none; height: 36px; min-width: 140px;">
+                      <option value="">Semua Kategori</option>
+                    </select>
+                    <div class="fc-nav-btns">
+                      <button class="fc-nav-btn" onclick="prevMonthUser()">
+                        <i class="bi bi-chevron-left"></i>
+                      </button>
+                      <button class="fc-nav-btn" onclick="nextMonthUser()">
+                        <i class="bi bi-chevron-right"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div class="fc-grid-wrap">
@@ -512,7 +375,11 @@
     </div>
 
     <!-- ╔══════════════════════════════════════════╗
-       ║         MODAL: ADD / EDIT TASK           ║
+       ║         MODAL: ADD / EDIT DIARY          ║
+       ╚══════════════════════════════════════════╝ -->
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║        MODAL: DELETE CONFIRMATION        ║
        ╚══════════════════════════════════════════╝ -->
     <div
       class="modal-overlay"
@@ -523,7 +390,7 @@
     >
       <div class="modal" id="taskModal">
         <div class="modal-header">
-          <h2 class="modal-title" id="modalTitle">Tambah Tugas Baru</h2>
+          <h2 class="modal-title" id="modalTitle">Tulis Diary Baru</h2>
           <button class="modal-close" id="modalClose" aria-label="Tutup modal">
             <i class="bi bi-x-lg"></i>
           </button>
@@ -534,13 +401,13 @@
 
           <div class="form-group">
             <label for="taskTitle"
-              >Judul Tugas <span class="required">*</span></label
+              >Judul Kegiatan <span class="required">*</span></label
             >
             <div class="input-icon-wrap">
               <input
                 type="text"
                 id="taskTitle"
-                placeholder="Masukkan judul tugas..."
+                placeholder="Masukkan judul kegiatan harian..."
                 maxlength="100"
                 required
               />
@@ -549,60 +416,36 @@
           </div>
 
           <div class="form-group">
-            <label for="taskDescription">Deskripsi</label>
+            <label for="taskDescription">Deskripsi & Catatan Aktivitas <span class="required">*</span></label>
             <textarea
               id="taskDescription"
-              placeholder="Tambahkan deskripsi tugas (opsional)..."
-              rows="3"
+              placeholder="Jelaskan detail apa yang Anda kerjakan/joined hari ini..."
+              rows="4"
               maxlength="500"
+              required
             ></textarea>
             <span class="char-count" id="descCharCount">0 / 500</span>
+            <span class="form-error" id="descError"></span>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label for="taskCategory"
-                >Kategori <span class="required">*</span></label
+              <label for="taskProject"
+                >Pilih Proyek <span class="required">*</span></label
               >
-              <select id="taskCategory" required>
-                <option value="">— Pilih Kategori —</option>
-                <option value="daily">🌅 Harian (Daily)</option>
-                <option value="weekly">📅 Mingguan (Weekly)</option>
-                <option value="monthly">🗓️ Bulanan (Monthly)</option>
-                <option value="quarterly">📊 Per 3 Bulan</option>
-                <option value="semesterly">📆 Per 6 Bulan</option>
-                <option value="yearly">🗃️ Tahunan (Yearly)</option>
+              <select id="taskProject" required>
+                <option value="">— Pilih Proyek Anda —</option>
               </select>
-              <span class="form-error" id="categoryError"></span>
+              <span class="form-error" id="projectError"></span>
             </div>
 
-            <div class="form-group" style="display: none">
-              <label for="taskDeadline">Deadline (Otomatis)</label>
-              <div class="input-icon-wrap">
-                <input type="date" id="taskDeadline" disabled />
+            <div class="form-group">
+              <label for="taskProgress">Progress Kerja (%) <span class="required">*</span></label>
+              <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                <input type="range" id="taskProgress" min="0" max="100" value="0" style="flex: 1;" oninput="document.getElementById('progressOutput').textContent = this.value + '%'"/>
+                <span id="progressOutput" style="font-weight: 600; min-width: 45px; text-align: right; font-size: 14px;">0%</span>
               </div>
-            </div>
-          </div>
-
-          <div class="form-group" id="statusGroupEdit" style="display: none">
-            <label>Status</label>
-            <div class="status-toggle">
-              <button
-                type="button"
-                class="status-btn active"
-                id="btnPending"
-                data-status="pending"
-              >
-                <i class="bi bi-hourglass-split"></i> Pending
-              </button>
-              <button
-                type="button"
-                class="status-btn"
-                id="btnDone"
-                data-status="done"
-              >
-                <i class="bi bi-check-circle-fill"></i> Selesai
-              </button>
+              <span class="form-error" id="progressError"></span>
             </div>
           </div>
 
@@ -612,7 +455,7 @@
             </button>
             <button type="submit" class="btn-save" id="btnSave">
               <i class="bi bi-floppy-fill"></i>
-              <span id="btnSaveText">Simpan Tugas</span>
+              <span id="btnSaveText">Simpan Diary</span>
             </button>
           </div>
         </form>
@@ -620,8 +463,8 @@
     </div>
 
     <!-- ╔══════════════════════════════════════════╗
-       ║        MODAL: DELETE CONFIRMATION        ║
-       ╚══════════════════════════════════════════╝ -->
+    ║        MODAL: DELETE CONFIRMATION        ║
+    ╚══════════════════════════════════════════╝ -->
     <div
       class="modal-overlay"
       id="deleteModalOverlay"
@@ -634,9 +477,9 @@
             <i class="bi bi-trash3-fill"></i>
           </div>
         </div>
-        <h3 class="delete-title">Hapus Tugas?</h3>
+        <h3 class="delete-title">Hapus Catatan Diary?</h3>
         <p class="delete-desc">
-          Tindakan ini tidak dapat dibatalkan. Tugas akan dihapus secara
+          Tindakan ini tidak dapat dibatalkan. Catatan diary ini akan dihapus secara
           permanen.
         </p>
         <div class="modal-actions">
@@ -687,6 +530,9 @@
           </button>
         </div>
         <div style="text-align: left">
+          <div style="margin-bottom: 12px;">
+            <span id="eventDetailCategory" class="a-cat-badge"></span>
+          </div>
           <h3
             style="font-size: 18px; color: var(--text-1); margin-bottom: 8px"
             id="eventDetailTitle"
@@ -712,10 +558,7 @@
             "
           >
             <div>
-              <i class="bi bi-calendar3"></i> <span id="eventDetailDate"></span>
-            </div>
-            <div>
-              <i class="bi bi-clock"></i> <span id="eventDetailTime"></span>
+              <i class="bi bi-calendar-range"></i> <span id="eventDetailDate"></span>
             </div>
             <div>
               <i class="bi bi-person"></i> <span id="eventDetailCreator"></span>
@@ -735,6 +578,40 @@
           >
             Tutup
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ╔══════════════════════════════════════════╗
+       ║         MODAL: PROJECT DETAILS           ║
+       ╚══════════════════════════════════════════╝ -->
+    <div
+      class="modal-overlay"
+      id="projectDetailsModalOverlay"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal modal-lg" id="projectDetailsModal" style="max-width: 800px;">
+        <div class="modal-header">
+          <h2 class="modal-title" id="projectDetailsTitle">Detail Proyek</h2>
+          <button class="modal-close" id="projectDetailsClose" aria-label="Tutup modal">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 20px; max-height: 70vh; overflow-y: auto;">
+          <div class="project-details-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            <div>
+              <h3 style="font-size: 14px; margin-bottom: 8px; font-weight: 600; opacity: 0.9;">DESKRIPSI PROYEK</h3>
+              <p id="projectDetailsDesc" style="opacity: 0.8; font-size: 14px; line-height: 1.6; margin-bottom: 24px; white-space: pre-wrap;"></p>
+              
+              <h3 style="font-size: 14px; margin-bottom: 12px; font-weight: 600; opacity: 0.9;"><i class="bi bi-clock-history"></i> TIMELINE DIARY PROYEK</h3>
+              <div class="diary-timeline" id="projectDetailTimeline" style="margin-left: 0; padding-top: 10px;"></div>
+            </div>
+            <div style="border-left: 1px solid var(--border-color, rgba(255,255,255,0.1)); padding-left: 20px;">
+              <h3 style="font-size: 14px; margin-bottom: 12px; font-weight: 600; opacity: 0.9;"><i class="bi bi-people-fill"></i> ANGGOTA PROYEK</h3>
+              <div id="projectDetailsMembersList" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

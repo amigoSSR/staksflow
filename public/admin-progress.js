@@ -308,6 +308,9 @@ function renderDetailModal(d, isUpdate = false) {
       <div class="pd-stat-lbl">Kategori Terbaik</div>
     </div>`);
 
+  // Get theme colors dynamically
+  const colors = getThemeColors();
+
   // Weekly Chart
   if (isUpdate && weeklyChartInst) {
     weeklyChartInst.data.datasets[0].data = weeklyChart.map(d => d.completed);
@@ -326,13 +329,13 @@ function renderDetailModal(d, isUpdate = false) {
           {
             label: 'Selesai',
             data:  weeklyChart.map(d => d.completed),
-            backgroundColor: 'rgba(34,197,94,0.75)',
+            backgroundColor: hexToRgba(colors.success, 0.75),
             borderRadius: 6,
           },
           {
             label: 'Dibuat',
             data:  weeklyChart.map(d => d.created),
-            backgroundColor: 'rgba(108,99,255,0.6)',
+            backgroundColor: hexToRgba(colors.accent, 0.6),
             borderRadius: 6,
           },
         ],
@@ -359,21 +362,21 @@ function renderDetailModal(d, isUpdate = false) {
           {
             label: 'Selesai',
             data:  monthlyChart.map(d => d.completed),
-            borderColor: '#22c55e',
-            backgroundColor: 'rgba(34,197,94,0.12)',
+            borderColor: colors.success,
+            backgroundColor: hexToRgba(colors.success, 0.12),
             tension: 0.4,
             fill: true,
-            pointBackgroundColor: '#22c55e',
+            pointBackgroundColor: colors.success,
             pointRadius: 4,
           },
           {
             label: 'Dibuat',
             data:  monthlyChart.map(d => d.created),
-            borderColor: '#6c63ff',
-            backgroundColor: 'rgba(108,99,255,0.08)',
+            borderColor: colors.accent,
+            backgroundColor: hexToRgba(colors.accent, 0.08),
             tension: 0.4,
             fill: true,
-            pointBackgroundColor: '#6c63ff',
+            pointBackgroundColor: colors.accent,
             pointRadius: 4,
           },
         ],
@@ -448,23 +451,53 @@ function renderDetailModal(d, isUpdate = false) {
   }
 }
 
-// ── Chart Default Options ─────────────────────────────────────────────────────
-function chartOpts(title) {
+// ── Chart Default Options & Theme Helpers ─────────────────────────────────────
+function getCssVar(varName) {
+  return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+}
+
+function hexToRgba(hex, alpha) {
+  hex = hex.replace('#', '').trim();
+  if (hex.length === 3) {
+    hex = hex.split('').map(char => char + char).join('');
+  }
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function getThemeColors() {
   const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-  const textColor = isDark ? '#9a9ec8' : '#64748b';
+  const successColor = getCssVar('--success') || '#22c55e';
+  const accentColor = getCssVar('--accent') || '#36ADA3';
+  const textColor = getCssVar('--at-2') || (isDark ? '#9a9ec8' : '#64748b');
+  const gridColor = getCssVar('--at-border') || (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)');
+  const cardBg = getCssVar('--at-card') || (isDark ? '#181b40' : '#fff');
+  
+  return {
+    success: successColor,
+    accent: accentColor,
+    text: textColor,
+    grid: gridColor,
+    cardBg: cardBg
+  };
+}
+
+function chartOpts(title) {
+  const colors = getThemeColors();
   return {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        labels: { color: textColor, font: { family: 'Inter', size: 11 }, boxWidth: 12, padding: 12 },
+        labels: { color: colors.text, font: { family: 'Inter', size: 11 }, boxWidth: 12, padding: 12 },
       },
       tooltip: {
-        backgroundColor: isDark ? '#161929' : '#fff',
-        titleColor: isDark ? '#f0f1ff' : '#1e293b',
-        bodyColor:  isDark ? '#9a9ec8' : '#64748b',
-        borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+        backgroundColor: colors.cardBg,
+        titleColor: colors.text,
+        bodyColor:  colors.text,
+        borderColor: colors.grid,
         borderWidth: 1,
         padding: 10,
         cornerRadius: 8,
@@ -472,17 +505,29 @@ function chartOpts(title) {
     },
     scales: {
       x: {
-        ticks: { color: textColor, font: { size: 10, family: 'Inter' } },
-        grid:  { color: gridColor },
+        ticks: { color: colors.text, font: { size: 10, family: 'Inter' } },
+        grid:  { color: colors.grid },
       },
       y: {
         beginAtZero: true,
-        ticks: { color: textColor, font: { size: 10, family: 'Inter' }, stepSize: 1 },
-        grid:  { color: gridColor },
+        ticks: { color: colors.text, font: { size: 10, family: 'Inter' }, stepSize: 1 },
+        grid:  { color: colors.grid },
       },
     },
   };
 }
+
+// Listen for theme changes to redraw charts dynamically
+window.addEventListener('themechanged', () => {
+  const overlay = getEl('progressDetailOverlay');
+  if (overlay && overlay.classList.contains('open')) {
+    const activeUserId = overlay.dataset.userId;
+    if (activeUserId) {
+      destroyCharts();
+      refreshProgressDetail(activeUserId);
+    }
+  }
+});
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function esc(str) {

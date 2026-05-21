@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 const templateHtmlPath = path.join(__dirname, 'public', 'template.html');
@@ -7,9 +7,9 @@ const baseHtml = fs.readFileSync(templateHtmlPath, 'utf8');
 const modules = [
   { name: 'overview', title: 'Dashboard Overview', sub: 'Selamat datang di panel administrasi STAKS FLOW' },
   { name: 'users', title: 'Manajemen User', sub: 'Kelola akun dan role pengguna' },
-  { name: 'tasks', title: 'Semua Tasks', sub: 'Lihat dan kelola task semua pengguna' },
+  { name: 'projects', title: 'Manajemen Proyek', sub: 'Kelola proyek aktif, leader, mentee, dan timeline' },
+  { name: 'tasks', title: 'Diary & Aktivitas', sub: 'Lihat dan kelola diary/aktivitas harian pengguna' },
   { name: 'activity', title: 'Activity Log', sub: 'Rekam jejak aktivitas pengguna' },
-  { name: 'progress', title: 'Progress Monitoring', sub: 'Pantau produktivitas dan aktivitas setiap user' },
   { name: 'house-rules', title: 'House Rules', sub: 'Kelola peraturan dan tata tertib' },
   { name: 'duty', folder: 'piket', title: 'Jadwal Piket', sub: 'Kelola jadwal piket Ganjil & Genap' },
   { name: 'calendar', folder: 'schedule', title: 'Calendar / Schedule', sub: 'Kelola jadwal dan agenda kegiatan' }

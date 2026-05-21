@@ -1,78 +1,60 @@
-﻿<section id="sec-overview" class="a-section active">
-        <div class="a-stats-row" id="statsRow">
-          <div class="a-stat-card">
-            <div class="a-stat-icon purple">
-              <i class="bi bi-people-fill"></i>
-            </div>
-            <div>
-              <div class="a-stat-num" id="s-users">0</div>
-              <div class="a-stat-lbl">Total Users</div>
-            </div>
-          </div>
-          <div class="a-stat-card">
-            <div class="a-stat-icon blue">
-              <i class="bi bi-clipboard-data-fill"></i>
-            </div>
-            <div>
-              <div class="a-stat-num" id="s-tasks">0</div>
-              <div class="a-stat-lbl">Total Tasks</div>
-            </div>
-          </div>
-          <div class="a-stat-card">
-            <div class="a-stat-icon green">
-              <i class="bi bi-check-circle-fill"></i>
-            </div>
-            <div>
-              <div class="a-stat-num" id="s-done">0</div>
-              <div class="a-stat-lbl">Tasks Selesai</div>
-            </div>
-          </div>
-          <div class="a-stat-card">
-            <div class="a-stat-icon yellow">
-              <i class="bi bi-hourglass-split"></i>
-            </div>
-            <div>
-              <div class="a-stat-num" id="s-pending">0</div>
-              <div class="a-stat-lbl">Tasks Pending</div>
-            </div>
-          </div>
-          <div class="a-stat-card">
-            <div class="a-stat-icon orange">
-              <i class="bi bi-trophy-fill"></i>
-            </div>
-            <div>
-              <div class="a-stat-num a-stat-sm" id="s-active">-</div>
-              <div class="a-stat-lbl">User Paling Aktif</div>
-            </div>
-          </div>
-        </div>
+<section id="sec-overview" class="a-section active">
+  <div class="a-stats-row" id="statsRow" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+    <div class="a-stat-card">
+      <div class="a-stat-icon purple">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div>
+        <div class="a-stat-num" id="s-users">0</div>
+        <div class="a-stat-lbl">Total Users</div>
+      </div>
+    </div>
+    <div class="a-stat-card">
+      <div class="a-stat-icon blue">
+        <i class="bi bi-journal-text"></i>
+      </div>
+      <div>
+        <div class="a-stat-num" id="s-tasks">0</div>
+        <div class="a-stat-lbl">Total Catatan Diary</div>
+      </div>
+    </div>
+    <div class="a-stat-card">
+      <div class="a-stat-icon orange">
+        <i class="bi bi-trophy-fill"></i>
+      </div>
+      <div>
+        <div class="a-stat-num a-stat-sm" id="s-active">-</div>
+        <div class="a-stat-lbl">User Paling Aktif</div>
+      </div>
+    </div>
+  </div>
 
-        <div class="a-card">
-          <div class="a-card-header">
-            <h2><i class="bi bi-activity"></i> Aktivitas Terbaru</h2>
-            <button class="a-btn-outline" onclick="showSection('activity')">
-              Lihat Semua →
-            </button>
-          </div>
-          <div class="a-table-wrap">
-            <table class="a-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Aktivitas</th>
-                  <th>Task</th>
-                  <th>Kategori</th>
-                  <th>Waktu</th>
-                </tr>
-              </thead>
-              <tbody id="recentActivityBody">
-                <tr>
-                  <td colspan="5" class="a-empty">
-                    <div class="a-spinner"></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+  <div class="a-card">
+    <div class="a-card-header">
+      <h2><i class="bi bi-activity"></i> Log Aktivitas Terbaru</h2>
+      <button class="a-btn-outline" onclick="showSection('activity')">
+        Lihat Semua →
+      </button>
+    </div>
+    <div class="a-table-wrap">
+      <table class="a-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Aktivitas</th>
+            <th>Judul Diary</th>
+            <th>Kategori</th>
+            <th>Waktu</th>
+          </tr>
+        </thead>
+        <tbody id="recentActivityBody">
+          <tr>
+            <td colspan="5" class="a-empty">
+              <div class="a-spinner"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,5 @@
-﻿/**
- * routes/admin.js — Full admin CRUD API using Prisma
+/**
+ * routes/admin.js — Full admin CRUD API using Prisma for Projects & Activities
  */
 const express = require('express');
 const router  = express.Router();
@@ -9,13 +9,13 @@ const prisma  = require('../prisma/client');
 router.use(adminMW);
 
 // Helper for admin activity log
-async function logActivity(userId, username, action, taskId, title, category) {
+async function logActivity(userId, username, action, targetId, title, category) {
   try {
     const log = await prisma.activityLog.create({
       data: {
         user_id: userId,
         action: action,
-        task_title: title,
+        diary_title: title,
         category: category
       },
       include: { user: { select: { username: true } } }
@@ -27,9 +27,58 @@ async function logActivity(userId, username, action, taskId, title, category) {
   }
 }
 
+// Active project assignment validation helper
+async function validateAssignments(projectId, leaderId, menteeIds = []) {
+  // Find all active projects (status: "ongoing" or "upcoming")
+  const activeProjects = await prisma.project.findMany({
+    where: {
+      project_status: { in: ['ongoing', 'upcoming'] },
+      NOT: projectId ? { id: projectId } : undefined
+    },
+    include: {
+      members: true
+    }
+  });
+
+  // Check leader limit (max 1 active project)
+  if (leaderId) {
+    const isAlreadyLeader = activeProjects.some(p => 
+      p.members.some(m => m.user_id === leaderId && m.role === 'leader')
+    );
+    if (isAlreadyLeader) {
+      const user = await prisma.user.findUnique({ where: { id: leaderId }, select: { username: true } });
+      throw new Error(`User "${user?.username || 'Leader'}" sudah memimpin 1 proyek aktif.`);
+    }
+  }
+
+  // Check mentee limit (max 2 active projects) and active leader constraint
+  for (const menteeId of menteeIds) {
+    if (leaderId === menteeId) {
+      throw new Error(`This user is currently an active Project Leader and cannot join as mentee until the project is completed.`);
+    }
+
+    const activeMenteeCount = activeProjects.reduce((acc, p) => {
+      const isMentee = p.members.some(m => m.user_id === menteeId && m.role === 'mentee');
+      return acc + (isMentee ? 1 : 0);
+    }, 0);
+
+    if (activeMenteeCount >= 2) {
+      const user = await prisma.user.findUnique({ where: { id: menteeId }, select: { username: true } });
+      throw new Error(`User "${user?.username || 'Mentee'}" sudah bergabung di 2 proyek aktif sebagai mentee.`);
+    }
+
+    const isAlreadyLeader = activeProjects.some(p => 
+      p.members.some(m => m.user_id === menteeId && m.role === 'leader')
+    );
+    if (isAlreadyLeader) {
+      throw new Error(`This user is currently an active Project Leader and cannot join as mentee until the project is completed.`);
+    }
+  }
+}
+
 let statsCache = null;
 let statsCacheTime = 0;
-const CACHE_TTL = 30000; // 30 seconds
+const CACHE_TTL = 10000; // 10 seconds
 
 // ── GET /api/admin/stats ─────────────────────────────────────────────────────
 router.get('/stats', async (req, res) => {
@@ -41,16 +90,16 @@ router.get('/stats', async (req, res) => {
     }
 
     const totalUsers = await prisma.user.count();
-    const tasks = await prisma.task.findMany({ select: { user_id: true, status: true } });
-    
-    const doneTasks = tasks.filter(t => t.status.startsWith('selesai')).length;
-    const pendingTasks = tasks.filter(t => t.status === 'pending').length;
+    const totalDiaries = await prisma.projectDiary.count();
+    const totalProjects = await prisma.project.count();
+    const activeProjects = await prisma.project.count({ where: { project_status: { in: ['ongoing', 'upcoming'] } } });
 
-    // Most active user
-    const tasksByUser = {};
-    tasks.forEach(t => { tasksByUser[t.user_id] = (tasksByUser[t.user_id] || 0) + 1; });
+    // Most active user based on project diary entries
+    const diaries = await prisma.projectDiary.findMany({ select: { created_by: true } });
+    const diariesByUser = {};
+    diaries.forEach(d => { diariesByUser[d.created_by] = (diariesByUser[d.created_by] || 0) + 1; });
     let mostActiveId = null, mostActiveCount = 0;
-    Object.entries(tasksByUser).forEach(([uid, cnt]) => {
+    Object.entries(diariesByUser).forEach(([uid, cnt]) => {
       if (cnt > mostActiveCount) { mostActiveCount = cnt; mostActiveId = uid; }
     });
 
@@ -63,9 +112,12 @@ router.get('/stats', async (req, res) => {
     const totalActivities = await prisma.activityLog.count();
 
     statsCache = {
-      totalUsers, totalTasks: tasks.length,
-      doneTasks, pendingTasks, mostActiveUser,
-      totalActivities
+      totalUsers,
+      totalDiaries,
+      mostActiveUser,
+      totalActivities,
+      totalProjects,
+      activeProjects
     };
     statsCacheTime = now;
 
@@ -79,20 +131,28 @@ router.get('/users', async (req, res) => {
     const users = await prisma.user.findMany({
       orderBy: { created_at: 'desc' },
       include: {
-        _count: { select: { tasks: true } },
-        tasks: { select: { status: true } }
+        _count: { select: { projectDiaries: true } },
+        projectMembers: {
+          include: { project: { select: { project_status: true } } }
+        }
       }
     });
 
-    const data = users.map(u => ({
-      id: u.id,
-      username: u.username,
-      email: u.email,
-      role: u.role,
-      created_at: u.created_at,
-      taskCount: u._count.tasks,
-      doneCount: u.tasks.filter(t => t.status.startsWith('selesai')).length
-    }));
+    const data = users.map(u => {
+      const activeMemberships = u.projectMembers
+        .filter(m => ['ongoing', 'upcoming'].includes(m.project.project_status))
+        .map(m => ({ projectId: m.project_id, role: m.role }));
+        
+      return {
+        id: u.id,
+        username: u.username,
+        email: u.email,
+        role: u.role,
+        created_at: u.created_at,
+        diaryCount: u._count.projectDiaries,
+        activeMemberships
+      };
+    });
 
     res.json({ success: true, data });
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
@@ -107,7 +167,7 @@ router.patch('/users/:id/role', async (req, res) => {
     if (req.params.id === req.user.id)
       return res.status(400).json({ success: false, error: 'Tidak dapat mengubah role diri sendiri' });
 
-    const updated = await prisma.user.update({
+    await prisma.user.update({
       where: { id: req.params.id },
       data: { role }
     });
@@ -123,56 +183,264 @@ router.delete('/users/:id', async (req, res) => {
       return res.status(400).json({ success: false, error: 'Tidak dapat menghapus akun diri sendiri' });
     
     await prisma.user.delete({ where: { id: req.params.id } });
-    res.json({ success: true, message: 'User berhasil dihapus (Tasks dan Logs otomatis terhapus cascade)' });
+    res.json({ success: true, message: 'User berhasil dihapus' });
   } catch (e) { res.status(500).json({ success: false, error: 'User tidak ditemukan' }); }
 });
 
-// ── GET /api/admin/tasks ─────────────────────────────────────────────────────
-router.get('/tasks', async (req, res) => {
+// ── GET /api/admin/diaries ─────────────────────────────────────────────────────
+router.get('/diaries', async (req, res) => {
   try {
-    const { userId, category, status } = req.query;
+    const { projectId, leaderId, menteeId, month } = req.query;
     
     const where = {};
-    if (userId) where.user_id = userId;
-    if (category && category !== 'all') where.category = category;
-    if (status && status !== 'all') where.status = status;
+    if (projectId && projectId !== 'all') {
+      where.project_id = projectId;
+    }
+    if (leaderId && leaderId !== 'all') {
+      where.created_by = leaderId;
+    } else if (menteeId && menteeId !== 'all') {
+      where.created_by = menteeId;
+    }
+    if (month && month.match(/^\d{4}-\d{2}$/)) {
+      const startDate = new Date(`${month}-01T00:00:00.000Z`);
+      const [year, m] = month.split('-').map(Number);
+      const nextMonth = m === 12 ? 1 : m + 1;
+      const nextYear = m === 12 ? year + 1 : year;
+      const endDate = new Date(`${nextYear}-${String(nextMonth).padStart(2, '0')}-01T00:00:00.000Z`);
+      where.created_at = {
+        gte: startDate,
+        lt: endDate
+      };
+    }
 
-    const tasks = await prisma.task.findMany({
+    const diaries = await prisma.projectDiary.findMany({
       where,
-      include: { user: { select: { username: true } } },
+      include: {
+        creator: { select: { username: true } },
+        project: { select: { project_name: true } }
+      },
       orderBy: { created_at: 'desc' }
     });
 
-    const data = tasks.map(t => ({
-      ...t,
-      username: t.user?.username || 'Unknown',
-      userId: t.user_id
+    const data = diaries.map(d => ({
+      id: d.id,
+      diary_title: d.diary_title,
+      activity_description: d.activity_description,
+      work_progress: d.work_progress,
+      created_by: d.created_by,
+      created_at: d.created_at,
+      username: d.creator?.username || 'Unknown',
+      project_name: d.project?.project_name || 'Unknown Project'
     }));
     
     res.json({ success: true, data });
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
-// ── DELETE /api/admin/tasks/:id ──────────────────────────────────────────────
-router.delete('/tasks/:id', async (req, res) => {
+// ── DELETE /api/admin/diaries/:id ──────────────────────────────────────────────
+router.delete('/diaries/:id', async (req, res) => {
   try {
-    const task = await prisma.task.findUnique({ where: { id: req.params.id } });
-    if (!task) return res.status(404).json({ success: false, error: 'Task tidak ditemukan' });
+    const diary = await prisma.projectDiary.findUnique({
+      where: { id: req.params.id },
+      include: { project: true }
+    });
+    if (!diary) return res.status(404).json({ success: false, error: 'Diary tidak ditemukan' });
 
-    await prisma.task.delete({ where: { id: req.params.id } });
-    const log = await logActivity(req.user.id, req.user.username, 'DELETE_TASK_ADMIN', req.params.id, 'Dihapus oleh admin', null);
+    await prisma.projectDiary.delete({ where: { id: req.params.id } });
+    const log = await logActivity(req.user.id, req.user.username, 'DELETE_DIARY_ADMIN', req.params.id, diary.diary_title, diary.project?.project_name || 'Project');
     
     const io = req.app.get('io');
     if (io) {
-      io.to('admin_room').emit('task_deleted', {
-        taskId: req.params.id,
-        userId: task.user_id,
+      io.to('admin_room').emit('diary_deleted', {
+        diaryId: req.params.id,
+        userId: diary.created_by,
         log: log ? { ...log, username: req.user.username } : null
       });
     }
     
-    res.json({ success: true, message: 'Task berhasil dihapus' });
+    res.json({ success: true, message: 'Diary berhasil dihapus' });
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// ── GET /api/admin/projects ──────────────────────────────────────────────────
+router.get('/projects', async (req, res) => {
+  try {
+    const projects = await prisma.project.findMany({
+      include: {
+        members: {
+          include: {
+            user: { select: { username: true, email: true } }
+          }
+        },
+        _count: { select: { diaries: true } }
+      },
+      orderBy: { created_at: 'desc' }
+    });
+
+    const data = projects.map(p => {
+      const leader = p.members.find(m => m.role === 'leader');
+      const mentees = p.members.filter(m => m.role === 'mentee');
+      return {
+        id: p.id,
+        project_name: p.project_name,
+        description: p.description,
+        start_date: p.start_date,
+        end_date: p.end_date,
+        project_status: p.project_status,
+        diary_count: p._count.diaries,
+        created_at: p.created_at,
+        leader: leader ? { id: leader.user_id, username: leader.user?.username } : null,
+        mentees: mentees.map(mt => ({ id: mt.user_id, username: mt.user?.username }))
+      };
+    });
+
+    res.json({ success: true, data });
+  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// ── POST /api/admin/projects ─────────────────────────────────────────────────
+router.post('/projects', async (req, res) => {
+  try {
+    const { project_name, description, start_date, end_date, project_status, leader_id, mentee_ids } = req.body;
+
+    if (!project_name || !start_date || !end_date) {
+      return res.status(400).json({ success: false, error: 'Nama proyek, tanggal mulai, dan tanggal selesai wajib diisi' });
+    }
+
+    const mIds = Array.isArray(mentee_ids) ? mentee_ids : [];
+
+    if (leader_id && mIds.includes(leader_id)) {
+      return res.status(400).json({ success: false, error: 'Project Leader tidak boleh menjadi mentee di proyek yang sama.' });
+    }
+
+    const status = project_status || 'ongoing';
+    if (status !== 'completed') {
+      try {
+        await validateAssignments(null, leader_id, mIds);
+      } catch (err) {
+        return res.status(400).json({ success: false, error: err.message });
+      }
+    }
+
+    const createdProject = await prisma.project.create({
+      data: {
+        project_name: project_name.trim(),
+        description: (description || '').trim(),
+        start_date,
+        end_date,
+        project_status: status
+      }
+    });
+
+    const memberData = [];
+    if (leader_id) {
+      memberData.push({
+        project_id: createdProject.id,
+        user_id: leader_id,
+        role: 'leader'
+      });
+    }
+    mIds.forEach(uid => {
+      memberData.push({
+        project_id: createdProject.id,
+        user_id: uid,
+        role: 'mentee'
+      });
+    });
+
+    if (memberData.length > 0) {
+      await prisma.projectMember.createMany({ data: memberData });
+    }
+
+    await logActivity(req.user.id, req.user.username, 'CREATE_PROJECT_ADMIN', createdProject.id, createdProject.project_name, status);
+
+    res.status(201).json({ success: true, message: 'Proyek berhasil dibuat', data: createdProject });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// ── PUT /api/admin/projects/:id ──────────────────────────────────────────────
+router.put('/projects/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { project_name, description, start_date, end_date, project_status, leader_id, mentee_ids } = req.body;
+
+    const existingProject = await prisma.project.findUnique({ where: { id } });
+    if (!existingProject) {
+      return res.status(404).json({ success: false, error: 'Proyek tidak ditemukan' });
+    }
+
+    const mIds = Array.isArray(mentee_ids) ? mentee_ids : [];
+
+    if (leader_id && mIds.includes(leader_id)) {
+      return res.status(400).json({ success: false, error: 'Project Leader tidak boleh menjadi mentee di proyek yang sama.' });
+    }
+
+    const status = project_status || existingProject.project_status;
+    if (status !== 'completed') {
+      try {
+        await validateAssignments(id, leader_id, mIds);
+      } catch (err) {
+        return res.status(400).json({ success: false, error: err.message });
+      }
+    }
+
+    await prisma.project.update({
+      where: { id },
+      data: {
+        project_name: project_name !== undefined ? project_name.trim() : undefined,
+        description: description !== undefined ? description.trim() : undefined,
+        start_date: start_date || undefined,
+        end_date: end_date || undefined,
+        project_status: status
+      }
+    });
+
+    await prisma.projectMember.deleteMany({ where: { project_id: id } });
+
+    const memberData = [];
+    if (leader_id) {
+      memberData.push({
+        project_id: id,
+        user_id: leader_id,
+        role: 'leader'
+      });
+    }
+    mIds.forEach(uid => {
+      memberData.push({
+        project_id: id,
+        user_id: uid,
+        role: 'mentee'
+      });
+    });
+
+    if (memberData.length > 0) {
+      await prisma.projectMember.createMany({ data: memberData });
+    }
+
+    await logActivity(req.user.id, req.user.username, 'EDIT_PROJECT_ADMIN', id, project_name || existingProject.project_name, status);
+
+    res.json({ success: true, message: 'Proyek berhasil diperbarui' });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// ── DELETE /api/admin/projects/:id ───────────────────────────────────────────
+router.delete('/projects/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const existing = await prisma.project.findUnique({ where: { id } });
+    if (!existing) return res.status(404).json({ success: false, error: 'Proyek tidak ditemukan' });
+
+    await prisma.project.delete({ where: { id } });
+    await logActivity(req.user.id, req.user.username, 'DELETE_PROJECT_ADMIN', id, existing.project_name, 'deleted');
+
+    res.json({ success: true, message: 'Proyek berhasil dihapus' });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
 });
 
 // ── GET /api/admin/activity ──────────────────────────────────────────────────
@@ -198,283 +466,6 @@ router.get('/activity', async (req, res) => {
       data: mapped, 
       meta: { total, page, limit, totalPages: Math.ceil(total / limit) } 
     });
-  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
-});
-
-// ── GET /api/admin/progress ─────────────────────────────────────────────────
-router.get('/progress', async (req, res) => {
-  try {
-    const users = await prisma.user.findMany({
-      orderBy: { username: 'asc' },
-      include: { tasks: true, activities: { take: 5, orderBy: { timestamp: 'desc' } } }
-    });
-    
-    const CATEGORIES = ['daily', 'weekly', 'monthly', 'quarterly', 'semesterly', 'yearly'];
-
-    const data = users.map(u => {
-      const userTasks = u.tasks;
-      const done = userTasks.filter(t => t.status.startsWith('selesai')).length;
-      const pending = userTasks.filter(t => t.status === 'pending').length;
-      const total = userTasks.length;
-      const productivity = total > 0 ? Math.round((done / total) * 100) : 0;
-
-      const byCategory = {};
-      CATEGORIES.forEach(cat => {
-        const catTasks = userTasks.filter(t => t.category === cat);
-        byCategory[cat] = {
-          total: catTasks.length,
-          done: catTasks.filter(t => t.status.startsWith('selesai')).length,
-          pending: catTasks.filter(t => t.status === 'pending').length,
-        };
-      });
-
-      return {
-        id: u.id, username: u.username, email: u.email, created_at: u.created_at,
-        total, done, pending, productivity, byCategory, recentActivity: u.activities,
-      };
-    });
-
-    res.json({ success: true, data });
-  } catch (e) { res.status(500).json({ success: false, error: e.message }); }
-});
-
-// ── GET /api/admin/progress/export ───────────────────────────────────────────
-router.get('/progress/export', async (req, res) => {
-  try {
-    const ExcelJS = require('exceljs');
-    const workbook = new ExcelJS.Workbook();
-    workbook.creator = 'STAKS FLOW Admin';
-    workbook.created = new Date();
-
-    const { category, userId, startDate, endDate } = req.query;
-
-    const whereClause = {};
-    if (userId) whereClause.id = userId;
-
-    const users = await prisma.user.findMany({
-      where: whereClause,
-      orderBy: { username: 'asc' },
-      include: {
-        tasks: true,
-        activities: { take: 50, orderBy: { timestamp: 'desc' } }
-      }
-    });
-
-    const worksheet = workbook.addWorksheet('Progress Report');
-
-    worksheet.columns = [
-      { header: 'No', key: 'no', width: 6 },
-      { header: 'Nama User', key: 'username', width: 25 },
-      { header: 'Total Task', key: 'total', width: 14 },
-      { header: 'Task Selesai', key: 'done', width: 14 },
-      { header: 'Task Pending', key: 'pending', width: 14 },
-      { header: 'Task Terlambat', key: 'late', width: 16 },
-      { header: 'Produktivitas', key: 'productivity', width: 16 },
-      { header: 'Kategori Task', key: 'category', width: 20 },
-      { header: 'Daftar Tugas Selesai', key: 'completedList', width: 45 },
-      { header: 'Tanggal Report', key: 'date', width: 18 },
-      { header: 'Activity Summary', key: 'activity', width: 45 },
-    ];
-
-    // Style Header Row
-    const headerRow = worksheet.getRow(1);
-    headerRow.height = 30;
-    headerRow.font = { name: 'Arial', size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
-    headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF4F46E5' } }; // Indigo-600
-    headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
-    
-    // Add borders to header
-    headerRow.eachCell((cell) => {
-      cell.border = {
-        top: {style:'thin', color: {argb:'FF312E81'}},
-        left: {style:'thin', color: {argb:'FF312E81'}},
-        bottom: {style:'thin', color: {argb:'FF312E81'}},
-        right: {style:'thin', color: {argb:'FF312E81'}}
-      };
-    });
-    
-    // Default column alignments
-    worksheet.columns.forEach(col => {
-      col.alignment = { vertical: 'top', wrapText: true };
-    });
-    // Center numeric columns
-    ['no', 'total', 'done', 'pending', 'late', 'productivity'].forEach(key => {
-      worksheet.getColumn(key).alignment = { vertical: 'top', horizontal: 'center' };
-    });
-    
-    const now = new Date().toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
-
-    users.forEach((u, index) => {
-      let userTasks = u.tasks;
-      
-      if (category && category !== 'all') {
-        userTasks = userTasks.filter(t => t.category === category);
-      }
-      
-      if (startDate) {
-        userTasks = userTasks.filter(t => new Date(t.created_at) >= new Date(startDate));
-      }
-      if (endDate) {
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999);
-        userTasks = userTasks.filter(t => new Date(t.created_at) <= end);
-      }
-
-      const total = userTasks.length;
-      const done = userTasks.filter(t => t.status.startsWith('selesai')).length;
-      const pending = userTasks.filter(t => t.status === 'pending').length;
-      const late = userTasks.filter(t => t.status === 'selesai_terlambat').length;
-      const productivity = total > 0 ? Math.round((done / total) * 100) : 0;
-      
-      const completedList = userTasks
-        .filter(t => t.status.startsWith('selesai'))
-        .map((t, i) => `${i + 1}. ${t.title}`)
-        .join('\n');
-      
-      let acts = u.activities;
-      if (startDate) acts = acts.filter(a => new Date(a.timestamp) >= new Date(startDate));
-      if (endDate) {
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999);
-        acts = acts.filter(a => new Date(a.timestamp) <= end);
-      }
-
-      const actSummary = acts.length > 0 
-        ? acts.slice(0, 10).map(a => `[${new Date(a.timestamp).toLocaleDateString('id-ID')}] ${a.action}`).join('\n') 
-        : '-';
-
-      worksheet.addRow({
-        no: index + 1,
-        username: u.username,
-        total,
-        done,
-        pending,
-        late,
-        productivity: productivity + '%',
-        category: category && category !== 'all' ? category : 'Semua',
-        completedList: completedList || '-',
-        date: now,
-        activity: actSummary
-      });
-    });
-
-    // Style all data rows (Borders & Zebra Striping)
-    worksheet.eachRow((row, rowNumber) => {
-      if (rowNumber > 1) { // Skip header
-        row.eachCell({ includeEmpty: true }, (cell) => {
-          cell.border = {
-            top: {style:'thin', color: {argb:'FFE5E7EB'}},
-            left: {style:'thin', color: {argb:'FFE5E7EB'}},
-            bottom: {style:'thin', color: {argb:'FFE5E7EB'}},
-            right: {style:'thin', color: {argb:'FFE5E7EB'}}
-          };
-          if (rowNumber % 2 === 0) {
-            // Light gray for even rows
-            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF9FAFB' } };
-          }
-        });
-      }
-    });
-
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', `attachment; filename="progress-monitoring-${new Date().toISOString().split('T')[0]}.xlsx"`);
-
-    await workbook.xlsx.write(res);
-    res.end();
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
-  }
-});
-
-// ── GET /api/admin/progress/:userId ─────────────────────────────────────────
-router.get('/progress/:userId', async (req, res) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: req.params.userId },
-      include: {
-        tasks: { orderBy: { created_at: 'desc' } },
-        activities: { take: 200, orderBy: { timestamp: 'desc' } }
-      }
-    });
-
-    if (!user) return res.status(404).json({ success: false, error: 'User tidak ditemukan' });
-
-    const userTasks = user.tasks;
-    const CATEGORIES = ['daily', 'weekly', 'monthly', 'quarterly', 'semesterly', 'yearly'];
-
-    const done = userTasks.filter(t => t.status.startsWith('selesai')).length;
-    const pending = userTasks.filter(t => t.status === 'pending').length;
-    const total = userTasks.length;
-    const productivity = total > 0 ? Math.round((done / total) * 100) : 0;
-
-    const byCategory = {};
-    CATEGORIES.forEach(cat => {
-      const catTasks = userTasks.filter(t => t.category === cat);
-      byCategory[cat] = {
-        total: catTasks.length,
-        done: catTasks.filter(t => t.status.startsWith('selesai')).length,
-        pending: catTasks.filter(t => t.status === 'pending').length,
-      };
-    });
-
-    // 7-day chart
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
-    sevenDaysAgo.setHours(0, 0, 0, 0);
-
-    const weeklyLogs = user.activities.filter(l => l.timestamp >= sevenDaysAgo).map(l => {
-      return { ...l, day: l.timestamp.toISOString().split('T')[0] };
-    });
-
-    const weeklyChart = [];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const dayStr = d.toISOString().split('T')[0];
-      const dayLogs = weeklyLogs.filter(l => l.day === dayStr);
-      weeklyChart.push({
-        date: dayStr,
-        label: d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' }),
-        completed: dayLogs.filter(l => l.action === 'COMPLETE_TASK').length,
-        created: dayLogs.filter(l => l.action === 'CREATE_TASK').length,
-      });
-    }
-
-    // 6-month chart
-    const monthlyChart = [];
-    for (let i = 5; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(1);
-      d.setMonth(d.getMonth() - i);
-      const y = d.getFullYear(), m = d.getMonth() + 1;
-      const monthStr = `${y}-${String(m).padStart(2, '0')}`;
-      
-      const monthLogs = user.activities.filter(l => {
-        const d2 = new Date(l.timestamp);
-        return d2.getFullYear() === y && (d2.getMonth() + 1) === m;
-      });
-
-      monthlyChart.push({
-        label: d.toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }),
-        completed: monthLogs.filter(l => l.action === 'COMPLETE_TASK').length,
-        created: monthLogs.filter(l => l.action === 'CREATE_TASK').length,
-      });
-    }
-
-    const recentTasks = userTasks.slice(0, 10);
-
-    let topCat = '-';
-    let topCatCount = 0;
-    CATEGORIES.forEach(cat => {
-      if (byCategory[cat].done > topCatCount) { topCatCount = byCategory[cat].done; topCat = cat; }
-    });
-
-    res.json({ success: true, data: {
-      user: { id: user.id, username: user.username, email: user.email, created_at: user.created_at },
-      total, done, pending, productivity,
-      byCategory, weeklyChart, monthlyChart,
-      recentTasks, topCategory: topCat, activityLog: user.activities.slice(0, 20),
-    }});
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
 
