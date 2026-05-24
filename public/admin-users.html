@@ -84,13 +84,9 @@
           <i class="bi bi-journal-text"></i><span>Diary & Aktivitas</span>
           <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
-        <div class="a-nav-item" data-section="activity" id="nav-activity">
-          <i class="bi bi-activity"></i><span>Activity Log</span>
-          <span
-            class="a-badge"
-            id="navActivityCount"
-            style="display: none"
-          ></span>
+        <div class="a-nav-item" data-section="weekly-checkup" id="nav-weekly-checkup">
+          <i class="bi bi-file-earmark-pdf-fill"></i><span>Weekly Check-Up</span>
+          <span class="a-badge" id="navWeeklyCount" style="display: none"></span>
         </div>
 
         <div class="a-nav-section-label" style="margin-top: 16px">
@@ -159,14 +155,21 @@
         <div class="a-card">
           <div class="a-card-header">
             <h2><i class="bi bi-people-fill"></i> Manajemen User</h2>
-            <div class="a-search-box">
-              <i class="bi bi-search"></i>
-              <input
-                type="text"
-                id="userSearch"
-                placeholder="Cari username / email..."
-                oninput="filterUsers()"
-              />
+            <div class="a-filters">
+              <div class="a-search-box">
+                <i class="bi bi-search"></i>
+                <input
+                  type="text"
+                  id="userSearch"
+                  placeholder="Cari username / email..."
+                  oninput="filterUsers()"
+                />
+              </div>
+              <select id="userProjectFilter" class="a-select" onchange="loadUsers()">
+                <option value="all">Semua Project</option>
+                <option value="with-project">Dengan Project</option>
+                <option value="without-project">Tanpa Project</option>
+              </select>
             </div>
           </div>
           <div class="a-table-wrap">
@@ -176,7 +179,7 @@
                   <th>User</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Tasks</th>
+                  <th>Current Project</th>
                   <th>Bergabung</th>
                   <th>Aksi</th>
                 </tr>
@@ -235,7 +238,6 @@
     <!-- TOAST -->
     <div class="a-toast-container" id="toastContainer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/admin.js"></script>
   </body>

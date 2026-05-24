@@ -24,33 +24,32 @@
       </div>
       <div>
         <div class="a-stat-num a-stat-sm" id="s-active">-</div>
-        <div class="a-stat-lbl">User Paling Aktif</div>
+        <div class="a-stat-lbl">User Paling Aktif (All Time)</div>
       </div>
     </div>
   </div>
 
+  <!-- Weekly Active Users Leaderboard -->
   <div class="a-card">
     <div class="a-card-header">
-      <h2><i class="bi bi-activity"></i> Log Aktivitas Terbaru</h2>
-      <button class="a-btn-outline" onclick="showSection('activity')">
-        Lihat Semua →
-      </button>
+      <h2><i class="bi bi-fire" style="color:#f87171;"></i> User Teraktif Pekan Ini</h2>
+      <div style="font-size: 11px; color: var(--at-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Rolling 7 Hari Terakhir</div>
     </div>
     <div class="a-table-wrap">
       <table class="a-table">
         <thead>
           <tr>
             <th>User</th>
-            <th>Aktivitas</th>
-            <th>Judul Diary</th>
-            <th>Kategori</th>
-            <th>Waktu</th>
+            <th>Proyek Saat Ini</th>
+            <th style="text-align: center;">Total Aktivitas</th>
+            <th style="width: 200px;">Aktivitas Bar</th>
           </tr>
         </thead>
-        <tbody id="recentActivityBody">
+        <tbody id="weeklyLeaderboardBody">
           <tr>
-            <td colspan="5" class="a-empty">
-              <div class="a-spinner"></div>
+            <td colspan="4" class="a-empty">
+              <div class="a-spinner" style="width:24px; height:24px; border-width:3px;"></div>
+              <div style="margin-top:10px; font-size:12px;">Menghitung aktivitas pekan ini...</div>
             </td>
           </tr>
         </tbody>

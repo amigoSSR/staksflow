@@ -282,7 +282,7 @@
             <h3>Anda belum bergabung di proyek manapun</h3>
             <p>Hubungi Administrator untuk mendaftarkan Anda ke dalam sebuah proyek.</p>
           </div>
-          <div class="projects-grid" id="myProjectsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+          <div class="projects-grid" id="myProjectsGrid">
             <!-- Rendered dynamically -->
           </div>
         </div>
@@ -334,7 +334,7 @@
                 <div class="fc-header" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
                   <div class="fc-title" id="userCalendarTitle">Bulan Tahun</div>
                   <div style="display: flex; gap: 12px; align-items: center;">
-                    <select id="userCategoryFilter" onchange="renderUserSchedules()" style="padding: 6px 12px; font-size: 13px; font-weight: 500; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-1); border-radius: var(--radius-sm); cursor: pointer; outline: none; height: 36px; min-width: 140px;">
+                    <select id="userCategoryFilter" onchange="renderUserSchedules()" class="sort-select" style="min-width: 140px;">
                       <option value="">Semua Kategori</option>
                     </select>
                     <div class="fc-nav-btns">

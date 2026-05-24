@@ -188,8 +188,9 @@ exports.Prisma.ProjectScalarFieldEnum = {
   project_name: 'project_name',
   description: 'description',
   start_date: 'start_date',
-  end_date: 'end_date',
   project_status: 'project_status',
+  completed_at: 'completed_at',
+  completed_by: 'completed_by',
   created_at: 'created_at',
   updated_at: 'updated_at'
 };
@@ -213,6 +214,28 @@ exports.Prisma.ProjectDiaryScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.WeeklyReportScalarFieldEnum = {
+  id: 'id',
+  project_id: 'project_id',
+  user_id: 'user_id',
+  report_name: 'report_name',
+  report_period: 'report_period',
+  file_path: 'file_path',
+  generated_at: 'generated_at'
+};
+
+exports.Prisma.CombinedWeeklyReportScalarFieldEnum = {
+  id: 'id',
+  report_name: 'report_name',
+  report_period: 'report_period',
+  file_name: 'file_name',
+  file_path: 'file_path',
+  generated_at: 'generated_at',
+  leader_count: 'leader_count',
+  diary_count: 'diary_count',
+  total_activities: 'total_activities'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -234,7 +257,9 @@ exports.Prisma.ModelName = {
   ScheduleCategory: 'ScheduleCategory',
   Project: 'Project',
   ProjectMember: 'ProjectMember',
-  ProjectDiary: 'ProjectDiary'
+  ProjectDiary: 'ProjectDiary',
+  WeeklyReport: 'WeeklyReport',
+  CombinedWeeklyReport: 'CombinedWeeklyReport'
 };
 
 /**

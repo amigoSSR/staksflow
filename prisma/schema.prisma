@@ -33,6 +33,7 @@ model User {
   schedules       Schedule[]
   projectMembers  ProjectMember[]
   projectDiaries  ProjectDiary[]
+  weeklyReports   WeeklyReport[]
 
   @@map("users")
 }
@@ -96,9 +97,9 @@ model Schedule {
   id          String   @id @default(uuid())
   title       String
   description String?
-  category    String   @default("Daily")
-  start_date  String   @default("2026-05-21")
-  end_date    String   @default("2026-05-21")
+  category    String
+  start_date  String
+  end_date    String
   created_by  String
   created_at  DateTime @default(now())
 
@@ -123,13 +124,15 @@ model Project {
   project_name   String
   description    String?
   start_date     String
-  end_date       String
   project_status String          @default("ongoing") // ongoing, upcoming, completed
+  completed_at   DateTime?
+  completed_by   String?         // ID of admin who completed it
   created_at     DateTime        @default(now())
   updated_at     DateTime        @updatedAt
 
   members        ProjectMember[]
   diaries        ProjectDiary[]
+  weeklyReports  WeeklyReport[]
 
   @@map("projects")
 }
@@ -150,7 +153,7 @@ model ProjectMember {
 
 model ProjectDiary {
   id                   String   @id @default(uuid())
-  project_id           String
+  project_id           String?
   diary_title          String
   activity_description String
   work_progress        Int      // progress percentage (0-100)
@@ -158,8 +161,38 @@ model ProjectDiary {
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt
 
-  project              Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project              Project? @relation(fields: [project_id], references: [id], onDelete: Cascade)
   creator              User     @relation(fields: [created_by], references: [id], onDelete: Cascade)
 
   @@map("project_diaries")
+}
+
+model WeeklyReport {
+  id            String   @id @default(uuid())
+  project_id    String
+  user_id       String
+  report_name   String
+  report_period String
+  file_path     String
+  generated_at  DateTime @default(now())
+
+  project       Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("weekly_reports")
+}
+
+// ── Combined weekly report: ONE PDF per week containing all leaders ────────────
+model CombinedWeeklyReport {
+  id               String   @id @default(uuid())
+  report_name      String
+  report_period    String   @unique  // e.g. "2026-05-18 - 2026-05-24" — prevents duplicates
+  file_name        String            // e.g. "weekly-checkup-may-week-3.pdf"
+  file_path        String
+  generated_at     DateTime @default(now())
+  leader_count     Int      @default(0)
+  diary_count      Int      @default(0)
+  total_activities Int      @default(0)
+
+  @@map("combined_weekly_reports")
 }

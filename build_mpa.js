@@ -9,7 +9,7 @@ const modules = [
   { name: 'users', title: 'Manajemen User', sub: 'Kelola akun dan role pengguna' },
   { name: 'projects', title: 'Manajemen Proyek', sub: 'Kelola proyek aktif, leader, mentee, dan timeline' },
   { name: 'tasks', title: 'Diary & Aktivitas', sub: 'Lihat dan kelola diary/aktivitas harian pengguna' },
-  { name: 'activity', title: 'Activity Log', sub: 'Rekam jejak aktivitas pengguna' },
+  { name: 'weekly-checkup', title: 'Weekly Check-Up', sub: 'Auto-generated weekly PDF reports from project diary activity' },
   { name: 'house-rules', title: 'House Rules', sub: 'Kelola peraturan dan tata tertib' },
   { name: 'duty', folder: 'piket', title: 'Jadwal Piket', sub: 'Kelola jadwal piket Ganjil & Genap' },
   { name: 'calendar', folder: 'schedule', title: 'Calendar / Schedule', sub: 'Kelola jadwal dan agenda kegiatan' }

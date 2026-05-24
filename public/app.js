@@ -88,12 +88,13 @@ function populateProjectSelects() {
   const filterSelect = getEl('filterProjectSelect');
   
   if (taskProject) {
-    taskProject.innerHTML = '<option value="">— Pilih Proyek Anda —</option>' +
+    taskProject.innerHTML = '<option value="">— Independent Activity (No Project) —</option>' +
       allProjects.map(p => `<option value="${p.id}">${escHtml(p.project_name)} [${escHtml(p.project_status)}]</option>`).join('');
   }
   
   if (filterSelect) {
     filterSelect.innerHTML = '<option value="all">Semua Proyek</option>' +
+      '<option value="independent">Independent Activity</option>' +
       allProjects.map(p => `<option value="${p.id}">${escHtml(p.project_name)}</option>`).join('');
   }
 }
@@ -111,7 +112,9 @@ function renderAll() {
 function getFilteredDiaries() {
   let diaries = [...allDiaries];
 
-  if (activeProjectId && activeProjectId !== 'all') {
+  if (activeProjectId === 'independent') {
+    diaries = diaries.filter(d => !d.project_id);
+  } else if (activeProjectId && activeProjectId !== 'all') {
     diaries = diaries.filter(d => d.project_id === activeProjectId);
   }
 
@@ -158,10 +161,14 @@ function buildDiaryRow(d) {
     year: 'numeric'
   });
 
+  const isIndependent = !d.project_id;
+  const projectName = isIndependent ? 'Independent Activity' : d.project_name;
+  const projectIcon = isIndependent ? 'bi-person-badge' : 'bi-folder-fill';
+
   return `
   <div class="timeline-item" data-id="${d.id}">
-    <div class="timeline-badge">
-      <i class="bi bi-journal-bookmark-fill"></i>
+    <div class="timeline-badge" style="${isIndependent ? 'background: var(--at-3, #64748b);' : ''}">
+      <i class="bi ${isIndependent ? 'bi-activity' : 'bi-journal-bookmark-fill'}"></i>
     </div>
     <div class="timeline-card">
       <div class="timeline-header">
@@ -179,8 +186,8 @@ function buildDiaryRow(d) {
       </div>
       <div class="timeline-footer">
         <div class="timeline-meta">
-          <span class="meta-item event" title="Proyek">
-            <i class="bi bi-folder-fill"></i> ${escHtml(d.project_name)}
+          <span class="meta-item event" title="${isIndependent ? 'Independent' : 'Proyek'}">
+            <i class="bi ${projectIcon}"></i> ${escHtml(projectName)}
           </span>
         </div>
         <div class="timeline-actions">
@@ -215,7 +222,7 @@ function renderProjects() {
   grid.innerHTML = allProjects.map(p => {
     const formattedStart = new Date(p.start_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
     const formattedEnd = new Date(p.end_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-    
+
     let statusClass = 'status-ongoing';
     let statusLabel = 'Ongoing';
     if (p.project_status === 'upcoming') {
@@ -230,49 +237,48 @@ function renderProjects() {
     const menteesCount = p.mentees ? p.mentees.length : 0;
     const isLeader = p.my_role === 'leader';
     const roleBadge = isLeader 
-      ? `<span class="badge-role leader" style="background: rgba(13, 110, 253, 0.15); color: #0d6efd; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600;">Leader (Mentor)</span>`
-      : `<span class="badge-role mentee" style="background: rgba(25, 135, 84, 0.15); color: #198754; font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600;">Mentee</span>`;
+      ? `<span class="badge-role leader">Leader (Mentor)</span>`
+      : `<span class="badge-role mentee">Mentee</span>`;
 
     return `
-      <div class="project-card" style="background: var(--bg-card, #1a2333); border: 1px solid var(--border-color, rgba(255,255,255,0.08)); padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; transition: transform 0.2s, box-shadow 0.2s; position: relative;">
+      <div class="project-card">
         <div>
-          <div style="display: flex; justify-content: space-between; align-items: start; gap: 12px;">
-            <h3 style="font-size: 18px; font-weight: 600; color: var(--text-1); margin: 0;">${escHtml(p.project_name)}</h3>
-            <span class="project-status-badge ${statusClass}" style="font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase;">
+          <div class="project-card-header">
+            <h3 class="project-title">${escHtml(p.project_name)}</h3>
+            <span class="project-status-badge ${statusClass}">
               ${statusLabel}
             </span>
           </div>
-          <div style="margin-top: 8px; display: flex; gap: 6px; align-items: center;">
+          <div class="project-role-wrap">
             ${roleBadge}
           </div>
-          <p style="font-size: 14px; opacity: 0.7; margin-top: 12px; line-height: 1.5; height: 63px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+          <p class="project-desc">
             ${escHtml(p.description || 'Tidak ada deskripsi proyek.')}
           </p>
         </div>
-        
-        <div style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 8px;">
-          <div style="display: flex; justify-content: space-between;">
-            <span style="opacity: 0.6;"><i class="bi bi-person-badge"></i> Leader:</span>
-            <span style="font-weight: 500;">${escHtml(leaderName)}</span>
+
+        <div class="project-meta-list">
+          <div class="project-meta-item">
+            <span class="project-meta-label"><i class="bi bi-person-badge"></i> Leader:</span>
+            <span class="project-meta-value">${escHtml(leaderName)}</span>
           </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="opacity: 0.6;"><i class="bi bi-people"></i> Mentees:</span>
-            <span style="font-weight: 500;">${menteesCount} Anggota</span>
+          <div class="project-meta-item">
+            <span class="project-meta-label"><i class="bi bi-people"></i> Mentees:</span>
+            <span class="project-meta-value">${menteesCount} Anggota</span>
           </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="opacity: 0.6;"><i class="bi bi-calendar-range"></i> Durasi:</span>
-            <span style="font-weight: 500; font-size: 12px;">${formattedStart} - ${formattedEnd}</span>
+          <div class="project-meta-item">
+            <span class="project-meta-label"><i class="bi bi-calendar-range"></i> Durasi:</span>
+            <span class="project-meta-value" style="font-size: 12px;">${formattedStart} - ${formattedEnd}</span>
           </div>
         </div>
-        
-        <button onclick="openProjectDetails('${p.id}')" class="btn-cancel" style="width: 100%; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+
+        <button onclick="openProjectDetails('${p.id}')" class="btn-project-detail">
           <i class="bi bi-info-circle"></i> Lihat Detail & Timeline
         </button>
       </div>
     `;
   }).join('');
 }
-
 async function openProjectDetails(id) {
   const p = allProjects.find(x => x.id === id);
   if (!p) return;
@@ -463,12 +469,8 @@ function validateForm() {
     clearFieldError('descError', desc);
   }
 
-  if (!proj || !proj.value) {
-    showFieldError('projectError', proj, 'Pilih proyek Anda');
-    ok = false;
-  } else {
-    clearFieldError('projectError', proj);
-  }
+  // Project is now optional
+  clearFieldError('projectError', proj);
 
   if (!prog || prog.value === '') {
     showFieldError('progressError', prog, 'Tentukan progress kerja');
@@ -615,6 +617,7 @@ function closeSidebar() {
 }
 
 addListener('mobileMenuBtn', 'click', openSidebar);
+addListener('mobileMenuBtnC', 'click', openSidebar);
 addListener('sidebarToggle', 'click', closeSidebar);
 if (overlay) overlay.addEventListener('click', closeSidebar);
 

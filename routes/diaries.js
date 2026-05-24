@@ -76,17 +76,22 @@ router.post('/', async (req, res) => {
   try {
     const { project_id, diary_title, activity_description, work_progress } = req.body;
 
-    if (!project_id || !diary_title || work_progress === undefined) {
-      return res.status(400).json({ success: false, error: 'Proyek, judul, dan progress wajib diisi' });
+    if (!diary_title || work_progress === undefined) {
+      return res.status(400).json({ success: false, error: 'Judul dan progress wajib diisi' });
     }
 
-    // Verify user is a member of the project
-    const membership = await prisma.projectMember.findFirst({
-      where: { project_id, user_id: req.user.id },
-      include: { project: true }
-    });
-    if (!membership) {
-      return res.status(403).json({ success: false, error: 'Anda bukan anggota proyek ini' });
+    let projectName = 'Independent Activity';
+    
+    if (project_id) {
+      // Verify user is a member of the project
+      const membership = await prisma.projectMember.findFirst({
+        where: { project_id, user_id: req.user.id },
+        include: { project: true }
+      });
+      if (!membership) {
+        return res.status(403).json({ success: false, error: 'Anda bukan anggota proyek ini' });
+      }
+      projectName = membership.project.project_name;
     }
 
     const progressInt = parseInt(work_progress);
@@ -96,7 +101,7 @@ router.post('/', async (req, res) => {
 
     const created = await prisma.projectDiary.create({
       data: {
-        project_id,
+        project_id: project_id || null,
         diary_title: diary_title.trim(),
         activity_description: (activity_description || '').trim(),
         work_progress: progressInt,
@@ -107,7 +112,7 @@ router.post('/', async (req, res) => {
       }
     });
 
-    const log = await logActivity(req.user.id, 'CREATE_DIARY', diary_title.trim(), membership.project.project_name);
+    const log = await logActivity(req.user.id, 'CREATE_DIARY', diary_title.trim(), projectName);
     
     const io = req.app.get('io');
     if (io) {
@@ -115,7 +120,7 @@ router.post('/', async (req, res) => {
         diary: {
           id: created.id,
           project_id: created.project_id,
-          project_name: created.project?.project_name || 'Unknown Project',
+          project_name: created.project?.project_name || 'Independent Activity',
           diary_title: created.diary_title,
           activity_description: created.activity_description,
           work_progress: created.work_progress,
@@ -157,19 +162,24 @@ router.put('/:id', async (req, res) => {
       updates.work_progress = progressInt;
     }
 
-    let projectName = existing.project?.project_name || 'Unknown Project';
+    let projectName = existing.project?.project_name || 'Independent Activity';
 
     if (project_id !== undefined && project_id !== existing.project_id) {
-      // Verify user is a member of the new project
-      const membership = await prisma.projectMember.findFirst({
-        where: { project_id, user_id: req.user.id },
-        include: { project: true }
-      });
-      if (!membership) {
-        return res.status(403).json({ success: false, error: 'Anda bukan anggota proyek baru ini' });
+      if (project_id) {
+        // Verify user is a member of the new project
+        const membership = await prisma.projectMember.findFirst({
+          where: { project_id, user_id: req.user.id },
+          include: { project: true }
+        });
+        if (!membership) {
+          return res.status(403).json({ success: false, error: 'Anda bukan anggota proyek baru ini' });
+        }
+        updates.project_id = project_id;
+        projectName = membership.project.project_name;
+      } else {
+        updates.project_id = null;
+        projectName = 'Independent Activity';
       }
-      updates.project_id = project_id;
-      projectName = membership.project.project_name;
     }
 
     const updated = await prisma.projectDiary.update({
@@ -186,7 +196,7 @@ router.put('/:id', async (req, res) => {
         diary: {
           id: updated.id,
           project_id: updated.project_id,
-          project_name: updated.project?.project_name || 'Unknown Project',
+          project_name: updated.project?.project_name || 'Independent Activity',
           diary_title: updated.diary_title,
           activity_description: updated.activity_description,
           work_progress: updated.work_progress,

@@ -63,6 +63,16 @@ export type ProjectMember = $Result.DefaultSelection<Prisma.$ProjectMemberPayloa
  * 
  */
 export type ProjectDiary = $Result.DefaultSelection<Prisma.$ProjectDiaryPayload>
+/**
+ * Model WeeklyReport
+ * 
+ */
+export type WeeklyReport = $Result.DefaultSelection<Prisma.$WeeklyReportPayload>
+/**
+ * Model CombinedWeeklyReport
+ * 
+ */
+export type CombinedWeeklyReport = $Result.DefaultSelection<Prisma.$CombinedWeeklyReportPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -286,6 +296,26 @@ export class PrismaClient<
     * ```
     */
   get projectDiary(): Prisma.ProjectDiaryDelegate<ExtArgs>;
+
+  /**
+   * `prisma.weeklyReport`: Exposes CRUD operations for the **WeeklyReport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WeeklyReports
+    * const weeklyReports = await prisma.weeklyReport.findMany()
+    * ```
+    */
+  get weeklyReport(): Prisma.WeeklyReportDelegate<ExtArgs>;
+
+  /**
+   * `prisma.combinedWeeklyReport`: Exposes CRUD operations for the **CombinedWeeklyReport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CombinedWeeklyReports
+    * const combinedWeeklyReports = await prisma.combinedWeeklyReport.findMany()
+    * ```
+    */
+  get combinedWeeklyReport(): Prisma.CombinedWeeklyReportDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -736,7 +766,9 @@ export namespace Prisma {
     ScheduleCategory: 'ScheduleCategory',
     Project: 'Project',
     ProjectMember: 'ProjectMember',
-    ProjectDiary: 'ProjectDiary'
+    ProjectDiary: 'ProjectDiary',
+    WeeklyReport: 'WeeklyReport',
+    CombinedWeeklyReport: 'CombinedWeeklyReport'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -752,7 +784,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "diary" | "activityLog" | "houseRule" | "dutySchedule" | "schedule" | "scheduleCategory" | "project" | "projectMember" | "projectDiary"
+      modelProps: "user" | "diary" | "activityLog" | "houseRule" | "dutySchedule" | "schedule" | "scheduleCategory" | "project" | "projectMember" | "projectDiary" | "weeklyReport" | "combinedWeeklyReport"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1456,6 +1488,146 @@ export namespace Prisma {
           }
         }
       }
+      WeeklyReport: {
+        payload: Prisma.$WeeklyReportPayload<ExtArgs>
+        fields: Prisma.WeeklyReportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WeeklyReportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WeeklyReportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>
+          }
+          findFirst: {
+            args: Prisma.WeeklyReportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WeeklyReportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>
+          }
+          findMany: {
+            args: Prisma.WeeklyReportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>[]
+          }
+          create: {
+            args: Prisma.WeeklyReportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>
+          }
+          createMany: {
+            args: Prisma.WeeklyReportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WeeklyReportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>[]
+          }
+          delete: {
+            args: Prisma.WeeklyReportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>
+          }
+          update: {
+            args: Prisma.WeeklyReportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>
+          }
+          deleteMany: {
+            args: Prisma.WeeklyReportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WeeklyReportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.WeeklyReportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WeeklyReportPayload>
+          }
+          aggregate: {
+            args: Prisma.WeeklyReportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWeeklyReport>
+          }
+          groupBy: {
+            args: Prisma.WeeklyReportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WeeklyReportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WeeklyReportCountArgs<ExtArgs>
+            result: $Utils.Optional<WeeklyReportCountAggregateOutputType> | number
+          }
+        }
+      }
+      CombinedWeeklyReport: {
+        payload: Prisma.$CombinedWeeklyReportPayload<ExtArgs>
+        fields: Prisma.CombinedWeeklyReportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CombinedWeeklyReportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CombinedWeeklyReportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>
+          }
+          findFirst: {
+            args: Prisma.CombinedWeeklyReportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CombinedWeeklyReportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>
+          }
+          findMany: {
+            args: Prisma.CombinedWeeklyReportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>[]
+          }
+          create: {
+            args: Prisma.CombinedWeeklyReportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>
+          }
+          createMany: {
+            args: Prisma.CombinedWeeklyReportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CombinedWeeklyReportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>[]
+          }
+          delete: {
+            args: Prisma.CombinedWeeklyReportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>
+          }
+          update: {
+            args: Prisma.CombinedWeeklyReportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>
+          }
+          deleteMany: {
+            args: Prisma.CombinedWeeklyReportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CombinedWeeklyReportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.CombinedWeeklyReportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CombinedWeeklyReportPayload>
+          }
+          aggregate: {
+            args: Prisma.CombinedWeeklyReportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCombinedWeeklyReport>
+          }
+          groupBy: {
+            args: Prisma.CombinedWeeklyReportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CombinedWeeklyReportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CombinedWeeklyReportCountArgs<ExtArgs>
+            result: $Utils.Optional<CombinedWeeklyReportCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1624,6 +1796,7 @@ export namespace Prisma {
     schedules: number
     projectMembers: number
     projectDiaries: number
+    weeklyReports: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1634,6 +1807,7 @@ export namespace Prisma {
     schedules?: boolean | UserCountOutputTypeCountSchedulesArgs
     projectMembers?: boolean | UserCountOutputTypeCountProjectMembersArgs
     projectDiaries?: boolean | UserCountOutputTypeCountProjectDiariesArgs
+    weeklyReports?: boolean | UserCountOutputTypeCountWeeklyReportsArgs
   }
 
   // Custom InputTypes
@@ -1696,6 +1870,13 @@ export namespace Prisma {
     where?: ProjectDiaryWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountWeeklyReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WeeklyReportWhereInput
+  }
+
 
   /**
    * Count Type ScheduleCountOutputType
@@ -1735,11 +1916,13 @@ export namespace Prisma {
   export type ProjectCountOutputType = {
     members: number
     diaries: number
+    weeklyReports: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | ProjectCountOutputTypeCountMembersArgs
     diaries?: boolean | ProjectCountOutputTypeCountDiariesArgs
+    weeklyReports?: boolean | ProjectCountOutputTypeCountWeeklyReportsArgs
   }
 
   // Custom InputTypes
@@ -1765,6 +1948,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountDiariesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectDiaryWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountWeeklyReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WeeklyReportWhereInput
   }
 
 
@@ -1951,6 +2141,7 @@ export namespace Prisma {
     schedules?: boolean | User$schedulesArgs<ExtArgs>
     projectMembers?: boolean | User$projectMembersArgs<ExtArgs>
     projectDiaries?: boolean | User$projectDiariesArgs<ExtArgs>
+    weeklyReports?: boolean | User$weeklyReportsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1980,6 +2171,7 @@ export namespace Prisma {
     schedules?: boolean | User$schedulesArgs<ExtArgs>
     projectMembers?: boolean | User$projectMembersArgs<ExtArgs>
     projectDiaries?: boolean | User$projectDiariesArgs<ExtArgs>
+    weeklyReports?: boolean | User$weeklyReportsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1994,6 +2186,7 @@ export namespace Prisma {
       schedules: Prisma.$SchedulePayload<ExtArgs>[]
       projectMembers: Prisma.$ProjectMemberPayload<ExtArgs>[]
       projectDiaries: Prisma.$ProjectDiaryPayload<ExtArgs>[]
+      weeklyReports: Prisma.$WeeklyReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2373,6 +2566,7 @@ export namespace Prisma {
     schedules<T extends User$schedulesArgs<ExtArgs> = {}>(args?: Subset<T, User$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany"> | Null>
     projectMembers<T extends User$projectMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     projectDiaries<T extends User$projectDiariesArgs<ExtArgs> = {}>(args?: Subset<T, User$projectDiariesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectDiaryPayload<ExtArgs>, T, "findMany"> | Null>
+    weeklyReports<T extends User$weeklyReportsArgs<ExtArgs> = {}>(args?: Subset<T, User$weeklyReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2857,6 +3051,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectDiaryScalarFieldEnum | ProjectDiaryScalarFieldEnum[]
+  }
+
+  /**
+   * User.weeklyReports
+   */
+  export type User$weeklyReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    where?: WeeklyReportWhereInput
+    orderBy?: WeeklyReportOrderByWithRelationInput | WeeklyReportOrderByWithRelationInput[]
+    cursor?: WeeklyReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
   }
 
   /**
@@ -8551,8 +8765,9 @@ export namespace Prisma {
     project_name: string | null
     description: string | null
     start_date: string | null
-    end_date: string | null
     project_status: string | null
+    completed_at: Date | null
+    completed_by: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -8562,8 +8777,9 @@ export namespace Prisma {
     project_name: string | null
     description: string | null
     start_date: string | null
-    end_date: string | null
     project_status: string | null
+    completed_at: Date | null
+    completed_by: string | null
     created_at: Date | null
     updated_at: Date | null
   }
@@ -8573,8 +8789,9 @@ export namespace Prisma {
     project_name: number
     description: number
     start_date: number
-    end_date: number
     project_status: number
+    completed_at: number
+    completed_by: number
     created_at: number
     updated_at: number
     _all: number
@@ -8586,8 +8803,9 @@ export namespace Prisma {
     project_name?: true
     description?: true
     start_date?: true
-    end_date?: true
     project_status?: true
+    completed_at?: true
+    completed_by?: true
     created_at?: true
     updated_at?: true
   }
@@ -8597,8 +8815,9 @@ export namespace Prisma {
     project_name?: true
     description?: true
     start_date?: true
-    end_date?: true
     project_status?: true
+    completed_at?: true
+    completed_by?: true
     created_at?: true
     updated_at?: true
   }
@@ -8608,8 +8827,9 @@ export namespace Prisma {
     project_name?: true
     description?: true
     start_date?: true
-    end_date?: true
     project_status?: true
+    completed_at?: true
+    completed_by?: true
     created_at?: true
     updated_at?: true
     _all?: true
@@ -8692,8 +8912,9 @@ export namespace Prisma {
     project_name: string
     description: string | null
     start_date: string
-    end_date: string
     project_status: string
+    completed_at: Date | null
+    completed_by: string | null
     created_at: Date
     updated_at: Date
     _count: ProjectCountAggregateOutputType | null
@@ -8720,12 +8941,14 @@ export namespace Prisma {
     project_name?: boolean
     description?: boolean
     start_date?: boolean
-    end_date?: boolean
     project_status?: boolean
+    completed_at?: boolean
+    completed_by?: boolean
     created_at?: boolean
     updated_at?: boolean
     members?: boolean | Project$membersArgs<ExtArgs>
     diaries?: boolean | Project$diariesArgs<ExtArgs>
+    weeklyReports?: boolean | Project$weeklyReportsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -8734,8 +8957,9 @@ export namespace Prisma {
     project_name?: boolean
     description?: boolean
     start_date?: boolean
-    end_date?: boolean
     project_status?: boolean
+    completed_at?: boolean
+    completed_by?: boolean
     created_at?: boolean
     updated_at?: boolean
   }, ExtArgs["result"]["project"]>
@@ -8745,8 +8969,9 @@ export namespace Prisma {
     project_name?: boolean
     description?: boolean
     start_date?: boolean
-    end_date?: boolean
     project_status?: boolean
+    completed_at?: boolean
+    completed_by?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
@@ -8754,6 +8979,7 @@ export namespace Prisma {
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Project$membersArgs<ExtArgs>
     diaries?: boolean | Project$diariesArgs<ExtArgs>
+    weeklyReports?: boolean | Project$weeklyReportsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8763,14 +8989,16 @@ export namespace Prisma {
     objects: {
       members: Prisma.$ProjectMemberPayload<ExtArgs>[]
       diaries: Prisma.$ProjectDiaryPayload<ExtArgs>[]
+      weeklyReports: Prisma.$WeeklyReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       project_name: string
       description: string | null
       start_date: string
-      end_date: string
       project_status: string
+      completed_at: Date | null
+      completed_by: string | null
       created_at: Date
       updated_at: Date
     }, ExtArgs["result"]["project"]>
@@ -9139,6 +9367,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     members<T extends Project$membersArgs<ExtArgs> = {}>(args?: Subset<T, Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     diaries<T extends Project$diariesArgs<ExtArgs> = {}>(args?: Subset<T, Project$diariesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectDiaryPayload<ExtArgs>, T, "findMany"> | Null>
+    weeklyReports<T extends Project$weeklyReportsArgs<ExtArgs> = {}>(args?: Subset<T, Project$weeklyReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9172,8 +9401,9 @@ export namespace Prisma {
     readonly project_name: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
     readonly start_date: FieldRef<"Project", 'String'>
-    readonly end_date: FieldRef<"Project", 'String'>
     readonly project_status: FieldRef<"Project", 'String'>
+    readonly completed_at: FieldRef<"Project", 'DateTime'>
+    readonly completed_by: FieldRef<"Project", 'String'>
     readonly created_at: FieldRef<"Project", 'DateTime'>
     readonly updated_at: FieldRef<"Project", 'DateTime'>
   }
@@ -9525,6 +9755,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProjectDiaryScalarFieldEnum | ProjectDiaryScalarFieldEnum[]
+  }
+
+  /**
+   * Project.weeklyReports
+   */
+  export type Project$weeklyReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    where?: WeeklyReportWhereInput
+    orderBy?: WeeklyReportOrderByWithRelationInput | WeeklyReportOrderByWithRelationInput[]
+    cursor?: WeeklyReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
   }
 
   /**
@@ -10664,7 +10914,7 @@ export namespace Prisma {
 
   export type ProjectDiaryGroupByOutputType = {
     id: string
-    project_id: string
+    project_id: string | null
     diary_title: string
     activity_description: string
     work_progress: number
@@ -10701,7 +10951,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     updated_at?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDiary$projectArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectDiary"]>
 
@@ -10714,7 +10964,7 @@ export namespace Prisma {
     created_by?: boolean
     created_at?: boolean
     updated_at?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDiary$projectArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["projectDiary"]>
 
@@ -10730,23 +10980,23 @@ export namespace Prisma {
   }
 
   export type ProjectDiaryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDiary$projectArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ProjectDiaryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDiary$projectArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ProjectDiaryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ProjectDiary"
     objects: {
-      project: Prisma.$ProjectPayload<ExtArgs>
+      project: Prisma.$ProjectPayload<ExtArgs> | null
       creator: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      project_id: string
+      project_id: string | null
       diary_title: string
       activity_description: string
       work_progress: number
@@ -11117,7 +11367,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectDiaryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    project<T extends ProjectDiary$projectArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDiary$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11472,6 +11722,21 @@ export namespace Prisma {
   }
 
   /**
+   * ProjectDiary.project
+   */
+  export type ProjectDiary$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
    * ProjectDiary without action
    */
   export type ProjectDiaryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11483,6 +11748,1933 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProjectDiaryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WeeklyReport
+   */
+
+  export type AggregateWeeklyReport = {
+    _count: WeeklyReportCountAggregateOutputType | null
+    _min: WeeklyReportMinAggregateOutputType | null
+    _max: WeeklyReportMaxAggregateOutputType | null
+  }
+
+  export type WeeklyReportMinAggregateOutputType = {
+    id: string | null
+    project_id: string | null
+    user_id: string | null
+    report_name: string | null
+    report_period: string | null
+    file_path: string | null
+    generated_at: Date | null
+  }
+
+  export type WeeklyReportMaxAggregateOutputType = {
+    id: string | null
+    project_id: string | null
+    user_id: string | null
+    report_name: string | null
+    report_period: string | null
+    file_path: string | null
+    generated_at: Date | null
+  }
+
+  export type WeeklyReportCountAggregateOutputType = {
+    id: number
+    project_id: number
+    user_id: number
+    report_name: number
+    report_period: number
+    file_path: number
+    generated_at: number
+    _all: number
+  }
+
+
+  export type WeeklyReportMinAggregateInputType = {
+    id?: true
+    project_id?: true
+    user_id?: true
+    report_name?: true
+    report_period?: true
+    file_path?: true
+    generated_at?: true
+  }
+
+  export type WeeklyReportMaxAggregateInputType = {
+    id?: true
+    project_id?: true
+    user_id?: true
+    report_name?: true
+    report_period?: true
+    file_path?: true
+    generated_at?: true
+  }
+
+  export type WeeklyReportCountAggregateInputType = {
+    id?: true
+    project_id?: true
+    user_id?: true
+    report_name?: true
+    report_period?: true
+    file_path?: true
+    generated_at?: true
+    _all?: true
+  }
+
+  export type WeeklyReportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WeeklyReport to aggregate.
+     */
+    where?: WeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WeeklyReports to fetch.
+     */
+    orderBy?: WeeklyReportOrderByWithRelationInput | WeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WeeklyReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WeeklyReports
+    **/
+    _count?: true | WeeklyReportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WeeklyReportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WeeklyReportMaxAggregateInputType
+  }
+
+  export type GetWeeklyReportAggregateType<T extends WeeklyReportAggregateArgs> = {
+        [P in keyof T & keyof AggregateWeeklyReport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWeeklyReport[P]>
+      : GetScalarType<T[P], AggregateWeeklyReport[P]>
+  }
+
+
+
+
+  export type WeeklyReportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WeeklyReportWhereInput
+    orderBy?: WeeklyReportOrderByWithAggregationInput | WeeklyReportOrderByWithAggregationInput[]
+    by: WeeklyReportScalarFieldEnum[] | WeeklyReportScalarFieldEnum
+    having?: WeeklyReportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WeeklyReportCountAggregateInputType | true
+    _min?: WeeklyReportMinAggregateInputType
+    _max?: WeeklyReportMaxAggregateInputType
+  }
+
+  export type WeeklyReportGroupByOutputType = {
+    id: string
+    project_id: string
+    user_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at: Date
+    _count: WeeklyReportCountAggregateOutputType | null
+    _min: WeeklyReportMinAggregateOutputType | null
+    _max: WeeklyReportMaxAggregateOutputType | null
+  }
+
+  type GetWeeklyReportGroupByPayload<T extends WeeklyReportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WeeklyReportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WeeklyReportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WeeklyReportGroupByOutputType[P]>
+            : GetScalarType<T[P], WeeklyReportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WeeklyReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    user_id?: boolean
+    report_name?: boolean
+    report_period?: boolean
+    file_path?: boolean
+    generated_at?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["weeklyReport"]>
+
+  export type WeeklyReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    user_id?: boolean
+    report_name?: boolean
+    report_period?: boolean
+    file_path?: boolean
+    generated_at?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["weeklyReport"]>
+
+  export type WeeklyReportSelectScalar = {
+    id?: boolean
+    project_id?: boolean
+    user_id?: boolean
+    report_name?: boolean
+    report_period?: boolean
+    file_path?: boolean
+    generated_at?: boolean
+  }
+
+  export type WeeklyReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type WeeklyReportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $WeeklyReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WeeklyReport"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      project_id: string
+      user_id: string
+      report_name: string
+      report_period: string
+      file_path: string
+      generated_at: Date
+    }, ExtArgs["result"]["weeklyReport"]>
+    composites: {}
+  }
+
+  type WeeklyReportGetPayload<S extends boolean | null | undefined | WeeklyReportDefaultArgs> = $Result.GetResult<Prisma.$WeeklyReportPayload, S>
+
+  type WeeklyReportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<WeeklyReportFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: WeeklyReportCountAggregateInputType | true
+    }
+
+  export interface WeeklyReportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WeeklyReport'], meta: { name: 'WeeklyReport' } }
+    /**
+     * Find zero or one WeeklyReport that matches the filter.
+     * @param {WeeklyReportFindUniqueArgs} args - Arguments to find a WeeklyReport
+     * @example
+     * // Get one WeeklyReport
+     * const weeklyReport = await prisma.weeklyReport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WeeklyReportFindUniqueArgs>(args: SelectSubset<T, WeeklyReportFindUniqueArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one WeeklyReport that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {WeeklyReportFindUniqueOrThrowArgs} args - Arguments to find a WeeklyReport
+     * @example
+     * // Get one WeeklyReport
+     * const weeklyReport = await prisma.weeklyReport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WeeklyReportFindUniqueOrThrowArgs>(args: SelectSubset<T, WeeklyReportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first WeeklyReport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportFindFirstArgs} args - Arguments to find a WeeklyReport
+     * @example
+     * // Get one WeeklyReport
+     * const weeklyReport = await prisma.weeklyReport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WeeklyReportFindFirstArgs>(args?: SelectSubset<T, WeeklyReportFindFirstArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first WeeklyReport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportFindFirstOrThrowArgs} args - Arguments to find a WeeklyReport
+     * @example
+     * // Get one WeeklyReport
+     * const weeklyReport = await prisma.weeklyReport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WeeklyReportFindFirstOrThrowArgs>(args?: SelectSubset<T, WeeklyReportFindFirstOrThrowArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more WeeklyReports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WeeklyReports
+     * const weeklyReports = await prisma.weeklyReport.findMany()
+     * 
+     * // Get first 10 WeeklyReports
+     * const weeklyReports = await prisma.weeklyReport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const weeklyReportWithIdOnly = await prisma.weeklyReport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WeeklyReportFindManyArgs>(args?: SelectSubset<T, WeeklyReportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a WeeklyReport.
+     * @param {WeeklyReportCreateArgs} args - Arguments to create a WeeklyReport.
+     * @example
+     * // Create one WeeklyReport
+     * const WeeklyReport = await prisma.weeklyReport.create({
+     *   data: {
+     *     // ... data to create a WeeklyReport
+     *   }
+     * })
+     * 
+     */
+    create<T extends WeeklyReportCreateArgs>(args: SelectSubset<T, WeeklyReportCreateArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many WeeklyReports.
+     * @param {WeeklyReportCreateManyArgs} args - Arguments to create many WeeklyReports.
+     * @example
+     * // Create many WeeklyReports
+     * const weeklyReport = await prisma.weeklyReport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WeeklyReportCreateManyArgs>(args?: SelectSubset<T, WeeklyReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WeeklyReports and returns the data saved in the database.
+     * @param {WeeklyReportCreateManyAndReturnArgs} args - Arguments to create many WeeklyReports.
+     * @example
+     * // Create many WeeklyReports
+     * const weeklyReport = await prisma.weeklyReport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WeeklyReports and only return the `id`
+     * const weeklyReportWithIdOnly = await prisma.weeklyReport.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WeeklyReportCreateManyAndReturnArgs>(args?: SelectSubset<T, WeeklyReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a WeeklyReport.
+     * @param {WeeklyReportDeleteArgs} args - Arguments to delete one WeeklyReport.
+     * @example
+     * // Delete one WeeklyReport
+     * const WeeklyReport = await prisma.weeklyReport.delete({
+     *   where: {
+     *     // ... filter to delete one WeeklyReport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WeeklyReportDeleteArgs>(args: SelectSubset<T, WeeklyReportDeleteArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one WeeklyReport.
+     * @param {WeeklyReportUpdateArgs} args - Arguments to update one WeeklyReport.
+     * @example
+     * // Update one WeeklyReport
+     * const weeklyReport = await prisma.weeklyReport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WeeklyReportUpdateArgs>(args: SelectSubset<T, WeeklyReportUpdateArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more WeeklyReports.
+     * @param {WeeklyReportDeleteManyArgs} args - Arguments to filter WeeklyReports to delete.
+     * @example
+     * // Delete a few WeeklyReports
+     * const { count } = await prisma.weeklyReport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WeeklyReportDeleteManyArgs>(args?: SelectSubset<T, WeeklyReportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WeeklyReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WeeklyReports
+     * const weeklyReport = await prisma.weeklyReport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WeeklyReportUpdateManyArgs>(args: SelectSubset<T, WeeklyReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one WeeklyReport.
+     * @param {WeeklyReportUpsertArgs} args - Arguments to update or create a WeeklyReport.
+     * @example
+     * // Update or create a WeeklyReport
+     * const weeklyReport = await prisma.weeklyReport.upsert({
+     *   create: {
+     *     // ... data to create a WeeklyReport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WeeklyReport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WeeklyReportUpsertArgs>(args: SelectSubset<T, WeeklyReportUpsertArgs<ExtArgs>>): Prisma__WeeklyReportClient<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of WeeklyReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportCountArgs} args - Arguments to filter WeeklyReports to count.
+     * @example
+     * // Count the number of WeeklyReports
+     * const count = await prisma.weeklyReport.count({
+     *   where: {
+     *     // ... the filter for the WeeklyReports we want to count
+     *   }
+     * })
+    **/
+    count<T extends WeeklyReportCountArgs>(
+      args?: Subset<T, WeeklyReportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WeeklyReportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WeeklyReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WeeklyReportAggregateArgs>(args: Subset<T, WeeklyReportAggregateArgs>): Prisma.PrismaPromise<GetWeeklyReportAggregateType<T>>
+
+    /**
+     * Group by WeeklyReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WeeklyReportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WeeklyReportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WeeklyReportGroupByArgs['orderBy'] }
+        : { orderBy?: WeeklyReportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WeeklyReportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWeeklyReportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WeeklyReport model
+   */
+  readonly fields: WeeklyReportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WeeklyReport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WeeklyReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WeeklyReport model
+   */ 
+  interface WeeklyReportFieldRefs {
+    readonly id: FieldRef<"WeeklyReport", 'String'>
+    readonly project_id: FieldRef<"WeeklyReport", 'String'>
+    readonly user_id: FieldRef<"WeeklyReport", 'String'>
+    readonly report_name: FieldRef<"WeeklyReport", 'String'>
+    readonly report_period: FieldRef<"WeeklyReport", 'String'>
+    readonly file_path: FieldRef<"WeeklyReport", 'String'>
+    readonly generated_at: FieldRef<"WeeklyReport", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WeeklyReport findUnique
+   */
+  export type WeeklyReportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * Filter, which WeeklyReport to fetch.
+     */
+    where: WeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * WeeklyReport findUniqueOrThrow
+   */
+  export type WeeklyReportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * Filter, which WeeklyReport to fetch.
+     */
+    where: WeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * WeeklyReport findFirst
+   */
+  export type WeeklyReportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * Filter, which WeeklyReport to fetch.
+     */
+    where?: WeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WeeklyReports to fetch.
+     */
+    orderBy?: WeeklyReportOrderByWithRelationInput | WeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WeeklyReports.
+     */
+    cursor?: WeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WeeklyReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WeeklyReports.
+     */
+    distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * WeeklyReport findFirstOrThrow
+   */
+  export type WeeklyReportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * Filter, which WeeklyReport to fetch.
+     */
+    where?: WeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WeeklyReports to fetch.
+     */
+    orderBy?: WeeklyReportOrderByWithRelationInput | WeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WeeklyReports.
+     */
+    cursor?: WeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WeeklyReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WeeklyReports.
+     */
+    distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * WeeklyReport findMany
+   */
+  export type WeeklyReportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * Filter, which WeeklyReports to fetch.
+     */
+    where?: WeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WeeklyReports to fetch.
+     */
+    orderBy?: WeeklyReportOrderByWithRelationInput | WeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WeeklyReports.
+     */
+    cursor?: WeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WeeklyReports.
+     */
+    skip?: number
+    distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * WeeklyReport create
+   */
+  export type WeeklyReportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WeeklyReport.
+     */
+    data: XOR<WeeklyReportCreateInput, WeeklyReportUncheckedCreateInput>
+  }
+
+  /**
+   * WeeklyReport createMany
+   */
+  export type WeeklyReportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WeeklyReports.
+     */
+    data: WeeklyReportCreateManyInput | WeeklyReportCreateManyInput[]
+  }
+
+  /**
+   * WeeklyReport createManyAndReturn
+   */
+  export type WeeklyReportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many WeeklyReports.
+     */
+    data: WeeklyReportCreateManyInput | WeeklyReportCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WeeklyReport update
+   */
+  export type WeeklyReportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WeeklyReport.
+     */
+    data: XOR<WeeklyReportUpdateInput, WeeklyReportUncheckedUpdateInput>
+    /**
+     * Choose, which WeeklyReport to update.
+     */
+    where: WeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * WeeklyReport updateMany
+   */
+  export type WeeklyReportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WeeklyReports.
+     */
+    data: XOR<WeeklyReportUpdateManyMutationInput, WeeklyReportUncheckedUpdateManyInput>
+    /**
+     * Filter which WeeklyReports to update
+     */
+    where?: WeeklyReportWhereInput
+  }
+
+  /**
+   * WeeklyReport upsert
+   */
+  export type WeeklyReportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WeeklyReport to update in case it exists.
+     */
+    where: WeeklyReportWhereUniqueInput
+    /**
+     * In case the WeeklyReport found by the `where` argument doesn't exist, create a new WeeklyReport with this data.
+     */
+    create: XOR<WeeklyReportCreateInput, WeeklyReportUncheckedCreateInput>
+    /**
+     * In case the WeeklyReport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WeeklyReportUpdateInput, WeeklyReportUncheckedUpdateInput>
+  }
+
+  /**
+   * WeeklyReport delete
+   */
+  export type WeeklyReportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+    /**
+     * Filter which WeeklyReport to delete.
+     */
+    where: WeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * WeeklyReport deleteMany
+   */
+  export type WeeklyReportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WeeklyReports to delete
+     */
+    where?: WeeklyReportWhereInput
+  }
+
+  /**
+   * WeeklyReport without action
+   */
+  export type WeeklyReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WeeklyReport
+     */
+    select?: WeeklyReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WeeklyReportInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CombinedWeeklyReport
+   */
+
+  export type AggregateCombinedWeeklyReport = {
+    _count: CombinedWeeklyReportCountAggregateOutputType | null
+    _avg: CombinedWeeklyReportAvgAggregateOutputType | null
+    _sum: CombinedWeeklyReportSumAggregateOutputType | null
+    _min: CombinedWeeklyReportMinAggregateOutputType | null
+    _max: CombinedWeeklyReportMaxAggregateOutputType | null
+  }
+
+  export type CombinedWeeklyReportAvgAggregateOutputType = {
+    leader_count: number | null
+    diary_count: number | null
+    total_activities: number | null
+  }
+
+  export type CombinedWeeklyReportSumAggregateOutputType = {
+    leader_count: number | null
+    diary_count: number | null
+    total_activities: number | null
+  }
+
+  export type CombinedWeeklyReportMinAggregateOutputType = {
+    id: string | null
+    report_name: string | null
+    report_period: string | null
+    file_name: string | null
+    file_path: string | null
+    generated_at: Date | null
+    leader_count: number | null
+    diary_count: number | null
+    total_activities: number | null
+  }
+
+  export type CombinedWeeklyReportMaxAggregateOutputType = {
+    id: string | null
+    report_name: string | null
+    report_period: string | null
+    file_name: string | null
+    file_path: string | null
+    generated_at: Date | null
+    leader_count: number | null
+    diary_count: number | null
+    total_activities: number | null
+  }
+
+  export type CombinedWeeklyReportCountAggregateOutputType = {
+    id: number
+    report_name: number
+    report_period: number
+    file_name: number
+    file_path: number
+    generated_at: number
+    leader_count: number
+    diary_count: number
+    total_activities: number
+    _all: number
+  }
+
+
+  export type CombinedWeeklyReportAvgAggregateInputType = {
+    leader_count?: true
+    diary_count?: true
+    total_activities?: true
+  }
+
+  export type CombinedWeeklyReportSumAggregateInputType = {
+    leader_count?: true
+    diary_count?: true
+    total_activities?: true
+  }
+
+  export type CombinedWeeklyReportMinAggregateInputType = {
+    id?: true
+    report_name?: true
+    report_period?: true
+    file_name?: true
+    file_path?: true
+    generated_at?: true
+    leader_count?: true
+    diary_count?: true
+    total_activities?: true
+  }
+
+  export type CombinedWeeklyReportMaxAggregateInputType = {
+    id?: true
+    report_name?: true
+    report_period?: true
+    file_name?: true
+    file_path?: true
+    generated_at?: true
+    leader_count?: true
+    diary_count?: true
+    total_activities?: true
+  }
+
+  export type CombinedWeeklyReportCountAggregateInputType = {
+    id?: true
+    report_name?: true
+    report_period?: true
+    file_name?: true
+    file_path?: true
+    generated_at?: true
+    leader_count?: true
+    diary_count?: true
+    total_activities?: true
+    _all?: true
+  }
+
+  export type CombinedWeeklyReportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CombinedWeeklyReport to aggregate.
+     */
+    where?: CombinedWeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CombinedWeeklyReports to fetch.
+     */
+    orderBy?: CombinedWeeklyReportOrderByWithRelationInput | CombinedWeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CombinedWeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CombinedWeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CombinedWeeklyReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CombinedWeeklyReports
+    **/
+    _count?: true | CombinedWeeklyReportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CombinedWeeklyReportAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CombinedWeeklyReportSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CombinedWeeklyReportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CombinedWeeklyReportMaxAggregateInputType
+  }
+
+  export type GetCombinedWeeklyReportAggregateType<T extends CombinedWeeklyReportAggregateArgs> = {
+        [P in keyof T & keyof AggregateCombinedWeeklyReport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCombinedWeeklyReport[P]>
+      : GetScalarType<T[P], AggregateCombinedWeeklyReport[P]>
+  }
+
+
+
+
+  export type CombinedWeeklyReportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CombinedWeeklyReportWhereInput
+    orderBy?: CombinedWeeklyReportOrderByWithAggregationInput | CombinedWeeklyReportOrderByWithAggregationInput[]
+    by: CombinedWeeklyReportScalarFieldEnum[] | CombinedWeeklyReportScalarFieldEnum
+    having?: CombinedWeeklyReportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CombinedWeeklyReportCountAggregateInputType | true
+    _avg?: CombinedWeeklyReportAvgAggregateInputType
+    _sum?: CombinedWeeklyReportSumAggregateInputType
+    _min?: CombinedWeeklyReportMinAggregateInputType
+    _max?: CombinedWeeklyReportMaxAggregateInputType
+  }
+
+  export type CombinedWeeklyReportGroupByOutputType = {
+    id: string
+    report_name: string
+    report_period: string
+    file_name: string
+    file_path: string
+    generated_at: Date
+    leader_count: number
+    diary_count: number
+    total_activities: number
+    _count: CombinedWeeklyReportCountAggregateOutputType | null
+    _avg: CombinedWeeklyReportAvgAggregateOutputType | null
+    _sum: CombinedWeeklyReportSumAggregateOutputType | null
+    _min: CombinedWeeklyReportMinAggregateOutputType | null
+    _max: CombinedWeeklyReportMaxAggregateOutputType | null
+  }
+
+  type GetCombinedWeeklyReportGroupByPayload<T extends CombinedWeeklyReportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CombinedWeeklyReportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CombinedWeeklyReportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CombinedWeeklyReportGroupByOutputType[P]>
+            : GetScalarType<T[P], CombinedWeeklyReportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CombinedWeeklyReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    report_name?: boolean
+    report_period?: boolean
+    file_name?: boolean
+    file_path?: boolean
+    generated_at?: boolean
+    leader_count?: boolean
+    diary_count?: boolean
+    total_activities?: boolean
+  }, ExtArgs["result"]["combinedWeeklyReport"]>
+
+  export type CombinedWeeklyReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    report_name?: boolean
+    report_period?: boolean
+    file_name?: boolean
+    file_path?: boolean
+    generated_at?: boolean
+    leader_count?: boolean
+    diary_count?: boolean
+    total_activities?: boolean
+  }, ExtArgs["result"]["combinedWeeklyReport"]>
+
+  export type CombinedWeeklyReportSelectScalar = {
+    id?: boolean
+    report_name?: boolean
+    report_period?: boolean
+    file_name?: boolean
+    file_path?: boolean
+    generated_at?: boolean
+    leader_count?: boolean
+    diary_count?: boolean
+    total_activities?: boolean
+  }
+
+
+  export type $CombinedWeeklyReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CombinedWeeklyReport"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      report_name: string
+      report_period: string
+      file_name: string
+      file_path: string
+      generated_at: Date
+      leader_count: number
+      diary_count: number
+      total_activities: number
+    }, ExtArgs["result"]["combinedWeeklyReport"]>
+    composites: {}
+  }
+
+  type CombinedWeeklyReportGetPayload<S extends boolean | null | undefined | CombinedWeeklyReportDefaultArgs> = $Result.GetResult<Prisma.$CombinedWeeklyReportPayload, S>
+
+  type CombinedWeeklyReportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CombinedWeeklyReportFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CombinedWeeklyReportCountAggregateInputType | true
+    }
+
+  export interface CombinedWeeklyReportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CombinedWeeklyReport'], meta: { name: 'CombinedWeeklyReport' } }
+    /**
+     * Find zero or one CombinedWeeklyReport that matches the filter.
+     * @param {CombinedWeeklyReportFindUniqueArgs} args - Arguments to find a CombinedWeeklyReport
+     * @example
+     * // Get one CombinedWeeklyReport
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CombinedWeeklyReportFindUniqueArgs>(args: SelectSubset<T, CombinedWeeklyReportFindUniqueArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one CombinedWeeklyReport that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {CombinedWeeklyReportFindUniqueOrThrowArgs} args - Arguments to find a CombinedWeeklyReport
+     * @example
+     * // Get one CombinedWeeklyReport
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CombinedWeeklyReportFindUniqueOrThrowArgs>(args: SelectSubset<T, CombinedWeeklyReportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first CombinedWeeklyReport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportFindFirstArgs} args - Arguments to find a CombinedWeeklyReport
+     * @example
+     * // Get one CombinedWeeklyReport
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CombinedWeeklyReportFindFirstArgs>(args?: SelectSubset<T, CombinedWeeklyReportFindFirstArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first CombinedWeeklyReport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportFindFirstOrThrowArgs} args - Arguments to find a CombinedWeeklyReport
+     * @example
+     * // Get one CombinedWeeklyReport
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CombinedWeeklyReportFindFirstOrThrowArgs>(args?: SelectSubset<T, CombinedWeeklyReportFindFirstOrThrowArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more CombinedWeeklyReports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CombinedWeeklyReports
+     * const combinedWeeklyReports = await prisma.combinedWeeklyReport.findMany()
+     * 
+     * // Get first 10 CombinedWeeklyReports
+     * const combinedWeeklyReports = await prisma.combinedWeeklyReport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const combinedWeeklyReportWithIdOnly = await prisma.combinedWeeklyReport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CombinedWeeklyReportFindManyArgs>(args?: SelectSubset<T, CombinedWeeklyReportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a CombinedWeeklyReport.
+     * @param {CombinedWeeklyReportCreateArgs} args - Arguments to create a CombinedWeeklyReport.
+     * @example
+     * // Create one CombinedWeeklyReport
+     * const CombinedWeeklyReport = await prisma.combinedWeeklyReport.create({
+     *   data: {
+     *     // ... data to create a CombinedWeeklyReport
+     *   }
+     * })
+     * 
+     */
+    create<T extends CombinedWeeklyReportCreateArgs>(args: SelectSubset<T, CombinedWeeklyReportCreateArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many CombinedWeeklyReports.
+     * @param {CombinedWeeklyReportCreateManyArgs} args - Arguments to create many CombinedWeeklyReports.
+     * @example
+     * // Create many CombinedWeeklyReports
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CombinedWeeklyReportCreateManyArgs>(args?: SelectSubset<T, CombinedWeeklyReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CombinedWeeklyReports and returns the data saved in the database.
+     * @param {CombinedWeeklyReportCreateManyAndReturnArgs} args - Arguments to create many CombinedWeeklyReports.
+     * @example
+     * // Create many CombinedWeeklyReports
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CombinedWeeklyReports and only return the `id`
+     * const combinedWeeklyReportWithIdOnly = await prisma.combinedWeeklyReport.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CombinedWeeklyReportCreateManyAndReturnArgs>(args?: SelectSubset<T, CombinedWeeklyReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a CombinedWeeklyReport.
+     * @param {CombinedWeeklyReportDeleteArgs} args - Arguments to delete one CombinedWeeklyReport.
+     * @example
+     * // Delete one CombinedWeeklyReport
+     * const CombinedWeeklyReport = await prisma.combinedWeeklyReport.delete({
+     *   where: {
+     *     // ... filter to delete one CombinedWeeklyReport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CombinedWeeklyReportDeleteArgs>(args: SelectSubset<T, CombinedWeeklyReportDeleteArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one CombinedWeeklyReport.
+     * @param {CombinedWeeklyReportUpdateArgs} args - Arguments to update one CombinedWeeklyReport.
+     * @example
+     * // Update one CombinedWeeklyReport
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CombinedWeeklyReportUpdateArgs>(args: SelectSubset<T, CombinedWeeklyReportUpdateArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more CombinedWeeklyReports.
+     * @param {CombinedWeeklyReportDeleteManyArgs} args - Arguments to filter CombinedWeeklyReports to delete.
+     * @example
+     * // Delete a few CombinedWeeklyReports
+     * const { count } = await prisma.combinedWeeklyReport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CombinedWeeklyReportDeleteManyArgs>(args?: SelectSubset<T, CombinedWeeklyReportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CombinedWeeklyReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CombinedWeeklyReports
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CombinedWeeklyReportUpdateManyArgs>(args: SelectSubset<T, CombinedWeeklyReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CombinedWeeklyReport.
+     * @param {CombinedWeeklyReportUpsertArgs} args - Arguments to update or create a CombinedWeeklyReport.
+     * @example
+     * // Update or create a CombinedWeeklyReport
+     * const combinedWeeklyReport = await prisma.combinedWeeklyReport.upsert({
+     *   create: {
+     *     // ... data to create a CombinedWeeklyReport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CombinedWeeklyReport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CombinedWeeklyReportUpsertArgs>(args: SelectSubset<T, CombinedWeeklyReportUpsertArgs<ExtArgs>>): Prisma__CombinedWeeklyReportClient<$Result.GetResult<Prisma.$CombinedWeeklyReportPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of CombinedWeeklyReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportCountArgs} args - Arguments to filter CombinedWeeklyReports to count.
+     * @example
+     * // Count the number of CombinedWeeklyReports
+     * const count = await prisma.combinedWeeklyReport.count({
+     *   where: {
+     *     // ... the filter for the CombinedWeeklyReports we want to count
+     *   }
+     * })
+    **/
+    count<T extends CombinedWeeklyReportCountArgs>(
+      args?: Subset<T, CombinedWeeklyReportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CombinedWeeklyReportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CombinedWeeklyReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CombinedWeeklyReportAggregateArgs>(args: Subset<T, CombinedWeeklyReportAggregateArgs>): Prisma.PrismaPromise<GetCombinedWeeklyReportAggregateType<T>>
+
+    /**
+     * Group by CombinedWeeklyReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CombinedWeeklyReportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CombinedWeeklyReportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CombinedWeeklyReportGroupByArgs['orderBy'] }
+        : { orderBy?: CombinedWeeklyReportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CombinedWeeklyReportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCombinedWeeklyReportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CombinedWeeklyReport model
+   */
+  readonly fields: CombinedWeeklyReportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CombinedWeeklyReport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CombinedWeeklyReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CombinedWeeklyReport model
+   */ 
+  interface CombinedWeeklyReportFieldRefs {
+    readonly id: FieldRef<"CombinedWeeklyReport", 'String'>
+    readonly report_name: FieldRef<"CombinedWeeklyReport", 'String'>
+    readonly report_period: FieldRef<"CombinedWeeklyReport", 'String'>
+    readonly file_name: FieldRef<"CombinedWeeklyReport", 'String'>
+    readonly file_path: FieldRef<"CombinedWeeklyReport", 'String'>
+    readonly generated_at: FieldRef<"CombinedWeeklyReport", 'DateTime'>
+    readonly leader_count: FieldRef<"CombinedWeeklyReport", 'Int'>
+    readonly diary_count: FieldRef<"CombinedWeeklyReport", 'Int'>
+    readonly total_activities: FieldRef<"CombinedWeeklyReport", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CombinedWeeklyReport findUnique
+   */
+  export type CombinedWeeklyReportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * Filter, which CombinedWeeklyReport to fetch.
+     */
+    where: CombinedWeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * CombinedWeeklyReport findUniqueOrThrow
+   */
+  export type CombinedWeeklyReportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * Filter, which CombinedWeeklyReport to fetch.
+     */
+    where: CombinedWeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * CombinedWeeklyReport findFirst
+   */
+  export type CombinedWeeklyReportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * Filter, which CombinedWeeklyReport to fetch.
+     */
+    where?: CombinedWeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CombinedWeeklyReports to fetch.
+     */
+    orderBy?: CombinedWeeklyReportOrderByWithRelationInput | CombinedWeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CombinedWeeklyReports.
+     */
+    cursor?: CombinedWeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CombinedWeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CombinedWeeklyReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CombinedWeeklyReports.
+     */
+    distinct?: CombinedWeeklyReportScalarFieldEnum | CombinedWeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * CombinedWeeklyReport findFirstOrThrow
+   */
+  export type CombinedWeeklyReportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * Filter, which CombinedWeeklyReport to fetch.
+     */
+    where?: CombinedWeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CombinedWeeklyReports to fetch.
+     */
+    orderBy?: CombinedWeeklyReportOrderByWithRelationInput | CombinedWeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CombinedWeeklyReports.
+     */
+    cursor?: CombinedWeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CombinedWeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CombinedWeeklyReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CombinedWeeklyReports.
+     */
+    distinct?: CombinedWeeklyReportScalarFieldEnum | CombinedWeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * CombinedWeeklyReport findMany
+   */
+  export type CombinedWeeklyReportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * Filter, which CombinedWeeklyReports to fetch.
+     */
+    where?: CombinedWeeklyReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CombinedWeeklyReports to fetch.
+     */
+    orderBy?: CombinedWeeklyReportOrderByWithRelationInput | CombinedWeeklyReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CombinedWeeklyReports.
+     */
+    cursor?: CombinedWeeklyReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CombinedWeeklyReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CombinedWeeklyReports.
+     */
+    skip?: number
+    distinct?: CombinedWeeklyReportScalarFieldEnum | CombinedWeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * CombinedWeeklyReport create
+   */
+  export type CombinedWeeklyReportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * The data needed to create a CombinedWeeklyReport.
+     */
+    data: XOR<CombinedWeeklyReportCreateInput, CombinedWeeklyReportUncheckedCreateInput>
+  }
+
+  /**
+   * CombinedWeeklyReport createMany
+   */
+  export type CombinedWeeklyReportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CombinedWeeklyReports.
+     */
+    data: CombinedWeeklyReportCreateManyInput | CombinedWeeklyReportCreateManyInput[]
+  }
+
+  /**
+   * CombinedWeeklyReport createManyAndReturn
+   */
+  export type CombinedWeeklyReportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many CombinedWeeklyReports.
+     */
+    data: CombinedWeeklyReportCreateManyInput | CombinedWeeklyReportCreateManyInput[]
+  }
+
+  /**
+   * CombinedWeeklyReport update
+   */
+  export type CombinedWeeklyReportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * The data needed to update a CombinedWeeklyReport.
+     */
+    data: XOR<CombinedWeeklyReportUpdateInput, CombinedWeeklyReportUncheckedUpdateInput>
+    /**
+     * Choose, which CombinedWeeklyReport to update.
+     */
+    where: CombinedWeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * CombinedWeeklyReport updateMany
+   */
+  export type CombinedWeeklyReportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CombinedWeeklyReports.
+     */
+    data: XOR<CombinedWeeklyReportUpdateManyMutationInput, CombinedWeeklyReportUncheckedUpdateManyInput>
+    /**
+     * Filter which CombinedWeeklyReports to update
+     */
+    where?: CombinedWeeklyReportWhereInput
+  }
+
+  /**
+   * CombinedWeeklyReport upsert
+   */
+  export type CombinedWeeklyReportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * The filter to search for the CombinedWeeklyReport to update in case it exists.
+     */
+    where: CombinedWeeklyReportWhereUniqueInput
+    /**
+     * In case the CombinedWeeklyReport found by the `where` argument doesn't exist, create a new CombinedWeeklyReport with this data.
+     */
+    create: XOR<CombinedWeeklyReportCreateInput, CombinedWeeklyReportUncheckedCreateInput>
+    /**
+     * In case the CombinedWeeklyReport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CombinedWeeklyReportUpdateInput, CombinedWeeklyReportUncheckedUpdateInput>
+  }
+
+  /**
+   * CombinedWeeklyReport delete
+   */
+  export type CombinedWeeklyReportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
+    /**
+     * Filter which CombinedWeeklyReport to delete.
+     */
+    where: CombinedWeeklyReportWhereUniqueInput
+  }
+
+  /**
+   * CombinedWeeklyReport deleteMany
+   */
+  export type CombinedWeeklyReportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CombinedWeeklyReports to delete
+     */
+    where?: CombinedWeeklyReportWhereInput
+  }
+
+  /**
+   * CombinedWeeklyReport without action
+   */
+  export type CombinedWeeklyReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CombinedWeeklyReport
+     */
+    select?: CombinedWeeklyReportSelect<ExtArgs> | null
   }
 
 
@@ -11587,8 +13779,9 @@ export namespace Prisma {
     project_name: 'project_name',
     description: 'description',
     start_date: 'start_date',
-    end_date: 'end_date',
     project_status: 'project_status',
+    completed_at: 'completed_at',
+    completed_by: 'completed_by',
     created_at: 'created_at',
     updated_at: 'updated_at'
   };
@@ -11619,6 +13812,34 @@ export namespace Prisma {
   };
 
   export type ProjectDiaryScalarFieldEnum = (typeof ProjectDiaryScalarFieldEnum)[keyof typeof ProjectDiaryScalarFieldEnum]
+
+
+  export const WeeklyReportScalarFieldEnum: {
+    id: 'id',
+    project_id: 'project_id',
+    user_id: 'user_id',
+    report_name: 'report_name',
+    report_period: 'report_period',
+    file_path: 'file_path',
+    generated_at: 'generated_at'
+  };
+
+  export type WeeklyReportScalarFieldEnum = (typeof WeeklyReportScalarFieldEnum)[keyof typeof WeeklyReportScalarFieldEnum]
+
+
+  export const CombinedWeeklyReportScalarFieldEnum: {
+    id: 'id',
+    report_name: 'report_name',
+    report_period: 'report_period',
+    file_name: 'file_name',
+    file_path: 'file_path',
+    generated_at: 'generated_at',
+    leader_count: 'leader_count',
+    diary_count: 'diary_count',
+    total_activities: 'total_activities'
+  };
+
+  export type CombinedWeeklyReportScalarFieldEnum = (typeof CombinedWeeklyReportScalarFieldEnum)[keyof typeof CombinedWeeklyReportScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11690,6 +13911,7 @@ export namespace Prisma {
     schedules?: ScheduleListRelationFilter
     projectMembers?: ProjectMemberListRelationFilter
     projectDiaries?: ProjectDiaryListRelationFilter
+    weeklyReports?: WeeklyReportListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11706,6 +13928,7 @@ export namespace Prisma {
     schedules?: ScheduleOrderByRelationAggregateInput
     projectMembers?: ProjectMemberOrderByRelationAggregateInput
     projectDiaries?: ProjectDiaryOrderByRelationAggregateInput
+    weeklyReports?: WeeklyReportOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11725,6 +13948,7 @@ export namespace Prisma {
     schedules?: ScheduleListRelationFilter
     projectMembers?: ProjectMemberListRelationFilter
     projectDiaries?: ProjectDiaryListRelationFilter
+    weeklyReports?: WeeklyReportListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12127,12 +14351,14 @@ export namespace Prisma {
     project_name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     start_date?: StringFilter<"Project"> | string
-    end_date?: StringFilter<"Project"> | string
     project_status?: StringFilter<"Project"> | string
+    completed_at?: DateTimeNullableFilter<"Project"> | Date | string | null
+    completed_by?: StringNullableFilter<"Project"> | string | null
     created_at?: DateTimeFilter<"Project"> | Date | string
     updated_at?: DateTimeFilter<"Project"> | Date | string
     members?: ProjectMemberListRelationFilter
     diaries?: ProjectDiaryListRelationFilter
+    weeklyReports?: WeeklyReportListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -12140,12 +14366,14 @@ export namespace Prisma {
     project_name?: SortOrder
     description?: SortOrderInput | SortOrder
     start_date?: SortOrder
-    end_date?: SortOrder
     project_status?: SortOrder
+    completed_at?: SortOrderInput | SortOrder
+    completed_by?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     members?: ProjectMemberOrderByRelationAggregateInput
     diaries?: ProjectDiaryOrderByRelationAggregateInput
+    weeklyReports?: WeeklyReportOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -12156,12 +14384,14 @@ export namespace Prisma {
     project_name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     start_date?: StringFilter<"Project"> | string
-    end_date?: StringFilter<"Project"> | string
     project_status?: StringFilter<"Project"> | string
+    completed_at?: DateTimeNullableFilter<"Project"> | Date | string | null
+    completed_by?: StringNullableFilter<"Project"> | string | null
     created_at?: DateTimeFilter<"Project"> | Date | string
     updated_at?: DateTimeFilter<"Project"> | Date | string
     members?: ProjectMemberListRelationFilter
     diaries?: ProjectDiaryListRelationFilter
+    weeklyReports?: WeeklyReportListRelationFilter
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -12169,8 +14399,9 @@ export namespace Prisma {
     project_name?: SortOrder
     description?: SortOrderInput | SortOrder
     start_date?: SortOrder
-    end_date?: SortOrder
     project_status?: SortOrder
+    completed_at?: SortOrderInput | SortOrder
+    completed_by?: SortOrderInput | SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     _count?: ProjectCountOrderByAggregateInput
@@ -12186,8 +14417,9 @@ export namespace Prisma {
     project_name?: StringWithAggregatesFilter<"Project"> | string
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
     start_date?: StringWithAggregatesFilter<"Project"> | string
-    end_date?: StringWithAggregatesFilter<"Project"> | string
     project_status?: StringWithAggregatesFilter<"Project"> | string
+    completed_at?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+    completed_by?: StringNullableWithAggregatesFilter<"Project"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Project"> | Date | string
   }
@@ -12256,20 +14488,20 @@ export namespace Prisma {
     OR?: ProjectDiaryWhereInput[]
     NOT?: ProjectDiaryWhereInput | ProjectDiaryWhereInput[]
     id?: StringFilter<"ProjectDiary"> | string
-    project_id?: StringFilter<"ProjectDiary"> | string
+    project_id?: StringNullableFilter<"ProjectDiary"> | string | null
     diary_title?: StringFilter<"ProjectDiary"> | string
     activity_description?: StringFilter<"ProjectDiary"> | string
     work_progress?: IntFilter<"ProjectDiary"> | number
     created_by?: StringFilter<"ProjectDiary"> | string
     created_at?: DateTimeFilter<"ProjectDiary"> | Date | string
     updated_at?: DateTimeFilter<"ProjectDiary"> | Date | string
-    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    project?: XOR<ProjectNullableRelationFilter, ProjectWhereInput> | null
     creator?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type ProjectDiaryOrderByWithRelationInput = {
     id?: SortOrder
-    project_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
     diary_title?: SortOrder
     activity_description?: SortOrder
     work_progress?: SortOrder
@@ -12285,20 +14517,20 @@ export namespace Prisma {
     AND?: ProjectDiaryWhereInput | ProjectDiaryWhereInput[]
     OR?: ProjectDiaryWhereInput[]
     NOT?: ProjectDiaryWhereInput | ProjectDiaryWhereInput[]
-    project_id?: StringFilter<"ProjectDiary"> | string
+    project_id?: StringNullableFilter<"ProjectDiary"> | string | null
     diary_title?: StringFilter<"ProjectDiary"> | string
     activity_description?: StringFilter<"ProjectDiary"> | string
     work_progress?: IntFilter<"ProjectDiary"> | number
     created_by?: StringFilter<"ProjectDiary"> | string
     created_at?: DateTimeFilter<"ProjectDiary"> | Date | string
     updated_at?: DateTimeFilter<"ProjectDiary"> | Date | string
-    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    project?: XOR<ProjectNullableRelationFilter, ProjectWhereInput> | null
     creator?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
   export type ProjectDiaryOrderByWithAggregationInput = {
     id?: SortOrder
-    project_id?: SortOrder
+    project_id?: SortOrderInput | SortOrder
     diary_title?: SortOrder
     activity_description?: SortOrder
     work_progress?: SortOrder
@@ -12317,13 +14549,155 @@ export namespace Prisma {
     OR?: ProjectDiaryScalarWhereWithAggregatesInput[]
     NOT?: ProjectDiaryScalarWhereWithAggregatesInput | ProjectDiaryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ProjectDiary"> | string
-    project_id?: StringWithAggregatesFilter<"ProjectDiary"> | string
+    project_id?: StringNullableWithAggregatesFilter<"ProjectDiary"> | string | null
     diary_title?: StringWithAggregatesFilter<"ProjectDiary"> | string
     activity_description?: StringWithAggregatesFilter<"ProjectDiary"> | string
     work_progress?: IntWithAggregatesFilter<"ProjectDiary"> | number
     created_by?: StringWithAggregatesFilter<"ProjectDiary"> | string
     created_at?: DateTimeWithAggregatesFilter<"ProjectDiary"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"ProjectDiary"> | Date | string
+  }
+
+  export type WeeklyReportWhereInput = {
+    AND?: WeeklyReportWhereInput | WeeklyReportWhereInput[]
+    OR?: WeeklyReportWhereInput[]
+    NOT?: WeeklyReportWhereInput | WeeklyReportWhereInput[]
+    id?: StringFilter<"WeeklyReport"> | string
+    project_id?: StringFilter<"WeeklyReport"> | string
+    user_id?: StringFilter<"WeeklyReport"> | string
+    report_name?: StringFilter<"WeeklyReport"> | string
+    report_period?: StringFilter<"WeeklyReport"> | string
+    file_path?: StringFilter<"WeeklyReport"> | string
+    generated_at?: DateTimeFilter<"WeeklyReport"> | Date | string
+    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type WeeklyReportOrderByWithRelationInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    user_id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type WeeklyReportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WeeklyReportWhereInput | WeeklyReportWhereInput[]
+    OR?: WeeklyReportWhereInput[]
+    NOT?: WeeklyReportWhereInput | WeeklyReportWhereInput[]
+    project_id?: StringFilter<"WeeklyReport"> | string
+    user_id?: StringFilter<"WeeklyReport"> | string
+    report_name?: StringFilter<"WeeklyReport"> | string
+    report_period?: StringFilter<"WeeklyReport"> | string
+    file_path?: StringFilter<"WeeklyReport"> | string
+    generated_at?: DateTimeFilter<"WeeklyReport"> | Date | string
+    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type WeeklyReportOrderByWithAggregationInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    user_id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    _count?: WeeklyReportCountOrderByAggregateInput
+    _max?: WeeklyReportMaxOrderByAggregateInput
+    _min?: WeeklyReportMinOrderByAggregateInput
+  }
+
+  export type WeeklyReportScalarWhereWithAggregatesInput = {
+    AND?: WeeklyReportScalarWhereWithAggregatesInput | WeeklyReportScalarWhereWithAggregatesInput[]
+    OR?: WeeklyReportScalarWhereWithAggregatesInput[]
+    NOT?: WeeklyReportScalarWhereWithAggregatesInput | WeeklyReportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"WeeklyReport"> | string
+    project_id?: StringWithAggregatesFilter<"WeeklyReport"> | string
+    user_id?: StringWithAggregatesFilter<"WeeklyReport"> | string
+    report_name?: StringWithAggregatesFilter<"WeeklyReport"> | string
+    report_period?: StringWithAggregatesFilter<"WeeklyReport"> | string
+    file_path?: StringWithAggregatesFilter<"WeeklyReport"> | string
+    generated_at?: DateTimeWithAggregatesFilter<"WeeklyReport"> | Date | string
+  }
+
+  export type CombinedWeeklyReportWhereInput = {
+    AND?: CombinedWeeklyReportWhereInput | CombinedWeeklyReportWhereInput[]
+    OR?: CombinedWeeklyReportWhereInput[]
+    NOT?: CombinedWeeklyReportWhereInput | CombinedWeeklyReportWhereInput[]
+    id?: StringFilter<"CombinedWeeklyReport"> | string
+    report_name?: StringFilter<"CombinedWeeklyReport"> | string
+    report_period?: StringFilter<"CombinedWeeklyReport"> | string
+    file_name?: StringFilter<"CombinedWeeklyReport"> | string
+    file_path?: StringFilter<"CombinedWeeklyReport"> | string
+    generated_at?: DateTimeFilter<"CombinedWeeklyReport"> | Date | string
+    leader_count?: IntFilter<"CombinedWeeklyReport"> | number
+    diary_count?: IntFilter<"CombinedWeeklyReport"> | number
+    total_activities?: IntFilter<"CombinedWeeklyReport"> | number
+  }
+
+  export type CombinedWeeklyReportOrderByWithRelationInput = {
+    id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_name?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+  }
+
+  export type CombinedWeeklyReportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    report_period?: string
+    AND?: CombinedWeeklyReportWhereInput | CombinedWeeklyReportWhereInput[]
+    OR?: CombinedWeeklyReportWhereInput[]
+    NOT?: CombinedWeeklyReportWhereInput | CombinedWeeklyReportWhereInput[]
+    report_name?: StringFilter<"CombinedWeeklyReport"> | string
+    file_name?: StringFilter<"CombinedWeeklyReport"> | string
+    file_path?: StringFilter<"CombinedWeeklyReport"> | string
+    generated_at?: DateTimeFilter<"CombinedWeeklyReport"> | Date | string
+    leader_count?: IntFilter<"CombinedWeeklyReport"> | number
+    diary_count?: IntFilter<"CombinedWeeklyReport"> | number
+    total_activities?: IntFilter<"CombinedWeeklyReport"> | number
+  }, "id" | "report_period">
+
+  export type CombinedWeeklyReportOrderByWithAggregationInput = {
+    id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_name?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+    _count?: CombinedWeeklyReportCountOrderByAggregateInput
+    _avg?: CombinedWeeklyReportAvgOrderByAggregateInput
+    _max?: CombinedWeeklyReportMaxOrderByAggregateInput
+    _min?: CombinedWeeklyReportMinOrderByAggregateInput
+    _sum?: CombinedWeeklyReportSumOrderByAggregateInput
+  }
+
+  export type CombinedWeeklyReportScalarWhereWithAggregatesInput = {
+    AND?: CombinedWeeklyReportScalarWhereWithAggregatesInput | CombinedWeeklyReportScalarWhereWithAggregatesInput[]
+    OR?: CombinedWeeklyReportScalarWhereWithAggregatesInput[]
+    NOT?: CombinedWeeklyReportScalarWhereWithAggregatesInput | CombinedWeeklyReportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CombinedWeeklyReport"> | string
+    report_name?: StringWithAggregatesFilter<"CombinedWeeklyReport"> | string
+    report_period?: StringWithAggregatesFilter<"CombinedWeeklyReport"> | string
+    file_name?: StringWithAggregatesFilter<"CombinedWeeklyReport"> | string
+    file_path?: StringWithAggregatesFilter<"CombinedWeeklyReport"> | string
+    generated_at?: DateTimeWithAggregatesFilter<"CombinedWeeklyReport"> | Date | string
+    leader_count?: IntWithAggregatesFilter<"CombinedWeeklyReport"> | number
+    diary_count?: IntWithAggregatesFilter<"CombinedWeeklyReport"> | number
+    total_activities?: IntWithAggregatesFilter<"CombinedWeeklyReport"> | number
   }
 
   export type UserCreateInput = {
@@ -12340,6 +14714,7 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12356,6 +14731,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12372,6 +14748,7 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12388,6 +14765,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12675,9 +15053,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_at?: Date | string
     creator: UserCreateNestedOneWithoutSchedulesInput
     diaries?: DiaryCreateNestedManyWithoutScheduleInput
@@ -12687,9 +15065,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_by: string
     created_at?: Date | string
     diaries?: DiaryUncheckedCreateNestedManyWithoutScheduleInput
@@ -12723,9 +15101,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_by: string
     created_at?: Date | string
   }
@@ -12805,12 +15183,14 @@ export namespace Prisma {
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -12818,12 +15198,14 @@ export namespace Prisma {
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -12831,12 +15213,14 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -12844,12 +15228,14 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -12857,8 +15243,9 @@ export namespace Prisma {
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -12868,8 +15255,9 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12879,8 +15267,9 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12946,13 +15335,13 @@ export namespace Prisma {
     work_progress: number
     created_at?: Date | string
     updated_at?: Date | string
-    project: ProjectCreateNestedOneWithoutDiariesInput
+    project?: ProjectCreateNestedOneWithoutDiariesInput
     creator: UserCreateNestedOneWithoutProjectDiariesInput
   }
 
   export type ProjectDiaryUncheckedCreateInput = {
     id?: string
-    project_id: string
+    project_id?: string | null
     diary_title: string
     activity_description: string
     work_progress: number
@@ -12968,13 +15357,13 @@ export namespace Prisma {
     work_progress?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    project?: ProjectUpdateOneRequiredWithoutDiariesNestedInput
+    project?: ProjectUpdateOneWithoutDiariesNestedInput
     creator?: UserUpdateOneRequiredWithoutProjectDiariesNestedInput
   }
 
   export type ProjectDiaryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    project_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     diary_title?: StringFieldUpdateOperationsInput | string
     activity_description?: StringFieldUpdateOperationsInput | string
     work_progress?: IntFieldUpdateOperationsInput | number
@@ -12985,7 +15374,7 @@ export namespace Prisma {
 
   export type ProjectDiaryCreateManyInput = {
     id?: string
-    project_id: string
+    project_id?: string | null
     diary_title: string
     activity_description: string
     work_progress: number
@@ -13005,13 +15394,165 @@ export namespace Prisma {
 
   export type ProjectDiaryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    project_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     diary_title?: StringFieldUpdateOperationsInput | string
     activity_description?: StringFieldUpdateOperationsInput | string
     work_progress?: IntFieldUpdateOperationsInput | number
     created_by?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportCreateInput = {
+    id?: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+    project: ProjectCreateNestedOneWithoutWeeklyReportsInput
+    user: UserCreateNestedOneWithoutWeeklyReportsInput
+  }
+
+  export type WeeklyReportUncheckedCreateInput = {
+    id?: string
+    project_id: string
+    user_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+  }
+
+  export type WeeklyReportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutWeeklyReportsNestedInput
+    user?: UserUpdateOneRequiredWithoutWeeklyReportsNestedInput
+  }
+
+  export type WeeklyReportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportCreateManyInput = {
+    id?: string
+    project_id: string
+    user_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+  }
+
+  export type WeeklyReportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CombinedWeeklyReportCreateInput = {
+    id?: string
+    report_name: string
+    report_period: string
+    file_name: string
+    file_path: string
+    generated_at?: Date | string
+    leader_count?: number
+    diary_count?: number
+    total_activities?: number
+  }
+
+  export type CombinedWeeklyReportUncheckedCreateInput = {
+    id?: string
+    report_name: string
+    report_period: string
+    file_name: string
+    file_path: string
+    generated_at?: Date | string
+    leader_count?: number
+    diary_count?: number
+    total_activities?: number
+  }
+
+  export type CombinedWeeklyReportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_name?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    leader_count?: IntFieldUpdateOperationsInput | number
+    diary_count?: IntFieldUpdateOperationsInput | number
+    total_activities?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CombinedWeeklyReportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_name?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    leader_count?: IntFieldUpdateOperationsInput | number
+    diary_count?: IntFieldUpdateOperationsInput | number
+    total_activities?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CombinedWeeklyReportCreateManyInput = {
+    id?: string
+    report_name: string
+    report_period: string
+    file_name: string
+    file_path: string
+    generated_at?: Date | string
+    leader_count?: number
+    diary_count?: number
+    total_activities?: number
+  }
+
+  export type CombinedWeeklyReportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_name?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    leader_count?: IntFieldUpdateOperationsInput | number
+    diary_count?: IntFieldUpdateOperationsInput | number
+    total_activities?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CombinedWeeklyReportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_name?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    leader_count?: IntFieldUpdateOperationsInput | number
+    diary_count?: IntFieldUpdateOperationsInput | number
+    total_activities?: IntFieldUpdateOperationsInput | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -13081,6 +15622,12 @@ export namespace Prisma {
     none?: ProjectDiaryWhereInput
   }
 
+  export type WeeklyReportListRelationFilter = {
+    every?: WeeklyReportWhereInput
+    some?: WeeklyReportWhereInput
+    none?: WeeklyReportWhereInput
+  }
+
   export type DiaryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -13106,6 +15653,10 @@ export namespace Prisma {
   }
 
   export type ProjectDiaryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type WeeklyReportOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13378,13 +15929,25 @@ export namespace Prisma {
     created_at?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     project_name?: SortOrder
     description?: SortOrder
     start_date?: SortOrder
-    end_date?: SortOrder
     project_status?: SortOrder
+    completed_at?: SortOrder
+    completed_by?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -13394,8 +15957,9 @@ export namespace Prisma {
     project_name?: SortOrder
     description?: SortOrder
     start_date?: SortOrder
-    end_date?: SortOrder
     project_status?: SortOrder
+    completed_at?: SortOrder
+    completed_by?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
   }
@@ -13405,10 +15969,25 @@ export namespace Prisma {
     project_name?: SortOrder
     description?: SortOrder
     start_date?: SortOrder
-    end_date?: SortOrder
     project_status?: SortOrder
+    completed_at?: SortOrder
+    completed_by?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ProjectRelationFilter = {
@@ -13454,6 +16033,11 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type ProjectNullableRelationFilter = {
+    is?: ProjectWhereInput | null
+    isNot?: ProjectWhereInput | null
   }
 
   export type ProjectDiaryCountOrderByAggregateInput = {
@@ -13513,6 +16097,84 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type WeeklyReportCountOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    user_id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+  }
+
+  export type WeeklyReportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    user_id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+  }
+
+  export type WeeklyReportMinOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    user_id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+  }
+
+  export type CombinedWeeklyReportCountOrderByAggregateInput = {
+    id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_name?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+  }
+
+  export type CombinedWeeklyReportAvgOrderByAggregateInput = {
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+  }
+
+  export type CombinedWeeklyReportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_name?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+  }
+
+  export type CombinedWeeklyReportMinOrderByAggregateInput = {
+    id?: SortOrder
+    report_name?: SortOrder
+    report_period?: SortOrder
+    file_name?: SortOrder
+    file_path?: SortOrder
+    generated_at?: SortOrder
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+  }
+
+  export type CombinedWeeklyReportSumOrderByAggregateInput = {
+    leader_count?: SortOrder
+    diary_count?: SortOrder
+    total_activities?: SortOrder
+  }
+
   export type DiaryCreateNestedManyWithoutCreatorInput = {
     create?: XOR<DiaryCreateWithoutCreatorInput, DiaryUncheckedCreateWithoutCreatorInput> | DiaryCreateWithoutCreatorInput[] | DiaryUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: DiaryCreateOrConnectWithoutCreatorInput | DiaryCreateOrConnectWithoutCreatorInput[]
@@ -13562,6 +16224,13 @@ export namespace Prisma {
     connect?: ProjectDiaryWhereUniqueInput | ProjectDiaryWhereUniqueInput[]
   }
 
+  export type WeeklyReportCreateNestedManyWithoutUserInput = {
+    create?: XOR<WeeklyReportCreateWithoutUserInput, WeeklyReportUncheckedCreateWithoutUserInput> | WeeklyReportCreateWithoutUserInput[] | WeeklyReportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutUserInput | WeeklyReportCreateOrConnectWithoutUserInput[]
+    createMany?: WeeklyReportCreateManyUserInputEnvelope
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+  }
+
   export type DiaryUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<DiaryCreateWithoutCreatorInput, DiaryUncheckedCreateWithoutCreatorInput> | DiaryCreateWithoutCreatorInput[] | DiaryUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: DiaryCreateOrConnectWithoutCreatorInput | DiaryCreateOrConnectWithoutCreatorInput[]
@@ -13609,6 +16278,13 @@ export namespace Prisma {
     connectOrCreate?: ProjectDiaryCreateOrConnectWithoutCreatorInput | ProjectDiaryCreateOrConnectWithoutCreatorInput[]
     createMany?: ProjectDiaryCreateManyCreatorInputEnvelope
     connect?: ProjectDiaryWhereUniqueInput | ProjectDiaryWhereUniqueInput[]
+  }
+
+  export type WeeklyReportUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<WeeklyReportCreateWithoutUserInput, WeeklyReportUncheckedCreateWithoutUserInput> | WeeklyReportCreateWithoutUserInput[] | WeeklyReportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutUserInput | WeeklyReportCreateOrConnectWithoutUserInput[]
+    createMany?: WeeklyReportCreateManyUserInputEnvelope
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13717,6 +16393,20 @@ export namespace Prisma {
     deleteMany?: ProjectDiaryScalarWhereInput | ProjectDiaryScalarWhereInput[]
   }
 
+  export type WeeklyReportUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WeeklyReportCreateWithoutUserInput, WeeklyReportUncheckedCreateWithoutUserInput> | WeeklyReportCreateWithoutUserInput[] | WeeklyReportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutUserInput | WeeklyReportCreateOrConnectWithoutUserInput[]
+    upsert?: WeeklyReportUpsertWithWhereUniqueWithoutUserInput | WeeklyReportUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WeeklyReportCreateManyUserInputEnvelope
+    set?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    disconnect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    delete?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    update?: WeeklyReportUpdateWithWhereUniqueWithoutUserInput | WeeklyReportUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WeeklyReportUpdateManyWithWhereWithoutUserInput | WeeklyReportUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
+  }
+
   export type DiaryUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<DiaryCreateWithoutCreatorInput, DiaryUncheckedCreateWithoutCreatorInput> | DiaryCreateWithoutCreatorInput[] | DiaryUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: DiaryCreateOrConnectWithoutCreatorInput | DiaryCreateOrConnectWithoutCreatorInput[]
@@ -13813,6 +16503,20 @@ export namespace Prisma {
     update?: ProjectDiaryUpdateWithWhereUniqueWithoutCreatorInput | ProjectDiaryUpdateWithWhereUniqueWithoutCreatorInput[]
     updateMany?: ProjectDiaryUpdateManyWithWhereWithoutCreatorInput | ProjectDiaryUpdateManyWithWhereWithoutCreatorInput[]
     deleteMany?: ProjectDiaryScalarWhereInput | ProjectDiaryScalarWhereInput[]
+  }
+
+  export type WeeklyReportUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<WeeklyReportCreateWithoutUserInput, WeeklyReportUncheckedCreateWithoutUserInput> | WeeklyReportCreateWithoutUserInput[] | WeeklyReportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutUserInput | WeeklyReportCreateOrConnectWithoutUserInput[]
+    upsert?: WeeklyReportUpsertWithWhereUniqueWithoutUserInput | WeeklyReportUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: WeeklyReportCreateManyUserInputEnvelope
+    set?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    disconnect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    delete?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    update?: WeeklyReportUpdateWithWhereUniqueWithoutUserInput | WeeklyReportUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: WeeklyReportUpdateManyWithWhereWithoutUserInput | WeeklyReportUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutDiariesInput = {
@@ -13961,6 +16665,13 @@ export namespace Prisma {
     connect?: ProjectDiaryWhereUniqueInput | ProjectDiaryWhereUniqueInput[]
   }
 
+  export type WeeklyReportCreateNestedManyWithoutProjectInput = {
+    create?: XOR<WeeklyReportCreateWithoutProjectInput, WeeklyReportUncheckedCreateWithoutProjectInput> | WeeklyReportCreateWithoutProjectInput[] | WeeklyReportUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutProjectInput | WeeklyReportCreateOrConnectWithoutProjectInput[]
+    createMany?: WeeklyReportCreateManyProjectInputEnvelope
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -13973,6 +16684,17 @@ export namespace Prisma {
     connectOrCreate?: ProjectDiaryCreateOrConnectWithoutProjectInput | ProjectDiaryCreateOrConnectWithoutProjectInput[]
     createMany?: ProjectDiaryCreateManyProjectInputEnvelope
     connect?: ProjectDiaryWhereUniqueInput | ProjectDiaryWhereUniqueInput[]
+  }
+
+  export type WeeklyReportUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<WeeklyReportCreateWithoutProjectInput, WeeklyReportUncheckedCreateWithoutProjectInput> | WeeklyReportCreateWithoutProjectInput[] | WeeklyReportUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutProjectInput | WeeklyReportCreateOrConnectWithoutProjectInput[]
+    createMany?: WeeklyReportCreateManyProjectInputEnvelope
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type ProjectMemberUpdateManyWithoutProjectNestedInput = {
@@ -14003,6 +16725,20 @@ export namespace Prisma {
     deleteMany?: ProjectDiaryScalarWhereInput | ProjectDiaryScalarWhereInput[]
   }
 
+  export type WeeklyReportUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<WeeklyReportCreateWithoutProjectInput, WeeklyReportUncheckedCreateWithoutProjectInput> | WeeklyReportCreateWithoutProjectInput[] | WeeklyReportUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutProjectInput | WeeklyReportCreateOrConnectWithoutProjectInput[]
+    upsert?: WeeklyReportUpsertWithWhereUniqueWithoutProjectInput | WeeklyReportUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: WeeklyReportCreateManyProjectInputEnvelope
+    set?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    disconnect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    delete?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    update?: WeeklyReportUpdateWithWhereUniqueWithoutProjectInput | WeeklyReportUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: WeeklyReportUpdateManyWithWhereWithoutProjectInput | WeeklyReportUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -14029,6 +16765,20 @@ export namespace Prisma {
     update?: ProjectDiaryUpdateWithWhereUniqueWithoutProjectInput | ProjectDiaryUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: ProjectDiaryUpdateManyWithWhereWithoutProjectInput | ProjectDiaryUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: ProjectDiaryScalarWhereInput | ProjectDiaryScalarWhereInput[]
+  }
+
+  export type WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<WeeklyReportCreateWithoutProjectInput, WeeklyReportUncheckedCreateWithoutProjectInput> | WeeklyReportCreateWithoutProjectInput[] | WeeklyReportUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: WeeklyReportCreateOrConnectWithoutProjectInput | WeeklyReportCreateOrConnectWithoutProjectInput[]
+    upsert?: WeeklyReportUpsertWithWhereUniqueWithoutProjectInput | WeeklyReportUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: WeeklyReportCreateManyProjectInputEnvelope
+    set?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    disconnect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    delete?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+    update?: WeeklyReportUpdateWithWhereUniqueWithoutProjectInput | WeeklyReportUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: WeeklyReportUpdateManyWithWhereWithoutProjectInput | WeeklyReportUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
   }
 
   export type ProjectCreateNestedOneWithoutMembersInput = {
@@ -14079,10 +16829,12 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type ProjectUpdateOneRequiredWithoutDiariesNestedInput = {
+  export type ProjectUpdateOneWithoutDiariesNestedInput = {
     create?: XOR<ProjectCreateWithoutDiariesInput, ProjectUncheckedCreateWithoutDiariesInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutDiariesInput
     upsert?: ProjectUpsertWithoutDiariesInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
     connect?: ProjectWhereUniqueInput
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutDiariesInput, ProjectUpdateWithoutDiariesInput>, ProjectUncheckedUpdateWithoutDiariesInput>
   }
@@ -14093,6 +16845,34 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutProjectDiariesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectDiariesInput, UserUpdateWithoutProjectDiariesInput>, UserUncheckedUpdateWithoutProjectDiariesInput>
+  }
+
+  export type ProjectCreateNestedOneWithoutWeeklyReportsInput = {
+    create?: XOR<ProjectCreateWithoutWeeklyReportsInput, ProjectUncheckedCreateWithoutWeeklyReportsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutWeeklyReportsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutWeeklyReportsInput = {
+    create?: XOR<UserCreateWithoutWeeklyReportsInput, UserUncheckedCreateWithoutWeeklyReportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWeeklyReportsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProjectUpdateOneRequiredWithoutWeeklyReportsNestedInput = {
+    create?: XOR<ProjectCreateWithoutWeeklyReportsInput, ProjectUncheckedCreateWithoutWeeklyReportsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutWeeklyReportsInput
+    upsert?: ProjectUpsertWithoutWeeklyReportsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutWeeklyReportsInput, ProjectUpdateWithoutWeeklyReportsInput>, ProjectUncheckedUpdateWithoutWeeklyReportsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutWeeklyReportsNestedInput = {
+    create?: XOR<UserCreateWithoutWeeklyReportsInput, UserUncheckedCreateWithoutWeeklyReportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWeeklyReportsInput
+    upsert?: UserUpsertWithoutWeeklyReportsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWeeklyReportsInput, UserUpdateWithoutWeeklyReportsInput>, UserUncheckedUpdateWithoutWeeklyReportsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14202,6 +16982,31 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -14337,9 +17142,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_at?: Date | string
     diaries?: DiaryCreateNestedManyWithoutScheduleInput
   }
@@ -14348,9 +17153,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_at?: Date | string
     diaries?: DiaryUncheckedCreateNestedManyWithoutScheduleInput
   }
@@ -14394,12 +17199,12 @@ export namespace Prisma {
     work_progress: number
     created_at?: Date | string
     updated_at?: Date | string
-    project: ProjectCreateNestedOneWithoutDiariesInput
+    project?: ProjectCreateNestedOneWithoutDiariesInput
   }
 
   export type ProjectDiaryUncheckedCreateWithoutCreatorInput = {
     id?: string
-    project_id: string
+    project_id?: string | null
     diary_title: string
     activity_description: string
     work_progress: number
@@ -14414,6 +17219,33 @@ export namespace Prisma {
 
   export type ProjectDiaryCreateManyCreatorInputEnvelope = {
     data: ProjectDiaryCreateManyCreatorInput | ProjectDiaryCreateManyCreatorInput[]
+  }
+
+  export type WeeklyReportCreateWithoutUserInput = {
+    id?: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+    project: ProjectCreateNestedOneWithoutWeeklyReportsInput
+  }
+
+  export type WeeklyReportUncheckedCreateWithoutUserInput = {
+    id?: string
+    project_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+  }
+
+  export type WeeklyReportCreateOrConnectWithoutUserInput = {
+    where: WeeklyReportWhereUniqueInput
+    create: XOR<WeeklyReportCreateWithoutUserInput, WeeklyReportUncheckedCreateWithoutUserInput>
+  }
+
+  export type WeeklyReportCreateManyUserInputEnvelope = {
+    data: WeeklyReportCreateManyUserInput | WeeklyReportCreateManyUserInput[]
   }
 
   export type DiaryUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -14607,13 +17439,42 @@ export namespace Prisma {
     OR?: ProjectDiaryScalarWhereInput[]
     NOT?: ProjectDiaryScalarWhereInput | ProjectDiaryScalarWhereInput[]
     id?: StringFilter<"ProjectDiary"> | string
-    project_id?: StringFilter<"ProjectDiary"> | string
+    project_id?: StringNullableFilter<"ProjectDiary"> | string | null
     diary_title?: StringFilter<"ProjectDiary"> | string
     activity_description?: StringFilter<"ProjectDiary"> | string
     work_progress?: IntFilter<"ProjectDiary"> | number
     created_by?: StringFilter<"ProjectDiary"> | string
     created_at?: DateTimeFilter<"ProjectDiary"> | Date | string
     updated_at?: DateTimeFilter<"ProjectDiary"> | Date | string
+  }
+
+  export type WeeklyReportUpsertWithWhereUniqueWithoutUserInput = {
+    where: WeeklyReportWhereUniqueInput
+    update: XOR<WeeklyReportUpdateWithoutUserInput, WeeklyReportUncheckedUpdateWithoutUserInput>
+    create: XOR<WeeklyReportCreateWithoutUserInput, WeeklyReportUncheckedCreateWithoutUserInput>
+  }
+
+  export type WeeklyReportUpdateWithWhereUniqueWithoutUserInput = {
+    where: WeeklyReportWhereUniqueInput
+    data: XOR<WeeklyReportUpdateWithoutUserInput, WeeklyReportUncheckedUpdateWithoutUserInput>
+  }
+
+  export type WeeklyReportUpdateManyWithWhereWithoutUserInput = {
+    where: WeeklyReportScalarWhereInput
+    data: XOR<WeeklyReportUpdateManyMutationInput, WeeklyReportUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type WeeklyReportScalarWhereInput = {
+    AND?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
+    OR?: WeeklyReportScalarWhereInput[]
+    NOT?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
+    id?: StringFilter<"WeeklyReport"> | string
+    project_id?: StringFilter<"WeeklyReport"> | string
+    user_id?: StringFilter<"WeeklyReport"> | string
+    report_name?: StringFilter<"WeeklyReport"> | string
+    report_period?: StringFilter<"WeeklyReport"> | string
+    file_path?: StringFilter<"WeeklyReport"> | string
+    generated_at?: DateTimeFilter<"WeeklyReport"> | Date | string
   }
 
   export type UserCreateWithoutDiariesInput = {
@@ -14629,6 +17490,7 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDiariesInput = {
@@ -14644,6 +17506,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDiariesInput = {
@@ -14655,9 +17518,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_at?: Date | string
     creator: UserCreateNestedOneWithoutSchedulesInput
   }
@@ -14666,9 +17529,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_by: string
     created_at?: Date | string
   }
@@ -14702,6 +17565,7 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiariesInput = {
@@ -14717,6 +17581,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ScheduleUpsertWithoutDiariesInput = {
@@ -14765,6 +17630,7 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -14780,6 +17646,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -14811,6 +17678,7 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -14826,6 +17694,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHouseRulesInput = {
@@ -14841,6 +17710,7 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHouseRulesInput = {
@@ -14856,6 +17726,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHouseRulesInput = {
@@ -14887,6 +17758,7 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHouseRulesInput = {
@@ -14902,6 +17774,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDutySchedulesInput = {
@@ -14917,6 +17790,7 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDutySchedulesInput = {
@@ -14932,6 +17806,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDutySchedulesInput = {
@@ -14963,6 +17838,7 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDutySchedulesInput = {
@@ -14978,6 +17854,7 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSchedulesInput = {
@@ -14993,6 +17870,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSchedulesInput = {
@@ -15008,6 +17886,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSchedulesInput = {
@@ -15072,6 +17951,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSchedulesInput = {
@@ -15087,6 +17967,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DiaryUpsertWithWhereUniqueWithoutScheduleInput = {
@@ -15157,6 +18038,33 @@ export namespace Prisma {
     data: ProjectDiaryCreateManyProjectInput | ProjectDiaryCreateManyProjectInput[]
   }
 
+  export type WeeklyReportCreateWithoutProjectInput = {
+    id?: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+    user: UserCreateNestedOneWithoutWeeklyReportsInput
+  }
+
+  export type WeeklyReportUncheckedCreateWithoutProjectInput = {
+    id?: string
+    user_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+  }
+
+  export type WeeklyReportCreateOrConnectWithoutProjectInput = {
+    where: WeeklyReportWhereUniqueInput
+    create: XOR<WeeklyReportCreateWithoutProjectInput, WeeklyReportUncheckedCreateWithoutProjectInput>
+  }
+
+  export type WeeklyReportCreateManyProjectInputEnvelope = {
+    data: WeeklyReportCreateManyProjectInput | WeeklyReportCreateManyProjectInput[]
+  }
+
   export type ProjectMemberUpsertWithWhereUniqueWithoutProjectInput = {
     where: ProjectMemberWhereUniqueInput
     update: XOR<ProjectMemberUpdateWithoutProjectInput, ProjectMemberUncheckedUpdateWithoutProjectInput>
@@ -15189,16 +18097,34 @@ export namespace Prisma {
     data: XOR<ProjectDiaryUpdateManyMutationInput, ProjectDiaryUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type WeeklyReportUpsertWithWhereUniqueWithoutProjectInput = {
+    where: WeeklyReportWhereUniqueInput
+    update: XOR<WeeklyReportUpdateWithoutProjectInput, WeeklyReportUncheckedUpdateWithoutProjectInput>
+    create: XOR<WeeklyReportCreateWithoutProjectInput, WeeklyReportUncheckedCreateWithoutProjectInput>
+  }
+
+  export type WeeklyReportUpdateWithWhereUniqueWithoutProjectInput = {
+    where: WeeklyReportWhereUniqueInput
+    data: XOR<WeeklyReportUpdateWithoutProjectInput, WeeklyReportUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type WeeklyReportUpdateManyWithWhereWithoutProjectInput = {
+    where: WeeklyReportScalarWhereInput
+    data: XOR<WeeklyReportUpdateManyMutationInput, WeeklyReportUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type ProjectCreateWithoutMembersInput = {
     id?: string
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -15206,11 +18132,13 @@ export namespace Prisma {
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -15231,6 +18159,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembersInput = {
@@ -15246,6 +18175,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembersInput = {
@@ -15269,11 +18199,13 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -15281,11 +18213,13 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembersInput = {
@@ -15312,6 +18246,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembersInput = {
@@ -15327,6 +18262,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutDiariesInput = {
@@ -15334,11 +18270,13 @@ export namespace Prisma {
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutDiariesInput = {
@@ -15346,11 +18284,13 @@ export namespace Prisma {
     project_name: string
     description?: string | null
     start_date: string
-    end_date: string
     project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutDiariesInput = {
@@ -15371,6 +18311,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectDiariesInput = {
@@ -15386,6 +18327,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectDiariesInput = {
@@ -15409,11 +18351,13 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutDiariesInput = {
@@ -15421,11 +18365,13 @@ export namespace Prisma {
     project_name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: StringFieldUpdateOperationsInput | string
-    end_date?: StringFieldUpdateOperationsInput | string
     project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectDiariesInput = {
@@ -15452,6 +18398,7 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectDiariesInput = {
@@ -15467,6 +18414,159 @@ export namespace Prisma {
     dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ProjectCreateWithoutWeeklyReportsInput = {
+    id?: string
+    project_name: string
+    description?: string | null
+    start_date: string
+    project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutWeeklyReportsInput = {
+    id?: string
+    project_name: string
+    description?: string | null
+    start_date: string
+    project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutWeeklyReportsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutWeeklyReportsInput, ProjectUncheckedCreateWithoutWeeklyReportsInput>
+  }
+
+  export type UserCreateWithoutWeeklyReportsInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutWeeklyReportsInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryUncheckedCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleUncheckedCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutWeeklyReportsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutWeeklyReportsInput, UserUncheckedCreateWithoutWeeklyReportsInput>
+  }
+
+  export type ProjectUpsertWithoutWeeklyReportsInput = {
+    update: XOR<ProjectUpdateWithoutWeeklyReportsInput, ProjectUncheckedUpdateWithoutWeeklyReportsInput>
+    create: XOR<ProjectCreateWithoutWeeklyReportsInput, ProjectUncheckedCreateWithoutWeeklyReportsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutWeeklyReportsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutWeeklyReportsInput, ProjectUncheckedUpdateWithoutWeeklyReportsInput>
+  }
+
+  export type ProjectUpdateWithoutWeeklyReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutWeeklyReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type UserUpsertWithoutWeeklyReportsInput = {
+    update: XOR<UserUpdateWithoutWeeklyReportsInput, UserUncheckedUpdateWithoutWeeklyReportsInput>
+    create: XOR<UserCreateWithoutWeeklyReportsInput, UserUncheckedCreateWithoutWeeklyReportsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutWeeklyReportsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutWeeklyReportsInput, UserUncheckedUpdateWithoutWeeklyReportsInput>
+  }
+
+  export type UserUpdateWithoutWeeklyReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutWeeklyReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUncheckedUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type DiaryCreateManyCreatorInput = {
@@ -15506,9 +18606,9 @@ export namespace Prisma {
     id?: string
     title: string
     description?: string | null
-    category?: string
-    start_date?: string
-    end_date?: string
+    category: string
+    start_date: string
+    end_date: string
     created_at?: Date | string
   }
 
@@ -15521,12 +18621,21 @@ export namespace Prisma {
 
   export type ProjectDiaryCreateManyCreatorInput = {
     id?: string
-    project_id: string
+    project_id?: string | null
     diary_title: string
     activity_description: string
     work_progress: number
     created_at?: Date | string
     updated_at?: Date | string
+  }
+
+  export type WeeklyReportCreateManyUserInput = {
+    id?: string
+    project_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
   }
 
   export type DiaryUpdateWithoutCreatorInput = {
@@ -15688,12 +18797,12 @@ export namespace Prisma {
     work_progress?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    project?: ProjectUpdateOneRequiredWithoutDiariesNestedInput
+    project?: ProjectUpdateOneWithoutDiariesNestedInput
   }
 
   export type ProjectDiaryUncheckedUpdateWithoutCreatorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    project_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     diary_title?: StringFieldUpdateOperationsInput | string
     activity_description?: StringFieldUpdateOperationsInput | string
     work_progress?: IntFieldUpdateOperationsInput | number
@@ -15703,12 +18812,39 @@ export namespace Prisma {
 
   export type ProjectDiaryUncheckedUpdateManyWithoutCreatorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    project_id?: StringFieldUpdateOperationsInput | string
+    project_id?: NullableStringFieldUpdateOperationsInput | string | null
     diary_title?: StringFieldUpdateOperationsInput | string
     activity_description?: StringFieldUpdateOperationsInput | string
     work_progress?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutWeeklyReportsNestedInput
+  }
+
+  export type WeeklyReportUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DiaryCreateManyScheduleInput = {
@@ -15776,6 +18912,15 @@ export namespace Prisma {
     updated_at?: Date | string
   }
 
+  export type WeeklyReportCreateManyProjectInput = {
+    id?: string
+    user_id: string
+    report_name: string
+    report_period: string
+    file_path: string
+    generated_at?: Date | string
+  }
+
   export type ProjectMemberUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
@@ -15825,6 +18970,33 @@ export namespace Prisma {
     created_by?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutWeeklyReportsNestedInput
+  }
+
+  export type WeeklyReportUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WeeklyReportUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    report_name?: StringFieldUpdateOperationsInput | string
+    report_period?: StringFieldUpdateOperationsInput | string
+    file_path?: StringFieldUpdateOperationsInput | string
+    generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
@@ -15884,6 +19056,14 @@ export namespace Prisma {
      * @deprecated Use ProjectDiaryDefaultArgs instead
      */
     export type ProjectDiaryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectDiaryDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use WeeklyReportDefaultArgs instead
+     */
+    export type WeeklyReportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WeeklyReportDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CombinedWeeklyReportDefaultArgs instead
+     */
+    export type CombinedWeeklyReportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CombinedWeeklyReportDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

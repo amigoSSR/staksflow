@@ -7,6 +7,8 @@ const compression = require('compression');
 const rateLimit  = require('express-rate-limit');
 const morgan     = require('morgan');
 const { Server } = require('socket.io');
+const cron = require('node-cron');
+const weeklyReportService = require('./services/weeklyReportService');
 
 const authRouter      = require('./routes/auth');
 const diariesRouter   = require('./routes/diaries');
@@ -28,6 +30,8 @@ app.use(helmet({
       styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"],
       fontSrc:     ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net"],
       imgSrc:      ["'self'", "data:", "blob:"],
+      frameSrc:    ["'self'", "blob:"],
+      objectSrc:   ["'self'", "blob:"],
       connectSrc:  ["'self'", "ws:", "wss:"],
     },
   },
@@ -157,6 +161,35 @@ io.on('connection', (socket) => {
     // cleanup if needed
   });
 });
+
+// ── Weekly automated report generation at 01:00 WIB every Monday ─────────────
+// Fires every Monday at 01:00 AM Asia/Jakarta (WIB, UTC+8)
+cron.schedule('0 1 * * 1', async () => {
+  const ts = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+  console.log(`\n⏱️  [${ts}] Auto-generating weekly reports...`);
+  try {
+    const result = await weeklyReportService.generateWeeklyReports();
+    console.log(`✅ Weekly reports auto-generated: ${result.created_count} file(s) for period ${result.period}\n`);
+  } catch (err) {
+    console.error('❌ Weekly report auto-generation failed:', err.message);
+  }
+}, {
+  scheduled: true,
+  timezone: 'Asia/Jakarta'
+});
+
+// Log next scheduled run on startup
+(function logNextCronRun() {
+  const now  = new Date();
+  // Find next Monday 01:00 WIB
+  const jakartaNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+  const daysUntilMon = (1 - jakartaNow.getDay() + 7) % 7 || 7;
+  const nextMon = new Date(jakartaNow);
+  nextMon.setDate(jakartaNow.getDate() + daysUntilMon);
+  nextMon.setHours(1, 0, 0, 0);
+  console.log(`📅 Weekly report auto-gen scheduled: every Monday 01:00 WIB`);
+  console.log(`   Next run ≈ ${nextMon.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' })} 01:00 WIB\n`);
+})();
 
 // ── Handle Port Conflict ──────────────────────────────────────────────────────
 server.on('error', (err) => {

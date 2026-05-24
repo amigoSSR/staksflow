@@ -2,14 +2,21 @@
         <div class="a-card">
           <div class="a-card-header">
             <h2><i class="bi bi-people-fill"></i> Manajemen User</h2>
-            <div class="a-search-box">
-              <i class="bi bi-search"></i>
-              <input
-                type="text"
-                id="userSearch"
-                placeholder="Cari username / email..."
-                oninput="filterUsers()"
-              />
+            <div class="a-filters">
+              <div class="a-search-box">
+                <i class="bi bi-search"></i>
+                <input
+                  type="text"
+                  id="userSearch"
+                  placeholder="Cari username / email..."
+                  oninput="filterUsers()"
+                />
+              </div>
+              <select id="userProjectFilter" class="a-select" onchange="loadUsers()">
+                <option value="all">Semua Project</option>
+                <option value="with-project">Dengan Project</option>
+                <option value="without-project">Tanpa Project</option>
+              </select>
             </div>
           </div>
           <div class="a-table-wrap">
@@ -19,7 +26,7 @@
                   <th>User</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Tasks</th>
+                  <th>Current Project</th>
                   <th>Bergabung</th>
                   <th>Aksi</th>
                 </tr>

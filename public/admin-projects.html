@@ -84,13 +84,9 @@
           <i class="bi bi-journal-text"></i><span>Diary & Aktivitas</span>
           <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
-        <div class="a-nav-item" data-section="activity" id="nav-activity">
-          <i class="bi bi-activity"></i><span>Activity Log</span>
-          <span
-            class="a-badge"
-            id="navActivityCount"
-            style="display: none"
-          ></span>
+        <div class="a-nav-item" data-section="weekly-checkup" id="nav-weekly-checkup">
+          <i class="bi bi-file-earmark-pdf-fill"></i><span>Weekly Check-Up</span>
+          <span class="a-badge" id="navWeeklyCount" style="display: none"></span>
         </div>
 
         <div class="a-nav-section-label" style="margin-top: 16px">
@@ -180,7 +176,7 @@
           <tr>
             <th>Proyek</th>
             <th>Status</th>
-            <th>Durasi</th>
+            <th>Mulai</th>
             <th>Leader (Mentor)</th>
             <th>Mentees</th>
             <th>Diaries</th>
@@ -223,29 +219,23 @@
         <textarea id="projectFormDesc" rows="3" style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-1); font-size: 14px; resize: vertical;"></textarea>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
-        <div>
-          <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--at-2); margin-bottom: 6px;">Tanggal Mulai *</label>
-          <input type="date" id="projectFormStart" required style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-1); font-size: 14px;" />
-        </div>
-        <div>
-          <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--at-2); margin-bottom: 6px;">Tanggal Selesai *</label>
-          <input type="date" id="projectFormEnd" required style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-1); font-size: 14px;" />
-        </div>
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--at-2); margin-bottom: 6px;">Tanggal Mulai *</label>
+        <input type="date" id="projectFormStart" required style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-1); font-size: 14px;" />
       </div>
 
-      <div style="margin-bottom: 16px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--at-2); margin-bottom: 6px;">Status Proyek *</label>
-        <select id="projectFormStatus" required style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-1); font-size: 14px;">
+      <div class="a-form-group">
+        <label class="a-form-label">Status Proyek *</label>
+        <select id="projectFormStatus" class="a-form-input" required>
           <option value="ongoing">Ongoing</option>
           <option value="upcoming">Upcoming</option>
           <option value="completed">Completed</option>
         </select>
       </div>
 
-      <div style="margin-bottom: 16px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--at-2); margin-bottom: 6px;">Project Leader (Mentor)</label>
-        <select id="projectFormLeader" style="width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-1); font-size: 14px;">
+      <div class="a-form-group">
+        <label class="a-form-label">Project Leader (Mentor)</label>
+        <select id="projectFormLeader" class="a-form-input">
           <option value="">— Pilih Project Leader —</option>
         </select>
       </div>
@@ -297,10 +287,27 @@
       </div>
     </div>
 
+    <!-- PROJECT COMPLETION CONFIRMATION MODAL -->
+    <div class="a-modal-overlay" id="completionModalOverlay">
+      <div class="a-modal" style="max-width: 400px; text-align: center; padding: 30px;">
+        <div style="width: 60px; height: 60px; background: rgba(76, 175, 80, 0.1); color: #4caf50; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 30px;">
+          <i class="bi bi-check-all"></i>
+        </div>
+        <h3 style="margin-bottom: 10px; color: var(--text-1);">Selesaikan Proyek?</h3>
+        <p style="font-size: 14px; color: var(--text-2); margin-bottom: 24px; line-height: 1.5;">
+          Apakah Anda yakin ingin menandai proyek ini sebagai <strong>Selesai</strong>?<br>
+          <span style="font-size: 12px; opacity: 0.7; display: block; margin-top: 8px;">Status akan dikunci dan tercatat otomatis di Weekly Check-Up.</span>
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="a-btn-cancel" onclick="closeCompletionModal()" style="padding: 10px 20px;">Batal</button>
+          <button class="a-btn-primary" id="confirmCompleteBtn" style="background: #4caf50; border-color: #4caf50; padding: 10px 20px;">Selesaikan Proyek</button>
+        </div>
+      </div>
+    </div>
+
     <!-- TOAST -->
     <div class="a-toast-container" id="toastContainer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/admin.js"></script>
   </body>

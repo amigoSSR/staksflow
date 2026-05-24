@@ -32,7 +32,6 @@ router.get('/my', async (req, res) => {
         project_name: p.project_name,
         description: p.description,
         start_date: p.start_date,
-        end_date: p.end_date,
         project_status: p.project_status,
         my_role: m.role,
         leader: leader ? { id: leader.user_id, username: leader.user?.username } : null,

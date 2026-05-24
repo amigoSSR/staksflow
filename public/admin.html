@@ -53,6 +53,9 @@
       </div>
     </div>
 
+    <!-- MOBILE OVERLAY -->
+    <div class="a-overlay" id="aOverlay"></div>
+
     <!-- SIDEBAR -->
     <aside class="a-sidebar" id="aSidebar">
       <div class="a-sidebar-logo">
@@ -84,13 +87,9 @@
           <i class="bi bi-journal-text"></i><span>Diary & Aktivitas</span>
           <span class="a-badge" id="navTaskCount" style="display: none"></span>
         </div>
-        <div class="a-nav-item" data-section="activity" id="nav-activity">
-          <i class="bi bi-activity"></i><span>Activity Log</span>
-          <span
-            class="a-badge"
-            id="navActivityCount"
-            style="display: none"
-          ></span>
+        <div class="a-nav-item" data-section="weekly-checkup" id="nav-weekly-checkup">
+          <i class="bi bi-file-earmark-pdf-fill"></i><span>Weekly Check-Up</span>
+          <span class="a-badge" id="navWeeklyCount" style="display: none"></span>
         </div>
 
         <div class="a-nav-section-label" style="margin-top: 16px">
@@ -156,7 +155,7 @@
       </header>
       <!-- MODULAR ROUTER OUTLET -->
       <section id="sec-overview" class="a-section active">
-  <div class="a-stats-row" id="statsRow" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+  <div class="a-stats-row" id="statsRow">
     <div class="a-stat-card">
       <div class="a-stat-icon purple">
         <i class="bi bi-people-fill"></i>
@@ -181,33 +180,32 @@
       </div>
       <div>
         <div class="a-stat-num a-stat-sm" id="s-active">-</div>
-        <div class="a-stat-lbl">User Paling Aktif</div>
+        <div class="a-stat-lbl">User Paling Aktif (All Time)</div>
       </div>
     </div>
   </div>
 
+  <!-- Weekly Active Users Leaderboard -->
   <div class="a-card">
     <div class="a-card-header">
-      <h2><i class="bi bi-activity"></i> Log Aktivitas Terbaru</h2>
-      <button class="a-btn-outline" onclick="showSection('activity')">
-        Lihat Semua →
-      </button>
+      <h2><i class="bi bi-fire" style="color:#f87171;"></i> User Teraktif Pekan Ini</h2>
+      <div style="font-size: 11px; color: var(--at-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Rolling 7 Hari Terakhir</div>
     </div>
     <div class="a-table-wrap">
       <table class="a-table">
         <thead>
           <tr>
             <th>User</th>
-            <th>Aktivitas</th>
-            <th>Judul Diary</th>
-            <th>Kategori</th>
-            <th>Waktu</th>
+            <th>Proyek Saat Ini</th>
+            <th style="text-align: center;">Total Aktivitas</th>
+            <th style="width: 200px;">Aktivitas Bar</th>
           </tr>
         </thead>
-        <tbody id="recentActivityBody">
+        <tbody id="weeklyLeaderboardBody">
           <tr>
-            <td colspan="5" class="a-empty">
-              <div class="a-spinner"></div>
+            <td colspan="4" class="a-empty">
+              <div class="a-spinner" style="width:24px; height:24px; border-width:3px;"></div>
+              <div style="margin-top:10px; font-size:12px;">Menghitung aktivitas pekan ini...</div>
             </td>
           </tr>
         </tbody>
@@ -233,10 +231,27 @@
       </div>
     </div>
 
+    <!-- PROJECT COMPLETION CONFIRMATION MODAL -->
+    <div class="a-modal-overlay" id="completionModalOverlay">
+      <div class="a-modal" style="max-width: 400px; text-align: center; padding: 30px;">
+        <div style="width: 60px; height: 60px; background: rgba(76, 175, 80, 0.1); color: #4caf50; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 30px;">
+          <i class="bi bi-check-all"></i>
+        </div>
+        <h3 style="margin-bottom: 10px; color: var(--text-1);">Selesaikan Proyek?</h3>
+        <p style="font-size: 14px; color: var(--text-2); margin-bottom: 24px; line-height: 1.5;">
+          Apakah Anda yakin ingin menandai proyek ini sebagai <strong>Selesai</strong>?<br>
+          <span style="font-size: 12px; opacity: 0.7; display: block; margin-top: 8px;">Status akan dikunci dan tercatat otomatis di Weekly Check-Up.</span>
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="a-btn-cancel" onclick="closeCompletionModal()" style="padding: 10px 20px;">Batal</button>
+          <button class="a-btn-primary" id="confirmCompleteBtn" style="background: #4caf50; border-color: #4caf50; padding: 10px 20px;">Selesaikan Proyek</button>
+        </div>
+      </div>
+    </div>
+
     <!-- TOAST -->
     <div class="a-toast-container" id="toastContainer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/admin.js"></script>
   </body>

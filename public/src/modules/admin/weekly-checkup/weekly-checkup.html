@@ -1,0 +1,123 @@
+<section id="sec-weekly-checkup" class="a-section">
+
+  <!-- ── STATS ROW ───────────────────────────────────────────────────────── -->
+  <div class="wc-stats-row">
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(59,130,246,0.12);color:#60a5fa;">
+        <i class="bi bi-file-earmark-pdf-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatTotal">0</div>
+        <div class="wc-stat-lbl">Total Reports</div>
+      </div>
+    </div>
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(16,185,129,0.12);color:#34d399;">
+        <i class="bi bi-calendar-week-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatThisWeek">0</div>
+        <div class="wc-stat-lbl">This Month</div>
+      </div>
+    </div>
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24;">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatUsers">0</div>
+        <div class="wc-stat-lbl">Leaders Covered</div>
+      </div>
+    </div>
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(139,92,246,0.12);color:#c084fc;">
+        <i class="bi bi-lightning-charge-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatProjects">0</div>
+        <div class="wc-stat-lbl">Total Activities</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN CARD ────────────────────────────────────────────────────────── -->
+  <div class="a-card">
+
+    <!-- Header + Filters -->
+    <div class="a-card-header" style="flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <i class="bi bi-file-earmark-pdf-fill" style="color:var(--accent);font-size:18px;"></i>
+        <h2>Weekly Check-Up Reports</h2>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-left:auto;">
+
+        <!-- Filter: Month -->
+        <input type="month" id="wcFilterMonth" onchange="filterWeeklyReports()" class="a-select" style="min-width:138px;" />
+
+        <!-- Search -->
+        <div class="a-search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="wcSearch" placeholder="Search reports…" oninput="filterWeeklyReports()" />
+        </div>
+
+        <!-- Generate button -->
+        <button class="wc-gen-btn" id="wcGenerateBtn" onclick="generateWeeklyReportsNow()" title="Generate combined report for last week">
+          <i class="bi bi-lightning-charge-fill"></i>
+          Generate Now
+        </button>
+      </div>
+    </div>
+
+    <!-- Cron schedule info -->
+    <div class="wc-schedule-banner">
+      <i class="bi bi-alarm-fill"></i>
+      <span>Auto-generation runs every <strong>Monday at 01:00 AM WIB</strong> — produces <strong>one combined PDF</strong> covering all project leaders for the previous week (Mon – Sun).</span>
+      <span id="wcGeneratingBadge" class="wc-gen-badge" style="display:none;">
+        <span class="wc-gen-dot"></span> Generating…
+      </span>
+    </div>
+
+    <!-- Report Grid -->
+    <div id="wcReportGrid" class="wc-report-grid">
+      <div class="wc-loading">
+        <div class="a-spinner" style="width:36px;height:36px;border-width:4px;"></div>
+        <span>Loading reports…</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PDF PREVIEW MODAL ─────────────────────────────────────────────────── -->
+  <div class="a-modal-overlay" id="wcPreviewModal">
+    <div class="wc-preview-modal">
+      <div class="wc-preview-header">
+        <div>
+          <div class="wc-preview-title" id="wcPreviewTitle">Report Preview</div>
+          <div class="wc-preview-sub" id="wcPreviewSub"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="wc-preview-dl-btn" id="wcPreviewDlBtn" onclick="">
+            <i class="bi bi-download"></i> Download
+          </button>
+          <button class="a-icon-btn" onclick="closeWcPreview()" title="Close" style="flex-shrink:0;">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="wc-preview-body" id="wcPreviewBody">
+        <div id="wcPreviewLoading" class="wc-preview-loader">
+          <div class="a-spinner" style="width:40px;height:40px;border-width:4px;"></div>
+          <span>Loading PDF Document…</span>
+        </div>
+        <div id="wcPreviewError" class="wc-preview-error" style="display:none;">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <div class="wc-preview-error-title">Cannot Load PDF</div>
+          <div class="wc-preview-error-sub" id="wcPreviewErrorMsg">The file might be missing or the server returned an error.</div>
+        </div>
+        <iframe id="wcPreviewFrame" src="" title="PDF Preview" style="display:none;"></iframe>
+      </div>
+    </div>
+  </div>
+
+</section>

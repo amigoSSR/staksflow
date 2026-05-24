@@ -33,6 +33,7 @@ model User {
   schedules      Schedule[]
   projectMembers ProjectMember[]
   projectDiaries ProjectDiary[]
+  weeklyReports  WeeklyReport[]
 
   @@map("users")
 }
@@ -96,9 +97,9 @@ model Schedule {
   id          String   @id @default(uuid())
   title       String
   description String?
-  category    String   @default("Daily")
-  start_date  String   @default("2026-05-21")
-  end_date    String   @default("2026-05-21")
+  category    String
+  start_date  String
+  end_date    String
   created_by  String
   created_at  DateTime @default(now())
 
@@ -127,8 +128,9 @@ model Project {
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
 
-  members ProjectMember[]
-  diaries ProjectDiary[]
+  members       ProjectMember[]
+  diaries       ProjectDiary[]
+  weeklyReports WeeklyReport[]
 
   @@map("projects")
 }
@@ -161,4 +163,33 @@ model ProjectDiary {
   creator User    @relation(fields: [created_by], references: [id], onDelete: Cascade)
 
   @@map("project_diaries")
+}
+
+model WeeklyReport {
+  id            String   @id @default(uuid())
+  project_id    String
+  user_id       String
+  report_name   String
+  report_period String
+  file_path     String
+  generated_at  DateTime @default(now())
+
+  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("weekly_reports")
+}
+
+// ── Combined weekly report: ONE PDF per week containing all leaders ────────────
+model CombinedWeeklyReport {
+  id            String   @id @default(uuid())
+  report_name   String
+  report_period String   @unique // e.g. "2026-05-18 - 2026-05-24" — prevents duplicates
+  file_name     String // e.g. "weekly-checkup-may-week-3.pdf"
+  file_path     String
+  generated_at  DateTime @default(now())
+  leader_count  Int      @default(0)
+  diary_count   Int      @default(0)
+
+  @@map("combined_weekly_reports")
 }

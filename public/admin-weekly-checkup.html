@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <script>
+      document.documentElement.setAttribute('data-theme', localStorage.getItem('tf_theme') || 'dark');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STAKS FLOW — Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+
+  <body>
+    <!-- AUTH LOADING -->
+    <div
+      id="authLoading"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-1);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--at-2);
+      "
+    >
+      <div
+        class="a-spinner"
+        style="
+          width: 40px;
+          height: 40px;
+          border-width: 4px;
+          margin-bottom: 16px;
+        "
+      ></div>
+      <div style="font-weight: 600; font-size: 14px; letter-spacing: 1px">
+        Validasi Session...
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="a-sidebar" id="aSidebar">
+      <div class="a-sidebar-logo">
+        <div class="a-logo-icon"><i class="bi bi-shield-fill-check"></i></div>
+        <div class="a-logo-text">
+          <div class="a-logo-name">STAKS FLOW</div>
+          <div class="a-logo-sub">Admin Panel</div>
+        </div>
+      </div>
+
+      <nav class="a-nav">
+        <div class="a-nav-section-label">MENU</div>
+        <div
+          class="a-nav-item"
+          data-section="overview"
+          id="nav-overview"
+        >
+          <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
+        </div>
+        <div class="a-nav-item" data-section="users" id="nav-users">
+          <i class="bi bi-people-fill"></i><span>Manajemen User</span>
+          <span class="a-badge" id="navUserCount" style="display: none"></span>
+        </div>
+        <div class="a-nav-item" data-section="projects" id="nav-projects">
+          <i class="bi bi-folder-fill"></i><span>Manajemen Proyek</span>
+          <span class="a-badge" id="navProjectCount" style="display: none"></span>
+        </div>
+        <div class="a-nav-item" data-section="tasks" id="nav-tasks">
+          <i class="bi bi-journal-text"></i><span>Diary & Aktivitas</span>
+          <span class="a-badge" id="navTaskCount" style="display: none"></span>
+        </div>
+        <div class="a-nav-item active" data-section="weekly-checkup" id="nav-weekly-checkup">
+          <i class="bi bi-file-earmark-pdf-fill"></i><span>Weekly Check-Up</span>
+          <span class="a-badge" id="navWeeklyCount" style="display: none"></span>
+        </div>
+
+        <div class="a-nav-section-label" style="margin-top: 16px">
+          KOMUNITAS
+        </div>
+        <div class="a-nav-item" data-section="calendar" id="nav-calendar">
+          <i class="bi bi-calendar-event-fill"></i
+          ><span>Calendar / Schedule</span>
+        </div>
+        <div class="a-nav-item" data-section="house-rules" id="nav-house-rules">
+          <i class="bi bi-journal-bookmark-fill"></i><span>House Rules</span>
+        </div>
+        <div class="a-nav-item" data-section="duty" id="nav-duty">
+          <i class="bi bi-calendar2-week-fill"></i><span>Jadwal Piket</span>
+        </div>
+      </nav>
+
+      <div class="a-sidebar-footer">
+        <div class="a-admin-profile">
+          <div class="a-admin-avatar" id="adminAvatar">A</div>
+          <div class="a-admin-info">
+            <div class="a-admin-name" id="adminName">Admin</div>
+            <div class="a-admin-role">Administrator</div>
+          </div>
+        </div>
+        <button class="a-logout-btn" onclick="doLogout()" title="Logout">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="a-main" id="aMain">
+      <!-- Topbar -->
+      <header class="a-topbar">
+        <div class="a-topbar-left">
+          <button class="a-icon-btn" onclick="toggleSidebar()">
+            <i class="bi bi-list"></i>
+          </button>
+          <div>
+            <h1 class="a-page-title" id="pageTitle">Weekly Check-Up</h1>
+            <p class="a-page-sub" id="pageSub">
+              Selamat datang di panel administrasi STAKS FLOW
+            </p>
+          </div>
+        </div>
+        <div class="a-topbar-right">
+          <button
+            class="a-icon-btn"
+            id="themeBtn"
+            onclick="toggleTheme()"
+            title="Toggle theme"
+          >
+            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+          </button>
+          <button class="a-icon-btn" onclick="refreshData()" title="Refresh">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+          <a href="/" class="a-btn-back"
+            ><i class="bi bi-arrow-left-circle"></i><span>Todo App</span></a
+          >
+        </div>
+      </header>
+      <!-- MODULAR ROUTER OUTLET -->
+      <section id="sec-weekly-checkup" class="a-section active" style="display:flex;">
+
+  <!-- ── STATS ROW ───────────────────────────────────────────────────────── -->
+  <div class="wc-stats-row">
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(59,130,246,0.12);color:#60a5fa;">
+        <i class="bi bi-file-earmark-pdf-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatTotal">0</div>
+        <div class="wc-stat-lbl">Total Reports</div>
+      </div>
+    </div>
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(16,185,129,0.12);color:#34d399;">
+        <i class="bi bi-calendar-week-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatThisWeek">0</div>
+        <div class="wc-stat-lbl">This Month</div>
+      </div>
+    </div>
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(245,158,11,0.12);color:#fbbf24;">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatUsers">0</div>
+        <div class="wc-stat-lbl">Leaders Covered</div>
+      </div>
+    </div>
+    <div class="wc-stat-card">
+      <div class="wc-stat-icon" style="background:rgba(139,92,246,0.12);color:#c084fc;">
+        <i class="bi bi-lightning-charge-fill"></i>
+      </div>
+      <div>
+        <div class="wc-stat-num" id="wcStatProjects">0</div>
+        <div class="wc-stat-lbl">Total Activities</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN CARD ────────────────────────────────────────────────────────── -->
+  <div class="a-card">
+
+    <!-- Header + Filters -->
+    <div class="a-card-header" style="flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <i class="bi bi-file-earmark-pdf-fill" style="color:var(--accent);font-size:18px;"></i>
+        <h2>Weekly Check-Up Reports</h2>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-left:auto;">
+
+        <!-- Filter: Month -->
+        <input type="month" id="wcFilterMonth" onchange="filterWeeklyReports()" class="a-select" style="min-width:138px;" />
+
+        <!-- Search -->
+        <div class="a-search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="wcSearch" placeholder="Search reports…" oninput="filterWeeklyReports()" />
+        </div>
+
+        <!-- Generate button -->
+        <button class="wc-gen-btn" id="wcGenerateBtn" onclick="generateWeeklyReportsNow()" title="Generate combined report for last week">
+          <i class="bi bi-lightning-charge-fill"></i>
+          Generate Now
+        </button>
+      </div>
+    </div>
+
+    <!-- Cron schedule info -->
+    <div class="wc-schedule-banner">
+      <i class="bi bi-alarm-fill"></i>
+      <span>Auto-generation runs every <strong>Monday at 01:00 AM WIB</strong> — produces <strong>one combined PDF</strong> covering all project leaders for the previous week (Mon – Sun).</span>
+      <span id="wcGeneratingBadge" class="wc-gen-badge" style="display:none;">
+        <span class="wc-gen-dot"></span> Generating…
+      </span>
+    </div>
+
+    <!-- Report Grid -->
+    <div id="wcReportGrid" class="wc-report-grid">
+      <div class="wc-loading">
+        <div class="a-spinner" style="width:36px;height:36px;border-width:4px;"></div>
+        <span>Loading reports…</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PDF PREVIEW MODAL ─────────────────────────────────────────────────── -->
+  <div class="a-modal-overlay" id="wcPreviewModal">
+    <div class="wc-preview-modal">
+      <div class="wc-preview-header">
+        <div>
+          <div class="wc-preview-title" id="wcPreviewTitle">Report Preview</div>
+          <div class="wc-preview-sub" id="wcPreviewSub"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="wc-preview-dl-btn" id="wcPreviewDlBtn" onclick="">
+            <i class="bi bi-download"></i> Download
+          </button>
+          <button class="a-icon-btn" onclick="closeWcPreview()" title="Close" style="flex-shrink:0;">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="wc-preview-body" id="wcPreviewBody">
+        <div id="wcPreviewLoading" class="wc-preview-loader">
+          <div class="a-spinner" style="width:40px;height:40px;border-width:4px;"></div>
+          <span>Loading PDF Document…</span>
+        </div>
+        <div id="wcPreviewError" class="wc-preview-error" style="display:none;">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <div class="wc-preview-error-title">Cannot Load PDF</div>
+          <div class="wc-preview-error-sub" id="wcPreviewErrorMsg">The file might be missing or the server returned an error.</div>
+        </div>
+        <iframe id="wcPreviewFrame" src="" title="PDF Preview" style="display:none;"></iframe>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+    </main>
+    <!-- DELETE MODAL -->
+    <div class="a-modal-overlay" id="deleteModalOverlay">
+      <div class="a-modal a-modal-sm">
+        <div class="a-delete-icon"><i class="bi bi-trash3-fill"></i></div>
+        <h3 class="a-delete-title">Konfirmasi Hapus</h3>
+        <p class="a-delete-desc" id="deleteModalDesc">
+          Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div class="a-modal-actions">
+          <button class="a-btn-cancel" onclick="closeDeleteModal()">
+            Batal
+          </button>
+          <button class="a-btn-danger" id="confirmDeleteBtn">Hapus</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="a-toast-container" id="toastContainer"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/admin.js"></script>
+  </body>
+</html>
+
