@@ -32,7 +32,8 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
       frameSrc: ["'self'", "blob:"],
       objectSrc: ["'self'", "blob:"],
-      connectSrc: ["'self'", "ws:", "wss:", "http://178.128.109.116:3010", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "ws:", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+      upgradeInsecureRequests: null, // PENTING: Jangan paksa upgrade ke HTTPS
     },
   },
   crossOriginEmbedderPolicy: false,
