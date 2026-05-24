@@ -1,0 +1,327 @@
+<section id="sec-manual" class="a-section">
+  <div class="a-manual-layout-wrapper">
+    <!-- LEFT: CATEGORIES & TUTORIAL LIST -->
+    <div class="a-card a-manual-sidebar-card">
+      <div class="a-card-header">
+        <h2><i class="bi bi-folder2-open" style="color: var(--accent);"></i> Manajemen Konten</h2>
+        <button class="a-btn-primary" onclick="openManualCategoryModal()" style="padding: 8px 14px; font-size: 11px; border-radius: 8px;">
+          <i class="bi bi-plus-lg"></i> Kategori
+        </button>
+      </div>
+      
+      <div class="a-manual-tree" id="adminManualTree">
+        <!-- Tree content will be injected here -->
+        <div class="a-spinner" style="margin: 40px auto;"></div>
+      </div>
+
+      <div class="a-manual-sidebar-footer">
+        <button class="a-btn-primary" onclick="openTutorialModal()" style="width: 100%; justify-content: center; height: 45px; border-radius: 12px; font-weight: 700;">
+          <i class="bi bi-plus-circle-fill"></i> Tambah Tutorial Baru
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: CONTENT EDITOR / PREVIEW -->
+    <div class="a-card a-manual-content-card">
+      <div id="manualEditorPlaceholder" class="a-manual-placeholder">
+        <div class="placeholder-icon-wrap">
+          <i class="bi bi-journal-richtext"></i>
+        </div>
+        <h3>Pilih tutorial untuk mengelola konten</h3>
+        <p>Gunakan panel navigasi di sebelah kiri untuk melihat, mengedit, atau menghapus panduan yang sudah ada.</p>
+      </div>
+
+      <div id="manualEditorContent" style="display: none; flex: 1; flex-direction: column;">
+        <div class="a-card-header content-header">
+          <div>
+            <div id="tutorialDetailCategory" class="category-label">CATEGORY</div>
+            <h2 id="tutorialDetailTitle" class="tutorial-title">Tutorial Title</h2>
+          </div>
+          <div class="header-actions">
+            <button class="a-btn-secondary" id="btnEditTutorial">
+              <i class="bi bi-pencil-square"></i> Edit Konten
+            </button>
+            <button class="a-btn-danger" id="btnDeleteTutorial">
+              <i class="bi bi-trash3"></i> Hapus
+            </button>
+          </div>
+        </div>
+
+        <div class="a-manual-preview-scroll">
+           <div id="tutorialPreviewBody" class="manual-rich-content">
+             <!-- Content preview -->
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CATEGORY -->
+  <div class="a-modal-overlay" id="manualCategoryModalOverlay">
+    <div class="a-modal a-modal-sm">
+      <div class="a-modal-header">
+        <h3 id="manualCategoryModalTitle">Tambah Kategori Manual</h3>
+        <button class="a-modal-close" onclick="closeManualCategoryModal()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <form id="manualCategoryForm" onsubmit="saveManualCategory(event)">
+        <input type="hidden" id="manualCategoryId" />
+        <div class="form-group">
+          <label>Nama Kategori *</label>
+          <input type="text" id="manualCategoryName" required placeholder="Contoh: Dasar-Dasar Dashboard" />
+        </div>
+        <div class="form-group">
+          <label>Ikon (Bootstrap Icon Class)</label>
+          <input type="text" id="manualCategoryIcon" placeholder="bi-journal-text" value="bi-journal-text" />
+        </div>
+        <div class="form-group">
+          <label>Urutan Tampilan</label>
+          <input type="number" id="manualCategoryOrder" value="0" />
+        </div>
+        <div class="form-group">
+          <label>Deskripsi Singkat</label>
+          <textarea id="manualCategoryDesc" rows="2" placeholder="Penjelasan singkat kategori ini..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Role Akses *</label>
+          <select id="manualCategoryAccessRole" required>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="a-modal-actions">
+          <button type="button" class="a-btn-cancel" onclick="closeManualCategoryModal()">Batal</button>
+          <button type="submit" class="a-btn-primary">Simpan Kategori</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: TUTORIAL -->
+  <div class="a-modal-overlay" id="tutorialModalOverlay">
+    <div class="a-modal" style="max-width: 900px;">
+      <div class="a-modal-header">
+        <h3 id="tutorialModalTitle">Tambah Tutorial Baru</h3>
+        <button class="a-modal-close" onclick="closeTutorialModal()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <form id="tutorialForm" onsubmit="saveTutorial(event)">
+        <input type="hidden" id="tutorialId" />
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <div class="form-group">
+            <label>Kategori *</label>
+            <select id="tutorialCategoryId" required>
+              <!-- Populated dynamicly -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Role Akses *</label>
+            <select id="tutorialAccessRole" required>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Urutan Tampilan</label>
+          <input type="number" id="tutorialOrder" value="0" />
+        </div>
+        <div class="form-group">
+          <label>Judul Tutorial *</label>
+          <input type="text" id="tutorialTitle" required placeholder="Contoh: Cara Membuat Diary Baru" />
+        </div>
+        <div class="form-group">
+          <label>Konten Tutorial (HTML supported) *</label>
+          <div style="font-size: 11px; color: var(--at-3); margin-bottom: 8px;">
+            <i class="bi bi-info-circle"></i> Gunakan tag HTML standar untuk formatting (h1, h2, p, ul, li, img, dll.)
+          </div>
+          <textarea id="tutorialContent" rows="15" required style="font-family: monospace; font-size: 13px; line-height: 1.5;"></textarea>
+        </div>
+        <div class="a-modal-actions">
+          <button type="button" class="a-btn-cancel" onclick="closeTutorialModal()">Batal</button>
+          <button type="submit" class="a-btn-primary">Simpan Tutorial</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .a-manual-layout-wrapper {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 32px;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  .a-manual-sidebar-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid var(--at-border);
+    background: var(--bg-card);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .a-manual-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  .a-manual-sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid var(--at-border);
+    background: rgba(255,255,255,0.01);
+  }
+  .a-manual-content-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid var(--at-border);
+    background: var(--bg-card);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .a-manual-placeholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    padding: 60px;
+    text-align: center;
+  }
+  .placeholder-icon-wrap {
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 54px;
+    margin-bottom: 30px;
+    border: 1px solid var(--at-border);
+    transform: rotate(-5deg);
+  }
+  .category-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .tutorial-title {
+    font-size: 32px;
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: -1px;
+    color: var(--text-1);
+  }
+  .header-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .header-actions button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+  }
+  .a-manual-preview-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px 60px;
+  }
+  .manual-rich-content {
+    max-width: 850px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  /* Tree Styling */
+  .manual-category-item {
+    margin-bottom: 12px;
+  }
+  .manual-cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--at-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .manual-cat-header:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+  .manual-tutorial-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px 10px 40px;
+    font-size: 13.5px;
+    color: var(--at-2);
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 4px;
+    transition: all 0.2s;
+  }
+  .manual-tutorial-item:hover {
+    background: rgba(255,255,255,0.03);
+    color: var(--text-1);
+  }
+  .manual-tutorial-item.active {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+  }
+  
+  /* Rich Content Refinement */
+  .manual-rich-content h2 { 
+    font-size: 24px; 
+    font-weight: 800;
+    margin-top: 50px; 
+    margin-bottom: 20px; 
+    color: var(--text-1); 
+    border-bottom: 2px solid var(--at-border); 
+    padding-bottom: 12px; 
+  }
+  .manual-rich-content h3 { font-size: 19px; font-weight: 700; margin-top: 32px; margin-bottom: 14px; color: var(--text-1); }
+  .manual-rich-content p { margin-bottom: 20px; }
+  .manual-rich-content ul, .manual-rich-content ol { margin-bottom: 24px; padding-left: 30px; }
+  .manual-rich-content li { margin-bottom: 12px; }
+  
+  .manual-rich-content img { 
+    max-width: 100%; 
+    border-radius: 16px; 
+    margin: 32px 0; 
+    border: 1px solid var(--at-border); 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  }
+  
+  .manual-rich-content .tip-box, 
+  .manual-rich-content .info-box, 
+  .manual-rich-content .warn-box { 
+    padding: 24px 30px; 
+    border-radius: 14px; 
+    margin: 32px 0; 
+  }
+  
+  .manual-rich-content .tip-box { background: rgba(34, 197, 94, 0.08); border-left: 5px solid #22c55e; }
+  .manual-rich-content .info-box { background: rgba(59, 130, 246, 0.08); border-left: 5px solid #3b82f6; }
+  .manual-rich-content .warn-box { background: rgba(245, 158, 11, 0.08); border-left: 5px solid #f59e0b; }
+
+  /* Tree Scrollbar */
+  #adminManualTree::-webkit-scrollbar { width: 4px; }
+  #adminManualTree::-webkit-scrollbar-thumb { background: var(--at-border); border-radius: 10px; }
+</style>

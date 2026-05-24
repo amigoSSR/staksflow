@@ -26,14 +26,16 @@ model User {
   role       String   @default("user")
   created_at DateTime @default(now())
 
-  diaries        Diary[]
-  activities     ActivityLog[]
-  houseRules     HouseRule[]
-  dutySchedules  DutySchedule[]
-  schedules      Schedule[]
-  projectMembers ProjectMember[]
-  projectDiaries ProjectDiary[]
-  weeklyReports  WeeklyReport[]
+  diaries            Diary[]
+  activities         ActivityLog[]
+  houseRules         HouseRule[]
+  dutySchedules      DutySchedule[]
+  schedules          Schedule[]
+  projectMembers     ProjectMember[]
+  projectDiaries     ProjectDiary[]
+  weeklyReports      WeeklyReport[]
+  roadmapLogs        RoadmapProgressLog[]
+  assignedMilestones RoadmapMilestone[]
 
   @@map("users")
 }
@@ -119,18 +121,20 @@ model ScheduleCategory {
 }
 
 model Project {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   project_name   String
   description    String?
   start_date     String
-  end_date       String
-  project_status String   @default("ongoing") // ongoing, upcoming, completed
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
+  project_status String    @default("ongoing") // ongoing, upcoming, completed
+  completed_at   DateTime?
+  completed_by   String? // ID of admin who completed it
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
 
   members       ProjectMember[]
   diaries       ProjectDiary[]
   weeklyReports WeeklyReport[]
+  roadmap       ProjectRoadmap?
 
   @@map("projects")
 }
@@ -151,7 +155,7 @@ model ProjectMember {
 
 model ProjectDiary {
   id                   String   @id @default(uuid())
-  project_id           String
+  project_id           String?
   diary_title          String
   activity_description String
   work_progress        Int // progress percentage (0-100)
@@ -159,8 +163,8 @@ model ProjectDiary {
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt
 
-  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  creator User    @relation(fields: [created_by], references: [id], onDelete: Cascade)
+  project Project? @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  creator User     @relation(fields: [created_by], references: [id], onDelete: Cascade)
 
   @@map("project_diaries")
 }
@@ -182,14 +186,71 @@ model WeeklyReport {
 
 // ── Combined weekly report: ONE PDF per week containing all leaders ────────────
 model CombinedWeeklyReport {
-  id            String   @id @default(uuid())
-  report_name   String
-  report_period String   @unique // e.g. "2026-05-18 - 2026-05-24" — prevents duplicates
-  file_name     String // e.g. "weekly-checkup-may-week-3.pdf"
-  file_path     String
-  generated_at  DateTime @default(now())
-  leader_count  Int      @default(0)
-  diary_count   Int      @default(0)
+  id               String   @id @default(uuid())
+  report_name      String
+  report_period    String   @unique // e.g. "2026-05-18 - 2026-05-24" — prevents duplicates
+  file_name        String // e.g. "weekly-checkup-may-week-3.pdf"
+  file_path        String
+  generated_at     DateTime @default(now())
+  leader_count     Int      @default(0)
+  diary_count      Int      @default(0)
+  total_activities Int      @default(0)
 
   @@map("combined_weekly_reports")
+}
+
+model ProjectRoadmap {
+  id                  String   @id @default(uuid())
+  project_id          String   @unique
+  roadmap_title       String
+  description         String?
+  start_date          String
+  deadline            String
+  progress_percentage Int      @default(0)
+  status              String   @default("planned") // planned, ongoing, completed
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  project    Project              @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  milestones RoadmapMilestone[]
+  logs       RoadmapProgressLog[]
+
+  @@map("project_roadmaps")
+}
+
+model RoadmapMilestone {
+  id                  String   @id @default(uuid())
+  roadmap_id          String
+  assigned_to         String?
+  title               String
+  description         String?
+  start_date          String?
+  deadline            String?
+  progress_percentage Int      @default(0)
+  status              String   @default("pending") // pending, ongoing, completed
+  order               Int      @default(0)
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  roadmap  ProjectRoadmap       @relation(fields: [roadmap_id], references: [id], onDelete: Cascade)
+  assignee User?                @relation(fields: [assigned_to], references: [id], onDelete: SetNull)
+  logs     RoadmapProgressLog[]
+
+  @@map("roadmap_milestones")
+}
+
+model RoadmapProgressLog {
+  id           String   @id @default(uuid())
+  roadmap_id   String
+  milestone_id String?
+  user_id      String
+  action       String
+  details      String?
+  timestamp    DateTime @default(now())
+
+  roadmap   ProjectRoadmap    @relation(fields: [roadmap_id], references: [id], onDelete: Cascade)
+  milestone RoadmapMilestone? @relation(fields: [milestone_id], references: [id], onDelete: SetNull)
+  user      User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("roadmap_progress_logs")
 }

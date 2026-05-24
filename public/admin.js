@@ -81,7 +81,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.querySelectorAll(".a-nav-item").forEach((item) => {
     item.addEventListener("click", () => {
       const section = item.dataset.section;
-      window.location.href = section === 'overview' ? '/admin.html' : `/admin-${section}.html`;
+      // If we are already on admin.html (Overview, Users, Projects, Tasks), we can use showSection
+      // But for cleaner MPA, let's just redirect if the target is a separate page
+      const separatePages = ['users', 'projects', 'tasks', 'activity', 'calendar', 'house-rules', 'duty', 'weekly-checkup'];
+      if (separatePages.includes(section)) {
+        window.location.href = `/admin-${section}.html`;
+      } else if (section === 'overview') {
+        window.location.href = '/admin.html';
+      } else {
+        showSection(section);
+      }
     });
   });
 
@@ -110,7 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (section === "tasks") await loadTasks();
   if (section === "house-rules" && typeof loadHouseRules === "function") loadHouseRules();
   if (section === "duty" && typeof loadDutySchedules === "function") loadDutySchedules();
-  if (section === "calendar" && typeof loadSchedules === "function") loadSchedules();
+  if (section === "calendar") typeof loadSchedules === "function" && loadSchedules();
   if (section === "weekly-checkup") {
     // MPA: inject module HTML into #app-sections, then load data
     const container = getEl("app-sections");
@@ -189,7 +198,7 @@ const sectionTitles = {
     "Selamat datang di panel administrasi STAKS FLOW",
   ],
   users: ["Manajemen User", "Kelola akun dan role pengguna"],
-  projects: ["Manajemen Proyek", "Kelola proyek aktif, leader, mentee, dan timeline"],
+  projects: ["Manajemen Proyek", "Kelola proyek aktif, leader, mentee, dan roadmap"],
   tasks: ["Diary & Aktivitas", "Lihat dan kelola diary/aktivitas harian pengguna"],
   calendar: ["Calendar / Schedule", "Kelola jadwal dan agenda kegiatan"],
 };
@@ -210,6 +219,8 @@ async function showSection(section) {
 
   // Dynamic loading of HTML modules
   const container = getEl("app-sections");
+  if (!container) return; // Not on admin.html
+
   let folder = section;
   if (section === 'duty') folder = 'piket';
   if (section === 'calendar') folder = 'schedule';
@@ -326,6 +337,73 @@ async function loadStats(nocache = false) {
   // Also load weekly leaderboard if on overview
   if (currentSection === "overview") {
     loadWeeklyLeaderboard(nocache);
+    loadAdminRoadmaps();
+  }
+}
+
+async function loadActivities(nocache = false) {
+  // If we have a dedicated activity log section or card
+  if (currentSection === "activity" || currentSection === "overview") {
+    // For now, if we are on overview, loadRoadmapLogs already handles part of it
+    // If there's a global activity table, we could implement it here
+    if (typeof loadRoadmapLogs === "function") await loadRoadmapLogs();
+  }
+}
+
+async function loadAdminRoadmaps() {
+  const tbody = getEl("adminRoadmapBody");
+  if (!tbody) return;
+
+  try {
+    const res = await adminFetch("/api/admin/projects/roadmaps");
+    if (!res) return;
+    const { data } = await res.json();
+
+    if (!data || !data.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="a-empty">Belum ada roadmap proyek yang dibuat.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = data.map(r => {
+      const pct = r.progress_percentage || 0;
+      const isDelayed = r.is_delayed;
+      
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:700; color:var(--text-1);">${esc(r.project_name)}</div>
+            <div style="font-size:11px; opacity:0.5; display:flex; align-items:center; gap:5px;"><i class="bi bi-map"></i> ${esc(r.roadmap_title)}</div>
+          </td>
+          <td>
+            <div class="a-user-cell">
+              <div class="a-cell-avatar" style="width:26px; height:26px; font-size:11px; background:var(--accent);">${r.leader.charAt(0).toUpperCase()}</div>
+              <div class="a-cell-name" style="font-size:13px;">${esc(r.leader)}</div>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="flex:1; height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;">
+                <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2));"></div>
+              </div>
+              <span style="font-size:13px; font-weight:800; color:var(--at-1); min-width:35px;">${pct}%</span>
+            </div>
+          </td>
+          <td>
+            <div style="font-size:12px; font-weight:700; color:${isDelayed ? 'var(--danger)' : 'var(--at-2)'}; display:flex; align-items:center; gap:6px;">
+              <i class="bi bi-calendar-check"></i> ${formatDate(r.deadline)}
+              ${isDelayed ? ' <i class="bi bi-exclamation-triangle-fill" title="Terlambat!"></i>' : ''}
+            </div>
+          </td>
+          <td>
+            <span class="a-status-badge ${r.status === 'completed' ? 'done' : r.status === 'ongoing' ? 'pending' : ''}" style="font-size:10px; padding:2px 10px; text-transform:uppercase; letter-spacing:0.5px;">
+              ${r.status}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="5" class="a-empty" style="color:var(--danger);">${err.message}</td></tr>`;
   }
 }
 
@@ -623,9 +701,9 @@ function renderProjects(projects) {
           <strong style="color:var(--accent);">${p.diary_count || 0}</strong> diary
         </td>
         <td>
-          <div class="a-action-btns" style="justify-content:center;">
-            <button class="a-tbl-btn edit" onclick="openProjectTimeline('${p.id}', '${esc(p.project_name)}')" title="Lihat Timeline" style="background:rgba(76, 175, 80, 0.1); color:#4caf50;">
-              <i class="bi bi-clock-history"></i>
+          <div class="a-action-btns" style="justify-content:center; align-items:center;">
+            <button class="a-tbl-btn edit" onclick="openProjectRoadmap('${p.id}', '${esc(p.project_name)}')" title="Lihat Roadmap" style="background:rgba(59, 130, 246, 0.1); color:var(--accent);">
+              <i class="bi bi-map-fill"></i>
             </button>
             ${p.project_status !== 'completed' ? `
               <button class="a-tbl-btn edit" onclick="confirmProjectCompletionFromTable('${p.id}')" title="Selesaikan Proyek" style="background:rgba(76, 175, 80, 0.15); color:#4caf50;">
@@ -934,58 +1012,307 @@ async function deleteProject(id, name) {
 }
 window.deleteProject = deleteProject;
 
-async function openProjectTimeline(id, name) {
-  setText("projectTimelineTitle", `Timeline Proyek: ${name}`);
-  const container = getEl("projectTimelineLogs");
-  if (container) container.innerHTML = '<div class="a-spinner" style="margin:20px auto;"></div>';
+async function openProjectRoadmap(id, name) {
+  setText("projectRoadmapTitle", `Roadmap Proyek: ${name}`);
+  const container = getEl("roadmapContainer");
+  if (container) container.innerHTML = '<div class="a-spinner" style="margin:40px auto;"></div>';
   
-  const overlay = getEl("projectTimelineModalOverlay");
+  const overlay = getEl("projectRoadmapModalOverlay");
   if (overlay) overlay.classList.add("open");
 
   try {
-    const res = await fetch(`/api/projects/${id}/timeline`, {
+    const res = await fetch(`/api/projects/${id}/roadmap-details`, {
       headers: { "Authorization": `Bearer ${getToken()}` }
     });
-    if (!res.ok) throw new Error("Gagal mengambil timeline");
+    if (!res.ok) throw new Error("Gagal mengambil roadmap");
     const json = await res.json();
-    const diaries = json.data || [];
+    const roadmap = json.data;
     
-    if (container) {
-      if (!diaries.length) {
-        container.innerHTML = '<div style="text-align:center; padding:30px; opacity:0.5;">Belum ada aktivitas diary terhubung dengan proyek ini.</div>';
-        return;
-      }
-      container.innerHTML = diaries.map(d => {
-        const timeStr = formatDate(d.created_at);
-        return `
-          <div style="border-left: 2px solid var(--accent); padding-left: 16px; margin-bottom: 20px; position: relative;">
-            <div style="position: absolute; left: -6px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);"></div>
-            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 8px;">
-              <div style="display:flex; justify-content:space-between; align-items:start; gap:8px;">
-                <h4 style="margin:0; font-size:14px; color:var(--text-1); font-weight:600;">${esc(d.diary_title)}</h4>
-                <span style="font-size:11px; opacity:0.5;">${timeStr}</span>
-              </div>
-              <p style="margin: 8px 0; font-size: 13px; line-height: 1.4; color: var(--text-2);">${esc(d.activity_description)}</p>
-              <div style="display:flex; justify-content:space-between; font-size:11px; opacity:0.6; align-items:center;">
-                <span>Oleh: <b>${esc(d.username)}</b></span>
-                <span style="color:var(--accent); font-weight:600;">Progress: ${d.work_progress}%</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
+    if (!roadmap) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:60px 20px;">
+          <div style="font-size:48px; opacity:0.2; margin-bottom:16px;"><i class="bi bi-map"></i></div>
+          <h4 style="margin-bottom:8px; color:var(--text-1);">Roadmap Belum Diinisialisasi</h4>
+          <p style="font-size:14px; opacity:0.6; margin-bottom:12px;">Proyek ini belum memiliki roadmap pengembangan.</p>
+          <div style="font-size:12px; opacity:0.4; font-style:italic;">Roadmap hanya dapat diinisialisasi oleh Project Leader.</div>
+        </div>
+      `;
+      return;
     }
+
+    renderRoadmapContent(roadmap, id);
   } catch (err) {
-    if (container) container.innerHTML = `<div style="color:var(--danger); text-align:center; padding:20px;">${err.message}</div>`;
+    if (container) container.innerHTML = `<div style="color:var(--danger); text-align:center; padding:40px;">${err.message}</div>`;
   }
 }
-window.openProjectTimeline = openProjectTimeline;
+window.openProjectRoadmap = openProjectRoadmap;
 
-function closeProjectTimelineModal() {
-  const overlay = getEl("projectTimelineModalOverlay");
+function renderRoadmapContent(roadmap, projectId) {
+  const container = getEl("roadmapContainer");
+  if (!container) return;
+
+  const pct = roadmap.progress_percentage || 0;
+  const isDelayed = new Date(roadmap.deadline) < new Date() && roadmap.status !== 'completed';
+  
+  let milestonesHtml = '';
+  if (!roadmap.milestones || roadmap.milestones.length === 0) {
+    milestonesHtml = '<div style="text-align:center; padding:30px; opacity:0.5; background:rgba(255,255,255,0.02); border-radius:8px; border:1px dashed rgba(255,255,255,0.1);">Belum ada milestone ditambahkan.</div>';
+  } else {
+    milestonesHtml = roadmap.milestones.map((m, idx) => {
+      const isDone = m.status === 'completed' || m.progress_percentage === 100;
+      const isOverdue = !isDone && m.deadline && new Date(m.deadline) < new Date();
+      const mStatus = m.status || 'pending';
+      const assigneeName = m.assignee?.username || 'Unassigned';
+      return `
+        <div class="roadmap-milestone-item" style="display:flex; gap:16px; margin-bottom:20px; position:relative; ${isOverdue ? 'border-left: 2px solid var(--danger); padding-left: 10px; margin-left: -12px;' : ''}">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div style="width:28px; height:28px; border-radius:50%; background:${isDone ? 'var(--success)' : isOverdue ? 'var(--danger)' : mStatus === 'ongoing' ? 'var(--accent)' : 'rgba(255,255,255,0.1)'}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; z-index:2; border: 2px solid var(--at-card);">
+              ${isDone ? '<i class="bi bi-check-lg"></i>' : idx + 1}
+            </div>
+            ${idx < roadmap.milestones.length - 1 ? '<div style="flex:1; width:2px; background:rgba(255,255,255,0.08); margin:4px 0;"></div>' : ''}
+          </div>
+          <div style="flex:1; background:rgba(255,255,255,0.03); border: 1px solid ${isOverdue ? 'rgba(251,113,133,0.3)' : 'var(--at-border)'}; border-radius:12px; padding:16px; margin-top:-4px; transition:all 0.2s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:10px;">
+              <div>
+                <h4 style="margin:0; font-size:15px; color:${isOverdue ? 'var(--danger)' : 'var(--text-1)'}; font-weight:700;">${esc(m.title)} ${isOverdue ? '<span style="font-size:10px; background:rgba(251,113,133,0.1); padding:2px 6px; border-radius:4px; margin-left:8px;">OVERDUE</span>' : ''}</h4>
+                <div style="font-size:11px; opacity:0.5; margin-top:2px; display:flex; flex-direction:column; gap:4px;">
+                  <div style="display:flex; align-items:center; gap:5px;"><i class="bi bi-calendar-event"></i> ${m.start_date ? formatDate(m.start_date) : '?'} — ${m.deadline ? formatDate(m.deadline) : '?'}</div>
+                  <div style="display:flex; align-items:center; gap:5px;"><i class="bi bi-person-circle"></i> Ditugaskan ke: <b>${esc(assigneeName)}</b></div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size:13px; opacity:0.7; margin-bottom:14px; line-height:1.5;">${esc(m.description || 'Tidak ada deskripsi.')}</p>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="flex:1; height:6px; background:rgba(255,255,255,0.05); border-radius:3px; overflow:hidden;">
+                <div style="width:${m.progress_percentage}%; height:100%; background:${isDone ? 'var(--success)' : 'var(--accent)'}; transition:width 0.5s ease;"></div>
+              </div>
+              <span style="font-size:12px; font-weight:700; color:${isDone ? 'var(--success)' : 'var(--accent)'}; min-width:35px; text-align:right;">${m.progress_percentage}%</span>
+              <span class="a-status-badge ${isDone ? 'done' : mStatus === 'ongoing' ? 'pending' : ''}" style="font-size:9px; padding:2px 8px; text-transform:uppercase;">${mStatus}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  container.innerHTML = `
+    <div style="display:grid; grid-template-columns: 1fr 280px; gap:24px; max-height:650px; overflow-y:auto; padding-right:10px;">
+      <div>
+        <!-- ROADMAP HEADER CARD -->
+        <div style="background:linear-gradient(135deg, #1e293b, #0f172a); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; color:#fff; margin-bottom:28px; position:relative; overflow:hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+          <div style="position:absolute; right:-20px; top:-20px; font-size:140px; opacity:0.05; transform:rotate(-15deg);"><i class="bi bi-signpost-split"></i></div>
+          <div style="position:relative; z-index:1;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 style="margin:0; font-size:20px; font-weight:800; letter-spacing:-0.5px;">${esc(roadmap.roadmap_title)}</h3>
+              <span style="background:rgba(59,130,246,0.2); color:var(--accent2); padding:5px 12px; border-radius:20px; font-size:10px; font-weight:800; text-transform:uppercase; border:1px solid rgba(59,130,246,0.3);">${roadmap.status}</span>
+            </div>
+            <p style="font-size:13px; opacity:0.8; margin-bottom:24px; max-width:90%; line-height:1.6;">${esc(roadmap.description || 'Peta jalan pengembangan proyek untuk mencapai tujuan utama.')}</p>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:8px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">
+                  <span style="opacity:0.6;">Total Completion</span>
+                  <span style="color:var(--accent2);">${pct}%</span>
+                </div>
+                <div style="height:10px; background:rgba(255,255,255,0.08); border-radius:5px; overflow:hidden;">
+                  <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2)); box-shadow: 0 0 10px rgba(59,130,246,0.5);"></div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.06);">
+                <div style="width:36px; height:36px; border-radius:10px; background:rgba(251,113,133,0.1); color:var(--danger); display:grid; place-items:center; font-size:18px;"><i class="bi bi-calendar-check"></i></div>
+                <div>
+                  <div style="font-size:10px; opacity:0.5; font-weight:700; text-transform:uppercase;">Target Finish</div>
+                  <div style="font-size:14px; font-weight:800; color:var(--at-1);">${formatDate(roadmap.deadline)}</div>
+                </div>
+              </div>
+            </div>
+
+            ${isDelayed ? `
+              <div style="margin-top:20px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.25); padding:10px 16px; border-radius:10px; display:flex; align-items:center; gap:10px; font-size:12px; font-weight:700; color:#fca5a5;">
+                <i class="bi bi-exclamation-octagon-fill"></i> PERINGATAN: Target penyelesaian proyek telah terlewati!
+              </div>
+            ` : ''}
+          </div>
+        </div>
+
+        <!-- MILESTONES SECTION (Read-only for Admin) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <h3 style="margin:0; font-size:16px; color:var(--text-1); font-weight:800; text-transform:uppercase; letter-spacing:1px;"><i class="bi bi-flag-fill" style="color:var(--accent); margin-right:8px;"></i> Development Milestones</h3>
+        </div>
+        <div class="roadmap-milestones-list">
+          ${milestonesHtml}
+        </div>
+      </div>
+
+      <!-- SIDEBAR / LOGS -->
+      <div style="border-left:1px solid var(--at-border); padding-left:24px;">
+        <h3 style="margin:0 0 20px 0; font-size:13px; color:var(--text-2); font-weight:700; text-transform:uppercase; letter-spacing:1px;">Log Aktivitas Roadmap</h3>
+        <div class="roadmap-logs" style="display:flex; flex-direction:column; gap:18px;">
+          ${roadmap.logs && roadmap.logs.length > 0 ? roadmap.logs.map(log => `
+            <div style="font-size:12px; position:relative; padding-left:15px; border-left:1px solid rgba(255,255,255,0.05);">
+              <div style="position:absolute; left:-4px; top:0; width:7px; height:7px; border-radius:50%; background:var(--accent2);"></div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:5px; align-items:center;">
+                <span style="font-weight:800; color:var(--accent2); font-size:10px; text-transform:uppercase;">${log.action.replace(/_/g, ' ')}</span>
+                <span style="opacity:0.4; font-size:10px;">${timeAgo(log.timestamp)}</span>
+              </div>
+              <p style="margin:0; opacity:0.8; line-height:1.5; font-size:12px; color:var(--at-1);">${esc(log.details)}</p>
+              <div style="font-size:10px; opacity:0.4; margin-top:6px; font-style:italic;">oleh ${esc(log.user?.username || 'System')}</div>
+            </div>
+          `).join('') : '<div style="font-size:12px; opacity:0.4; text-align:center; padding:30px; background:rgba(255,255,255,0.02); border-radius:12px; border:1px dashed rgba(255,255,255,0.1);">Belum ada riwayat aktivitas.</div>'}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function openCreateRoadmapModal(projectId) {
+  setValue("crProjectId", projectId);
+  const p = allProjects.find(x => x.id === projectId);
+  if (p) {
+    setValue("crTitle", `Roadmap: ${p.project_name}`);
+    setValue("crStart", p.start_date.substring(0, 10));
+    // Default target to 4 months from start
+    const target = new Date(p.start_date);
+    target.setMonth(target.getMonth() + 4);
+    setValue("crTarget", target.toISOString().split('T')[0]);
+  }
+  const overlay = getEl("createRoadmapModalOverlay");
+  if (overlay) overlay.classList.add("open");
+}
+
+function closeCreateRoadmapModal() {
+  const overlay = getEl("createRoadmapModalOverlay");
   if (overlay) overlay.classList.remove("open");
 }
-window.closeProjectTimelineModal = closeProjectTimelineModal;
+window.openCreateRoadmapModal = openCreateRoadmapModal;
+window.closeCreateRoadmapModal = closeCreateRoadmapModal;
+
+async function initRoadmap(event) {
+  event.preventDefault();
+  const projectId = getValue("crProjectId");
+  const roadmap_title = getValue("crTitle");
+  const description = getValue("crDesc");
+  const start_date = getValue("crStart");
+  const deadline = getValue("crTarget");
+
+  const res = await adminFetch(`/api/projects/${projectId}/roadmap`, {
+    method: "POST",
+    body: JSON.stringify({ roadmap_title, description, start_date, deadline })
+  });
+  if (!res) return;
+  const json = await res.json();
+  if (json.success) {
+    showToast("Roadmap berhasil diinisialisasi!", "success");
+    closeCreateRoadmapModal();
+    openProjectRoadmap(projectId, roadmap_title);
+  } else {
+    showToast(json.error || "Gagal membuat roadmap", "error");
+  }
+}
+window.initRoadmap = initRoadmap;
+
+function openAddMilestoneModal(projectId) {
+  getEl("milestoneForm").reset();
+  setValue("milestoneFormId", "");
+  setValue("milestoneProjectId", projectId);
+  setText("milestoneModalTitle", "Tambah Milestone");
+  const overlay = getEl("milestoneModalOverlay");
+  if (overlay) overlay.classList.add("open");
+}
+
+async function openEditMilestoneModal(projectId, milestoneId) {
+  try {
+    const res = await fetch(`/api/projects/${projectId}/roadmap-details`, {
+      headers: { "Authorization": `Bearer ${getToken()}` }
+    });
+    const json = await res.json();
+    const milestone = json.data.milestones.find(m => m.id === milestoneId);
+    if (!milestone) return;
+
+    setValue("milestoneFormId", milestone.id);
+    setValue("milestoneProjectId", projectId);
+    setValue("milestoneFormTitle", milestone.title);
+    setValue("milestoneFormDesc", milestone.description || "");
+    setValue("milestoneFormStart", milestone.start_date ? milestone.start_date.substring(0, 10) : "");
+    setValue("milestoneFormTarget", milestone.deadline ? milestone.deadline.substring(0, 10) : "");
+    setValue("milestoneFormProgress", milestone.progress_percentage);
+    setValue("milestoneFormStatus", milestone.status);
+    
+    setText("milestoneModalTitle", "Edit Milestone");
+    const overlay = getEl("milestoneModalOverlay");
+    if (overlay) overlay.classList.add("open");
+  } catch (err) {
+    showToast("Gagal memuat detail milestone", "error");
+  }
+}
+
+function closeMilestoneModal() {
+  const overlay = getEl("milestoneModalOverlay");
+  if (overlay) overlay.classList.remove("open");
+}
+window.openAddMilestoneModal = openAddMilestoneModal;
+window.openEditMilestoneModal = openEditMilestoneModal;
+window.closeMilestoneModal = closeMilestoneModal;
+
+async function saveMilestone(event) {
+  event.preventDefault();
+  const projectId = getValue("milestoneProjectId");
+  const milestoneId = getValue("milestoneFormId");
+  const title = getValue("milestoneFormTitle");
+  const description = getValue("milestoneFormDesc");
+  const start_date = getValue("milestoneFormStart");
+  const deadline = getValue("milestoneFormTarget");
+  const progress_percentage = getValue("milestoneFormProgress");
+  const status = getValue("milestoneFormStatus");
+
+  const method = milestoneId ? "PATCH" : "POST";
+  const url = milestoneId 
+    ? `/api/projects/${projectId}/roadmap/milestones/${milestoneId}`
+    : `/api/projects/${projectId}/roadmap/milestones`;
+
+  const res = await adminFetch(url, {
+    method,
+    body: JSON.stringify({ title, description, start_date, deadline, progress_percentage, status })
+  });
+  if (!res) return;
+  const json = await res.json();
+  if (json.success) {
+    showToast(milestoneId ? "Milestone diperbarui!" : "Milestone ditambahkan!", "success");
+    closeMilestoneModal();
+    const p = allProjects.find(x => x.id === projectId);
+    openProjectRoadmap(projectId, p ? p.project_name : "Project");
+  } else {
+    showToast(json.error || "Gagal menyimpan milestone", "error");
+  }
+}
+window.saveMilestone = saveMilestone;
+
+async function deleteMilestone(projectId, milestoneId, name) {
+  openDeleteModal("milestone", milestoneId, `Hapus milestone <strong>${esc(name)}</strong>?`);
+  const confirmBtn = getEl("confirmDeleteBtn");
+  if (confirmBtn) {
+    confirmBtn.onclick = async () => {
+      closeDeleteModal();
+      const res = await adminFetch(`/api/projects/${projectId}/roadmap/milestones/${milestoneId}`, { method: "DELETE" });
+      if (!res) return;
+      const json = await res.json();
+      if (json.success) {
+        showToast("Milestone berhasil dihapus!", "success");
+        const p = allProjects.find(x => x.id === projectId);
+        openProjectRoadmap(projectId, p ? p.project_name : "Project");
+      } else {
+        showToast(json.error || "Gagal menghapus milestone", "error");
+      }
+    };
+  }
+}
+window.deleteMilestone = deleteMilestone;
+
+function closeProjectRoadmapModal() {
+  const overlay = getEl("projectRoadmapModalOverlay");
+  if (overlay) overlay.classList.remove("open");
+}
+window.closeProjectRoadmapModal = closeProjectRoadmapModal;
 
 // ── Role Modal ────────────────────────────────────────────────────────────────
 function openRoleModal(userId, username) {
@@ -1143,6 +1470,7 @@ sectionTitles["house-rules"] = [
   "Kelola peraturan dan tata tertib hunian",
 ];
 sectionTitles["duty"] = ["Jadwal Piket", "Atur jadwal piket anggota per hari"];
+
 
 // Initial load for these sections will happen via showSection if navigated to
 

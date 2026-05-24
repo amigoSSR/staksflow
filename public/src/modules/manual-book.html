@@ -1,0 +1,334 @@
+<!-- MANUAL BOOK SECTION -->
+<div id="viewManualBook" class="hidden">
+  <div class="manual-container">
+    <!-- Manual Sidebar -->
+    <aside class="manual-sidebar">
+      <div class="manual-sidebar-header">
+        <div class="search-box">
+          <i class="bi bi-search"></i>
+          <input type="text" id="manualSearchInput" placeholder="Cari panduan..." oninput="searchManuals()" />
+        </div>
+      </div>
+      <nav class="manual-nav" id="manualSidebarList">
+        <!-- Sidebar content injected here -->
+        <div class="spinner" style="margin:20px auto;"></div>
+      </nav>
+    </aside>
+
+    <!-- Manual Content Area -->
+    <main class="manual-content-wrapper" id="manualContentWrapper">
+      <div id="manualContentArea">
+        <div class="manual-placeholder">
+          <div class="placeholder-icon">
+            <i class="bi bi-journal-richtext"></i>
+          </div>
+          <h2>Pilih Panduan untuk Memulai</h2>
+          <p>Selamat datang di Pusat Bantuan STAKS Flow. Silakan pilih salah satu kategori di samping untuk menemukan informasi detail mengenai fitur dan cara penggunaan aplikasi.</p>
+          <div class="placeholder-stats">
+            <div class="p-stat">
+              <span class="p-num">15+</span>
+              <span class="p-lbl">Tutorial</span>
+            </div>
+            <div class="p-stat">
+              <span class="p-num">24/7</span>
+              <span class="p-lbl">Akses</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<style>
+  .manual-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 60px 40px;
+    max-width: 500px;
+    margin: 0 auto;
+    animation: fadeIn 0.6s ease;
+  }
+  .placeholder-icon {
+    width: 120px;
+    height: 120px;
+    background: rgba(var(--accent-rgb), 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 54px;
+    color: var(--accent);
+    margin-bottom: 30px;
+    border: 1px solid rgba(var(--accent-rgb), 0.1);
+  }
+  .manual-placeholder h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-1);
+    margin-bottom: 16px;
+  }
+  .manual-placeholder p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-3);
+    margin-bottom: 40px;
+  }
+  .placeholder-stats {
+    display: flex;
+    gap: 40px;
+    border-top: 1px solid var(--border);
+    padding-top: 30px;
+    width: 100%;
+    justify-content: center;
+  }
+  .p-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .p-num {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .p-lbl {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.5;
+  }
+  #viewManualBook {
+    height: calc(100vh - 80px);
+    margin: 0 -28px;
+    background: var(--bg-1);
+    animation: fadeIn 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .manual-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    padding: 24px;
+    background: var(--bg-1);
+  }
+  .manual-sidebar {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  .manual-sidebar-header {
+    padding: 30px 24px;
+    background: rgba(255,255,255,0.01);
+    border-bottom: 1px solid var(--border);
+  }
+  .manual-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 0;
+  }
+  /* Custom Scrollbar for Sidebar */
+  .manual-nav::-webkit-scrollbar { width: 3px; }
+  .manual-nav::-webkit-scrollbar-track { background: transparent; }
+  .manual-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+  .manual-content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  #manualContentArea {
+    width: 100%;
+    max-width: 850px;
+    animation: slideInRight 0.3s ease;
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .manual-cat-group {
+    margin-bottom: 16px;
+    padding: 0 16px;
+  }
+  .manual-cat-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-radius: 10px;
+  }
+  .manual-cat-label:hover {
+    color: var(--text-1);
+    background: rgba(255,255,255,0.03);
+  }
+  .manual-cat-label i:first-child {
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .manual-tut-list {
+    list-style: none;
+    padding: 6px 0;
+    margin: 0;
+  }
+  .manual-tut-link {
+    padding: 10px 16px 10px 44px;
+    font-size: 13.5px;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 8px;
+    margin: 2px 0;
+  }
+  .manual-tut-link:hover {
+    color: var(--text-1);
+    background: rgba(255,255,255,0.04);
+    transform: translateX(4px);
+  }
+  .manual-tut-link.active {
+    color: #fff;
+    background: var(--accent);
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+  }
+  .manual-reader .manual-breadcrumb {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .manual-reader .manual-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--text-1);
+    margin-bottom: 16px;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .manual-reader .manual-meta {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-bottom: 50px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .manual-reader .manual-meta i { font-size: 14px; opacity: 0.7; }
+
+  /* Rich Content Refinement */
+  .manual-rich-content {
+    font-size: 16.5px;
+    line-height: 1.8;
+    color: var(--text-2);
+  }
+  .manual-rich-content h2 { 
+    font-size: 26px; 
+    font-weight: 800;
+    margin: 60px 0 24px 0; 
+    color: var(--text-1); 
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .manual-rich-content h2::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .manual-rich-content h3 { 
+    font-size: 20px; 
+    font-weight: 700;
+    margin: 40px 0 16px 0; 
+    color: var(--text-1); 
+  }
+  .manual-rich-content p { margin-bottom: 24px; }
+  .manual-rich-content ul, .manual-rich-content ol { 
+    margin-bottom: 30px; 
+    padding-left: 30px; 
+  }
+  .manual-rich-content li { margin-bottom: 14px; }
+  .manual-rich-content b, .manual-rich-content strong { color: var(--text-1); }
+  
+  .manual-rich-content img { 
+    max-width: 100%; 
+    border-radius: 16px; 
+    margin: 32px 0; 
+    border: 1px solid var(--border); 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15); 
+  }
+  
+  .manual-rich-content .tip-box, 
+  .manual-rich-content .info-box, 
+  .manual-rich-content .warn-box { 
+    padding: 30px; 
+    border-radius: 16px; 
+    margin: 40px 0; 
+    display: flex;
+    gap: 20px;
+    border: 1px solid transparent;
+  }
+  .manual-rich-content .tip-box { background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.1); }
+  .manual-rich-content .info-box { background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.1); }
+  .manual-rich-content .warn-box { background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.1); }
+
+  @media (max-width: 1100px) {
+    .manual-container { grid-template-columns: 280px 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    #viewManualBook { margin: 0 -16px; }
+    .manual-container { grid-template-columns: 1fr; padding: 16px; }
+    .manual-sidebar {
+      position: absolute;
+      left: -320px;
+      z-index: 100;
+      height: 100%;
+      width: 320px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .manual-sidebar.open {
+      left: 0;
+      box-shadow: 0 0 100px rgba(0,0,0,0.5);
+    }
+    .manual-reader .manual-title { font-size: 32px; }
+  }
+</style>

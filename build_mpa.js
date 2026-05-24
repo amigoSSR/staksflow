@@ -7,9 +7,10 @@ const baseHtml = fs.readFileSync(templateHtmlPath, 'utf8');
 const modules = [
   { name: 'overview', title: 'Dashboard Overview', sub: 'Selamat datang di panel administrasi STAKS FLOW' },
   { name: 'users', title: 'Manajemen User', sub: 'Kelola akun dan role pengguna' },
-  { name: 'projects', title: 'Manajemen Proyek', sub: 'Kelola proyek aktif, leader, mentee, dan timeline' },
+  { name: 'projects', title: 'Manajemen Proyek', sub: 'Kelola proyek aktif, leader, mentee, dan roadmap' },
   { name: 'tasks', title: 'Diary & Aktivitas', sub: 'Lihat dan kelola diary/aktivitas harian pengguna' },
   { name: 'weekly-checkup', title: 'Weekly Check-Up', sub: 'Auto-generated weekly PDF reports from project diary activity' },
+  { name: 'manual', title: 'Manual Book Manager', sub: 'Kelola tutorial dan panduan penggunaan STAKS Flow' },
   { name: 'house-rules', title: 'House Rules', sub: 'Kelola peraturan dan tata tertib' },
   { name: 'duty', folder: 'piket', title: 'Jadwal Piket', sub: 'Kelola jadwal piket Ganjil & Genap' },
   { name: 'calendar', folder: 'schedule', title: 'Calendar / Schedule', sub: 'Kelola jadwal dan agenda kegiatan' }

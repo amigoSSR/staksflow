@@ -73,6 +73,31 @@ export type WeeklyReport = $Result.DefaultSelection<Prisma.$WeeklyReportPayload>
  * 
  */
 export type CombinedWeeklyReport = $Result.DefaultSelection<Prisma.$CombinedWeeklyReportPayload>
+/**
+ * Model ManualCategory
+ * 
+ */
+export type ManualCategory = $Result.DefaultSelection<Prisma.$ManualCategoryPayload>
+/**
+ * Model ManualBook
+ * 
+ */
+export type ManualBook = $Result.DefaultSelection<Prisma.$ManualBookPayload>
+/**
+ * Model ProjectRoadmap
+ * 
+ */
+export type ProjectRoadmap = $Result.DefaultSelection<Prisma.$ProjectRoadmapPayload>
+/**
+ * Model RoadmapMilestone
+ * 
+ */
+export type RoadmapMilestone = $Result.DefaultSelection<Prisma.$RoadmapMilestonePayload>
+/**
+ * Model RoadmapProgressLog
+ * 
+ */
+export type RoadmapProgressLog = $Result.DefaultSelection<Prisma.$RoadmapProgressLogPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -316,6 +341,56 @@ export class PrismaClient<
     * ```
     */
   get combinedWeeklyReport(): Prisma.CombinedWeeklyReportDelegate<ExtArgs>;
+
+  /**
+   * `prisma.manualCategory`: Exposes CRUD operations for the **ManualCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ManualCategories
+    * const manualCategories = await prisma.manualCategory.findMany()
+    * ```
+    */
+  get manualCategory(): Prisma.ManualCategoryDelegate<ExtArgs>;
+
+  /**
+   * `prisma.manualBook`: Exposes CRUD operations for the **ManualBook** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ManualBooks
+    * const manualBooks = await prisma.manualBook.findMany()
+    * ```
+    */
+  get manualBook(): Prisma.ManualBookDelegate<ExtArgs>;
+
+  /**
+   * `prisma.projectRoadmap`: Exposes CRUD operations for the **ProjectRoadmap** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectRoadmaps
+    * const projectRoadmaps = await prisma.projectRoadmap.findMany()
+    * ```
+    */
+  get projectRoadmap(): Prisma.ProjectRoadmapDelegate<ExtArgs>;
+
+  /**
+   * `prisma.roadmapMilestone`: Exposes CRUD operations for the **RoadmapMilestone** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoadmapMilestones
+    * const roadmapMilestones = await prisma.roadmapMilestone.findMany()
+    * ```
+    */
+  get roadmapMilestone(): Prisma.RoadmapMilestoneDelegate<ExtArgs>;
+
+  /**
+   * `prisma.roadmapProgressLog`: Exposes CRUD operations for the **RoadmapProgressLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoadmapProgressLogs
+    * const roadmapProgressLogs = await prisma.roadmapProgressLog.findMany()
+    * ```
+    */
+  get roadmapProgressLog(): Prisma.RoadmapProgressLogDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -768,7 +843,12 @@ export namespace Prisma {
     ProjectMember: 'ProjectMember',
     ProjectDiary: 'ProjectDiary',
     WeeklyReport: 'WeeklyReport',
-    CombinedWeeklyReport: 'CombinedWeeklyReport'
+    CombinedWeeklyReport: 'CombinedWeeklyReport',
+    ManualCategory: 'ManualCategory',
+    ManualBook: 'ManualBook',
+    ProjectRoadmap: 'ProjectRoadmap',
+    RoadmapMilestone: 'RoadmapMilestone',
+    RoadmapProgressLog: 'RoadmapProgressLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -784,7 +864,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "diary" | "activityLog" | "houseRule" | "dutySchedule" | "schedule" | "scheduleCategory" | "project" | "projectMember" | "projectDiary" | "weeklyReport" | "combinedWeeklyReport"
+      modelProps: "user" | "diary" | "activityLog" | "houseRule" | "dutySchedule" | "schedule" | "scheduleCategory" | "project" | "projectMember" | "projectDiary" | "weeklyReport" | "combinedWeeklyReport" | "manualCategory" | "manualBook" | "projectRoadmap" | "roadmapMilestone" | "roadmapProgressLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1628,6 +1708,356 @@ export namespace Prisma {
           }
         }
       }
+      ManualCategory: {
+        payload: Prisma.$ManualCategoryPayload<ExtArgs>
+        fields: Prisma.ManualCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ManualCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ManualCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.ManualCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ManualCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.ManualCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.ManualCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.ManualCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ManualCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.ManualCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>
+          }
+          update: {
+            args: Prisma.ManualCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.ManualCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ManualCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ManualCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.ManualCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateManualCategory>
+          }
+          groupBy: {
+            args: Prisma.ManualCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ManualCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ManualCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<ManualCategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      ManualBook: {
+        payload: Prisma.$ManualBookPayload<ExtArgs>
+        fields: Prisma.ManualBookFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ManualBookFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ManualBookFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>
+          }
+          findFirst: {
+            args: Prisma.ManualBookFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ManualBookFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>
+          }
+          findMany: {
+            args: Prisma.ManualBookFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>[]
+          }
+          create: {
+            args: Prisma.ManualBookCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>
+          }
+          createMany: {
+            args: Prisma.ManualBookCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ManualBookCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>[]
+          }
+          delete: {
+            args: Prisma.ManualBookDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>
+          }
+          update: {
+            args: Prisma.ManualBookUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>
+          }
+          deleteMany: {
+            args: Prisma.ManualBookDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ManualBookUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ManualBookUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManualBookPayload>
+          }
+          aggregate: {
+            args: Prisma.ManualBookAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateManualBook>
+          }
+          groupBy: {
+            args: Prisma.ManualBookGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ManualBookGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ManualBookCountArgs<ExtArgs>
+            result: $Utils.Optional<ManualBookCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProjectRoadmap: {
+        payload: Prisma.$ProjectRoadmapPayload<ExtArgs>
+        fields: Prisma.ProjectRoadmapFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectRoadmapFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectRoadmapFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectRoadmapFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectRoadmapFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectRoadmapFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectRoadmapCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectRoadmapCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProjectRoadmapCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>[]
+          }
+          delete: {
+            args: Prisma.ProjectRoadmapDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>
+          }
+          update: {
+            args: Prisma.ProjectRoadmapUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectRoadmapDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectRoadmapUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectRoadmapUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectRoadmapPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectRoadmapAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectRoadmap>
+          }
+          groupBy: {
+            args: Prisma.ProjectRoadmapGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectRoadmapGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectRoadmapCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectRoadmapCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoadmapMilestone: {
+        payload: Prisma.$RoadmapMilestonePayload<ExtArgs>
+        fields: Prisma.RoadmapMilestoneFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoadmapMilestoneFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoadmapMilestoneFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>
+          }
+          findFirst: {
+            args: Prisma.RoadmapMilestoneFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoadmapMilestoneFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>
+          }
+          findMany: {
+            args: Prisma.RoadmapMilestoneFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>[]
+          }
+          create: {
+            args: Prisma.RoadmapMilestoneCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>
+          }
+          createMany: {
+            args: Prisma.RoadmapMilestoneCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoadmapMilestoneCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>[]
+          }
+          delete: {
+            args: Prisma.RoadmapMilestoneDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>
+          }
+          update: {
+            args: Prisma.RoadmapMilestoneUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>
+          }
+          deleteMany: {
+            args: Prisma.RoadmapMilestoneDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoadmapMilestoneUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RoadmapMilestoneUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapMilestonePayload>
+          }
+          aggregate: {
+            args: Prisma.RoadmapMilestoneAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoadmapMilestone>
+          }
+          groupBy: {
+            args: Prisma.RoadmapMilestoneGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoadmapMilestoneGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoadmapMilestoneCountArgs<ExtArgs>
+            result: $Utils.Optional<RoadmapMilestoneCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoadmapProgressLog: {
+        payload: Prisma.$RoadmapProgressLogPayload<ExtArgs>
+        fields: Prisma.RoadmapProgressLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoadmapProgressLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoadmapProgressLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>
+          }
+          findFirst: {
+            args: Prisma.RoadmapProgressLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoadmapProgressLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>
+          }
+          findMany: {
+            args: Prisma.RoadmapProgressLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>[]
+          }
+          create: {
+            args: Prisma.RoadmapProgressLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>
+          }
+          createMany: {
+            args: Prisma.RoadmapProgressLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoadmapProgressLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>[]
+          }
+          delete: {
+            args: Prisma.RoadmapProgressLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>
+          }
+          update: {
+            args: Prisma.RoadmapProgressLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoadmapProgressLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoadmapProgressLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RoadmapProgressLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoadmapProgressLogPayload>
+          }
+          aggregate: {
+            args: Prisma.RoadmapProgressLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoadmapProgressLog>
+          }
+          groupBy: {
+            args: Prisma.RoadmapProgressLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoadmapProgressLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoadmapProgressLogCountArgs<ExtArgs>
+            result: $Utils.Optional<RoadmapProgressLogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1797,6 +2227,9 @@ export namespace Prisma {
     projectMembers: number
     projectDiaries: number
     weeklyReports: number
+    roadmapLogs: number
+    assignedMilestones: number
+    manualBooks: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1808,6 +2241,9 @@ export namespace Prisma {
     projectMembers?: boolean | UserCountOutputTypeCountProjectMembersArgs
     projectDiaries?: boolean | UserCountOutputTypeCountProjectDiariesArgs
     weeklyReports?: boolean | UserCountOutputTypeCountWeeklyReportsArgs
+    roadmapLogs?: boolean | UserCountOutputTypeCountRoadmapLogsArgs
+    assignedMilestones?: boolean | UserCountOutputTypeCountAssignedMilestonesArgs
+    manualBooks?: boolean | UserCountOutputTypeCountManualBooksArgs
   }
 
   // Custom InputTypes
@@ -1875,6 +2311,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountWeeklyReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WeeklyReportWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRoadmapLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapProgressLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAssignedMilestonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapMilestoneWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountManualBooksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManualBookWhereInput
   }
 
 
@@ -1955,6 +2412,108 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountWeeklyReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WeeklyReportWhereInput
+  }
+
+
+  /**
+   * Count Type ManualCategoryCountOutputType
+   */
+
+  export type ManualCategoryCountOutputType = {
+    manuals: number
+  }
+
+  export type ManualCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manuals?: boolean | ManualCategoryCountOutputTypeCountManualsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ManualCategoryCountOutputType without action
+   */
+  export type ManualCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategoryCountOutputType
+     */
+    select?: ManualCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ManualCategoryCountOutputType without action
+   */
+  export type ManualCategoryCountOutputTypeCountManualsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManualBookWhereInput
+  }
+
+
+  /**
+   * Count Type ProjectRoadmapCountOutputType
+   */
+
+  export type ProjectRoadmapCountOutputType = {
+    milestones: number
+    logs: number
+  }
+
+  export type ProjectRoadmapCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    milestones?: boolean | ProjectRoadmapCountOutputTypeCountMilestonesArgs
+    logs?: boolean | ProjectRoadmapCountOutputTypeCountLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProjectRoadmapCountOutputType without action
+   */
+  export type ProjectRoadmapCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmapCountOutputType
+     */
+    select?: ProjectRoadmapCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProjectRoadmapCountOutputType without action
+   */
+  export type ProjectRoadmapCountOutputTypeCountMilestonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapMilestoneWhereInput
+  }
+
+  /**
+   * ProjectRoadmapCountOutputType without action
+   */
+  export type ProjectRoadmapCountOutputTypeCountLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapProgressLogWhereInput
+  }
+
+
+  /**
+   * Count Type RoadmapMilestoneCountOutputType
+   */
+
+  export type RoadmapMilestoneCountOutputType = {
+    logs: number
+  }
+
+  export type RoadmapMilestoneCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    logs?: boolean | RoadmapMilestoneCountOutputTypeCountLogsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RoadmapMilestoneCountOutputType without action
+   */
+  export type RoadmapMilestoneCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestoneCountOutputType
+     */
+    select?: RoadmapMilestoneCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RoadmapMilestoneCountOutputType without action
+   */
+  export type RoadmapMilestoneCountOutputTypeCountLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapProgressLogWhereInput
   }
 
 
@@ -2142,6 +2701,9 @@ export namespace Prisma {
     projectMembers?: boolean | User$projectMembersArgs<ExtArgs>
     projectDiaries?: boolean | User$projectDiariesArgs<ExtArgs>
     weeklyReports?: boolean | User$weeklyReportsArgs<ExtArgs>
+    roadmapLogs?: boolean | User$roadmapLogsArgs<ExtArgs>
+    assignedMilestones?: boolean | User$assignedMilestonesArgs<ExtArgs>
+    manualBooks?: boolean | User$manualBooksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2172,6 +2734,9 @@ export namespace Prisma {
     projectMembers?: boolean | User$projectMembersArgs<ExtArgs>
     projectDiaries?: boolean | User$projectDiariesArgs<ExtArgs>
     weeklyReports?: boolean | User$weeklyReportsArgs<ExtArgs>
+    roadmapLogs?: boolean | User$roadmapLogsArgs<ExtArgs>
+    assignedMilestones?: boolean | User$assignedMilestonesArgs<ExtArgs>
+    manualBooks?: boolean | User$manualBooksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2187,6 +2752,9 @@ export namespace Prisma {
       projectMembers: Prisma.$ProjectMemberPayload<ExtArgs>[]
       projectDiaries: Prisma.$ProjectDiaryPayload<ExtArgs>[]
       weeklyReports: Prisma.$WeeklyReportPayload<ExtArgs>[]
+      roadmapLogs: Prisma.$RoadmapProgressLogPayload<ExtArgs>[]
+      assignedMilestones: Prisma.$RoadmapMilestonePayload<ExtArgs>[]
+      manualBooks: Prisma.$ManualBookPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2567,6 +3135,9 @@ export namespace Prisma {
     projectMembers<T extends User$projectMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     projectDiaries<T extends User$projectDiariesArgs<ExtArgs> = {}>(args?: Subset<T, User$projectDiariesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectDiaryPayload<ExtArgs>, T, "findMany"> | Null>
     weeklyReports<T extends User$weeklyReportsArgs<ExtArgs> = {}>(args?: Subset<T, User$weeklyReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findMany"> | Null>
+    roadmapLogs<T extends User$roadmapLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$roadmapLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findMany"> | Null>
+    assignedMilestones<T extends User$assignedMilestonesArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedMilestonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findMany"> | Null>
+    manualBooks<T extends User$manualBooksArgs<ExtArgs> = {}>(args?: Subset<T, User$manualBooksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3071,6 +3642,66 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * User.roadmapLogs
+   */
+  export type User$roadmapLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    where?: RoadmapProgressLogWhereInput
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoadmapProgressLogScalarFieldEnum | RoadmapProgressLogScalarFieldEnum[]
+  }
+
+  /**
+   * User.assignedMilestones
+   */
+  export type User$assignedMilestonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    where?: RoadmapMilestoneWhereInput
+    orderBy?: RoadmapMilestoneOrderByWithRelationInput | RoadmapMilestoneOrderByWithRelationInput[]
+    cursor?: RoadmapMilestoneWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoadmapMilestoneScalarFieldEnum | RoadmapMilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * User.manualBooks
+   */
+  export type User$manualBooksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    where?: ManualBookWhereInput
+    orderBy?: ManualBookOrderByWithRelationInput | ManualBookOrderByWithRelationInput[]
+    cursor?: ManualBookWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ManualBookScalarFieldEnum | ManualBookScalarFieldEnum[]
   }
 
   /**
@@ -8949,6 +9580,7 @@ export namespace Prisma {
     members?: boolean | Project$membersArgs<ExtArgs>
     diaries?: boolean | Project$diariesArgs<ExtArgs>
     weeklyReports?: boolean | Project$weeklyReportsArgs<ExtArgs>
+    roadmap?: boolean | Project$roadmapArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -8980,6 +9612,7 @@ export namespace Prisma {
     members?: boolean | Project$membersArgs<ExtArgs>
     diaries?: boolean | Project$diariesArgs<ExtArgs>
     weeklyReports?: boolean | Project$weeklyReportsArgs<ExtArgs>
+    roadmap?: boolean | Project$roadmapArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8990,6 +9623,7 @@ export namespace Prisma {
       members: Prisma.$ProjectMemberPayload<ExtArgs>[]
       diaries: Prisma.$ProjectDiaryPayload<ExtArgs>[]
       weeklyReports: Prisma.$WeeklyReportPayload<ExtArgs>[]
+      roadmap: Prisma.$ProjectRoadmapPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9368,6 +10002,7 @@ export namespace Prisma {
     members<T extends Project$membersArgs<ExtArgs> = {}>(args?: Subset<T, Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany"> | Null>
     diaries<T extends Project$diariesArgs<ExtArgs> = {}>(args?: Subset<T, Project$diariesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectDiaryPayload<ExtArgs>, T, "findMany"> | Null>
     weeklyReports<T extends Project$weeklyReportsArgs<ExtArgs> = {}>(args?: Subset<T, Project$weeklyReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklyReportPayload<ExtArgs>, T, "findMany"> | Null>
+    roadmap<T extends Project$roadmapArgs<ExtArgs> = {}>(args?: Subset<T, Project$roadmapArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9775,6 +10410,21 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WeeklyReportScalarFieldEnum | WeeklyReportScalarFieldEnum[]
+  }
+
+  /**
+   * Project.roadmap
+   */
+  export type Project$roadmapArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    where?: ProjectRoadmapWhereInput
   }
 
   /**
@@ -13679,6 +14329,5210 @@ export namespace Prisma {
 
 
   /**
+   * Model ManualCategory
+   */
+
+  export type AggregateManualCategory = {
+    _count: ManualCategoryCountAggregateOutputType | null
+    _avg: ManualCategoryAvgAggregateOutputType | null
+    _sum: ManualCategorySumAggregateOutputType | null
+    _min: ManualCategoryMinAggregateOutputType | null
+    _max: ManualCategoryMaxAggregateOutputType | null
+  }
+
+  export type ManualCategoryAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ManualCategorySumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ManualCategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    order: number | null
+    icon: string | null
+    access_role: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ManualCategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    order: number | null
+    icon: string | null
+    access_role: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ManualCategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    order: number
+    icon: number
+    access_role: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ManualCategoryAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type ManualCategorySumAggregateInputType = {
+    order?: true
+  }
+
+  export type ManualCategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    icon?: true
+    access_role?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ManualCategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    icon?: true
+    access_role?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ManualCategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    order?: true
+    icon?: true
+    access_role?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ManualCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ManualCategory to aggregate.
+     */
+    where?: ManualCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualCategories to fetch.
+     */
+    orderBy?: ManualCategoryOrderByWithRelationInput | ManualCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ManualCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ManualCategories
+    **/
+    _count?: true | ManualCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ManualCategoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ManualCategorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ManualCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ManualCategoryMaxAggregateInputType
+  }
+
+  export type GetManualCategoryAggregateType<T extends ManualCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateManualCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateManualCategory[P]>
+      : GetScalarType<T[P], AggregateManualCategory[P]>
+  }
+
+
+
+
+  export type ManualCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManualCategoryWhereInput
+    orderBy?: ManualCategoryOrderByWithAggregationInput | ManualCategoryOrderByWithAggregationInput[]
+    by: ManualCategoryScalarFieldEnum[] | ManualCategoryScalarFieldEnum
+    having?: ManualCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ManualCategoryCountAggregateInputType | true
+    _avg?: ManualCategoryAvgAggregateInputType
+    _sum?: ManualCategorySumAggregateInputType
+    _min?: ManualCategoryMinAggregateInputType
+    _max?: ManualCategoryMaxAggregateInputType
+  }
+
+  export type ManualCategoryGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    order: number
+    icon: string
+    access_role: string
+    created_at: Date
+    updated_at: Date
+    _count: ManualCategoryCountAggregateOutputType | null
+    _avg: ManualCategoryAvgAggregateOutputType | null
+    _sum: ManualCategorySumAggregateOutputType | null
+    _min: ManualCategoryMinAggregateOutputType | null
+    _max: ManualCategoryMaxAggregateOutputType | null
+  }
+
+  type GetManualCategoryGroupByPayload<T extends ManualCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ManualCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ManualCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ManualCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], ManualCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ManualCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    icon?: boolean
+    access_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    manuals?: boolean | ManualCategory$manualsArgs<ExtArgs>
+    _count?: boolean | ManualCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["manualCategory"]>
+
+  export type ManualCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    icon?: boolean
+    access_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["manualCategory"]>
+
+  export type ManualCategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    order?: boolean
+    icon?: boolean
+    access_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ManualCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manuals?: boolean | ManualCategory$manualsArgs<ExtArgs>
+    _count?: boolean | ManualCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ManualCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ManualCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ManualCategory"
+    objects: {
+      manuals: Prisma.$ManualBookPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      order: number
+      icon: string
+      access_role: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["manualCategory"]>
+    composites: {}
+  }
+
+  type ManualCategoryGetPayload<S extends boolean | null | undefined | ManualCategoryDefaultArgs> = $Result.GetResult<Prisma.$ManualCategoryPayload, S>
+
+  type ManualCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ManualCategoryFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ManualCategoryCountAggregateInputType | true
+    }
+
+  export interface ManualCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ManualCategory'], meta: { name: 'ManualCategory' } }
+    /**
+     * Find zero or one ManualCategory that matches the filter.
+     * @param {ManualCategoryFindUniqueArgs} args - Arguments to find a ManualCategory
+     * @example
+     * // Get one ManualCategory
+     * const manualCategory = await prisma.manualCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ManualCategoryFindUniqueArgs>(args: SelectSubset<T, ManualCategoryFindUniqueArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ManualCategory that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ManualCategoryFindUniqueOrThrowArgs} args - Arguments to find a ManualCategory
+     * @example
+     * // Get one ManualCategory
+     * const manualCategory = await prisma.manualCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ManualCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, ManualCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ManualCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryFindFirstArgs} args - Arguments to find a ManualCategory
+     * @example
+     * // Get one ManualCategory
+     * const manualCategory = await prisma.manualCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ManualCategoryFindFirstArgs>(args?: SelectSubset<T, ManualCategoryFindFirstArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ManualCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryFindFirstOrThrowArgs} args - Arguments to find a ManualCategory
+     * @example
+     * // Get one ManualCategory
+     * const manualCategory = await prisma.manualCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ManualCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, ManualCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ManualCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ManualCategories
+     * const manualCategories = await prisma.manualCategory.findMany()
+     * 
+     * // Get first 10 ManualCategories
+     * const manualCategories = await prisma.manualCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const manualCategoryWithIdOnly = await prisma.manualCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ManualCategoryFindManyArgs>(args?: SelectSubset<T, ManualCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ManualCategory.
+     * @param {ManualCategoryCreateArgs} args - Arguments to create a ManualCategory.
+     * @example
+     * // Create one ManualCategory
+     * const ManualCategory = await prisma.manualCategory.create({
+     *   data: {
+     *     // ... data to create a ManualCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends ManualCategoryCreateArgs>(args: SelectSubset<T, ManualCategoryCreateArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ManualCategories.
+     * @param {ManualCategoryCreateManyArgs} args - Arguments to create many ManualCategories.
+     * @example
+     * // Create many ManualCategories
+     * const manualCategory = await prisma.manualCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ManualCategoryCreateManyArgs>(args?: SelectSubset<T, ManualCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ManualCategories and returns the data saved in the database.
+     * @param {ManualCategoryCreateManyAndReturnArgs} args - Arguments to create many ManualCategories.
+     * @example
+     * // Create many ManualCategories
+     * const manualCategory = await prisma.manualCategory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ManualCategories and only return the `id`
+     * const manualCategoryWithIdOnly = await prisma.manualCategory.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ManualCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, ManualCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ManualCategory.
+     * @param {ManualCategoryDeleteArgs} args - Arguments to delete one ManualCategory.
+     * @example
+     * // Delete one ManualCategory
+     * const ManualCategory = await prisma.manualCategory.delete({
+     *   where: {
+     *     // ... filter to delete one ManualCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ManualCategoryDeleteArgs>(args: SelectSubset<T, ManualCategoryDeleteArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ManualCategory.
+     * @param {ManualCategoryUpdateArgs} args - Arguments to update one ManualCategory.
+     * @example
+     * // Update one ManualCategory
+     * const manualCategory = await prisma.manualCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ManualCategoryUpdateArgs>(args: SelectSubset<T, ManualCategoryUpdateArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ManualCategories.
+     * @param {ManualCategoryDeleteManyArgs} args - Arguments to filter ManualCategories to delete.
+     * @example
+     * // Delete a few ManualCategories
+     * const { count } = await prisma.manualCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ManualCategoryDeleteManyArgs>(args?: SelectSubset<T, ManualCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ManualCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ManualCategories
+     * const manualCategory = await prisma.manualCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ManualCategoryUpdateManyArgs>(args: SelectSubset<T, ManualCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ManualCategory.
+     * @param {ManualCategoryUpsertArgs} args - Arguments to update or create a ManualCategory.
+     * @example
+     * // Update or create a ManualCategory
+     * const manualCategory = await prisma.manualCategory.upsert({
+     *   create: {
+     *     // ... data to create a ManualCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ManualCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ManualCategoryUpsertArgs>(args: SelectSubset<T, ManualCategoryUpsertArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ManualCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryCountArgs} args - Arguments to filter ManualCategories to count.
+     * @example
+     * // Count the number of ManualCategories
+     * const count = await prisma.manualCategory.count({
+     *   where: {
+     *     // ... the filter for the ManualCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends ManualCategoryCountArgs>(
+      args?: Subset<T, ManualCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ManualCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ManualCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ManualCategoryAggregateArgs>(args: Subset<T, ManualCategoryAggregateArgs>): Prisma.PrismaPromise<GetManualCategoryAggregateType<T>>
+
+    /**
+     * Group by ManualCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ManualCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ManualCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: ManualCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ManualCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetManualCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ManualCategory model
+   */
+  readonly fields: ManualCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ManualCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ManualCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    manuals<T extends ManualCategory$manualsArgs<ExtArgs> = {}>(args?: Subset<T, ManualCategory$manualsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ManualCategory model
+   */ 
+  interface ManualCategoryFieldRefs {
+    readonly id: FieldRef<"ManualCategory", 'String'>
+    readonly name: FieldRef<"ManualCategory", 'String'>
+    readonly description: FieldRef<"ManualCategory", 'String'>
+    readonly order: FieldRef<"ManualCategory", 'Int'>
+    readonly icon: FieldRef<"ManualCategory", 'String'>
+    readonly access_role: FieldRef<"ManualCategory", 'String'>
+    readonly created_at: FieldRef<"ManualCategory", 'DateTime'>
+    readonly updated_at: FieldRef<"ManualCategory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ManualCategory findUnique
+   */
+  export type ManualCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualCategory to fetch.
+     */
+    where: ManualCategoryWhereUniqueInput
+  }
+
+  /**
+   * ManualCategory findUniqueOrThrow
+   */
+  export type ManualCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualCategory to fetch.
+     */
+    where: ManualCategoryWhereUniqueInput
+  }
+
+  /**
+   * ManualCategory findFirst
+   */
+  export type ManualCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualCategory to fetch.
+     */
+    where?: ManualCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualCategories to fetch.
+     */
+    orderBy?: ManualCategoryOrderByWithRelationInput | ManualCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ManualCategories.
+     */
+    cursor?: ManualCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ManualCategories.
+     */
+    distinct?: ManualCategoryScalarFieldEnum | ManualCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ManualCategory findFirstOrThrow
+   */
+  export type ManualCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualCategory to fetch.
+     */
+    where?: ManualCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualCategories to fetch.
+     */
+    orderBy?: ManualCategoryOrderByWithRelationInput | ManualCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ManualCategories.
+     */
+    cursor?: ManualCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ManualCategories.
+     */
+    distinct?: ManualCategoryScalarFieldEnum | ManualCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ManualCategory findMany
+   */
+  export type ManualCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualCategories to fetch.
+     */
+    where?: ManualCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualCategories to fetch.
+     */
+    orderBy?: ManualCategoryOrderByWithRelationInput | ManualCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ManualCategories.
+     */
+    cursor?: ManualCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualCategories.
+     */
+    skip?: number
+    distinct?: ManualCategoryScalarFieldEnum | ManualCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * ManualCategory create
+   */
+  export type ManualCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ManualCategory.
+     */
+    data: XOR<ManualCategoryCreateInput, ManualCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * ManualCategory createMany
+   */
+  export type ManualCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ManualCategories.
+     */
+    data: ManualCategoryCreateManyInput | ManualCategoryCreateManyInput[]
+  }
+
+  /**
+   * ManualCategory createManyAndReturn
+   */
+  export type ManualCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ManualCategories.
+     */
+    data: ManualCategoryCreateManyInput | ManualCategoryCreateManyInput[]
+  }
+
+  /**
+   * ManualCategory update
+   */
+  export type ManualCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ManualCategory.
+     */
+    data: XOR<ManualCategoryUpdateInput, ManualCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which ManualCategory to update.
+     */
+    where: ManualCategoryWhereUniqueInput
+  }
+
+  /**
+   * ManualCategory updateMany
+   */
+  export type ManualCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ManualCategories.
+     */
+    data: XOR<ManualCategoryUpdateManyMutationInput, ManualCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which ManualCategories to update
+     */
+    where?: ManualCategoryWhereInput
+  }
+
+  /**
+   * ManualCategory upsert
+   */
+  export type ManualCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ManualCategory to update in case it exists.
+     */
+    where: ManualCategoryWhereUniqueInput
+    /**
+     * In case the ManualCategory found by the `where` argument doesn't exist, create a new ManualCategory with this data.
+     */
+    create: XOR<ManualCategoryCreateInput, ManualCategoryUncheckedCreateInput>
+    /**
+     * In case the ManualCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ManualCategoryUpdateInput, ManualCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * ManualCategory delete
+   */
+  export type ManualCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which ManualCategory to delete.
+     */
+    where: ManualCategoryWhereUniqueInput
+  }
+
+  /**
+   * ManualCategory deleteMany
+   */
+  export type ManualCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ManualCategories to delete
+     */
+    where?: ManualCategoryWhereInput
+  }
+
+  /**
+   * ManualCategory.manuals
+   */
+  export type ManualCategory$manualsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    where?: ManualBookWhereInput
+    orderBy?: ManualBookOrderByWithRelationInput | ManualBookOrderByWithRelationInput[]
+    cursor?: ManualBookWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ManualBookScalarFieldEnum | ManualBookScalarFieldEnum[]
+  }
+
+  /**
+   * ManualCategory without action
+   */
+  export type ManualCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualCategory
+     */
+    select?: ManualCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ManualBook
+   */
+
+  export type AggregateManualBook = {
+    _count: ManualBookCountAggregateOutputType | null
+    _avg: ManualBookAvgAggregateOutputType | null
+    _sum: ManualBookSumAggregateOutputType | null
+    _min: ManualBookMinAggregateOutputType | null
+    _max: ManualBookMaxAggregateOutputType | null
+  }
+
+  export type ManualBookAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ManualBookSumAggregateOutputType = {
+    order: number | null
+  }
+
+  export type ManualBookMinAggregateOutputType = {
+    id: string | null
+    category_id: string | null
+    title: string | null
+    content: string | null
+    order: number | null
+    access_role: string | null
+    created_by: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ManualBookMaxAggregateOutputType = {
+    id: string | null
+    category_id: string | null
+    title: string | null
+    content: string | null
+    order: number | null
+    access_role: string | null
+    created_by: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ManualBookCountAggregateOutputType = {
+    id: number
+    category_id: number
+    title: number
+    content: number
+    order: number
+    access_role: number
+    created_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ManualBookAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type ManualBookSumAggregateInputType = {
+    order?: true
+  }
+
+  export type ManualBookMinAggregateInputType = {
+    id?: true
+    category_id?: true
+    title?: true
+    content?: true
+    order?: true
+    access_role?: true
+    created_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ManualBookMaxAggregateInputType = {
+    id?: true
+    category_id?: true
+    title?: true
+    content?: true
+    order?: true
+    access_role?: true
+    created_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ManualBookCountAggregateInputType = {
+    id?: true
+    category_id?: true
+    title?: true
+    content?: true
+    order?: true
+    access_role?: true
+    created_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ManualBookAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ManualBook to aggregate.
+     */
+    where?: ManualBookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualBooks to fetch.
+     */
+    orderBy?: ManualBookOrderByWithRelationInput | ManualBookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ManualBookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualBooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualBooks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ManualBooks
+    **/
+    _count?: true | ManualBookCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ManualBookAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ManualBookSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ManualBookMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ManualBookMaxAggregateInputType
+  }
+
+  export type GetManualBookAggregateType<T extends ManualBookAggregateArgs> = {
+        [P in keyof T & keyof AggregateManualBook]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateManualBook[P]>
+      : GetScalarType<T[P], AggregateManualBook[P]>
+  }
+
+
+
+
+  export type ManualBookGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManualBookWhereInput
+    orderBy?: ManualBookOrderByWithAggregationInput | ManualBookOrderByWithAggregationInput[]
+    by: ManualBookScalarFieldEnum[] | ManualBookScalarFieldEnum
+    having?: ManualBookScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ManualBookCountAggregateInputType | true
+    _avg?: ManualBookAvgAggregateInputType
+    _sum?: ManualBookSumAggregateInputType
+    _min?: ManualBookMinAggregateInputType
+    _max?: ManualBookMaxAggregateInputType
+  }
+
+  export type ManualBookGroupByOutputType = {
+    id: string
+    category_id: string
+    title: string
+    content: string
+    order: number
+    access_role: string
+    created_by: string
+    created_at: Date
+    updated_at: Date
+    _count: ManualBookCountAggregateOutputType | null
+    _avg: ManualBookAvgAggregateOutputType | null
+    _sum: ManualBookSumAggregateOutputType | null
+    _min: ManualBookMinAggregateOutputType | null
+    _max: ManualBookMaxAggregateOutputType | null
+  }
+
+  type GetManualBookGroupByPayload<T extends ManualBookGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ManualBookGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ManualBookGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ManualBookGroupByOutputType[P]>
+            : GetScalarType<T[P], ManualBookGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ManualBookSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category_id?: boolean
+    title?: boolean
+    content?: boolean
+    order?: boolean
+    access_role?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    category?: boolean | ManualCategoryDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["manualBook"]>
+
+  export type ManualBookSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category_id?: boolean
+    title?: boolean
+    content?: boolean
+    order?: boolean
+    access_role?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    category?: boolean | ManualCategoryDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["manualBook"]>
+
+  export type ManualBookSelectScalar = {
+    id?: boolean
+    category_id?: boolean
+    title?: boolean
+    content?: boolean
+    order?: boolean
+    access_role?: boolean
+    created_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ManualBookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | ManualCategoryDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ManualBookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | ManualCategoryDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ManualBookPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ManualBook"
+    objects: {
+      category: Prisma.$ManualCategoryPayload<ExtArgs>
+      creator: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      category_id: string
+      title: string
+      content: string
+      order: number
+      access_role: string
+      created_by: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["manualBook"]>
+    composites: {}
+  }
+
+  type ManualBookGetPayload<S extends boolean | null | undefined | ManualBookDefaultArgs> = $Result.GetResult<Prisma.$ManualBookPayload, S>
+
+  type ManualBookCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ManualBookFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ManualBookCountAggregateInputType | true
+    }
+
+  export interface ManualBookDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ManualBook'], meta: { name: 'ManualBook' } }
+    /**
+     * Find zero or one ManualBook that matches the filter.
+     * @param {ManualBookFindUniqueArgs} args - Arguments to find a ManualBook
+     * @example
+     * // Get one ManualBook
+     * const manualBook = await prisma.manualBook.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ManualBookFindUniqueArgs>(args: SelectSubset<T, ManualBookFindUniqueArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ManualBook that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ManualBookFindUniqueOrThrowArgs} args - Arguments to find a ManualBook
+     * @example
+     * // Get one ManualBook
+     * const manualBook = await prisma.manualBook.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ManualBookFindUniqueOrThrowArgs>(args: SelectSubset<T, ManualBookFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ManualBook that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookFindFirstArgs} args - Arguments to find a ManualBook
+     * @example
+     * // Get one ManualBook
+     * const manualBook = await prisma.manualBook.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ManualBookFindFirstArgs>(args?: SelectSubset<T, ManualBookFindFirstArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ManualBook that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookFindFirstOrThrowArgs} args - Arguments to find a ManualBook
+     * @example
+     * // Get one ManualBook
+     * const manualBook = await prisma.manualBook.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ManualBookFindFirstOrThrowArgs>(args?: SelectSubset<T, ManualBookFindFirstOrThrowArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ManualBooks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ManualBooks
+     * const manualBooks = await prisma.manualBook.findMany()
+     * 
+     * // Get first 10 ManualBooks
+     * const manualBooks = await prisma.manualBook.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const manualBookWithIdOnly = await prisma.manualBook.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ManualBookFindManyArgs>(args?: SelectSubset<T, ManualBookFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ManualBook.
+     * @param {ManualBookCreateArgs} args - Arguments to create a ManualBook.
+     * @example
+     * // Create one ManualBook
+     * const ManualBook = await prisma.manualBook.create({
+     *   data: {
+     *     // ... data to create a ManualBook
+     *   }
+     * })
+     * 
+     */
+    create<T extends ManualBookCreateArgs>(args: SelectSubset<T, ManualBookCreateArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ManualBooks.
+     * @param {ManualBookCreateManyArgs} args - Arguments to create many ManualBooks.
+     * @example
+     * // Create many ManualBooks
+     * const manualBook = await prisma.manualBook.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ManualBookCreateManyArgs>(args?: SelectSubset<T, ManualBookCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ManualBooks and returns the data saved in the database.
+     * @param {ManualBookCreateManyAndReturnArgs} args - Arguments to create many ManualBooks.
+     * @example
+     * // Create many ManualBooks
+     * const manualBook = await prisma.manualBook.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ManualBooks and only return the `id`
+     * const manualBookWithIdOnly = await prisma.manualBook.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ManualBookCreateManyAndReturnArgs>(args?: SelectSubset<T, ManualBookCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ManualBook.
+     * @param {ManualBookDeleteArgs} args - Arguments to delete one ManualBook.
+     * @example
+     * // Delete one ManualBook
+     * const ManualBook = await prisma.manualBook.delete({
+     *   where: {
+     *     // ... filter to delete one ManualBook
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ManualBookDeleteArgs>(args: SelectSubset<T, ManualBookDeleteArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ManualBook.
+     * @param {ManualBookUpdateArgs} args - Arguments to update one ManualBook.
+     * @example
+     * // Update one ManualBook
+     * const manualBook = await prisma.manualBook.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ManualBookUpdateArgs>(args: SelectSubset<T, ManualBookUpdateArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ManualBooks.
+     * @param {ManualBookDeleteManyArgs} args - Arguments to filter ManualBooks to delete.
+     * @example
+     * // Delete a few ManualBooks
+     * const { count } = await prisma.manualBook.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ManualBookDeleteManyArgs>(args?: SelectSubset<T, ManualBookDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ManualBooks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ManualBooks
+     * const manualBook = await prisma.manualBook.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ManualBookUpdateManyArgs>(args: SelectSubset<T, ManualBookUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ManualBook.
+     * @param {ManualBookUpsertArgs} args - Arguments to update or create a ManualBook.
+     * @example
+     * // Update or create a ManualBook
+     * const manualBook = await prisma.manualBook.upsert({
+     *   create: {
+     *     // ... data to create a ManualBook
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ManualBook we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ManualBookUpsertArgs>(args: SelectSubset<T, ManualBookUpsertArgs<ExtArgs>>): Prisma__ManualBookClient<$Result.GetResult<Prisma.$ManualBookPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ManualBooks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookCountArgs} args - Arguments to filter ManualBooks to count.
+     * @example
+     * // Count the number of ManualBooks
+     * const count = await prisma.manualBook.count({
+     *   where: {
+     *     // ... the filter for the ManualBooks we want to count
+     *   }
+     * })
+    **/
+    count<T extends ManualBookCountArgs>(
+      args?: Subset<T, ManualBookCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ManualBookCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ManualBook.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ManualBookAggregateArgs>(args: Subset<T, ManualBookAggregateArgs>): Prisma.PrismaPromise<GetManualBookAggregateType<T>>
+
+    /**
+     * Group by ManualBook.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManualBookGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ManualBookGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ManualBookGroupByArgs['orderBy'] }
+        : { orderBy?: ManualBookGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ManualBookGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetManualBookGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ManualBook model
+   */
+  readonly fields: ManualBookFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ManualBook.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ManualBookClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends ManualCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ManualCategoryDefaultArgs<ExtArgs>>): Prisma__ManualCategoryClient<$Result.GetResult<Prisma.$ManualCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ManualBook model
+   */ 
+  interface ManualBookFieldRefs {
+    readonly id: FieldRef<"ManualBook", 'String'>
+    readonly category_id: FieldRef<"ManualBook", 'String'>
+    readonly title: FieldRef<"ManualBook", 'String'>
+    readonly content: FieldRef<"ManualBook", 'String'>
+    readonly order: FieldRef<"ManualBook", 'Int'>
+    readonly access_role: FieldRef<"ManualBook", 'String'>
+    readonly created_by: FieldRef<"ManualBook", 'String'>
+    readonly created_at: FieldRef<"ManualBook", 'DateTime'>
+    readonly updated_at: FieldRef<"ManualBook", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ManualBook findUnique
+   */
+  export type ManualBookFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualBook to fetch.
+     */
+    where: ManualBookWhereUniqueInput
+  }
+
+  /**
+   * ManualBook findUniqueOrThrow
+   */
+  export type ManualBookFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualBook to fetch.
+     */
+    where: ManualBookWhereUniqueInput
+  }
+
+  /**
+   * ManualBook findFirst
+   */
+  export type ManualBookFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualBook to fetch.
+     */
+    where?: ManualBookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualBooks to fetch.
+     */
+    orderBy?: ManualBookOrderByWithRelationInput | ManualBookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ManualBooks.
+     */
+    cursor?: ManualBookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualBooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualBooks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ManualBooks.
+     */
+    distinct?: ManualBookScalarFieldEnum | ManualBookScalarFieldEnum[]
+  }
+
+  /**
+   * ManualBook findFirstOrThrow
+   */
+  export type ManualBookFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualBook to fetch.
+     */
+    where?: ManualBookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualBooks to fetch.
+     */
+    orderBy?: ManualBookOrderByWithRelationInput | ManualBookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ManualBooks.
+     */
+    cursor?: ManualBookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualBooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualBooks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ManualBooks.
+     */
+    distinct?: ManualBookScalarFieldEnum | ManualBookScalarFieldEnum[]
+  }
+
+  /**
+   * ManualBook findMany
+   */
+  export type ManualBookFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * Filter, which ManualBooks to fetch.
+     */
+    where?: ManualBookWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ManualBooks to fetch.
+     */
+    orderBy?: ManualBookOrderByWithRelationInput | ManualBookOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ManualBooks.
+     */
+    cursor?: ManualBookWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ManualBooks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ManualBooks.
+     */
+    skip?: number
+    distinct?: ManualBookScalarFieldEnum | ManualBookScalarFieldEnum[]
+  }
+
+  /**
+   * ManualBook create
+   */
+  export type ManualBookCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ManualBook.
+     */
+    data: XOR<ManualBookCreateInput, ManualBookUncheckedCreateInput>
+  }
+
+  /**
+   * ManualBook createMany
+   */
+  export type ManualBookCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ManualBooks.
+     */
+    data: ManualBookCreateManyInput | ManualBookCreateManyInput[]
+  }
+
+  /**
+   * ManualBook createManyAndReturn
+   */
+  export type ManualBookCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ManualBooks.
+     */
+    data: ManualBookCreateManyInput | ManualBookCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ManualBook update
+   */
+  export type ManualBookUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ManualBook.
+     */
+    data: XOR<ManualBookUpdateInput, ManualBookUncheckedUpdateInput>
+    /**
+     * Choose, which ManualBook to update.
+     */
+    where: ManualBookWhereUniqueInput
+  }
+
+  /**
+   * ManualBook updateMany
+   */
+  export type ManualBookUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ManualBooks.
+     */
+    data: XOR<ManualBookUpdateManyMutationInput, ManualBookUncheckedUpdateManyInput>
+    /**
+     * Filter which ManualBooks to update
+     */
+    where?: ManualBookWhereInput
+  }
+
+  /**
+   * ManualBook upsert
+   */
+  export type ManualBookUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ManualBook to update in case it exists.
+     */
+    where: ManualBookWhereUniqueInput
+    /**
+     * In case the ManualBook found by the `where` argument doesn't exist, create a new ManualBook with this data.
+     */
+    create: XOR<ManualBookCreateInput, ManualBookUncheckedCreateInput>
+    /**
+     * In case the ManualBook was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ManualBookUpdateInput, ManualBookUncheckedUpdateInput>
+  }
+
+  /**
+   * ManualBook delete
+   */
+  export type ManualBookDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+    /**
+     * Filter which ManualBook to delete.
+     */
+    where: ManualBookWhereUniqueInput
+  }
+
+  /**
+   * ManualBook deleteMany
+   */
+  export type ManualBookDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ManualBooks to delete
+     */
+    where?: ManualBookWhereInput
+  }
+
+  /**
+   * ManualBook without action
+   */
+  export type ManualBookDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManualBook
+     */
+    select?: ManualBookSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManualBookInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProjectRoadmap
+   */
+
+  export type AggregateProjectRoadmap = {
+    _count: ProjectRoadmapCountAggregateOutputType | null
+    _avg: ProjectRoadmapAvgAggregateOutputType | null
+    _sum: ProjectRoadmapSumAggregateOutputType | null
+    _min: ProjectRoadmapMinAggregateOutputType | null
+    _max: ProjectRoadmapMaxAggregateOutputType | null
+  }
+
+  export type ProjectRoadmapAvgAggregateOutputType = {
+    progress_percentage: number | null
+  }
+
+  export type ProjectRoadmapSumAggregateOutputType = {
+    progress_percentage: number | null
+  }
+
+  export type ProjectRoadmapMinAggregateOutputType = {
+    id: string | null
+    project_id: string | null
+    roadmap_title: string | null
+    description: string | null
+    start_date: string | null
+    deadline: string | null
+    progress_percentage: number | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ProjectRoadmapMaxAggregateOutputType = {
+    id: string | null
+    project_id: string | null
+    roadmap_title: string | null
+    description: string | null
+    start_date: string | null
+    deadline: string | null
+    progress_percentage: number | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ProjectRoadmapCountAggregateOutputType = {
+    id: number
+    project_id: number
+    roadmap_title: number
+    description: number
+    start_date: number
+    deadline: number
+    progress_percentage: number
+    status: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ProjectRoadmapAvgAggregateInputType = {
+    progress_percentage?: true
+  }
+
+  export type ProjectRoadmapSumAggregateInputType = {
+    progress_percentage?: true
+  }
+
+  export type ProjectRoadmapMinAggregateInputType = {
+    id?: true
+    project_id?: true
+    roadmap_title?: true
+    description?: true
+    start_date?: true
+    deadline?: true
+    progress_percentage?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ProjectRoadmapMaxAggregateInputType = {
+    id?: true
+    project_id?: true
+    roadmap_title?: true
+    description?: true
+    start_date?: true
+    deadline?: true
+    progress_percentage?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ProjectRoadmapCountAggregateInputType = {
+    id?: true
+    project_id?: true
+    roadmap_title?: true
+    description?: true
+    start_date?: true
+    deadline?: true
+    progress_percentage?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ProjectRoadmapAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectRoadmap to aggregate.
+     */
+    where?: ProjectRoadmapWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectRoadmaps to fetch.
+     */
+    orderBy?: ProjectRoadmapOrderByWithRelationInput | ProjectRoadmapOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectRoadmapWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectRoadmaps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectRoadmaps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectRoadmaps
+    **/
+    _count?: true | ProjectRoadmapCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProjectRoadmapAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProjectRoadmapSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectRoadmapMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectRoadmapMaxAggregateInputType
+  }
+
+  export type GetProjectRoadmapAggregateType<T extends ProjectRoadmapAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectRoadmap]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectRoadmap[P]>
+      : GetScalarType<T[P], AggregateProjectRoadmap[P]>
+  }
+
+
+
+
+  export type ProjectRoadmapGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectRoadmapWhereInput
+    orderBy?: ProjectRoadmapOrderByWithAggregationInput | ProjectRoadmapOrderByWithAggregationInput[]
+    by: ProjectRoadmapScalarFieldEnum[] | ProjectRoadmapScalarFieldEnum
+    having?: ProjectRoadmapScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectRoadmapCountAggregateInputType | true
+    _avg?: ProjectRoadmapAvgAggregateInputType
+    _sum?: ProjectRoadmapSumAggregateInputType
+    _min?: ProjectRoadmapMinAggregateInputType
+    _max?: ProjectRoadmapMaxAggregateInputType
+  }
+
+  export type ProjectRoadmapGroupByOutputType = {
+    id: string
+    project_id: string
+    roadmap_title: string
+    description: string | null
+    start_date: string
+    deadline: string
+    progress_percentage: number
+    status: string
+    created_at: Date
+    updated_at: Date
+    _count: ProjectRoadmapCountAggregateOutputType | null
+    _avg: ProjectRoadmapAvgAggregateOutputType | null
+    _sum: ProjectRoadmapSumAggregateOutputType | null
+    _min: ProjectRoadmapMinAggregateOutputType | null
+    _max: ProjectRoadmapMaxAggregateOutputType | null
+  }
+
+  type GetProjectRoadmapGroupByPayload<T extends ProjectRoadmapGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectRoadmapGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectRoadmapGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectRoadmapGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectRoadmapGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectRoadmapSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    roadmap_title?: boolean
+    description?: boolean
+    start_date?: boolean
+    deadline?: boolean
+    progress_percentage?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    milestones?: boolean | ProjectRoadmap$milestonesArgs<ExtArgs>
+    logs?: boolean | ProjectRoadmap$logsArgs<ExtArgs>
+    _count?: boolean | ProjectRoadmapCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectRoadmap"]>
+
+  export type ProjectRoadmapSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    project_id?: boolean
+    roadmap_title?: boolean
+    description?: boolean
+    start_date?: boolean
+    deadline?: boolean
+    progress_percentage?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectRoadmap"]>
+
+  export type ProjectRoadmapSelectScalar = {
+    id?: boolean
+    project_id?: boolean
+    roadmap_title?: boolean
+    description?: boolean
+    start_date?: boolean
+    deadline?: boolean
+    progress_percentage?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ProjectRoadmapInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    milestones?: boolean | ProjectRoadmap$milestonesArgs<ExtArgs>
+    logs?: boolean | ProjectRoadmap$logsArgs<ExtArgs>
+    _count?: boolean | ProjectRoadmapCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProjectRoadmapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectRoadmapPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectRoadmap"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+      milestones: Prisma.$RoadmapMilestonePayload<ExtArgs>[]
+      logs: Prisma.$RoadmapProgressLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      project_id: string
+      roadmap_title: string
+      description: string | null
+      start_date: string
+      deadline: string
+      progress_percentage: number
+      status: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["projectRoadmap"]>
+    composites: {}
+  }
+
+  type ProjectRoadmapGetPayload<S extends boolean | null | undefined | ProjectRoadmapDefaultArgs> = $Result.GetResult<Prisma.$ProjectRoadmapPayload, S>
+
+  type ProjectRoadmapCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ProjectRoadmapFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ProjectRoadmapCountAggregateInputType | true
+    }
+
+  export interface ProjectRoadmapDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectRoadmap'], meta: { name: 'ProjectRoadmap' } }
+    /**
+     * Find zero or one ProjectRoadmap that matches the filter.
+     * @param {ProjectRoadmapFindUniqueArgs} args - Arguments to find a ProjectRoadmap
+     * @example
+     * // Get one ProjectRoadmap
+     * const projectRoadmap = await prisma.projectRoadmap.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectRoadmapFindUniqueArgs>(args: SelectSubset<T, ProjectRoadmapFindUniqueArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ProjectRoadmap that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ProjectRoadmapFindUniqueOrThrowArgs} args - Arguments to find a ProjectRoadmap
+     * @example
+     * // Get one ProjectRoadmap
+     * const projectRoadmap = await prisma.projectRoadmap.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectRoadmapFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectRoadmapFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ProjectRoadmap that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapFindFirstArgs} args - Arguments to find a ProjectRoadmap
+     * @example
+     * // Get one ProjectRoadmap
+     * const projectRoadmap = await prisma.projectRoadmap.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectRoadmapFindFirstArgs>(args?: SelectSubset<T, ProjectRoadmapFindFirstArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ProjectRoadmap that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapFindFirstOrThrowArgs} args - Arguments to find a ProjectRoadmap
+     * @example
+     * // Get one ProjectRoadmap
+     * const projectRoadmap = await prisma.projectRoadmap.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectRoadmapFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectRoadmapFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ProjectRoadmaps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectRoadmaps
+     * const projectRoadmaps = await prisma.projectRoadmap.findMany()
+     * 
+     * // Get first 10 ProjectRoadmaps
+     * const projectRoadmaps = await prisma.projectRoadmap.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectRoadmapWithIdOnly = await prisma.projectRoadmap.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectRoadmapFindManyArgs>(args?: SelectSubset<T, ProjectRoadmapFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ProjectRoadmap.
+     * @param {ProjectRoadmapCreateArgs} args - Arguments to create a ProjectRoadmap.
+     * @example
+     * // Create one ProjectRoadmap
+     * const ProjectRoadmap = await prisma.projectRoadmap.create({
+     *   data: {
+     *     // ... data to create a ProjectRoadmap
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectRoadmapCreateArgs>(args: SelectSubset<T, ProjectRoadmapCreateArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ProjectRoadmaps.
+     * @param {ProjectRoadmapCreateManyArgs} args - Arguments to create many ProjectRoadmaps.
+     * @example
+     * // Create many ProjectRoadmaps
+     * const projectRoadmap = await prisma.projectRoadmap.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectRoadmapCreateManyArgs>(args?: SelectSubset<T, ProjectRoadmapCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProjectRoadmaps and returns the data saved in the database.
+     * @param {ProjectRoadmapCreateManyAndReturnArgs} args - Arguments to create many ProjectRoadmaps.
+     * @example
+     * // Create many ProjectRoadmaps
+     * const projectRoadmap = await prisma.projectRoadmap.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProjectRoadmaps and only return the `id`
+     * const projectRoadmapWithIdOnly = await prisma.projectRoadmap.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProjectRoadmapCreateManyAndReturnArgs>(args?: SelectSubset<T, ProjectRoadmapCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ProjectRoadmap.
+     * @param {ProjectRoadmapDeleteArgs} args - Arguments to delete one ProjectRoadmap.
+     * @example
+     * // Delete one ProjectRoadmap
+     * const ProjectRoadmap = await prisma.projectRoadmap.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectRoadmap
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectRoadmapDeleteArgs>(args: SelectSubset<T, ProjectRoadmapDeleteArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ProjectRoadmap.
+     * @param {ProjectRoadmapUpdateArgs} args - Arguments to update one ProjectRoadmap.
+     * @example
+     * // Update one ProjectRoadmap
+     * const projectRoadmap = await prisma.projectRoadmap.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectRoadmapUpdateArgs>(args: SelectSubset<T, ProjectRoadmapUpdateArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ProjectRoadmaps.
+     * @param {ProjectRoadmapDeleteManyArgs} args - Arguments to filter ProjectRoadmaps to delete.
+     * @example
+     * // Delete a few ProjectRoadmaps
+     * const { count } = await prisma.projectRoadmap.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectRoadmapDeleteManyArgs>(args?: SelectSubset<T, ProjectRoadmapDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectRoadmaps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectRoadmaps
+     * const projectRoadmap = await prisma.projectRoadmap.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectRoadmapUpdateManyArgs>(args: SelectSubset<T, ProjectRoadmapUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectRoadmap.
+     * @param {ProjectRoadmapUpsertArgs} args - Arguments to update or create a ProjectRoadmap.
+     * @example
+     * // Update or create a ProjectRoadmap
+     * const projectRoadmap = await prisma.projectRoadmap.upsert({
+     *   create: {
+     *     // ... data to create a ProjectRoadmap
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectRoadmap we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectRoadmapUpsertArgs>(args: SelectSubset<T, ProjectRoadmapUpsertArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ProjectRoadmaps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapCountArgs} args - Arguments to filter ProjectRoadmaps to count.
+     * @example
+     * // Count the number of ProjectRoadmaps
+     * const count = await prisma.projectRoadmap.count({
+     *   where: {
+     *     // ... the filter for the ProjectRoadmaps we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectRoadmapCountArgs>(
+      args?: Subset<T, ProjectRoadmapCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectRoadmapCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectRoadmap.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectRoadmapAggregateArgs>(args: Subset<T, ProjectRoadmapAggregateArgs>): Prisma.PrismaPromise<GetProjectRoadmapAggregateType<T>>
+
+    /**
+     * Group by ProjectRoadmap.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectRoadmapGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectRoadmapGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectRoadmapGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectRoadmapGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectRoadmapGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectRoadmapGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectRoadmap model
+   */
+  readonly fields: ProjectRoadmapFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectRoadmap.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectRoadmapClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    milestones<T extends ProjectRoadmap$milestonesArgs<ExtArgs> = {}>(args?: Subset<T, ProjectRoadmap$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findMany"> | Null>
+    logs<T extends ProjectRoadmap$logsArgs<ExtArgs> = {}>(args?: Subset<T, ProjectRoadmap$logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectRoadmap model
+   */ 
+  interface ProjectRoadmapFieldRefs {
+    readonly id: FieldRef<"ProjectRoadmap", 'String'>
+    readonly project_id: FieldRef<"ProjectRoadmap", 'String'>
+    readonly roadmap_title: FieldRef<"ProjectRoadmap", 'String'>
+    readonly description: FieldRef<"ProjectRoadmap", 'String'>
+    readonly start_date: FieldRef<"ProjectRoadmap", 'String'>
+    readonly deadline: FieldRef<"ProjectRoadmap", 'String'>
+    readonly progress_percentage: FieldRef<"ProjectRoadmap", 'Int'>
+    readonly status: FieldRef<"ProjectRoadmap", 'String'>
+    readonly created_at: FieldRef<"ProjectRoadmap", 'DateTime'>
+    readonly updated_at: FieldRef<"ProjectRoadmap", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectRoadmap findUnique
+   */
+  export type ProjectRoadmapFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectRoadmap to fetch.
+     */
+    where: ProjectRoadmapWhereUniqueInput
+  }
+
+  /**
+   * ProjectRoadmap findUniqueOrThrow
+   */
+  export type ProjectRoadmapFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectRoadmap to fetch.
+     */
+    where: ProjectRoadmapWhereUniqueInput
+  }
+
+  /**
+   * ProjectRoadmap findFirst
+   */
+  export type ProjectRoadmapFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectRoadmap to fetch.
+     */
+    where?: ProjectRoadmapWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectRoadmaps to fetch.
+     */
+    orderBy?: ProjectRoadmapOrderByWithRelationInput | ProjectRoadmapOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectRoadmaps.
+     */
+    cursor?: ProjectRoadmapWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectRoadmaps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectRoadmaps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectRoadmaps.
+     */
+    distinct?: ProjectRoadmapScalarFieldEnum | ProjectRoadmapScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectRoadmap findFirstOrThrow
+   */
+  export type ProjectRoadmapFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectRoadmap to fetch.
+     */
+    where?: ProjectRoadmapWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectRoadmaps to fetch.
+     */
+    orderBy?: ProjectRoadmapOrderByWithRelationInput | ProjectRoadmapOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectRoadmaps.
+     */
+    cursor?: ProjectRoadmapWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectRoadmaps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectRoadmaps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectRoadmaps.
+     */
+    distinct?: ProjectRoadmapScalarFieldEnum | ProjectRoadmapScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectRoadmap findMany
+   */
+  export type ProjectRoadmapFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectRoadmaps to fetch.
+     */
+    where?: ProjectRoadmapWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectRoadmaps to fetch.
+     */
+    orderBy?: ProjectRoadmapOrderByWithRelationInput | ProjectRoadmapOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectRoadmaps.
+     */
+    cursor?: ProjectRoadmapWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectRoadmaps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectRoadmaps.
+     */
+    skip?: number
+    distinct?: ProjectRoadmapScalarFieldEnum | ProjectRoadmapScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectRoadmap create
+   */
+  export type ProjectRoadmapCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectRoadmap.
+     */
+    data: XOR<ProjectRoadmapCreateInput, ProjectRoadmapUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectRoadmap createMany
+   */
+  export type ProjectRoadmapCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectRoadmaps.
+     */
+    data: ProjectRoadmapCreateManyInput | ProjectRoadmapCreateManyInput[]
+  }
+
+  /**
+   * ProjectRoadmap createManyAndReturn
+   */
+  export type ProjectRoadmapCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ProjectRoadmaps.
+     */
+    data: ProjectRoadmapCreateManyInput | ProjectRoadmapCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProjectRoadmap update
+   */
+  export type ProjectRoadmapUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectRoadmap.
+     */
+    data: XOR<ProjectRoadmapUpdateInput, ProjectRoadmapUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectRoadmap to update.
+     */
+    where: ProjectRoadmapWhereUniqueInput
+  }
+
+  /**
+   * ProjectRoadmap updateMany
+   */
+  export type ProjectRoadmapUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectRoadmaps.
+     */
+    data: XOR<ProjectRoadmapUpdateManyMutationInput, ProjectRoadmapUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectRoadmaps to update
+     */
+    where?: ProjectRoadmapWhereInput
+  }
+
+  /**
+   * ProjectRoadmap upsert
+   */
+  export type ProjectRoadmapUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectRoadmap to update in case it exists.
+     */
+    where: ProjectRoadmapWhereUniqueInput
+    /**
+     * In case the ProjectRoadmap found by the `where` argument doesn't exist, create a new ProjectRoadmap with this data.
+     */
+    create: XOR<ProjectRoadmapCreateInput, ProjectRoadmapUncheckedCreateInput>
+    /**
+     * In case the ProjectRoadmap was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectRoadmapUpdateInput, ProjectRoadmapUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectRoadmap delete
+   */
+  export type ProjectRoadmapDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectRoadmap to delete.
+     */
+    where: ProjectRoadmapWhereUniqueInput
+  }
+
+  /**
+   * ProjectRoadmap deleteMany
+   */
+  export type ProjectRoadmapDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectRoadmaps to delete
+     */
+    where?: ProjectRoadmapWhereInput
+  }
+
+  /**
+   * ProjectRoadmap.milestones
+   */
+  export type ProjectRoadmap$milestonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    where?: RoadmapMilestoneWhereInput
+    orderBy?: RoadmapMilestoneOrderByWithRelationInput | RoadmapMilestoneOrderByWithRelationInput[]
+    cursor?: RoadmapMilestoneWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoadmapMilestoneScalarFieldEnum | RoadmapMilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectRoadmap.logs
+   */
+  export type ProjectRoadmap$logsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    where?: RoadmapProgressLogWhereInput
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoadmapProgressLogScalarFieldEnum | RoadmapProgressLogScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectRoadmap without action
+   */
+  export type ProjectRoadmapDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectRoadmap
+     */
+    select?: ProjectRoadmapSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectRoadmapInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoadmapMilestone
+   */
+
+  export type AggregateRoadmapMilestone = {
+    _count: RoadmapMilestoneCountAggregateOutputType | null
+    _avg: RoadmapMilestoneAvgAggregateOutputType | null
+    _sum: RoadmapMilestoneSumAggregateOutputType | null
+    _min: RoadmapMilestoneMinAggregateOutputType | null
+    _max: RoadmapMilestoneMaxAggregateOutputType | null
+  }
+
+  export type RoadmapMilestoneAvgAggregateOutputType = {
+    progress_percentage: number | null
+    order: number | null
+  }
+
+  export type RoadmapMilestoneSumAggregateOutputType = {
+    progress_percentage: number | null
+    order: number | null
+  }
+
+  export type RoadmapMilestoneMinAggregateOutputType = {
+    id: string | null
+    roadmap_id: string | null
+    assigned_to: string | null
+    title: string | null
+    description: string | null
+    start_date: string | null
+    deadline: string | null
+    progress_percentage: number | null
+    status: string | null
+    activity_note: string | null
+    order: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type RoadmapMilestoneMaxAggregateOutputType = {
+    id: string | null
+    roadmap_id: string | null
+    assigned_to: string | null
+    title: string | null
+    description: string | null
+    start_date: string | null
+    deadline: string | null
+    progress_percentage: number | null
+    status: string | null
+    activity_note: string | null
+    order: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type RoadmapMilestoneCountAggregateOutputType = {
+    id: number
+    roadmap_id: number
+    assigned_to: number
+    title: number
+    description: number
+    start_date: number
+    deadline: number
+    progress_percentage: number
+    status: number
+    activity_note: number
+    order: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type RoadmapMilestoneAvgAggregateInputType = {
+    progress_percentage?: true
+    order?: true
+  }
+
+  export type RoadmapMilestoneSumAggregateInputType = {
+    progress_percentage?: true
+    order?: true
+  }
+
+  export type RoadmapMilestoneMinAggregateInputType = {
+    id?: true
+    roadmap_id?: true
+    assigned_to?: true
+    title?: true
+    description?: true
+    start_date?: true
+    deadline?: true
+    progress_percentage?: true
+    status?: true
+    activity_note?: true
+    order?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type RoadmapMilestoneMaxAggregateInputType = {
+    id?: true
+    roadmap_id?: true
+    assigned_to?: true
+    title?: true
+    description?: true
+    start_date?: true
+    deadline?: true
+    progress_percentage?: true
+    status?: true
+    activity_note?: true
+    order?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type RoadmapMilestoneCountAggregateInputType = {
+    id?: true
+    roadmap_id?: true
+    assigned_to?: true
+    title?: true
+    description?: true
+    start_date?: true
+    deadline?: true
+    progress_percentage?: true
+    status?: true
+    activity_note?: true
+    order?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type RoadmapMilestoneAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoadmapMilestone to aggregate.
+     */
+    where?: RoadmapMilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapMilestones to fetch.
+     */
+    orderBy?: RoadmapMilestoneOrderByWithRelationInput | RoadmapMilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoadmapMilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapMilestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapMilestones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoadmapMilestones
+    **/
+    _count?: true | RoadmapMilestoneCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RoadmapMilestoneAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoadmapMilestoneSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoadmapMilestoneMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoadmapMilestoneMaxAggregateInputType
+  }
+
+  export type GetRoadmapMilestoneAggregateType<T extends RoadmapMilestoneAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoadmapMilestone]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoadmapMilestone[P]>
+      : GetScalarType<T[P], AggregateRoadmapMilestone[P]>
+  }
+
+
+
+
+  export type RoadmapMilestoneGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapMilestoneWhereInput
+    orderBy?: RoadmapMilestoneOrderByWithAggregationInput | RoadmapMilestoneOrderByWithAggregationInput[]
+    by: RoadmapMilestoneScalarFieldEnum[] | RoadmapMilestoneScalarFieldEnum
+    having?: RoadmapMilestoneScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoadmapMilestoneCountAggregateInputType | true
+    _avg?: RoadmapMilestoneAvgAggregateInputType
+    _sum?: RoadmapMilestoneSumAggregateInputType
+    _min?: RoadmapMilestoneMinAggregateInputType
+    _max?: RoadmapMilestoneMaxAggregateInputType
+  }
+
+  export type RoadmapMilestoneGroupByOutputType = {
+    id: string
+    roadmap_id: string
+    assigned_to: string | null
+    title: string
+    description: string | null
+    start_date: string | null
+    deadline: string | null
+    progress_percentage: number
+    status: string
+    activity_note: string | null
+    order: number
+    created_at: Date
+    updated_at: Date
+    _count: RoadmapMilestoneCountAggregateOutputType | null
+    _avg: RoadmapMilestoneAvgAggregateOutputType | null
+    _sum: RoadmapMilestoneSumAggregateOutputType | null
+    _min: RoadmapMilestoneMinAggregateOutputType | null
+    _max: RoadmapMilestoneMaxAggregateOutputType | null
+  }
+
+  type GetRoadmapMilestoneGroupByPayload<T extends RoadmapMilestoneGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoadmapMilestoneGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoadmapMilestoneGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoadmapMilestoneGroupByOutputType[P]>
+            : GetScalarType<T[P], RoadmapMilestoneGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoadmapMilestoneSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roadmap_id?: boolean
+    assigned_to?: boolean
+    title?: boolean
+    description?: boolean
+    start_date?: boolean
+    deadline?: boolean
+    progress_percentage?: boolean
+    status?: boolean
+    activity_note?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    assignee?: boolean | RoadmapMilestone$assigneeArgs<ExtArgs>
+    logs?: boolean | RoadmapMilestone$logsArgs<ExtArgs>
+    _count?: boolean | RoadmapMilestoneCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roadmapMilestone"]>
+
+  export type RoadmapMilestoneSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roadmap_id?: boolean
+    assigned_to?: boolean
+    title?: boolean
+    description?: boolean
+    start_date?: boolean
+    deadline?: boolean
+    progress_percentage?: boolean
+    status?: boolean
+    activity_note?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    assignee?: boolean | RoadmapMilestone$assigneeArgs<ExtArgs>
+  }, ExtArgs["result"]["roadmapMilestone"]>
+
+  export type RoadmapMilestoneSelectScalar = {
+    id?: boolean
+    roadmap_id?: boolean
+    assigned_to?: boolean
+    title?: boolean
+    description?: boolean
+    start_date?: boolean
+    deadline?: boolean
+    progress_percentage?: boolean
+    status?: boolean
+    activity_note?: boolean
+    order?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type RoadmapMilestoneInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    assignee?: boolean | RoadmapMilestone$assigneeArgs<ExtArgs>
+    logs?: boolean | RoadmapMilestone$logsArgs<ExtArgs>
+    _count?: boolean | RoadmapMilestoneCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RoadmapMilestoneIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    assignee?: boolean | RoadmapMilestone$assigneeArgs<ExtArgs>
+  }
+
+  export type $RoadmapMilestonePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoadmapMilestone"
+    objects: {
+      roadmap: Prisma.$ProjectRoadmapPayload<ExtArgs>
+      assignee: Prisma.$UserPayload<ExtArgs> | null
+      logs: Prisma.$RoadmapProgressLogPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roadmap_id: string
+      assigned_to: string | null
+      title: string
+      description: string | null
+      start_date: string | null
+      deadline: string | null
+      progress_percentage: number
+      status: string
+      activity_note: string | null
+      order: number
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["roadmapMilestone"]>
+    composites: {}
+  }
+
+  type RoadmapMilestoneGetPayload<S extends boolean | null | undefined | RoadmapMilestoneDefaultArgs> = $Result.GetResult<Prisma.$RoadmapMilestonePayload, S>
+
+  type RoadmapMilestoneCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RoadmapMilestoneFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RoadmapMilestoneCountAggregateInputType | true
+    }
+
+  export interface RoadmapMilestoneDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoadmapMilestone'], meta: { name: 'RoadmapMilestone' } }
+    /**
+     * Find zero or one RoadmapMilestone that matches the filter.
+     * @param {RoadmapMilestoneFindUniqueArgs} args - Arguments to find a RoadmapMilestone
+     * @example
+     * // Get one RoadmapMilestone
+     * const roadmapMilestone = await prisma.roadmapMilestone.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoadmapMilestoneFindUniqueArgs>(args: SelectSubset<T, RoadmapMilestoneFindUniqueArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RoadmapMilestone that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RoadmapMilestoneFindUniqueOrThrowArgs} args - Arguments to find a RoadmapMilestone
+     * @example
+     * // Get one RoadmapMilestone
+     * const roadmapMilestone = await prisma.roadmapMilestone.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoadmapMilestoneFindUniqueOrThrowArgs>(args: SelectSubset<T, RoadmapMilestoneFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RoadmapMilestone that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneFindFirstArgs} args - Arguments to find a RoadmapMilestone
+     * @example
+     * // Get one RoadmapMilestone
+     * const roadmapMilestone = await prisma.roadmapMilestone.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoadmapMilestoneFindFirstArgs>(args?: SelectSubset<T, RoadmapMilestoneFindFirstArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RoadmapMilestone that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneFindFirstOrThrowArgs} args - Arguments to find a RoadmapMilestone
+     * @example
+     * // Get one RoadmapMilestone
+     * const roadmapMilestone = await prisma.roadmapMilestone.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoadmapMilestoneFindFirstOrThrowArgs>(args?: SelectSubset<T, RoadmapMilestoneFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RoadmapMilestones that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoadmapMilestones
+     * const roadmapMilestones = await prisma.roadmapMilestone.findMany()
+     * 
+     * // Get first 10 RoadmapMilestones
+     * const roadmapMilestones = await prisma.roadmapMilestone.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roadmapMilestoneWithIdOnly = await prisma.roadmapMilestone.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoadmapMilestoneFindManyArgs>(args?: SelectSubset<T, RoadmapMilestoneFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RoadmapMilestone.
+     * @param {RoadmapMilestoneCreateArgs} args - Arguments to create a RoadmapMilestone.
+     * @example
+     * // Create one RoadmapMilestone
+     * const RoadmapMilestone = await prisma.roadmapMilestone.create({
+     *   data: {
+     *     // ... data to create a RoadmapMilestone
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoadmapMilestoneCreateArgs>(args: SelectSubset<T, RoadmapMilestoneCreateArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RoadmapMilestones.
+     * @param {RoadmapMilestoneCreateManyArgs} args - Arguments to create many RoadmapMilestones.
+     * @example
+     * // Create many RoadmapMilestones
+     * const roadmapMilestone = await prisma.roadmapMilestone.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoadmapMilestoneCreateManyArgs>(args?: SelectSubset<T, RoadmapMilestoneCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RoadmapMilestones and returns the data saved in the database.
+     * @param {RoadmapMilestoneCreateManyAndReturnArgs} args - Arguments to create many RoadmapMilestones.
+     * @example
+     * // Create many RoadmapMilestones
+     * const roadmapMilestone = await prisma.roadmapMilestone.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RoadmapMilestones and only return the `id`
+     * const roadmapMilestoneWithIdOnly = await prisma.roadmapMilestone.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoadmapMilestoneCreateManyAndReturnArgs>(args?: SelectSubset<T, RoadmapMilestoneCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RoadmapMilestone.
+     * @param {RoadmapMilestoneDeleteArgs} args - Arguments to delete one RoadmapMilestone.
+     * @example
+     * // Delete one RoadmapMilestone
+     * const RoadmapMilestone = await prisma.roadmapMilestone.delete({
+     *   where: {
+     *     // ... filter to delete one RoadmapMilestone
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoadmapMilestoneDeleteArgs>(args: SelectSubset<T, RoadmapMilestoneDeleteArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RoadmapMilestone.
+     * @param {RoadmapMilestoneUpdateArgs} args - Arguments to update one RoadmapMilestone.
+     * @example
+     * // Update one RoadmapMilestone
+     * const roadmapMilestone = await prisma.roadmapMilestone.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoadmapMilestoneUpdateArgs>(args: SelectSubset<T, RoadmapMilestoneUpdateArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RoadmapMilestones.
+     * @param {RoadmapMilestoneDeleteManyArgs} args - Arguments to filter RoadmapMilestones to delete.
+     * @example
+     * // Delete a few RoadmapMilestones
+     * const { count } = await prisma.roadmapMilestone.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoadmapMilestoneDeleteManyArgs>(args?: SelectSubset<T, RoadmapMilestoneDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoadmapMilestones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoadmapMilestones
+     * const roadmapMilestone = await prisma.roadmapMilestone.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoadmapMilestoneUpdateManyArgs>(args: SelectSubset<T, RoadmapMilestoneUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RoadmapMilestone.
+     * @param {RoadmapMilestoneUpsertArgs} args - Arguments to update or create a RoadmapMilestone.
+     * @example
+     * // Update or create a RoadmapMilestone
+     * const roadmapMilestone = await prisma.roadmapMilestone.upsert({
+     *   create: {
+     *     // ... data to create a RoadmapMilestone
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoadmapMilestone we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoadmapMilestoneUpsertArgs>(args: SelectSubset<T, RoadmapMilestoneUpsertArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RoadmapMilestones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneCountArgs} args - Arguments to filter RoadmapMilestones to count.
+     * @example
+     * // Count the number of RoadmapMilestones
+     * const count = await prisma.roadmapMilestone.count({
+     *   where: {
+     *     // ... the filter for the RoadmapMilestones we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoadmapMilestoneCountArgs>(
+      args?: Subset<T, RoadmapMilestoneCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoadmapMilestoneCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoadmapMilestone.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoadmapMilestoneAggregateArgs>(args: Subset<T, RoadmapMilestoneAggregateArgs>): Prisma.PrismaPromise<GetRoadmapMilestoneAggregateType<T>>
+
+    /**
+     * Group by RoadmapMilestone.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapMilestoneGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoadmapMilestoneGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoadmapMilestoneGroupByArgs['orderBy'] }
+        : { orderBy?: RoadmapMilestoneGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoadmapMilestoneGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoadmapMilestoneGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoadmapMilestone model
+   */
+  readonly fields: RoadmapMilestoneFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoadmapMilestone.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoadmapMilestoneClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    roadmap<T extends ProjectRoadmapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectRoadmapDefaultArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    assignee<T extends RoadmapMilestone$assigneeArgs<ExtArgs> = {}>(args?: Subset<T, RoadmapMilestone$assigneeArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    logs<T extends RoadmapMilestone$logsArgs<ExtArgs> = {}>(args?: Subset<T, RoadmapMilestone$logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoadmapMilestone model
+   */ 
+  interface RoadmapMilestoneFieldRefs {
+    readonly id: FieldRef<"RoadmapMilestone", 'String'>
+    readonly roadmap_id: FieldRef<"RoadmapMilestone", 'String'>
+    readonly assigned_to: FieldRef<"RoadmapMilestone", 'String'>
+    readonly title: FieldRef<"RoadmapMilestone", 'String'>
+    readonly description: FieldRef<"RoadmapMilestone", 'String'>
+    readonly start_date: FieldRef<"RoadmapMilestone", 'String'>
+    readonly deadline: FieldRef<"RoadmapMilestone", 'String'>
+    readonly progress_percentage: FieldRef<"RoadmapMilestone", 'Int'>
+    readonly status: FieldRef<"RoadmapMilestone", 'String'>
+    readonly activity_note: FieldRef<"RoadmapMilestone", 'String'>
+    readonly order: FieldRef<"RoadmapMilestone", 'Int'>
+    readonly created_at: FieldRef<"RoadmapMilestone", 'DateTime'>
+    readonly updated_at: FieldRef<"RoadmapMilestone", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoadmapMilestone findUnique
+   */
+  export type RoadmapMilestoneFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapMilestone to fetch.
+     */
+    where: RoadmapMilestoneWhereUniqueInput
+  }
+
+  /**
+   * RoadmapMilestone findUniqueOrThrow
+   */
+  export type RoadmapMilestoneFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapMilestone to fetch.
+     */
+    where: RoadmapMilestoneWhereUniqueInput
+  }
+
+  /**
+   * RoadmapMilestone findFirst
+   */
+  export type RoadmapMilestoneFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapMilestone to fetch.
+     */
+    where?: RoadmapMilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapMilestones to fetch.
+     */
+    orderBy?: RoadmapMilestoneOrderByWithRelationInput | RoadmapMilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoadmapMilestones.
+     */
+    cursor?: RoadmapMilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapMilestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapMilestones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoadmapMilestones.
+     */
+    distinct?: RoadmapMilestoneScalarFieldEnum | RoadmapMilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapMilestone findFirstOrThrow
+   */
+  export type RoadmapMilestoneFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapMilestone to fetch.
+     */
+    where?: RoadmapMilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapMilestones to fetch.
+     */
+    orderBy?: RoadmapMilestoneOrderByWithRelationInput | RoadmapMilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoadmapMilestones.
+     */
+    cursor?: RoadmapMilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapMilestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapMilestones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoadmapMilestones.
+     */
+    distinct?: RoadmapMilestoneScalarFieldEnum | RoadmapMilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapMilestone findMany
+   */
+  export type RoadmapMilestoneFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapMilestones to fetch.
+     */
+    where?: RoadmapMilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapMilestones to fetch.
+     */
+    orderBy?: RoadmapMilestoneOrderByWithRelationInput | RoadmapMilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoadmapMilestones.
+     */
+    cursor?: RoadmapMilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapMilestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapMilestones.
+     */
+    skip?: number
+    distinct?: RoadmapMilestoneScalarFieldEnum | RoadmapMilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapMilestone create
+   */
+  export type RoadmapMilestoneCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoadmapMilestone.
+     */
+    data: XOR<RoadmapMilestoneCreateInput, RoadmapMilestoneUncheckedCreateInput>
+  }
+
+  /**
+   * RoadmapMilestone createMany
+   */
+  export type RoadmapMilestoneCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoadmapMilestones.
+     */
+    data: RoadmapMilestoneCreateManyInput | RoadmapMilestoneCreateManyInput[]
+  }
+
+  /**
+   * RoadmapMilestone createManyAndReturn
+   */
+  export type RoadmapMilestoneCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RoadmapMilestones.
+     */
+    data: RoadmapMilestoneCreateManyInput | RoadmapMilestoneCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoadmapMilestone update
+   */
+  export type RoadmapMilestoneUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoadmapMilestone.
+     */
+    data: XOR<RoadmapMilestoneUpdateInput, RoadmapMilestoneUncheckedUpdateInput>
+    /**
+     * Choose, which RoadmapMilestone to update.
+     */
+    where: RoadmapMilestoneWhereUniqueInput
+  }
+
+  /**
+   * RoadmapMilestone updateMany
+   */
+  export type RoadmapMilestoneUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoadmapMilestones.
+     */
+    data: XOR<RoadmapMilestoneUpdateManyMutationInput, RoadmapMilestoneUncheckedUpdateManyInput>
+    /**
+     * Filter which RoadmapMilestones to update
+     */
+    where?: RoadmapMilestoneWhereInput
+  }
+
+  /**
+   * RoadmapMilestone upsert
+   */
+  export type RoadmapMilestoneUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoadmapMilestone to update in case it exists.
+     */
+    where: RoadmapMilestoneWhereUniqueInput
+    /**
+     * In case the RoadmapMilestone found by the `where` argument doesn't exist, create a new RoadmapMilestone with this data.
+     */
+    create: XOR<RoadmapMilestoneCreateInput, RoadmapMilestoneUncheckedCreateInput>
+    /**
+     * In case the RoadmapMilestone was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoadmapMilestoneUpdateInput, RoadmapMilestoneUncheckedUpdateInput>
+  }
+
+  /**
+   * RoadmapMilestone delete
+   */
+  export type RoadmapMilestoneDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    /**
+     * Filter which RoadmapMilestone to delete.
+     */
+    where: RoadmapMilestoneWhereUniqueInput
+  }
+
+  /**
+   * RoadmapMilestone deleteMany
+   */
+  export type RoadmapMilestoneDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoadmapMilestones to delete
+     */
+    where?: RoadmapMilestoneWhereInput
+  }
+
+  /**
+   * RoadmapMilestone.assignee
+   */
+  export type RoadmapMilestone$assigneeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * RoadmapMilestone.logs
+   */
+  export type RoadmapMilestone$logsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    where?: RoadmapProgressLogWhereInput
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoadmapProgressLogScalarFieldEnum | RoadmapProgressLogScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapMilestone without action
+   */
+  export type RoadmapMilestoneDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoadmapProgressLog
+   */
+
+  export type AggregateRoadmapProgressLog = {
+    _count: RoadmapProgressLogCountAggregateOutputType | null
+    _min: RoadmapProgressLogMinAggregateOutputType | null
+    _max: RoadmapProgressLogMaxAggregateOutputType | null
+  }
+
+  export type RoadmapProgressLogMinAggregateOutputType = {
+    id: string | null
+    roadmap_id: string | null
+    milestone_id: string | null
+    user_id: string | null
+    action: string | null
+    details: string | null
+    timestamp: Date | null
+  }
+
+  export type RoadmapProgressLogMaxAggregateOutputType = {
+    id: string | null
+    roadmap_id: string | null
+    milestone_id: string | null
+    user_id: string | null
+    action: string | null
+    details: string | null
+    timestamp: Date | null
+  }
+
+  export type RoadmapProgressLogCountAggregateOutputType = {
+    id: number
+    roadmap_id: number
+    milestone_id: number
+    user_id: number
+    action: number
+    details: number
+    timestamp: number
+    _all: number
+  }
+
+
+  export type RoadmapProgressLogMinAggregateInputType = {
+    id?: true
+    roadmap_id?: true
+    milestone_id?: true
+    user_id?: true
+    action?: true
+    details?: true
+    timestamp?: true
+  }
+
+  export type RoadmapProgressLogMaxAggregateInputType = {
+    id?: true
+    roadmap_id?: true
+    milestone_id?: true
+    user_id?: true
+    action?: true
+    details?: true
+    timestamp?: true
+  }
+
+  export type RoadmapProgressLogCountAggregateInputType = {
+    id?: true
+    roadmap_id?: true
+    milestone_id?: true
+    user_id?: true
+    action?: true
+    details?: true
+    timestamp?: true
+    _all?: true
+  }
+
+  export type RoadmapProgressLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoadmapProgressLog to aggregate.
+     */
+    where?: RoadmapProgressLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapProgressLogs to fetch.
+     */
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapProgressLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapProgressLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoadmapProgressLogs
+    **/
+    _count?: true | RoadmapProgressLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoadmapProgressLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoadmapProgressLogMaxAggregateInputType
+  }
+
+  export type GetRoadmapProgressLogAggregateType<T extends RoadmapProgressLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoadmapProgressLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoadmapProgressLog[P]>
+      : GetScalarType<T[P], AggregateRoadmapProgressLog[P]>
+  }
+
+
+
+
+  export type RoadmapProgressLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoadmapProgressLogWhereInput
+    orderBy?: RoadmapProgressLogOrderByWithAggregationInput | RoadmapProgressLogOrderByWithAggregationInput[]
+    by: RoadmapProgressLogScalarFieldEnum[] | RoadmapProgressLogScalarFieldEnum
+    having?: RoadmapProgressLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoadmapProgressLogCountAggregateInputType | true
+    _min?: RoadmapProgressLogMinAggregateInputType
+    _max?: RoadmapProgressLogMaxAggregateInputType
+  }
+
+  export type RoadmapProgressLogGroupByOutputType = {
+    id: string
+    roadmap_id: string
+    milestone_id: string | null
+    user_id: string
+    action: string
+    details: string | null
+    timestamp: Date
+    _count: RoadmapProgressLogCountAggregateOutputType | null
+    _min: RoadmapProgressLogMinAggregateOutputType | null
+    _max: RoadmapProgressLogMaxAggregateOutputType | null
+  }
+
+  type GetRoadmapProgressLogGroupByPayload<T extends RoadmapProgressLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoadmapProgressLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoadmapProgressLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoadmapProgressLogGroupByOutputType[P]>
+            : GetScalarType<T[P], RoadmapProgressLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoadmapProgressLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roadmap_id?: boolean
+    milestone_id?: boolean
+    user_id?: boolean
+    action?: boolean
+    details?: boolean
+    timestamp?: boolean
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    milestone?: boolean | RoadmapProgressLog$milestoneArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roadmapProgressLog"]>
+
+  export type RoadmapProgressLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roadmap_id?: boolean
+    milestone_id?: boolean
+    user_id?: boolean
+    action?: boolean
+    details?: boolean
+    timestamp?: boolean
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    milestone?: boolean | RoadmapProgressLog$milestoneArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roadmapProgressLog"]>
+
+  export type RoadmapProgressLogSelectScalar = {
+    id?: boolean
+    roadmap_id?: boolean
+    milestone_id?: boolean
+    user_id?: boolean
+    action?: boolean
+    details?: boolean
+    timestamp?: boolean
+  }
+
+  export type RoadmapProgressLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    milestone?: boolean | RoadmapProgressLog$milestoneArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RoadmapProgressLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    roadmap?: boolean | ProjectRoadmapDefaultArgs<ExtArgs>
+    milestone?: boolean | RoadmapProgressLog$milestoneArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RoadmapProgressLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoadmapProgressLog"
+    objects: {
+      roadmap: Prisma.$ProjectRoadmapPayload<ExtArgs>
+      milestone: Prisma.$RoadmapMilestonePayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roadmap_id: string
+      milestone_id: string | null
+      user_id: string
+      action: string
+      details: string | null
+      timestamp: Date
+    }, ExtArgs["result"]["roadmapProgressLog"]>
+    composites: {}
+  }
+
+  type RoadmapProgressLogGetPayload<S extends boolean | null | undefined | RoadmapProgressLogDefaultArgs> = $Result.GetResult<Prisma.$RoadmapProgressLogPayload, S>
+
+  type RoadmapProgressLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RoadmapProgressLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RoadmapProgressLogCountAggregateInputType | true
+    }
+
+  export interface RoadmapProgressLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoadmapProgressLog'], meta: { name: 'RoadmapProgressLog' } }
+    /**
+     * Find zero or one RoadmapProgressLog that matches the filter.
+     * @param {RoadmapProgressLogFindUniqueArgs} args - Arguments to find a RoadmapProgressLog
+     * @example
+     * // Get one RoadmapProgressLog
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoadmapProgressLogFindUniqueArgs>(args: SelectSubset<T, RoadmapProgressLogFindUniqueArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RoadmapProgressLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RoadmapProgressLogFindUniqueOrThrowArgs} args - Arguments to find a RoadmapProgressLog
+     * @example
+     * // Get one RoadmapProgressLog
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoadmapProgressLogFindUniqueOrThrowArgs>(args: SelectSubset<T, RoadmapProgressLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RoadmapProgressLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogFindFirstArgs} args - Arguments to find a RoadmapProgressLog
+     * @example
+     * // Get one RoadmapProgressLog
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoadmapProgressLogFindFirstArgs>(args?: SelectSubset<T, RoadmapProgressLogFindFirstArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RoadmapProgressLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogFindFirstOrThrowArgs} args - Arguments to find a RoadmapProgressLog
+     * @example
+     * // Get one RoadmapProgressLog
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoadmapProgressLogFindFirstOrThrowArgs>(args?: SelectSubset<T, RoadmapProgressLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RoadmapProgressLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoadmapProgressLogs
+     * const roadmapProgressLogs = await prisma.roadmapProgressLog.findMany()
+     * 
+     * // Get first 10 RoadmapProgressLogs
+     * const roadmapProgressLogs = await prisma.roadmapProgressLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roadmapProgressLogWithIdOnly = await prisma.roadmapProgressLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoadmapProgressLogFindManyArgs>(args?: SelectSubset<T, RoadmapProgressLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RoadmapProgressLog.
+     * @param {RoadmapProgressLogCreateArgs} args - Arguments to create a RoadmapProgressLog.
+     * @example
+     * // Create one RoadmapProgressLog
+     * const RoadmapProgressLog = await prisma.roadmapProgressLog.create({
+     *   data: {
+     *     // ... data to create a RoadmapProgressLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoadmapProgressLogCreateArgs>(args: SelectSubset<T, RoadmapProgressLogCreateArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RoadmapProgressLogs.
+     * @param {RoadmapProgressLogCreateManyArgs} args - Arguments to create many RoadmapProgressLogs.
+     * @example
+     * // Create many RoadmapProgressLogs
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoadmapProgressLogCreateManyArgs>(args?: SelectSubset<T, RoadmapProgressLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RoadmapProgressLogs and returns the data saved in the database.
+     * @param {RoadmapProgressLogCreateManyAndReturnArgs} args - Arguments to create many RoadmapProgressLogs.
+     * @example
+     * // Create many RoadmapProgressLogs
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RoadmapProgressLogs and only return the `id`
+     * const roadmapProgressLogWithIdOnly = await prisma.roadmapProgressLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoadmapProgressLogCreateManyAndReturnArgs>(args?: SelectSubset<T, RoadmapProgressLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RoadmapProgressLog.
+     * @param {RoadmapProgressLogDeleteArgs} args - Arguments to delete one RoadmapProgressLog.
+     * @example
+     * // Delete one RoadmapProgressLog
+     * const RoadmapProgressLog = await prisma.roadmapProgressLog.delete({
+     *   where: {
+     *     // ... filter to delete one RoadmapProgressLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoadmapProgressLogDeleteArgs>(args: SelectSubset<T, RoadmapProgressLogDeleteArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RoadmapProgressLog.
+     * @param {RoadmapProgressLogUpdateArgs} args - Arguments to update one RoadmapProgressLog.
+     * @example
+     * // Update one RoadmapProgressLog
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoadmapProgressLogUpdateArgs>(args: SelectSubset<T, RoadmapProgressLogUpdateArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RoadmapProgressLogs.
+     * @param {RoadmapProgressLogDeleteManyArgs} args - Arguments to filter RoadmapProgressLogs to delete.
+     * @example
+     * // Delete a few RoadmapProgressLogs
+     * const { count } = await prisma.roadmapProgressLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoadmapProgressLogDeleteManyArgs>(args?: SelectSubset<T, RoadmapProgressLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoadmapProgressLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoadmapProgressLogs
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoadmapProgressLogUpdateManyArgs>(args: SelectSubset<T, RoadmapProgressLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RoadmapProgressLog.
+     * @param {RoadmapProgressLogUpsertArgs} args - Arguments to update or create a RoadmapProgressLog.
+     * @example
+     * // Update or create a RoadmapProgressLog
+     * const roadmapProgressLog = await prisma.roadmapProgressLog.upsert({
+     *   create: {
+     *     // ... data to create a RoadmapProgressLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoadmapProgressLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoadmapProgressLogUpsertArgs>(args: SelectSubset<T, RoadmapProgressLogUpsertArgs<ExtArgs>>): Prisma__RoadmapProgressLogClient<$Result.GetResult<Prisma.$RoadmapProgressLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RoadmapProgressLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogCountArgs} args - Arguments to filter RoadmapProgressLogs to count.
+     * @example
+     * // Count the number of RoadmapProgressLogs
+     * const count = await prisma.roadmapProgressLog.count({
+     *   where: {
+     *     // ... the filter for the RoadmapProgressLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoadmapProgressLogCountArgs>(
+      args?: Subset<T, RoadmapProgressLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoadmapProgressLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoadmapProgressLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoadmapProgressLogAggregateArgs>(args: Subset<T, RoadmapProgressLogAggregateArgs>): Prisma.PrismaPromise<GetRoadmapProgressLogAggregateType<T>>
+
+    /**
+     * Group by RoadmapProgressLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoadmapProgressLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoadmapProgressLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoadmapProgressLogGroupByArgs['orderBy'] }
+        : { orderBy?: RoadmapProgressLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoadmapProgressLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoadmapProgressLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoadmapProgressLog model
+   */
+  readonly fields: RoadmapProgressLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoadmapProgressLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoadmapProgressLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    roadmap<T extends ProjectRoadmapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectRoadmapDefaultArgs<ExtArgs>>): Prisma__ProjectRoadmapClient<$Result.GetResult<Prisma.$ProjectRoadmapPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    milestone<T extends RoadmapProgressLog$milestoneArgs<ExtArgs> = {}>(args?: Subset<T, RoadmapProgressLog$milestoneArgs<ExtArgs>>): Prisma__RoadmapMilestoneClient<$Result.GetResult<Prisma.$RoadmapMilestonePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoadmapProgressLog model
+   */ 
+  interface RoadmapProgressLogFieldRefs {
+    readonly id: FieldRef<"RoadmapProgressLog", 'String'>
+    readonly roadmap_id: FieldRef<"RoadmapProgressLog", 'String'>
+    readonly milestone_id: FieldRef<"RoadmapProgressLog", 'String'>
+    readonly user_id: FieldRef<"RoadmapProgressLog", 'String'>
+    readonly action: FieldRef<"RoadmapProgressLog", 'String'>
+    readonly details: FieldRef<"RoadmapProgressLog", 'String'>
+    readonly timestamp: FieldRef<"RoadmapProgressLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoadmapProgressLog findUnique
+   */
+  export type RoadmapProgressLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapProgressLog to fetch.
+     */
+    where: RoadmapProgressLogWhereUniqueInput
+  }
+
+  /**
+   * RoadmapProgressLog findUniqueOrThrow
+   */
+  export type RoadmapProgressLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapProgressLog to fetch.
+     */
+    where: RoadmapProgressLogWhereUniqueInput
+  }
+
+  /**
+   * RoadmapProgressLog findFirst
+   */
+  export type RoadmapProgressLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapProgressLog to fetch.
+     */
+    where?: RoadmapProgressLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapProgressLogs to fetch.
+     */
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoadmapProgressLogs.
+     */
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapProgressLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapProgressLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoadmapProgressLogs.
+     */
+    distinct?: RoadmapProgressLogScalarFieldEnum | RoadmapProgressLogScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapProgressLog findFirstOrThrow
+   */
+  export type RoadmapProgressLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapProgressLog to fetch.
+     */
+    where?: RoadmapProgressLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapProgressLogs to fetch.
+     */
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoadmapProgressLogs.
+     */
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapProgressLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapProgressLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoadmapProgressLogs.
+     */
+    distinct?: RoadmapProgressLogScalarFieldEnum | RoadmapProgressLogScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapProgressLog findMany
+   */
+  export type RoadmapProgressLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * Filter, which RoadmapProgressLogs to fetch.
+     */
+    where?: RoadmapProgressLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoadmapProgressLogs to fetch.
+     */
+    orderBy?: RoadmapProgressLogOrderByWithRelationInput | RoadmapProgressLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoadmapProgressLogs.
+     */
+    cursor?: RoadmapProgressLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoadmapProgressLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoadmapProgressLogs.
+     */
+    skip?: number
+    distinct?: RoadmapProgressLogScalarFieldEnum | RoadmapProgressLogScalarFieldEnum[]
+  }
+
+  /**
+   * RoadmapProgressLog create
+   */
+  export type RoadmapProgressLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoadmapProgressLog.
+     */
+    data: XOR<RoadmapProgressLogCreateInput, RoadmapProgressLogUncheckedCreateInput>
+  }
+
+  /**
+   * RoadmapProgressLog createMany
+   */
+  export type RoadmapProgressLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoadmapProgressLogs.
+     */
+    data: RoadmapProgressLogCreateManyInput | RoadmapProgressLogCreateManyInput[]
+  }
+
+  /**
+   * RoadmapProgressLog createManyAndReturn
+   */
+  export type RoadmapProgressLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RoadmapProgressLogs.
+     */
+    data: RoadmapProgressLogCreateManyInput | RoadmapProgressLogCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoadmapProgressLog update
+   */
+  export type RoadmapProgressLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoadmapProgressLog.
+     */
+    data: XOR<RoadmapProgressLogUpdateInput, RoadmapProgressLogUncheckedUpdateInput>
+    /**
+     * Choose, which RoadmapProgressLog to update.
+     */
+    where: RoadmapProgressLogWhereUniqueInput
+  }
+
+  /**
+   * RoadmapProgressLog updateMany
+   */
+  export type RoadmapProgressLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoadmapProgressLogs.
+     */
+    data: XOR<RoadmapProgressLogUpdateManyMutationInput, RoadmapProgressLogUncheckedUpdateManyInput>
+    /**
+     * Filter which RoadmapProgressLogs to update
+     */
+    where?: RoadmapProgressLogWhereInput
+  }
+
+  /**
+   * RoadmapProgressLog upsert
+   */
+  export type RoadmapProgressLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoadmapProgressLog to update in case it exists.
+     */
+    where: RoadmapProgressLogWhereUniqueInput
+    /**
+     * In case the RoadmapProgressLog found by the `where` argument doesn't exist, create a new RoadmapProgressLog with this data.
+     */
+    create: XOR<RoadmapProgressLogCreateInput, RoadmapProgressLogUncheckedCreateInput>
+    /**
+     * In case the RoadmapProgressLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoadmapProgressLogUpdateInput, RoadmapProgressLogUncheckedUpdateInput>
+  }
+
+  /**
+   * RoadmapProgressLog delete
+   */
+  export type RoadmapProgressLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+    /**
+     * Filter which RoadmapProgressLog to delete.
+     */
+    where: RoadmapProgressLogWhereUniqueInput
+  }
+
+  /**
+   * RoadmapProgressLog deleteMany
+   */
+  export type RoadmapProgressLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoadmapProgressLogs to delete
+     */
+    where?: RoadmapProgressLogWhereInput
+  }
+
+  /**
+   * RoadmapProgressLog.milestone
+   */
+  export type RoadmapProgressLog$milestoneArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapMilestone
+     */
+    select?: RoadmapMilestoneSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapMilestoneInclude<ExtArgs> | null
+    where?: RoadmapMilestoneWhereInput
+  }
+
+  /**
+   * RoadmapProgressLog without action
+   */
+  export type RoadmapProgressLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoadmapProgressLog
+     */
+    select?: RoadmapProgressLogSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoadmapProgressLogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13842,6 +19696,83 @@ export namespace Prisma {
   export type CombinedWeeklyReportScalarFieldEnum = (typeof CombinedWeeklyReportScalarFieldEnum)[keyof typeof CombinedWeeklyReportScalarFieldEnum]
 
 
+  export const ManualCategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    order: 'order',
+    icon: 'icon',
+    access_role: 'access_role',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ManualCategoryScalarFieldEnum = (typeof ManualCategoryScalarFieldEnum)[keyof typeof ManualCategoryScalarFieldEnum]
+
+
+  export const ManualBookScalarFieldEnum: {
+    id: 'id',
+    category_id: 'category_id',
+    title: 'title',
+    content: 'content',
+    order: 'order',
+    access_role: 'access_role',
+    created_by: 'created_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ManualBookScalarFieldEnum = (typeof ManualBookScalarFieldEnum)[keyof typeof ManualBookScalarFieldEnum]
+
+
+  export const ProjectRoadmapScalarFieldEnum: {
+    id: 'id',
+    project_id: 'project_id',
+    roadmap_title: 'roadmap_title',
+    description: 'description',
+    start_date: 'start_date',
+    deadline: 'deadline',
+    progress_percentage: 'progress_percentage',
+    status: 'status',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ProjectRoadmapScalarFieldEnum = (typeof ProjectRoadmapScalarFieldEnum)[keyof typeof ProjectRoadmapScalarFieldEnum]
+
+
+  export const RoadmapMilestoneScalarFieldEnum: {
+    id: 'id',
+    roadmap_id: 'roadmap_id',
+    assigned_to: 'assigned_to',
+    title: 'title',
+    description: 'description',
+    start_date: 'start_date',
+    deadline: 'deadline',
+    progress_percentage: 'progress_percentage',
+    status: 'status',
+    activity_note: 'activity_note',
+    order: 'order',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type RoadmapMilestoneScalarFieldEnum = (typeof RoadmapMilestoneScalarFieldEnum)[keyof typeof RoadmapMilestoneScalarFieldEnum]
+
+
+  export const RoadmapProgressLogScalarFieldEnum: {
+    id: 'id',
+    roadmap_id: 'roadmap_id',
+    milestone_id: 'milestone_id',
+    user_id: 'user_id',
+    action: 'action',
+    details: 'details',
+    timestamp: 'timestamp'
+  };
+
+  export type RoadmapProgressLogScalarFieldEnum = (typeof RoadmapProgressLogScalarFieldEnum)[keyof typeof RoadmapProgressLogScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -13912,6 +19843,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberListRelationFilter
     projectDiaries?: ProjectDiaryListRelationFilter
     weeklyReports?: WeeklyReportListRelationFilter
+    roadmapLogs?: RoadmapProgressLogListRelationFilter
+    assignedMilestones?: RoadmapMilestoneListRelationFilter
+    manualBooks?: ManualBookListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13929,6 +19863,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberOrderByRelationAggregateInput
     projectDiaries?: ProjectDiaryOrderByRelationAggregateInput
     weeklyReports?: WeeklyReportOrderByRelationAggregateInput
+    roadmapLogs?: RoadmapProgressLogOrderByRelationAggregateInput
+    assignedMilestones?: RoadmapMilestoneOrderByRelationAggregateInput
+    manualBooks?: ManualBookOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13949,6 +19886,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberListRelationFilter
     projectDiaries?: ProjectDiaryListRelationFilter
     weeklyReports?: WeeklyReportListRelationFilter
+    roadmapLogs?: RoadmapProgressLogListRelationFilter
+    assignedMilestones?: RoadmapMilestoneListRelationFilter
+    manualBooks?: ManualBookListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14359,6 +20299,7 @@ export namespace Prisma {
     members?: ProjectMemberListRelationFilter
     diaries?: ProjectDiaryListRelationFilter
     weeklyReports?: WeeklyReportListRelationFilter
+    roadmap?: XOR<ProjectRoadmapNullableRelationFilter, ProjectRoadmapWhereInput> | null
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -14374,6 +20315,7 @@ export namespace Prisma {
     members?: ProjectMemberOrderByRelationAggregateInput
     diaries?: ProjectDiaryOrderByRelationAggregateInput
     weeklyReports?: WeeklyReportOrderByRelationAggregateInput
+    roadmap?: ProjectRoadmapOrderByWithRelationInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -14392,6 +20334,7 @@ export namespace Prisma {
     members?: ProjectMemberListRelationFilter
     diaries?: ProjectDiaryListRelationFilter
     weeklyReports?: WeeklyReportListRelationFilter
+    roadmap?: XOR<ProjectRoadmapNullableRelationFilter, ProjectRoadmapWhereInput> | null
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -14700,6 +20643,420 @@ export namespace Prisma {
     total_activities?: IntWithAggregatesFilter<"CombinedWeeklyReport"> | number
   }
 
+  export type ManualCategoryWhereInput = {
+    AND?: ManualCategoryWhereInput | ManualCategoryWhereInput[]
+    OR?: ManualCategoryWhereInput[]
+    NOT?: ManualCategoryWhereInput | ManualCategoryWhereInput[]
+    id?: StringFilter<"ManualCategory"> | string
+    name?: StringFilter<"ManualCategory"> | string
+    description?: StringNullableFilter<"ManualCategory"> | string | null
+    order?: IntFilter<"ManualCategory"> | number
+    icon?: StringFilter<"ManualCategory"> | string
+    access_role?: StringFilter<"ManualCategory"> | string
+    created_at?: DateTimeFilter<"ManualCategory"> | Date | string
+    updated_at?: DateTimeFilter<"ManualCategory"> | Date | string
+    manuals?: ManualBookListRelationFilter
+  }
+
+  export type ManualCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    icon?: SortOrder
+    access_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    manuals?: ManualBookOrderByRelationAggregateInput
+  }
+
+  export type ManualCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: ManualCategoryWhereInput | ManualCategoryWhereInput[]
+    OR?: ManualCategoryWhereInput[]
+    NOT?: ManualCategoryWhereInput | ManualCategoryWhereInput[]
+    description?: StringNullableFilter<"ManualCategory"> | string | null
+    order?: IntFilter<"ManualCategory"> | number
+    icon?: StringFilter<"ManualCategory"> | string
+    access_role?: StringFilter<"ManualCategory"> | string
+    created_at?: DateTimeFilter<"ManualCategory"> | Date | string
+    updated_at?: DateTimeFilter<"ManualCategory"> | Date | string
+    manuals?: ManualBookListRelationFilter
+  }, "id" | "name">
+
+  export type ManualCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    order?: SortOrder
+    icon?: SortOrder
+    access_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ManualCategoryCountOrderByAggregateInput
+    _avg?: ManualCategoryAvgOrderByAggregateInput
+    _max?: ManualCategoryMaxOrderByAggregateInput
+    _min?: ManualCategoryMinOrderByAggregateInput
+    _sum?: ManualCategorySumOrderByAggregateInput
+  }
+
+  export type ManualCategoryScalarWhereWithAggregatesInput = {
+    AND?: ManualCategoryScalarWhereWithAggregatesInput | ManualCategoryScalarWhereWithAggregatesInput[]
+    OR?: ManualCategoryScalarWhereWithAggregatesInput[]
+    NOT?: ManualCategoryScalarWhereWithAggregatesInput | ManualCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ManualCategory"> | string
+    name?: StringWithAggregatesFilter<"ManualCategory"> | string
+    description?: StringNullableWithAggregatesFilter<"ManualCategory"> | string | null
+    order?: IntWithAggregatesFilter<"ManualCategory"> | number
+    icon?: StringWithAggregatesFilter<"ManualCategory"> | string
+    access_role?: StringWithAggregatesFilter<"ManualCategory"> | string
+    created_at?: DateTimeWithAggregatesFilter<"ManualCategory"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"ManualCategory"> | Date | string
+  }
+
+  export type ManualBookWhereInput = {
+    AND?: ManualBookWhereInput | ManualBookWhereInput[]
+    OR?: ManualBookWhereInput[]
+    NOT?: ManualBookWhereInput | ManualBookWhereInput[]
+    id?: StringFilter<"ManualBook"> | string
+    category_id?: StringFilter<"ManualBook"> | string
+    title?: StringFilter<"ManualBook"> | string
+    content?: StringFilter<"ManualBook"> | string
+    order?: IntFilter<"ManualBook"> | number
+    access_role?: StringFilter<"ManualBook"> | string
+    created_by?: StringFilter<"ManualBook"> | string
+    created_at?: DateTimeFilter<"ManualBook"> | Date | string
+    updated_at?: DateTimeFilter<"ManualBook"> | Date | string
+    category?: XOR<ManualCategoryRelationFilter, ManualCategoryWhereInput>
+    creator?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type ManualBookOrderByWithRelationInput = {
+    id?: SortOrder
+    category_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    access_role?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    category?: ManualCategoryOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
+  }
+
+  export type ManualBookWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ManualBookWhereInput | ManualBookWhereInput[]
+    OR?: ManualBookWhereInput[]
+    NOT?: ManualBookWhereInput | ManualBookWhereInput[]
+    category_id?: StringFilter<"ManualBook"> | string
+    title?: StringFilter<"ManualBook"> | string
+    content?: StringFilter<"ManualBook"> | string
+    order?: IntFilter<"ManualBook"> | number
+    access_role?: StringFilter<"ManualBook"> | string
+    created_by?: StringFilter<"ManualBook"> | string
+    created_at?: DateTimeFilter<"ManualBook"> | Date | string
+    updated_at?: DateTimeFilter<"ManualBook"> | Date | string
+    category?: XOR<ManualCategoryRelationFilter, ManualCategoryWhereInput>
+    creator?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type ManualBookOrderByWithAggregationInput = {
+    id?: SortOrder
+    category_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    access_role?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ManualBookCountOrderByAggregateInput
+    _avg?: ManualBookAvgOrderByAggregateInput
+    _max?: ManualBookMaxOrderByAggregateInput
+    _min?: ManualBookMinOrderByAggregateInput
+    _sum?: ManualBookSumOrderByAggregateInput
+  }
+
+  export type ManualBookScalarWhereWithAggregatesInput = {
+    AND?: ManualBookScalarWhereWithAggregatesInput | ManualBookScalarWhereWithAggregatesInput[]
+    OR?: ManualBookScalarWhereWithAggregatesInput[]
+    NOT?: ManualBookScalarWhereWithAggregatesInput | ManualBookScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ManualBook"> | string
+    category_id?: StringWithAggregatesFilter<"ManualBook"> | string
+    title?: StringWithAggregatesFilter<"ManualBook"> | string
+    content?: StringWithAggregatesFilter<"ManualBook"> | string
+    order?: IntWithAggregatesFilter<"ManualBook"> | number
+    access_role?: StringWithAggregatesFilter<"ManualBook"> | string
+    created_by?: StringWithAggregatesFilter<"ManualBook"> | string
+    created_at?: DateTimeWithAggregatesFilter<"ManualBook"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"ManualBook"> | Date | string
+  }
+
+  export type ProjectRoadmapWhereInput = {
+    AND?: ProjectRoadmapWhereInput | ProjectRoadmapWhereInput[]
+    OR?: ProjectRoadmapWhereInput[]
+    NOT?: ProjectRoadmapWhereInput | ProjectRoadmapWhereInput[]
+    id?: StringFilter<"ProjectRoadmap"> | string
+    project_id?: StringFilter<"ProjectRoadmap"> | string
+    roadmap_title?: StringFilter<"ProjectRoadmap"> | string
+    description?: StringNullableFilter<"ProjectRoadmap"> | string | null
+    start_date?: StringFilter<"ProjectRoadmap"> | string
+    deadline?: StringFilter<"ProjectRoadmap"> | string
+    progress_percentage?: IntFilter<"ProjectRoadmap"> | number
+    status?: StringFilter<"ProjectRoadmap"> | string
+    created_at?: DateTimeFilter<"ProjectRoadmap"> | Date | string
+    updated_at?: DateTimeFilter<"ProjectRoadmap"> | Date | string
+    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    milestones?: RoadmapMilestoneListRelationFilter
+    logs?: RoadmapProgressLogListRelationFilter
+  }
+
+  export type ProjectRoadmapOrderByWithRelationInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    roadmap_title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    project?: ProjectOrderByWithRelationInput
+    milestones?: RoadmapMilestoneOrderByRelationAggregateInput
+    logs?: RoadmapProgressLogOrderByRelationAggregateInput
+  }
+
+  export type ProjectRoadmapWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    project_id?: string
+    AND?: ProjectRoadmapWhereInput | ProjectRoadmapWhereInput[]
+    OR?: ProjectRoadmapWhereInput[]
+    NOT?: ProjectRoadmapWhereInput | ProjectRoadmapWhereInput[]
+    roadmap_title?: StringFilter<"ProjectRoadmap"> | string
+    description?: StringNullableFilter<"ProjectRoadmap"> | string | null
+    start_date?: StringFilter<"ProjectRoadmap"> | string
+    deadline?: StringFilter<"ProjectRoadmap"> | string
+    progress_percentage?: IntFilter<"ProjectRoadmap"> | number
+    status?: StringFilter<"ProjectRoadmap"> | string
+    created_at?: DateTimeFilter<"ProjectRoadmap"> | Date | string
+    updated_at?: DateTimeFilter<"ProjectRoadmap"> | Date | string
+    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    milestones?: RoadmapMilestoneListRelationFilter
+    logs?: RoadmapProgressLogListRelationFilter
+  }, "id" | "project_id">
+
+  export type ProjectRoadmapOrderByWithAggregationInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    roadmap_title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ProjectRoadmapCountOrderByAggregateInput
+    _avg?: ProjectRoadmapAvgOrderByAggregateInput
+    _max?: ProjectRoadmapMaxOrderByAggregateInput
+    _min?: ProjectRoadmapMinOrderByAggregateInput
+    _sum?: ProjectRoadmapSumOrderByAggregateInput
+  }
+
+  export type ProjectRoadmapScalarWhereWithAggregatesInput = {
+    AND?: ProjectRoadmapScalarWhereWithAggregatesInput | ProjectRoadmapScalarWhereWithAggregatesInput[]
+    OR?: ProjectRoadmapScalarWhereWithAggregatesInput[]
+    NOT?: ProjectRoadmapScalarWhereWithAggregatesInput | ProjectRoadmapScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectRoadmap"> | string
+    project_id?: StringWithAggregatesFilter<"ProjectRoadmap"> | string
+    roadmap_title?: StringWithAggregatesFilter<"ProjectRoadmap"> | string
+    description?: StringNullableWithAggregatesFilter<"ProjectRoadmap"> | string | null
+    start_date?: StringWithAggregatesFilter<"ProjectRoadmap"> | string
+    deadline?: StringWithAggregatesFilter<"ProjectRoadmap"> | string
+    progress_percentage?: IntWithAggregatesFilter<"ProjectRoadmap"> | number
+    status?: StringWithAggregatesFilter<"ProjectRoadmap"> | string
+    created_at?: DateTimeWithAggregatesFilter<"ProjectRoadmap"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"ProjectRoadmap"> | Date | string
+  }
+
+  export type RoadmapMilestoneWhereInput = {
+    AND?: RoadmapMilestoneWhereInput | RoadmapMilestoneWhereInput[]
+    OR?: RoadmapMilestoneWhereInput[]
+    NOT?: RoadmapMilestoneWhereInput | RoadmapMilestoneWhereInput[]
+    id?: StringFilter<"RoadmapMilestone"> | string
+    roadmap_id?: StringFilter<"RoadmapMilestone"> | string
+    assigned_to?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    title?: StringFilter<"RoadmapMilestone"> | string
+    description?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    start_date?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    deadline?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    progress_percentage?: IntFilter<"RoadmapMilestone"> | number
+    status?: StringFilter<"RoadmapMilestone"> | string
+    activity_note?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    order?: IntFilter<"RoadmapMilestone"> | number
+    created_at?: DateTimeFilter<"RoadmapMilestone"> | Date | string
+    updated_at?: DateTimeFilter<"RoadmapMilestone"> | Date | string
+    roadmap?: XOR<ProjectRoadmapRelationFilter, ProjectRoadmapWhereInput>
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    logs?: RoadmapProgressLogListRelationFilter
+  }
+
+  export type RoadmapMilestoneOrderByWithRelationInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    assigned_to?: SortOrderInput | SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    start_date?: SortOrderInput | SortOrder
+    deadline?: SortOrderInput | SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    activity_note?: SortOrderInput | SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    roadmap?: ProjectRoadmapOrderByWithRelationInput
+    assignee?: UserOrderByWithRelationInput
+    logs?: RoadmapProgressLogOrderByRelationAggregateInput
+  }
+
+  export type RoadmapMilestoneWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RoadmapMilestoneWhereInput | RoadmapMilestoneWhereInput[]
+    OR?: RoadmapMilestoneWhereInput[]
+    NOT?: RoadmapMilestoneWhereInput | RoadmapMilestoneWhereInput[]
+    roadmap_id?: StringFilter<"RoadmapMilestone"> | string
+    assigned_to?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    title?: StringFilter<"RoadmapMilestone"> | string
+    description?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    start_date?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    deadline?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    progress_percentage?: IntFilter<"RoadmapMilestone"> | number
+    status?: StringFilter<"RoadmapMilestone"> | string
+    activity_note?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    order?: IntFilter<"RoadmapMilestone"> | number
+    created_at?: DateTimeFilter<"RoadmapMilestone"> | Date | string
+    updated_at?: DateTimeFilter<"RoadmapMilestone"> | Date | string
+    roadmap?: XOR<ProjectRoadmapRelationFilter, ProjectRoadmapWhereInput>
+    assignee?: XOR<UserNullableRelationFilter, UserWhereInput> | null
+    logs?: RoadmapProgressLogListRelationFilter
+  }, "id">
+
+  export type RoadmapMilestoneOrderByWithAggregationInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    assigned_to?: SortOrderInput | SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    start_date?: SortOrderInput | SortOrder
+    deadline?: SortOrderInput | SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    activity_note?: SortOrderInput | SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: RoadmapMilestoneCountOrderByAggregateInput
+    _avg?: RoadmapMilestoneAvgOrderByAggregateInput
+    _max?: RoadmapMilestoneMaxOrderByAggregateInput
+    _min?: RoadmapMilestoneMinOrderByAggregateInput
+    _sum?: RoadmapMilestoneSumOrderByAggregateInput
+  }
+
+  export type RoadmapMilestoneScalarWhereWithAggregatesInput = {
+    AND?: RoadmapMilestoneScalarWhereWithAggregatesInput | RoadmapMilestoneScalarWhereWithAggregatesInput[]
+    OR?: RoadmapMilestoneScalarWhereWithAggregatesInput[]
+    NOT?: RoadmapMilestoneScalarWhereWithAggregatesInput | RoadmapMilestoneScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RoadmapMilestone"> | string
+    roadmap_id?: StringWithAggregatesFilter<"RoadmapMilestone"> | string
+    assigned_to?: StringNullableWithAggregatesFilter<"RoadmapMilestone"> | string | null
+    title?: StringWithAggregatesFilter<"RoadmapMilestone"> | string
+    description?: StringNullableWithAggregatesFilter<"RoadmapMilestone"> | string | null
+    start_date?: StringNullableWithAggregatesFilter<"RoadmapMilestone"> | string | null
+    deadline?: StringNullableWithAggregatesFilter<"RoadmapMilestone"> | string | null
+    progress_percentage?: IntWithAggregatesFilter<"RoadmapMilestone"> | number
+    status?: StringWithAggregatesFilter<"RoadmapMilestone"> | string
+    activity_note?: StringNullableWithAggregatesFilter<"RoadmapMilestone"> | string | null
+    order?: IntWithAggregatesFilter<"RoadmapMilestone"> | number
+    created_at?: DateTimeWithAggregatesFilter<"RoadmapMilestone"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"RoadmapMilestone"> | Date | string
+  }
+
+  export type RoadmapProgressLogWhereInput = {
+    AND?: RoadmapProgressLogWhereInput | RoadmapProgressLogWhereInput[]
+    OR?: RoadmapProgressLogWhereInput[]
+    NOT?: RoadmapProgressLogWhereInput | RoadmapProgressLogWhereInput[]
+    id?: StringFilter<"RoadmapProgressLog"> | string
+    roadmap_id?: StringFilter<"RoadmapProgressLog"> | string
+    milestone_id?: StringNullableFilter<"RoadmapProgressLog"> | string | null
+    user_id?: StringFilter<"RoadmapProgressLog"> | string
+    action?: StringFilter<"RoadmapProgressLog"> | string
+    details?: StringNullableFilter<"RoadmapProgressLog"> | string | null
+    timestamp?: DateTimeFilter<"RoadmapProgressLog"> | Date | string
+    roadmap?: XOR<ProjectRoadmapRelationFilter, ProjectRoadmapWhereInput>
+    milestone?: XOR<RoadmapMilestoneNullableRelationFilter, RoadmapMilestoneWhereInput> | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type RoadmapProgressLogOrderByWithRelationInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    milestone_id?: SortOrderInput | SortOrder
+    user_id?: SortOrder
+    action?: SortOrder
+    details?: SortOrderInput | SortOrder
+    timestamp?: SortOrder
+    roadmap?: ProjectRoadmapOrderByWithRelationInput
+    milestone?: RoadmapMilestoneOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type RoadmapProgressLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RoadmapProgressLogWhereInput | RoadmapProgressLogWhereInput[]
+    OR?: RoadmapProgressLogWhereInput[]
+    NOT?: RoadmapProgressLogWhereInput | RoadmapProgressLogWhereInput[]
+    roadmap_id?: StringFilter<"RoadmapProgressLog"> | string
+    milestone_id?: StringNullableFilter<"RoadmapProgressLog"> | string | null
+    user_id?: StringFilter<"RoadmapProgressLog"> | string
+    action?: StringFilter<"RoadmapProgressLog"> | string
+    details?: StringNullableFilter<"RoadmapProgressLog"> | string | null
+    timestamp?: DateTimeFilter<"RoadmapProgressLog"> | Date | string
+    roadmap?: XOR<ProjectRoadmapRelationFilter, ProjectRoadmapWhereInput>
+    milestone?: XOR<RoadmapMilestoneNullableRelationFilter, RoadmapMilestoneWhereInput> | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RoadmapProgressLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    milestone_id?: SortOrderInput | SortOrder
+    user_id?: SortOrder
+    action?: SortOrder
+    details?: SortOrderInput | SortOrder
+    timestamp?: SortOrder
+    _count?: RoadmapProgressLogCountOrderByAggregateInput
+    _max?: RoadmapProgressLogMaxOrderByAggregateInput
+    _min?: RoadmapProgressLogMinOrderByAggregateInput
+  }
+
+  export type RoadmapProgressLogScalarWhereWithAggregatesInput = {
+    AND?: RoadmapProgressLogScalarWhereWithAggregatesInput | RoadmapProgressLogScalarWhereWithAggregatesInput[]
+    OR?: RoadmapProgressLogScalarWhereWithAggregatesInput[]
+    NOT?: RoadmapProgressLogScalarWhereWithAggregatesInput | RoadmapProgressLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RoadmapProgressLog"> | string
+    roadmap_id?: StringWithAggregatesFilter<"RoadmapProgressLog"> | string
+    milestone_id?: StringNullableWithAggregatesFilter<"RoadmapProgressLog"> | string | null
+    user_id?: StringWithAggregatesFilter<"RoadmapProgressLog"> | string
+    action?: StringWithAggregatesFilter<"RoadmapProgressLog"> | string
+    details?: StringNullableWithAggregatesFilter<"RoadmapProgressLog"> | string | null
+    timestamp?: DateTimeWithAggregatesFilter<"RoadmapProgressLog"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     username: string
@@ -14715,6 +21072,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14732,6 +21092,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUpdateInput = {
@@ -14749,6 +21112,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14766,6 +21132,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15191,6 +21560,7 @@ export namespace Prisma {
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -15206,6 +21576,7 @@ export namespace Prisma {
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -15221,6 +21592,7 @@ export namespace Prisma {
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -15236,6 +21608,7 @@ export namespace Prisma {
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -15555,6 +21928,448 @@ export namespace Prisma {
     total_activities?: IntFieldUpdateOperationsInput | number
   }
 
+  export type ManualCategoryCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    icon?: string
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    manuals?: ManualBookCreateNestedManyWithoutCategoryInput
+  }
+
+  export type ManualCategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    icon?: string
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    manuals?: ManualBookUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type ManualCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    icon?: StringFieldUpdateOperationsInput | string
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    manuals?: ManualBookUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type ManualCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    icon?: StringFieldUpdateOperationsInput | string
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    manuals?: ManualBookUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type ManualCategoryCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    icon?: string
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    icon?: StringFieldUpdateOperationsInput | string
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    icon?: StringFieldUpdateOperationsInput | string
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualBookCreateInput = {
+    id?: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    category: ManualCategoryCreateNestedOneWithoutManualsInput
+    creator: UserCreateNestedOneWithoutManualBooksInput
+  }
+
+  export type ManualBookUncheckedCreateInput = {
+    id?: string
+    category_id: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_by: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualBookUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: ManualCategoryUpdateOneRequiredWithoutManualsNestedInput
+    creator?: UserUpdateOneRequiredWithoutManualBooksNestedInput
+  }
+
+  export type ManualBookUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_by?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualBookCreateManyInput = {
+    id?: string
+    category_id: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_by: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualBookUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualBookUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_by?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectRoadmapCreateInput = {
+    id?: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    project: ProjectCreateNestedOneWithoutRoadmapInput
+    milestones?: RoadmapMilestoneCreateNestedManyWithoutRoadmapInput
+    logs?: RoadmapProgressLogCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapUncheckedCreateInput = {
+    id?: string
+    project_id: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    milestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutRoadmapInput
+    logs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutRoadmapNestedInput
+    milestones?: RoadmapMilestoneUpdateManyWithoutRoadmapNestedInput
+    logs?: RoadmapProgressLogUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type ProjectRoadmapUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    milestones?: RoadmapMilestoneUncheckedUpdateManyWithoutRoadmapNestedInput
+    logs?: RoadmapProgressLogUncheckedUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type ProjectRoadmapCreateManyInput = {
+    id?: string
+    project_id: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ProjectRoadmapUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProjectRoadmapUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapMilestoneCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    roadmap: ProjectRoadmapCreateNestedOneWithoutMilestonesInput
+    assignee?: UserCreateNestedOneWithoutAssignedMilestonesInput
+    logs?: RoadmapProgressLogCreateNestedManyWithoutMilestoneInput
+  }
+
+  export type RoadmapMilestoneUncheckedCreateInput = {
+    id?: string
+    roadmap_id: string
+    assigned_to?: string | null
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    logs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutMilestoneInput
+  }
+
+  export type RoadmapMilestoneUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    roadmap?: ProjectRoadmapUpdateOneRequiredWithoutMilestonesNestedInput
+    assignee?: UserUpdateOneWithoutAssignedMilestonesNestedInput
+    logs?: RoadmapProgressLogUpdateManyWithoutMilestoneNestedInput
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    assigned_to?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: RoadmapProgressLogUncheckedUpdateManyWithoutMilestoneNestedInput
+  }
+
+  export type RoadmapMilestoneCreateManyInput = {
+    id?: string
+    roadmap_id: string
+    assigned_to?: string | null
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RoadmapMilestoneUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    assigned_to?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogCreateInput = {
+    id?: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+    roadmap: ProjectRoadmapCreateNestedOneWithoutLogsInput
+    milestone?: RoadmapMilestoneCreateNestedOneWithoutLogsInput
+    user: UserCreateNestedOneWithoutRoadmapLogsInput
+  }
+
+  export type RoadmapProgressLogUncheckedCreateInput = {
+    id?: string
+    roadmap_id: string
+    milestone_id?: string | null
+    user_id: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapProgressLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    roadmap?: ProjectRoadmapUpdateOneRequiredWithoutLogsNestedInput
+    milestone?: RoadmapMilestoneUpdateOneWithoutLogsNestedInput
+    user?: UserUpdateOneRequiredWithoutRoadmapLogsNestedInput
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    milestone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogCreateManyInput = {
+    id?: string
+    roadmap_id: string
+    milestone_id?: string | null
+    user_id: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapProgressLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    milestone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -15628,6 +22443,24 @@ export namespace Prisma {
     none?: WeeklyReportWhereInput
   }
 
+  export type RoadmapProgressLogListRelationFilter = {
+    every?: RoadmapProgressLogWhereInput
+    some?: RoadmapProgressLogWhereInput
+    none?: RoadmapProgressLogWhereInput
+  }
+
+  export type RoadmapMilestoneListRelationFilter = {
+    every?: RoadmapMilestoneWhereInput
+    some?: RoadmapMilestoneWhereInput
+    none?: RoadmapMilestoneWhereInput
+  }
+
+  export type ManualBookListRelationFilter = {
+    every?: ManualBookWhereInput
+    some?: ManualBookWhereInput
+    none?: ManualBookWhereInput
+  }
+
   export type DiaryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15657,6 +22490,18 @@ export namespace Prisma {
   }
 
   export type WeeklyReportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoadmapProgressLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoadmapMilestoneOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ManualBookOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -15940,6 +22785,11 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type ProjectRoadmapNullableRelationFilter = {
+    is?: ProjectRoadmapWhereInput | null
+    isNot?: ProjectRoadmapWhereInput | null
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     project_name?: SortOrder
@@ -16175,6 +23025,246 @@ export namespace Prisma {
     total_activities?: SortOrder
   }
 
+  export type ManualCategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    icon?: SortOrder
+    access_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ManualCategoryAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ManualCategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    icon?: SortOrder
+    access_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ManualCategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    order?: SortOrder
+    icon?: SortOrder
+    access_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ManualCategorySumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ManualCategoryRelationFilter = {
+    is?: ManualCategoryWhereInput
+    isNot?: ManualCategoryWhereInput
+  }
+
+  export type ManualBookCountOrderByAggregateInput = {
+    id?: SortOrder
+    category_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    access_role?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ManualBookAvgOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ManualBookMaxOrderByAggregateInput = {
+    id?: SortOrder
+    category_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    access_role?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ManualBookMinOrderByAggregateInput = {
+    id?: SortOrder
+    category_id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    order?: SortOrder
+    access_role?: SortOrder
+    created_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ManualBookSumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type ProjectRoadmapCountOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    roadmap_title?: SortOrder
+    description?: SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ProjectRoadmapAvgOrderByAggregateInput = {
+    progress_percentage?: SortOrder
+  }
+
+  export type ProjectRoadmapMaxOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    roadmap_title?: SortOrder
+    description?: SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ProjectRoadmapMinOrderByAggregateInput = {
+    id?: SortOrder
+    project_id?: SortOrder
+    roadmap_title?: SortOrder
+    description?: SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ProjectRoadmapSumOrderByAggregateInput = {
+    progress_percentage?: SortOrder
+  }
+
+  export type ProjectRoadmapRelationFilter = {
+    is?: ProjectRoadmapWhereInput
+    isNot?: ProjectRoadmapWhereInput
+  }
+
+  export type UserNullableRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type RoadmapMilestoneCountOrderByAggregateInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    assigned_to?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    activity_note?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type RoadmapMilestoneAvgOrderByAggregateInput = {
+    progress_percentage?: SortOrder
+    order?: SortOrder
+  }
+
+  export type RoadmapMilestoneMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    assigned_to?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    activity_note?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type RoadmapMilestoneMinOrderByAggregateInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    assigned_to?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    start_date?: SortOrder
+    deadline?: SortOrder
+    progress_percentage?: SortOrder
+    status?: SortOrder
+    activity_note?: SortOrder
+    order?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type RoadmapMilestoneSumOrderByAggregateInput = {
+    progress_percentage?: SortOrder
+    order?: SortOrder
+  }
+
+  export type RoadmapMilestoneNullableRelationFilter = {
+    is?: RoadmapMilestoneWhereInput | null
+    isNot?: RoadmapMilestoneWhereInput | null
+  }
+
+  export type RoadmapProgressLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    milestone_id?: SortOrder
+    user_id?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type RoadmapProgressLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    milestone_id?: SortOrder
+    user_id?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    timestamp?: SortOrder
+  }
+
+  export type RoadmapProgressLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    roadmap_id?: SortOrder
+    milestone_id?: SortOrder
+    user_id?: SortOrder
+    action?: SortOrder
+    details?: SortOrder
+    timestamp?: SortOrder
+  }
+
   export type DiaryCreateNestedManyWithoutCreatorInput = {
     create?: XOR<DiaryCreateWithoutCreatorInput, DiaryUncheckedCreateWithoutCreatorInput> | DiaryCreateWithoutCreatorInput[] | DiaryUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: DiaryCreateOrConnectWithoutCreatorInput | DiaryCreateOrConnectWithoutCreatorInput[]
@@ -16231,6 +23321,27 @@ export namespace Prisma {
     connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
   }
 
+  export type RoadmapProgressLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutUserInput, RoadmapProgressLogUncheckedCreateWithoutUserInput> | RoadmapProgressLogCreateWithoutUserInput[] | RoadmapProgressLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutUserInput | RoadmapProgressLogCreateOrConnectWithoutUserInput[]
+    createMany?: RoadmapProgressLogCreateManyUserInputEnvelope
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+  }
+
+  export type RoadmapMilestoneCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutAssigneeInput, RoadmapMilestoneUncheckedCreateWithoutAssigneeInput> | RoadmapMilestoneCreateWithoutAssigneeInput[] | RoadmapMilestoneUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutAssigneeInput | RoadmapMilestoneCreateOrConnectWithoutAssigneeInput[]
+    createMany?: RoadmapMilestoneCreateManyAssigneeInputEnvelope
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+  }
+
+  export type ManualBookCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<ManualBookCreateWithoutCreatorInput, ManualBookUncheckedCreateWithoutCreatorInput> | ManualBookCreateWithoutCreatorInput[] | ManualBookUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCreatorInput | ManualBookCreateOrConnectWithoutCreatorInput[]
+    createMany?: ManualBookCreateManyCreatorInputEnvelope
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+  }
+
   export type DiaryUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<DiaryCreateWithoutCreatorInput, DiaryUncheckedCreateWithoutCreatorInput> | DiaryCreateWithoutCreatorInput[] | DiaryUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: DiaryCreateOrConnectWithoutCreatorInput | DiaryCreateOrConnectWithoutCreatorInput[]
@@ -16285,6 +23396,27 @@ export namespace Prisma {
     connectOrCreate?: WeeklyReportCreateOrConnectWithoutUserInput | WeeklyReportCreateOrConnectWithoutUserInput[]
     createMany?: WeeklyReportCreateManyUserInputEnvelope
     connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+  }
+
+  export type RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutUserInput, RoadmapProgressLogUncheckedCreateWithoutUserInput> | RoadmapProgressLogCreateWithoutUserInput[] | RoadmapProgressLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutUserInput | RoadmapProgressLogCreateOrConnectWithoutUserInput[]
+    createMany?: RoadmapProgressLogCreateManyUserInputEnvelope
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+  }
+
+  export type RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutAssigneeInput, RoadmapMilestoneUncheckedCreateWithoutAssigneeInput> | RoadmapMilestoneCreateWithoutAssigneeInput[] | RoadmapMilestoneUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutAssigneeInput | RoadmapMilestoneCreateOrConnectWithoutAssigneeInput[]
+    createMany?: RoadmapMilestoneCreateManyAssigneeInputEnvelope
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+  }
+
+  export type ManualBookUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<ManualBookCreateWithoutCreatorInput, ManualBookUncheckedCreateWithoutCreatorInput> | ManualBookCreateWithoutCreatorInput[] | ManualBookUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCreatorInput | ManualBookCreateOrConnectWithoutCreatorInput[]
+    createMany?: ManualBookCreateManyCreatorInputEnvelope
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16407,6 +23539,48 @@ export namespace Prisma {
     deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
   }
 
+  export type RoadmapProgressLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutUserInput, RoadmapProgressLogUncheckedCreateWithoutUserInput> | RoadmapProgressLogCreateWithoutUserInput[] | RoadmapProgressLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutUserInput | RoadmapProgressLogCreateOrConnectWithoutUserInput[]
+    upsert?: RoadmapProgressLogUpsertWithWhereUniqueWithoutUserInput | RoadmapProgressLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoadmapProgressLogCreateManyUserInputEnvelope
+    set?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    disconnect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    delete?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    update?: RoadmapProgressLogUpdateWithWhereUniqueWithoutUserInput | RoadmapProgressLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoadmapProgressLogUpdateManyWithWhereWithoutUserInput | RoadmapProgressLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+  }
+
+  export type RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutAssigneeInput, RoadmapMilestoneUncheckedCreateWithoutAssigneeInput> | RoadmapMilestoneCreateWithoutAssigneeInput[] | RoadmapMilestoneUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutAssigneeInput | RoadmapMilestoneCreateOrConnectWithoutAssigneeInput[]
+    upsert?: RoadmapMilestoneUpsertWithWhereUniqueWithoutAssigneeInput | RoadmapMilestoneUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: RoadmapMilestoneCreateManyAssigneeInputEnvelope
+    set?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    disconnect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    delete?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    update?: RoadmapMilestoneUpdateWithWhereUniqueWithoutAssigneeInput | RoadmapMilestoneUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: RoadmapMilestoneUpdateManyWithWhereWithoutAssigneeInput | RoadmapMilestoneUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: RoadmapMilestoneScalarWhereInput | RoadmapMilestoneScalarWhereInput[]
+  }
+
+  export type ManualBookUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<ManualBookCreateWithoutCreatorInput, ManualBookUncheckedCreateWithoutCreatorInput> | ManualBookCreateWithoutCreatorInput[] | ManualBookUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCreatorInput | ManualBookCreateOrConnectWithoutCreatorInput[]
+    upsert?: ManualBookUpsertWithWhereUniqueWithoutCreatorInput | ManualBookUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: ManualBookCreateManyCreatorInputEnvelope
+    set?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    disconnect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    delete?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    update?: ManualBookUpdateWithWhereUniqueWithoutCreatorInput | ManualBookUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: ManualBookUpdateManyWithWhereWithoutCreatorInput | ManualBookUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: ManualBookScalarWhereInput | ManualBookScalarWhereInput[]
+  }
+
   export type DiaryUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<DiaryCreateWithoutCreatorInput, DiaryUncheckedCreateWithoutCreatorInput> | DiaryCreateWithoutCreatorInput[] | DiaryUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: DiaryCreateOrConnectWithoutCreatorInput | DiaryCreateOrConnectWithoutCreatorInput[]
@@ -16517,6 +23691,48 @@ export namespace Prisma {
     update?: WeeklyReportUpdateWithWhereUniqueWithoutUserInput | WeeklyReportUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: WeeklyReportUpdateManyWithWhereWithoutUserInput | WeeklyReportUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutUserInput, RoadmapProgressLogUncheckedCreateWithoutUserInput> | RoadmapProgressLogCreateWithoutUserInput[] | RoadmapProgressLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutUserInput | RoadmapProgressLogCreateOrConnectWithoutUserInput[]
+    upsert?: RoadmapProgressLogUpsertWithWhereUniqueWithoutUserInput | RoadmapProgressLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoadmapProgressLogCreateManyUserInputEnvelope
+    set?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    disconnect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    delete?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    update?: RoadmapProgressLogUpdateWithWhereUniqueWithoutUserInput | RoadmapProgressLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoadmapProgressLogUpdateManyWithWhereWithoutUserInput | RoadmapProgressLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutAssigneeInput, RoadmapMilestoneUncheckedCreateWithoutAssigneeInput> | RoadmapMilestoneCreateWithoutAssigneeInput[] | RoadmapMilestoneUncheckedCreateWithoutAssigneeInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutAssigneeInput | RoadmapMilestoneCreateOrConnectWithoutAssigneeInput[]
+    upsert?: RoadmapMilestoneUpsertWithWhereUniqueWithoutAssigneeInput | RoadmapMilestoneUpsertWithWhereUniqueWithoutAssigneeInput[]
+    createMany?: RoadmapMilestoneCreateManyAssigneeInputEnvelope
+    set?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    disconnect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    delete?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    update?: RoadmapMilestoneUpdateWithWhereUniqueWithoutAssigneeInput | RoadmapMilestoneUpdateWithWhereUniqueWithoutAssigneeInput[]
+    updateMany?: RoadmapMilestoneUpdateManyWithWhereWithoutAssigneeInput | RoadmapMilestoneUpdateManyWithWhereWithoutAssigneeInput[]
+    deleteMany?: RoadmapMilestoneScalarWhereInput | RoadmapMilestoneScalarWhereInput[]
+  }
+
+  export type ManualBookUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<ManualBookCreateWithoutCreatorInput, ManualBookUncheckedCreateWithoutCreatorInput> | ManualBookCreateWithoutCreatorInput[] | ManualBookUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCreatorInput | ManualBookCreateOrConnectWithoutCreatorInput[]
+    upsert?: ManualBookUpsertWithWhereUniqueWithoutCreatorInput | ManualBookUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: ManualBookCreateManyCreatorInputEnvelope
+    set?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    disconnect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    delete?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    update?: ManualBookUpdateWithWhereUniqueWithoutCreatorInput | ManualBookUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: ManualBookUpdateManyWithWhereWithoutCreatorInput | ManualBookUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: ManualBookScalarWhereInput | ManualBookScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutDiariesInput = {
@@ -16672,6 +23888,12 @@ export namespace Prisma {
     connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
   }
 
+  export type ProjectRoadmapCreateNestedOneWithoutProjectInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutProjectInput, ProjectRoadmapUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutProjectInput
+    connect?: ProjectRoadmapWhereUniqueInput
+  }
+
   export type ProjectMemberUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -16691,6 +23913,12 @@ export namespace Prisma {
     connectOrCreate?: WeeklyReportCreateOrConnectWithoutProjectInput | WeeklyReportCreateOrConnectWithoutProjectInput[]
     createMany?: WeeklyReportCreateManyProjectInputEnvelope
     connect?: WeeklyReportWhereUniqueInput | WeeklyReportWhereUniqueInput[]
+  }
+
+  export type ProjectRoadmapUncheckedCreateNestedOneWithoutProjectInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutProjectInput, ProjectRoadmapUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutProjectInput
+    connect?: ProjectRoadmapWhereUniqueInput
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -16739,6 +23967,16 @@ export namespace Prisma {
     deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
   }
 
+  export type ProjectRoadmapUpdateOneWithoutProjectNestedInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutProjectInput, ProjectRoadmapUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutProjectInput
+    upsert?: ProjectRoadmapUpsertWithoutProjectInput
+    disconnect?: ProjectRoadmapWhereInput | boolean
+    delete?: ProjectRoadmapWhereInput | boolean
+    connect?: ProjectRoadmapWhereUniqueInput
+    update?: XOR<XOR<ProjectRoadmapUpdateToOneWithWhereWithoutProjectInput, ProjectRoadmapUpdateWithoutProjectInput>, ProjectRoadmapUncheckedUpdateWithoutProjectInput>
+  }
+
   export type ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectMemberCreateWithoutProjectInput, ProjectMemberUncheckedCreateWithoutProjectInput> | ProjectMemberCreateWithoutProjectInput[] | ProjectMemberUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectMemberCreateOrConnectWithoutProjectInput | ProjectMemberCreateOrConnectWithoutProjectInput[]
@@ -16779,6 +24017,16 @@ export namespace Prisma {
     update?: WeeklyReportUpdateWithWhereUniqueWithoutProjectInput | WeeklyReportUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: WeeklyReportUpdateManyWithWhereWithoutProjectInput | WeeklyReportUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: WeeklyReportScalarWhereInput | WeeklyReportScalarWhereInput[]
+  }
+
+  export type ProjectRoadmapUncheckedUpdateOneWithoutProjectNestedInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutProjectInput, ProjectRoadmapUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutProjectInput
+    upsert?: ProjectRoadmapUpsertWithoutProjectInput
+    disconnect?: ProjectRoadmapWhereInput | boolean
+    delete?: ProjectRoadmapWhereInput | boolean
+    connect?: ProjectRoadmapWhereUniqueInput
+    update?: XOR<XOR<ProjectRoadmapUpdateToOneWithWhereWithoutProjectInput, ProjectRoadmapUpdateWithoutProjectInput>, ProjectRoadmapUncheckedUpdateWithoutProjectInput>
   }
 
   export type ProjectCreateNestedOneWithoutMembersInput = {
@@ -16873,6 +24121,290 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutWeeklyReportsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWeeklyReportsInput, UserUpdateWithoutWeeklyReportsInput>, UserUncheckedUpdateWithoutWeeklyReportsInput>
+  }
+
+  export type ManualBookCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ManualBookCreateWithoutCategoryInput, ManualBookUncheckedCreateWithoutCategoryInput> | ManualBookCreateWithoutCategoryInput[] | ManualBookUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCategoryInput | ManualBookCreateOrConnectWithoutCategoryInput[]
+    createMany?: ManualBookCreateManyCategoryInputEnvelope
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+  }
+
+  export type ManualBookUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ManualBookCreateWithoutCategoryInput, ManualBookUncheckedCreateWithoutCategoryInput> | ManualBookCreateWithoutCategoryInput[] | ManualBookUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCategoryInput | ManualBookCreateOrConnectWithoutCategoryInput[]
+    createMany?: ManualBookCreateManyCategoryInputEnvelope
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+  }
+
+  export type ManualBookUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ManualBookCreateWithoutCategoryInput, ManualBookUncheckedCreateWithoutCategoryInput> | ManualBookCreateWithoutCategoryInput[] | ManualBookUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCategoryInput | ManualBookCreateOrConnectWithoutCategoryInput[]
+    upsert?: ManualBookUpsertWithWhereUniqueWithoutCategoryInput | ManualBookUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ManualBookCreateManyCategoryInputEnvelope
+    set?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    disconnect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    delete?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    update?: ManualBookUpdateWithWhereUniqueWithoutCategoryInput | ManualBookUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ManualBookUpdateManyWithWhereWithoutCategoryInput | ManualBookUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: ManualBookScalarWhereInput | ManualBookScalarWhereInput[]
+  }
+
+  export type ManualBookUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ManualBookCreateWithoutCategoryInput, ManualBookUncheckedCreateWithoutCategoryInput> | ManualBookCreateWithoutCategoryInput[] | ManualBookUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ManualBookCreateOrConnectWithoutCategoryInput | ManualBookCreateOrConnectWithoutCategoryInput[]
+    upsert?: ManualBookUpsertWithWhereUniqueWithoutCategoryInput | ManualBookUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ManualBookCreateManyCategoryInputEnvelope
+    set?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    disconnect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    delete?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    connect?: ManualBookWhereUniqueInput | ManualBookWhereUniqueInput[]
+    update?: ManualBookUpdateWithWhereUniqueWithoutCategoryInput | ManualBookUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ManualBookUpdateManyWithWhereWithoutCategoryInput | ManualBookUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: ManualBookScalarWhereInput | ManualBookScalarWhereInput[]
+  }
+
+  export type ManualCategoryCreateNestedOneWithoutManualsInput = {
+    create?: XOR<ManualCategoryCreateWithoutManualsInput, ManualCategoryUncheckedCreateWithoutManualsInput>
+    connectOrCreate?: ManualCategoryCreateOrConnectWithoutManualsInput
+    connect?: ManualCategoryWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutManualBooksInput = {
+    create?: XOR<UserCreateWithoutManualBooksInput, UserUncheckedCreateWithoutManualBooksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutManualBooksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ManualCategoryUpdateOneRequiredWithoutManualsNestedInput = {
+    create?: XOR<ManualCategoryCreateWithoutManualsInput, ManualCategoryUncheckedCreateWithoutManualsInput>
+    connectOrCreate?: ManualCategoryCreateOrConnectWithoutManualsInput
+    upsert?: ManualCategoryUpsertWithoutManualsInput
+    connect?: ManualCategoryWhereUniqueInput
+    update?: XOR<XOR<ManualCategoryUpdateToOneWithWhereWithoutManualsInput, ManualCategoryUpdateWithoutManualsInput>, ManualCategoryUncheckedUpdateWithoutManualsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutManualBooksNestedInput = {
+    create?: XOR<UserCreateWithoutManualBooksInput, UserUncheckedCreateWithoutManualBooksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutManualBooksInput
+    upsert?: UserUpsertWithoutManualBooksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutManualBooksInput, UserUpdateWithoutManualBooksInput>, UserUncheckedUpdateWithoutManualBooksInput>
+  }
+
+  export type ProjectCreateNestedOneWithoutRoadmapInput = {
+    create?: XOR<ProjectCreateWithoutRoadmapInput, ProjectUncheckedCreateWithoutRoadmapInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutRoadmapInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type RoadmapMilestoneCreateNestedManyWithoutRoadmapInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutRoadmapInput, RoadmapMilestoneUncheckedCreateWithoutRoadmapInput> | RoadmapMilestoneCreateWithoutRoadmapInput[] | RoadmapMilestoneUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutRoadmapInput | RoadmapMilestoneCreateOrConnectWithoutRoadmapInput[]
+    createMany?: RoadmapMilestoneCreateManyRoadmapInputEnvelope
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+  }
+
+  export type RoadmapProgressLogCreateNestedManyWithoutRoadmapInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutRoadmapInput, RoadmapProgressLogUncheckedCreateWithoutRoadmapInput> | RoadmapProgressLogCreateWithoutRoadmapInput[] | RoadmapProgressLogUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutRoadmapInput | RoadmapProgressLogCreateOrConnectWithoutRoadmapInput[]
+    createMany?: RoadmapProgressLogCreateManyRoadmapInputEnvelope
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+  }
+
+  export type RoadmapMilestoneUncheckedCreateNestedManyWithoutRoadmapInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutRoadmapInput, RoadmapMilestoneUncheckedCreateWithoutRoadmapInput> | RoadmapMilestoneCreateWithoutRoadmapInput[] | RoadmapMilestoneUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutRoadmapInput | RoadmapMilestoneCreateOrConnectWithoutRoadmapInput[]
+    createMany?: RoadmapMilestoneCreateManyRoadmapInputEnvelope
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+  }
+
+  export type RoadmapProgressLogUncheckedCreateNestedManyWithoutRoadmapInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutRoadmapInput, RoadmapProgressLogUncheckedCreateWithoutRoadmapInput> | RoadmapProgressLogCreateWithoutRoadmapInput[] | RoadmapProgressLogUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutRoadmapInput | RoadmapProgressLogCreateOrConnectWithoutRoadmapInput[]
+    createMany?: RoadmapProgressLogCreateManyRoadmapInputEnvelope
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+  }
+
+  export type ProjectUpdateOneRequiredWithoutRoadmapNestedInput = {
+    create?: XOR<ProjectCreateWithoutRoadmapInput, ProjectUncheckedCreateWithoutRoadmapInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutRoadmapInput
+    upsert?: ProjectUpsertWithoutRoadmapInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutRoadmapInput, ProjectUpdateWithoutRoadmapInput>, ProjectUncheckedUpdateWithoutRoadmapInput>
+  }
+
+  export type RoadmapMilestoneUpdateManyWithoutRoadmapNestedInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutRoadmapInput, RoadmapMilestoneUncheckedCreateWithoutRoadmapInput> | RoadmapMilestoneCreateWithoutRoadmapInput[] | RoadmapMilestoneUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutRoadmapInput | RoadmapMilestoneCreateOrConnectWithoutRoadmapInput[]
+    upsert?: RoadmapMilestoneUpsertWithWhereUniqueWithoutRoadmapInput | RoadmapMilestoneUpsertWithWhereUniqueWithoutRoadmapInput[]
+    createMany?: RoadmapMilestoneCreateManyRoadmapInputEnvelope
+    set?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    disconnect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    delete?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    update?: RoadmapMilestoneUpdateWithWhereUniqueWithoutRoadmapInput | RoadmapMilestoneUpdateWithWhereUniqueWithoutRoadmapInput[]
+    updateMany?: RoadmapMilestoneUpdateManyWithWhereWithoutRoadmapInput | RoadmapMilestoneUpdateManyWithWhereWithoutRoadmapInput[]
+    deleteMany?: RoadmapMilestoneScalarWhereInput | RoadmapMilestoneScalarWhereInput[]
+  }
+
+  export type RoadmapProgressLogUpdateManyWithoutRoadmapNestedInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutRoadmapInput, RoadmapProgressLogUncheckedCreateWithoutRoadmapInput> | RoadmapProgressLogCreateWithoutRoadmapInput[] | RoadmapProgressLogUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutRoadmapInput | RoadmapProgressLogCreateOrConnectWithoutRoadmapInput[]
+    upsert?: RoadmapProgressLogUpsertWithWhereUniqueWithoutRoadmapInput | RoadmapProgressLogUpsertWithWhereUniqueWithoutRoadmapInput[]
+    createMany?: RoadmapProgressLogCreateManyRoadmapInputEnvelope
+    set?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    disconnect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    delete?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    update?: RoadmapProgressLogUpdateWithWhereUniqueWithoutRoadmapInput | RoadmapProgressLogUpdateWithWhereUniqueWithoutRoadmapInput[]
+    updateMany?: RoadmapProgressLogUpdateManyWithWhereWithoutRoadmapInput | RoadmapProgressLogUpdateManyWithWhereWithoutRoadmapInput[]
+    deleteMany?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateManyWithoutRoadmapNestedInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutRoadmapInput, RoadmapMilestoneUncheckedCreateWithoutRoadmapInput> | RoadmapMilestoneCreateWithoutRoadmapInput[] | RoadmapMilestoneUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutRoadmapInput | RoadmapMilestoneCreateOrConnectWithoutRoadmapInput[]
+    upsert?: RoadmapMilestoneUpsertWithWhereUniqueWithoutRoadmapInput | RoadmapMilestoneUpsertWithWhereUniqueWithoutRoadmapInput[]
+    createMany?: RoadmapMilestoneCreateManyRoadmapInputEnvelope
+    set?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    disconnect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    delete?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    connect?: RoadmapMilestoneWhereUniqueInput | RoadmapMilestoneWhereUniqueInput[]
+    update?: RoadmapMilestoneUpdateWithWhereUniqueWithoutRoadmapInput | RoadmapMilestoneUpdateWithWhereUniqueWithoutRoadmapInput[]
+    updateMany?: RoadmapMilestoneUpdateManyWithWhereWithoutRoadmapInput | RoadmapMilestoneUpdateManyWithWhereWithoutRoadmapInput[]
+    deleteMany?: RoadmapMilestoneScalarWhereInput | RoadmapMilestoneScalarWhereInput[]
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyWithoutRoadmapNestedInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutRoadmapInput, RoadmapProgressLogUncheckedCreateWithoutRoadmapInput> | RoadmapProgressLogCreateWithoutRoadmapInput[] | RoadmapProgressLogUncheckedCreateWithoutRoadmapInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutRoadmapInput | RoadmapProgressLogCreateOrConnectWithoutRoadmapInput[]
+    upsert?: RoadmapProgressLogUpsertWithWhereUniqueWithoutRoadmapInput | RoadmapProgressLogUpsertWithWhereUniqueWithoutRoadmapInput[]
+    createMany?: RoadmapProgressLogCreateManyRoadmapInputEnvelope
+    set?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    disconnect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    delete?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    update?: RoadmapProgressLogUpdateWithWhereUniqueWithoutRoadmapInput | RoadmapProgressLogUpdateWithWhereUniqueWithoutRoadmapInput[]
+    updateMany?: RoadmapProgressLogUpdateManyWithWhereWithoutRoadmapInput | RoadmapProgressLogUpdateManyWithWhereWithoutRoadmapInput[]
+    deleteMany?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+  }
+
+  export type ProjectRoadmapCreateNestedOneWithoutMilestonesInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutMilestonesInput, ProjectRoadmapUncheckedCreateWithoutMilestonesInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutMilestonesInput
+    connect?: ProjectRoadmapWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAssignedMilestonesInput = {
+    create?: XOR<UserCreateWithoutAssignedMilestonesInput, UserUncheckedCreateWithoutAssignedMilestonesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignedMilestonesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RoadmapProgressLogCreateNestedManyWithoutMilestoneInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutMilestoneInput, RoadmapProgressLogUncheckedCreateWithoutMilestoneInput> | RoadmapProgressLogCreateWithoutMilestoneInput[] | RoadmapProgressLogUncheckedCreateWithoutMilestoneInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutMilestoneInput | RoadmapProgressLogCreateOrConnectWithoutMilestoneInput[]
+    createMany?: RoadmapProgressLogCreateManyMilestoneInputEnvelope
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+  }
+
+  export type RoadmapProgressLogUncheckedCreateNestedManyWithoutMilestoneInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutMilestoneInput, RoadmapProgressLogUncheckedCreateWithoutMilestoneInput> | RoadmapProgressLogCreateWithoutMilestoneInput[] | RoadmapProgressLogUncheckedCreateWithoutMilestoneInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutMilestoneInput | RoadmapProgressLogCreateOrConnectWithoutMilestoneInput[]
+    createMany?: RoadmapProgressLogCreateManyMilestoneInputEnvelope
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+  }
+
+  export type ProjectRoadmapUpdateOneRequiredWithoutMilestonesNestedInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutMilestonesInput, ProjectRoadmapUncheckedCreateWithoutMilestonesInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutMilestonesInput
+    upsert?: ProjectRoadmapUpsertWithoutMilestonesInput
+    connect?: ProjectRoadmapWhereUniqueInput
+    update?: XOR<XOR<ProjectRoadmapUpdateToOneWithWhereWithoutMilestonesInput, ProjectRoadmapUpdateWithoutMilestonesInput>, ProjectRoadmapUncheckedUpdateWithoutMilestonesInput>
+  }
+
+  export type UserUpdateOneWithoutAssignedMilestonesNestedInput = {
+    create?: XOR<UserCreateWithoutAssignedMilestonesInput, UserUncheckedCreateWithoutAssignedMilestonesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAssignedMilestonesInput
+    upsert?: UserUpsertWithoutAssignedMilestonesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssignedMilestonesInput, UserUpdateWithoutAssignedMilestonesInput>, UserUncheckedUpdateWithoutAssignedMilestonesInput>
+  }
+
+  export type RoadmapProgressLogUpdateManyWithoutMilestoneNestedInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutMilestoneInput, RoadmapProgressLogUncheckedCreateWithoutMilestoneInput> | RoadmapProgressLogCreateWithoutMilestoneInput[] | RoadmapProgressLogUncheckedCreateWithoutMilestoneInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutMilestoneInput | RoadmapProgressLogCreateOrConnectWithoutMilestoneInput[]
+    upsert?: RoadmapProgressLogUpsertWithWhereUniqueWithoutMilestoneInput | RoadmapProgressLogUpsertWithWhereUniqueWithoutMilestoneInput[]
+    createMany?: RoadmapProgressLogCreateManyMilestoneInputEnvelope
+    set?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    disconnect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    delete?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    update?: RoadmapProgressLogUpdateWithWhereUniqueWithoutMilestoneInput | RoadmapProgressLogUpdateWithWhereUniqueWithoutMilestoneInput[]
+    updateMany?: RoadmapProgressLogUpdateManyWithWhereWithoutMilestoneInput | RoadmapProgressLogUpdateManyWithWhereWithoutMilestoneInput[]
+    deleteMany?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyWithoutMilestoneNestedInput = {
+    create?: XOR<RoadmapProgressLogCreateWithoutMilestoneInput, RoadmapProgressLogUncheckedCreateWithoutMilestoneInput> | RoadmapProgressLogCreateWithoutMilestoneInput[] | RoadmapProgressLogUncheckedCreateWithoutMilestoneInput[]
+    connectOrCreate?: RoadmapProgressLogCreateOrConnectWithoutMilestoneInput | RoadmapProgressLogCreateOrConnectWithoutMilestoneInput[]
+    upsert?: RoadmapProgressLogUpsertWithWhereUniqueWithoutMilestoneInput | RoadmapProgressLogUpsertWithWhereUniqueWithoutMilestoneInput[]
+    createMany?: RoadmapProgressLogCreateManyMilestoneInputEnvelope
+    set?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    disconnect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    delete?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    connect?: RoadmapProgressLogWhereUniqueInput | RoadmapProgressLogWhereUniqueInput[]
+    update?: RoadmapProgressLogUpdateWithWhereUniqueWithoutMilestoneInput | RoadmapProgressLogUpdateWithWhereUniqueWithoutMilestoneInput[]
+    updateMany?: RoadmapProgressLogUpdateManyWithWhereWithoutMilestoneInput | RoadmapProgressLogUpdateManyWithWhereWithoutMilestoneInput[]
+    deleteMany?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+  }
+
+  export type ProjectRoadmapCreateNestedOneWithoutLogsInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutLogsInput, ProjectRoadmapUncheckedCreateWithoutLogsInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutLogsInput
+    connect?: ProjectRoadmapWhereUniqueInput
+  }
+
+  export type RoadmapMilestoneCreateNestedOneWithoutLogsInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutLogsInput, RoadmapMilestoneUncheckedCreateWithoutLogsInput>
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutLogsInput
+    connect?: RoadmapMilestoneWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRoadmapLogsInput = {
+    create?: XOR<UserCreateWithoutRoadmapLogsInput, UserUncheckedCreateWithoutRoadmapLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoadmapLogsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProjectRoadmapUpdateOneRequiredWithoutLogsNestedInput = {
+    create?: XOR<ProjectRoadmapCreateWithoutLogsInput, ProjectRoadmapUncheckedCreateWithoutLogsInput>
+    connectOrCreate?: ProjectRoadmapCreateOrConnectWithoutLogsInput
+    upsert?: ProjectRoadmapUpsertWithoutLogsInput
+    connect?: ProjectRoadmapWhereUniqueInput
+    update?: XOR<XOR<ProjectRoadmapUpdateToOneWithWhereWithoutLogsInput, ProjectRoadmapUpdateWithoutLogsInput>, ProjectRoadmapUncheckedUpdateWithoutLogsInput>
+  }
+
+  export type RoadmapMilestoneUpdateOneWithoutLogsNestedInput = {
+    create?: XOR<RoadmapMilestoneCreateWithoutLogsInput, RoadmapMilestoneUncheckedCreateWithoutLogsInput>
+    connectOrCreate?: RoadmapMilestoneCreateOrConnectWithoutLogsInput
+    upsert?: RoadmapMilestoneUpsertWithoutLogsInput
+    disconnect?: RoadmapMilestoneWhereInput | boolean
+    delete?: RoadmapMilestoneWhereInput | boolean
+    connect?: RoadmapMilestoneWhereUniqueInput
+    update?: XOR<XOR<RoadmapMilestoneUpdateToOneWithWhereWithoutLogsInput, RoadmapMilestoneUpdateWithoutLogsInput>, RoadmapMilestoneUncheckedUpdateWithoutLogsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRoadmapLogsNestedInput = {
+    create?: XOR<UserCreateWithoutRoadmapLogsInput, UserUncheckedCreateWithoutRoadmapLogsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoadmapLogsInput
+    upsert?: UserUpsertWithoutRoadmapLogsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoadmapLogsInput, UserUpdateWithoutRoadmapLogsInput>, UserUncheckedUpdateWithoutRoadmapLogsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17248,6 +24780,105 @@ export namespace Prisma {
     data: WeeklyReportCreateManyUserInput | WeeklyReportCreateManyUserInput[]
   }
 
+  export type RoadmapProgressLogCreateWithoutUserInput = {
+    id?: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+    roadmap: ProjectRoadmapCreateNestedOneWithoutLogsInput
+    milestone?: RoadmapMilestoneCreateNestedOneWithoutLogsInput
+  }
+
+  export type RoadmapProgressLogUncheckedCreateWithoutUserInput = {
+    id?: string
+    roadmap_id: string
+    milestone_id?: string | null
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapProgressLogCreateOrConnectWithoutUserInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    create: XOR<RoadmapProgressLogCreateWithoutUserInput, RoadmapProgressLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoadmapProgressLogCreateManyUserInputEnvelope = {
+    data: RoadmapProgressLogCreateManyUserInput | RoadmapProgressLogCreateManyUserInput[]
+  }
+
+  export type RoadmapMilestoneCreateWithoutAssigneeInput = {
+    id?: string
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    roadmap: ProjectRoadmapCreateNestedOneWithoutMilestonesInput
+    logs?: RoadmapProgressLogCreateNestedManyWithoutMilestoneInput
+  }
+
+  export type RoadmapMilestoneUncheckedCreateWithoutAssigneeInput = {
+    id?: string
+    roadmap_id: string
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    logs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutMilestoneInput
+  }
+
+  export type RoadmapMilestoneCreateOrConnectWithoutAssigneeInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    create: XOR<RoadmapMilestoneCreateWithoutAssigneeInput, RoadmapMilestoneUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type RoadmapMilestoneCreateManyAssigneeInputEnvelope = {
+    data: RoadmapMilestoneCreateManyAssigneeInput | RoadmapMilestoneCreateManyAssigneeInput[]
+  }
+
+  export type ManualBookCreateWithoutCreatorInput = {
+    id?: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    category: ManualCategoryCreateNestedOneWithoutManualsInput
+  }
+
+  export type ManualBookUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    category_id: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualBookCreateOrConnectWithoutCreatorInput = {
+    where: ManualBookWhereUniqueInput
+    create: XOR<ManualBookCreateWithoutCreatorInput, ManualBookUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type ManualBookCreateManyCreatorInputEnvelope = {
+    data: ManualBookCreateManyCreatorInput | ManualBookCreateManyCreatorInput[]
+  }
+
   export type DiaryUpsertWithWhereUniqueWithoutCreatorInput = {
     where: DiaryWhereUniqueInput
     update: XOR<DiaryUpdateWithoutCreatorInput, DiaryUncheckedUpdateWithoutCreatorInput>
@@ -17477,6 +25108,101 @@ export namespace Prisma {
     generated_at?: DateTimeFilter<"WeeklyReport"> | Date | string
   }
 
+  export type RoadmapProgressLogUpsertWithWhereUniqueWithoutUserInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    update: XOR<RoadmapProgressLogUpdateWithoutUserInput, RoadmapProgressLogUncheckedUpdateWithoutUserInput>
+    create: XOR<RoadmapProgressLogCreateWithoutUserInput, RoadmapProgressLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoadmapProgressLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    data: XOR<RoadmapProgressLogUpdateWithoutUserInput, RoadmapProgressLogUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RoadmapProgressLogUpdateManyWithWhereWithoutUserInput = {
+    where: RoadmapProgressLogScalarWhereInput
+    data: XOR<RoadmapProgressLogUpdateManyMutationInput, RoadmapProgressLogUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RoadmapProgressLogScalarWhereInput = {
+    AND?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+    OR?: RoadmapProgressLogScalarWhereInput[]
+    NOT?: RoadmapProgressLogScalarWhereInput | RoadmapProgressLogScalarWhereInput[]
+    id?: StringFilter<"RoadmapProgressLog"> | string
+    roadmap_id?: StringFilter<"RoadmapProgressLog"> | string
+    milestone_id?: StringNullableFilter<"RoadmapProgressLog"> | string | null
+    user_id?: StringFilter<"RoadmapProgressLog"> | string
+    action?: StringFilter<"RoadmapProgressLog"> | string
+    details?: StringNullableFilter<"RoadmapProgressLog"> | string | null
+    timestamp?: DateTimeFilter<"RoadmapProgressLog"> | Date | string
+  }
+
+  export type RoadmapMilestoneUpsertWithWhereUniqueWithoutAssigneeInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    update: XOR<RoadmapMilestoneUpdateWithoutAssigneeInput, RoadmapMilestoneUncheckedUpdateWithoutAssigneeInput>
+    create: XOR<RoadmapMilestoneCreateWithoutAssigneeInput, RoadmapMilestoneUncheckedCreateWithoutAssigneeInput>
+  }
+
+  export type RoadmapMilestoneUpdateWithWhereUniqueWithoutAssigneeInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    data: XOR<RoadmapMilestoneUpdateWithoutAssigneeInput, RoadmapMilestoneUncheckedUpdateWithoutAssigneeInput>
+  }
+
+  export type RoadmapMilestoneUpdateManyWithWhereWithoutAssigneeInput = {
+    where: RoadmapMilestoneScalarWhereInput
+    data: XOR<RoadmapMilestoneUpdateManyMutationInput, RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeInput>
+  }
+
+  export type RoadmapMilestoneScalarWhereInput = {
+    AND?: RoadmapMilestoneScalarWhereInput | RoadmapMilestoneScalarWhereInput[]
+    OR?: RoadmapMilestoneScalarWhereInput[]
+    NOT?: RoadmapMilestoneScalarWhereInput | RoadmapMilestoneScalarWhereInput[]
+    id?: StringFilter<"RoadmapMilestone"> | string
+    roadmap_id?: StringFilter<"RoadmapMilestone"> | string
+    assigned_to?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    title?: StringFilter<"RoadmapMilestone"> | string
+    description?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    start_date?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    deadline?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    progress_percentage?: IntFilter<"RoadmapMilestone"> | number
+    status?: StringFilter<"RoadmapMilestone"> | string
+    activity_note?: StringNullableFilter<"RoadmapMilestone"> | string | null
+    order?: IntFilter<"RoadmapMilestone"> | number
+    created_at?: DateTimeFilter<"RoadmapMilestone"> | Date | string
+    updated_at?: DateTimeFilter<"RoadmapMilestone"> | Date | string
+  }
+
+  export type ManualBookUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: ManualBookWhereUniqueInput
+    update: XOR<ManualBookUpdateWithoutCreatorInput, ManualBookUncheckedUpdateWithoutCreatorInput>
+    create: XOR<ManualBookCreateWithoutCreatorInput, ManualBookUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type ManualBookUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: ManualBookWhereUniqueInput
+    data: XOR<ManualBookUpdateWithoutCreatorInput, ManualBookUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type ManualBookUpdateManyWithWhereWithoutCreatorInput = {
+    where: ManualBookScalarWhereInput
+    data: XOR<ManualBookUpdateManyMutationInput, ManualBookUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type ManualBookScalarWhereInput = {
+    AND?: ManualBookScalarWhereInput | ManualBookScalarWhereInput[]
+    OR?: ManualBookScalarWhereInput[]
+    NOT?: ManualBookScalarWhereInput | ManualBookScalarWhereInput[]
+    id?: StringFilter<"ManualBook"> | string
+    category_id?: StringFilter<"ManualBook"> | string
+    title?: StringFilter<"ManualBook"> | string
+    content?: StringFilter<"ManualBook"> | string
+    order?: IntFilter<"ManualBook"> | number
+    access_role?: StringFilter<"ManualBook"> | string
+    created_by?: StringFilter<"ManualBook"> | string
+    created_at?: DateTimeFilter<"ManualBook"> | Date | string
+    updated_at?: DateTimeFilter<"ManualBook"> | Date | string
+  }
+
   export type UserCreateWithoutDiariesInput = {
     id?: string
     username: string
@@ -17491,6 +25217,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutDiariesInput = {
@@ -17507,6 +25236,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutDiariesInput = {
@@ -17566,6 +25298,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDiariesInput = {
@@ -17582,6 +25317,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type ScheduleUpsertWithoutDiariesInput = {
@@ -17631,6 +25369,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutActivitiesInput = {
@@ -17647,6 +25388,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutActivitiesInput = {
@@ -17679,6 +25423,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutActivitiesInput = {
@@ -17695,6 +25442,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutHouseRulesInput = {
@@ -17711,6 +25461,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutHouseRulesInput = {
@@ -17727,6 +25480,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutHouseRulesInput = {
@@ -17759,6 +25515,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHouseRulesInput = {
@@ -17775,6 +25534,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutDutySchedulesInput = {
@@ -17791,6 +25553,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutDutySchedulesInput = {
@@ -17807,6 +25572,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutDutySchedulesInput = {
@@ -17839,6 +25607,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDutySchedulesInput = {
@@ -17855,6 +25626,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutSchedulesInput = {
@@ -17871,6 +25645,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutSchedulesInput = {
@@ -17887,6 +25664,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutSchedulesInput = {
@@ -17952,6 +25732,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSchedulesInput = {
@@ -17968,6 +25751,9 @@ export namespace Prisma {
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type DiaryUpsertWithWhereUniqueWithoutScheduleInput = {
@@ -18065,6 +25851,39 @@ export namespace Prisma {
     data: WeeklyReportCreateManyProjectInput | WeeklyReportCreateManyProjectInput[]
   }
 
+  export type ProjectRoadmapCreateWithoutProjectInput = {
+    id?: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    milestones?: RoadmapMilestoneCreateNestedManyWithoutRoadmapInput
+    logs?: RoadmapProgressLogCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapUncheckedCreateWithoutProjectInput = {
+    id?: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    milestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutRoadmapInput
+    logs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapCreateOrConnectWithoutProjectInput = {
+    where: ProjectRoadmapWhereUniqueInput
+    create: XOR<ProjectRoadmapCreateWithoutProjectInput, ProjectRoadmapUncheckedCreateWithoutProjectInput>
+  }
+
   export type ProjectMemberUpsertWithWhereUniqueWithoutProjectInput = {
     where: ProjectMemberWhereUniqueInput
     update: XOR<ProjectMemberUpdateWithoutProjectInput, ProjectMemberUncheckedUpdateWithoutProjectInput>
@@ -18113,6 +25932,45 @@ export namespace Prisma {
     data: XOR<WeeklyReportUpdateManyMutationInput, WeeklyReportUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type ProjectRoadmapUpsertWithoutProjectInput = {
+    update: XOR<ProjectRoadmapUpdateWithoutProjectInput, ProjectRoadmapUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectRoadmapCreateWithoutProjectInput, ProjectRoadmapUncheckedCreateWithoutProjectInput>
+    where?: ProjectRoadmapWhereInput
+  }
+
+  export type ProjectRoadmapUpdateToOneWithWhereWithoutProjectInput = {
+    where?: ProjectRoadmapWhereInput
+    data: XOR<ProjectRoadmapUpdateWithoutProjectInput, ProjectRoadmapUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectRoadmapUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    milestones?: RoadmapMilestoneUpdateManyWithoutRoadmapNestedInput
+    logs?: RoadmapProgressLogUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type ProjectRoadmapUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    milestones?: RoadmapMilestoneUncheckedUpdateManyWithoutRoadmapNestedInput
+    logs?: RoadmapProgressLogUncheckedUpdateManyWithoutRoadmapNestedInput
+  }
+
   export type ProjectCreateWithoutMembersInput = {
     id?: string
     project_name: string
@@ -18125,6 +25983,7 @@ export namespace Prisma {
     updated_at?: Date | string
     diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -18139,6 +25998,7 @@ export namespace Prisma {
     updated_at?: Date | string
     diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -18160,6 +26020,9 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembersInput = {
@@ -18176,6 +26039,9 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembersInput = {
@@ -18206,6 +26072,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -18220,6 +26087,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectMembersInput = {
@@ -18247,6 +26115,9 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembersInput = {
@@ -18263,6 +26134,9 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type ProjectCreateWithoutDiariesInput = {
@@ -18277,6 +26151,7 @@ export namespace Prisma {
     updated_at?: Date | string
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutDiariesInput = {
@@ -18291,6 +26166,7 @@ export namespace Prisma {
     updated_at?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutDiariesInput = {
@@ -18312,6 +26188,9 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutProjectDiariesInput = {
@@ -18328,6 +26207,9 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutProjectDiariesInput = {
@@ -18358,6 +26240,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutDiariesInput = {
@@ -18372,6 +26255,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectDiariesInput = {
@@ -18399,6 +26283,9 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectDiariesInput = {
@@ -18415,6 +26302,9 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type ProjectCreateWithoutWeeklyReportsInput = {
@@ -18429,6 +26319,7 @@ export namespace Prisma {
     updated_at?: Date | string
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutWeeklyReportsInput = {
@@ -18443,6 +26334,7 @@ export namespace Prisma {
     updated_at?: Date | string
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
+    roadmap?: ProjectRoadmapUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutWeeklyReportsInput = {
@@ -18464,6 +26356,9 @@ export namespace Prisma {
     schedules?: ScheduleCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutWeeklyReportsInput = {
@@ -18480,6 +26375,9 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
     projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
     projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutWeeklyReportsInput = {
@@ -18510,6 +26408,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutWeeklyReportsInput = {
@@ -18524,6 +26423,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
+    roadmap?: ProjectRoadmapUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutWeeklyReportsInput = {
@@ -18551,6 +26451,9 @@ export namespace Prisma {
     schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWeeklyReportsInput = {
@@ -18567,6 +26470,835 @@ export namespace Prisma {
     schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
     projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
     projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type ManualBookCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    creator: UserCreateNestedOneWithoutManualBooksInput
+  }
+
+  export type ManualBookUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_by: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualBookCreateOrConnectWithoutCategoryInput = {
+    where: ManualBookWhereUniqueInput
+    create: XOR<ManualBookCreateWithoutCategoryInput, ManualBookUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type ManualBookCreateManyCategoryInputEnvelope = {
+    data: ManualBookCreateManyCategoryInput | ManualBookCreateManyCategoryInput[]
+  }
+
+  export type ManualBookUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: ManualBookWhereUniqueInput
+    update: XOR<ManualBookUpdateWithoutCategoryInput, ManualBookUncheckedUpdateWithoutCategoryInput>
+    create: XOR<ManualBookCreateWithoutCategoryInput, ManualBookUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type ManualBookUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: ManualBookWhereUniqueInput
+    data: XOR<ManualBookUpdateWithoutCategoryInput, ManualBookUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type ManualBookUpdateManyWithWhereWithoutCategoryInput = {
+    where: ManualBookScalarWhereInput
+    data: XOR<ManualBookUpdateManyMutationInput, ManualBookUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type ManualCategoryCreateWithoutManualsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    icon?: string
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualCategoryUncheckedCreateWithoutManualsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    order?: number
+    icon?: string
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualCategoryCreateOrConnectWithoutManualsInput = {
+    where: ManualCategoryWhereUniqueInput
+    create: XOR<ManualCategoryCreateWithoutManualsInput, ManualCategoryUncheckedCreateWithoutManualsInput>
+  }
+
+  export type UserCreateWithoutManualBooksInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+  }
+
+  export type UserUncheckedCreateWithoutManualBooksInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryUncheckedCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleUncheckedCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+  }
+
+  export type UserCreateOrConnectWithoutManualBooksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutManualBooksInput, UserUncheckedCreateWithoutManualBooksInput>
+  }
+
+  export type ManualCategoryUpsertWithoutManualsInput = {
+    update: XOR<ManualCategoryUpdateWithoutManualsInput, ManualCategoryUncheckedUpdateWithoutManualsInput>
+    create: XOR<ManualCategoryCreateWithoutManualsInput, ManualCategoryUncheckedCreateWithoutManualsInput>
+    where?: ManualCategoryWhereInput
+  }
+
+  export type ManualCategoryUpdateToOneWithWhereWithoutManualsInput = {
+    where?: ManualCategoryWhereInput
+    data: XOR<ManualCategoryUpdateWithoutManualsInput, ManualCategoryUncheckedUpdateWithoutManualsInput>
+  }
+
+  export type ManualCategoryUpdateWithoutManualsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    icon?: StringFieldUpdateOperationsInput | string
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualCategoryUncheckedUpdateWithoutManualsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    icon?: StringFieldUpdateOperationsInput | string
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutManualBooksInput = {
+    update: XOR<UserUpdateWithoutManualBooksInput, UserUncheckedUpdateWithoutManualBooksInput>
+    create: XOR<UserCreateWithoutManualBooksInput, UserUncheckedCreateWithoutManualBooksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutManualBooksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutManualBooksInput, UserUncheckedUpdateWithoutManualBooksInput>
+  }
+
+  export type UserUpdateWithoutManualBooksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutManualBooksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUncheckedUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+  }
+
+  export type ProjectCreateWithoutRoadmapInput = {
+    id?: string
+    project_name: string
+    description?: string | null
+    start_date: string
+    project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    diaries?: ProjectDiaryCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutRoadmapInput = {
+    id?: string
+    project_name: string
+    description?: string | null
+    start_date: string
+    project_status?: string
+    completed_at?: Date | string | null
+    completed_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    diaries?: ProjectDiaryUncheckedCreateNestedManyWithoutProjectInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutRoadmapInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutRoadmapInput, ProjectUncheckedCreateWithoutRoadmapInput>
+  }
+
+  export type RoadmapMilestoneCreateWithoutRoadmapInput = {
+    id?: string
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    assignee?: UserCreateNestedOneWithoutAssignedMilestonesInput
+    logs?: RoadmapProgressLogCreateNestedManyWithoutMilestoneInput
+  }
+
+  export type RoadmapMilestoneUncheckedCreateWithoutRoadmapInput = {
+    id?: string
+    assigned_to?: string | null
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    logs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutMilestoneInput
+  }
+
+  export type RoadmapMilestoneCreateOrConnectWithoutRoadmapInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    create: XOR<RoadmapMilestoneCreateWithoutRoadmapInput, RoadmapMilestoneUncheckedCreateWithoutRoadmapInput>
+  }
+
+  export type RoadmapMilestoneCreateManyRoadmapInputEnvelope = {
+    data: RoadmapMilestoneCreateManyRoadmapInput | RoadmapMilestoneCreateManyRoadmapInput[]
+  }
+
+  export type RoadmapProgressLogCreateWithoutRoadmapInput = {
+    id?: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+    milestone?: RoadmapMilestoneCreateNestedOneWithoutLogsInput
+    user: UserCreateNestedOneWithoutRoadmapLogsInput
+  }
+
+  export type RoadmapProgressLogUncheckedCreateWithoutRoadmapInput = {
+    id?: string
+    milestone_id?: string | null
+    user_id: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapProgressLogCreateOrConnectWithoutRoadmapInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    create: XOR<RoadmapProgressLogCreateWithoutRoadmapInput, RoadmapProgressLogUncheckedCreateWithoutRoadmapInput>
+  }
+
+  export type RoadmapProgressLogCreateManyRoadmapInputEnvelope = {
+    data: RoadmapProgressLogCreateManyRoadmapInput | RoadmapProgressLogCreateManyRoadmapInput[]
+  }
+
+  export type ProjectUpsertWithoutRoadmapInput = {
+    update: XOR<ProjectUpdateWithoutRoadmapInput, ProjectUncheckedUpdateWithoutRoadmapInput>
+    create: XOR<ProjectCreateWithoutRoadmapInput, ProjectUncheckedCreateWithoutRoadmapInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutRoadmapInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutRoadmapInput, ProjectUncheckedUpdateWithoutRoadmapInput>
+  }
+
+  export type ProjectUpdateWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    diaries?: ProjectDiaryUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    project_status?: StringFieldUpdateOperationsInput | string
+    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    diaries?: ProjectDiaryUncheckedUpdateManyWithoutProjectNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type RoadmapMilestoneUpsertWithWhereUniqueWithoutRoadmapInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    update: XOR<RoadmapMilestoneUpdateWithoutRoadmapInput, RoadmapMilestoneUncheckedUpdateWithoutRoadmapInput>
+    create: XOR<RoadmapMilestoneCreateWithoutRoadmapInput, RoadmapMilestoneUncheckedCreateWithoutRoadmapInput>
+  }
+
+  export type RoadmapMilestoneUpdateWithWhereUniqueWithoutRoadmapInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    data: XOR<RoadmapMilestoneUpdateWithoutRoadmapInput, RoadmapMilestoneUncheckedUpdateWithoutRoadmapInput>
+  }
+
+  export type RoadmapMilestoneUpdateManyWithWhereWithoutRoadmapInput = {
+    where: RoadmapMilestoneScalarWhereInput
+    data: XOR<RoadmapMilestoneUpdateManyMutationInput, RoadmapMilestoneUncheckedUpdateManyWithoutRoadmapInput>
+  }
+
+  export type RoadmapProgressLogUpsertWithWhereUniqueWithoutRoadmapInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    update: XOR<RoadmapProgressLogUpdateWithoutRoadmapInput, RoadmapProgressLogUncheckedUpdateWithoutRoadmapInput>
+    create: XOR<RoadmapProgressLogCreateWithoutRoadmapInput, RoadmapProgressLogUncheckedCreateWithoutRoadmapInput>
+  }
+
+  export type RoadmapProgressLogUpdateWithWhereUniqueWithoutRoadmapInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    data: XOR<RoadmapProgressLogUpdateWithoutRoadmapInput, RoadmapProgressLogUncheckedUpdateWithoutRoadmapInput>
+  }
+
+  export type RoadmapProgressLogUpdateManyWithWhereWithoutRoadmapInput = {
+    where: RoadmapProgressLogScalarWhereInput
+    data: XOR<RoadmapProgressLogUpdateManyMutationInput, RoadmapProgressLogUncheckedUpdateManyWithoutRoadmapInput>
+  }
+
+  export type ProjectRoadmapCreateWithoutMilestonesInput = {
+    id?: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    project: ProjectCreateNestedOneWithoutRoadmapInput
+    logs?: RoadmapProgressLogCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapUncheckedCreateWithoutMilestonesInput = {
+    id?: string
+    project_id: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    logs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapCreateOrConnectWithoutMilestonesInput = {
+    where: ProjectRoadmapWhereUniqueInput
+    create: XOR<ProjectRoadmapCreateWithoutMilestonesInput, ProjectRoadmapUncheckedCreateWithoutMilestonesInput>
+  }
+
+  export type UserCreateWithoutAssignedMilestonesInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogCreateNestedManyWithoutUserInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutAssignedMilestonesInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryUncheckedCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleUncheckedCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    roadmapLogs?: RoadmapProgressLogUncheckedCreateNestedManyWithoutUserInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutAssignedMilestonesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAssignedMilestonesInput, UserUncheckedCreateWithoutAssignedMilestonesInput>
+  }
+
+  export type RoadmapProgressLogCreateWithoutMilestoneInput = {
+    id?: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+    roadmap: ProjectRoadmapCreateNestedOneWithoutLogsInput
+    user: UserCreateNestedOneWithoutRoadmapLogsInput
+  }
+
+  export type RoadmapProgressLogUncheckedCreateWithoutMilestoneInput = {
+    id?: string
+    roadmap_id: string
+    user_id: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapProgressLogCreateOrConnectWithoutMilestoneInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    create: XOR<RoadmapProgressLogCreateWithoutMilestoneInput, RoadmapProgressLogUncheckedCreateWithoutMilestoneInput>
+  }
+
+  export type RoadmapProgressLogCreateManyMilestoneInputEnvelope = {
+    data: RoadmapProgressLogCreateManyMilestoneInput | RoadmapProgressLogCreateManyMilestoneInput[]
+  }
+
+  export type ProjectRoadmapUpsertWithoutMilestonesInput = {
+    update: XOR<ProjectRoadmapUpdateWithoutMilestonesInput, ProjectRoadmapUncheckedUpdateWithoutMilestonesInput>
+    create: XOR<ProjectRoadmapCreateWithoutMilestonesInput, ProjectRoadmapUncheckedCreateWithoutMilestonesInput>
+    where?: ProjectRoadmapWhereInput
+  }
+
+  export type ProjectRoadmapUpdateToOneWithWhereWithoutMilestonesInput = {
+    where?: ProjectRoadmapWhereInput
+    data: XOR<ProjectRoadmapUpdateWithoutMilestonesInput, ProjectRoadmapUncheckedUpdateWithoutMilestonesInput>
+  }
+
+  export type ProjectRoadmapUpdateWithoutMilestonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutRoadmapNestedInput
+    logs?: RoadmapProgressLogUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type ProjectRoadmapUncheckedUpdateWithoutMilestonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: RoadmapProgressLogUncheckedUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type UserUpsertWithoutAssignedMilestonesInput = {
+    update: XOR<UserUpdateWithoutAssignedMilestonesInput, UserUncheckedUpdateWithoutAssignedMilestonesInput>
+    create: XOR<UserCreateWithoutAssignedMilestonesInput, UserUncheckedCreateWithoutAssignedMilestonesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAssignedMilestonesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAssignedMilestonesInput, UserUncheckedUpdateWithoutAssignedMilestonesInput>
+  }
+
+  export type UserUpdateWithoutAssignedMilestonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUpdateManyWithoutUserNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAssignedMilestonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUncheckedUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    roadmapLogs?: RoadmapProgressLogUncheckedUpdateManyWithoutUserNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type RoadmapProgressLogUpsertWithWhereUniqueWithoutMilestoneInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    update: XOR<RoadmapProgressLogUpdateWithoutMilestoneInput, RoadmapProgressLogUncheckedUpdateWithoutMilestoneInput>
+    create: XOR<RoadmapProgressLogCreateWithoutMilestoneInput, RoadmapProgressLogUncheckedCreateWithoutMilestoneInput>
+  }
+
+  export type RoadmapProgressLogUpdateWithWhereUniqueWithoutMilestoneInput = {
+    where: RoadmapProgressLogWhereUniqueInput
+    data: XOR<RoadmapProgressLogUpdateWithoutMilestoneInput, RoadmapProgressLogUncheckedUpdateWithoutMilestoneInput>
+  }
+
+  export type RoadmapProgressLogUpdateManyWithWhereWithoutMilestoneInput = {
+    where: RoadmapProgressLogScalarWhereInput
+    data: XOR<RoadmapProgressLogUpdateManyMutationInput, RoadmapProgressLogUncheckedUpdateManyWithoutMilestoneInput>
+  }
+
+  export type ProjectRoadmapCreateWithoutLogsInput = {
+    id?: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    project: ProjectCreateNestedOneWithoutRoadmapInput
+    milestones?: RoadmapMilestoneCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapUncheckedCreateWithoutLogsInput = {
+    id?: string
+    project_id: string
+    roadmap_title: string
+    description?: string | null
+    start_date: string
+    deadline: string
+    progress_percentage?: number
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    milestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutRoadmapInput
+  }
+
+  export type ProjectRoadmapCreateOrConnectWithoutLogsInput = {
+    where: ProjectRoadmapWhereUniqueInput
+    create: XOR<ProjectRoadmapCreateWithoutLogsInput, ProjectRoadmapUncheckedCreateWithoutLogsInput>
+  }
+
+  export type RoadmapMilestoneCreateWithoutLogsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    roadmap: ProjectRoadmapCreateNestedOneWithoutMilestonesInput
+    assignee?: UserCreateNestedOneWithoutAssignedMilestonesInput
+  }
+
+  export type RoadmapMilestoneUncheckedCreateWithoutLogsInput = {
+    id?: string
+    roadmap_id: string
+    assigned_to?: string | null
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RoadmapMilestoneCreateOrConnectWithoutLogsInput = {
+    where: RoadmapMilestoneWhereUniqueInput
+    create: XOR<RoadmapMilestoneCreateWithoutLogsInput, RoadmapMilestoneUncheckedCreateWithoutLogsInput>
+  }
+
+  export type UserCreateWithoutRoadmapLogsInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutRoadmapLogsInput = {
+    id?: string
+    username: string
+    email: string
+    password: string
+    role?: string
+    created_at?: Date | string
+    diaries?: DiaryUncheckedCreateNestedManyWithoutCreatorInput
+    activities?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    houseRules?: HouseRuleUncheckedCreateNestedManyWithoutCreatorInput
+    dutySchedules?: DutyScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    schedules?: ScheduleUncheckedCreateNestedManyWithoutCreatorInput
+    projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    projectDiaries?: ProjectDiaryUncheckedCreateNestedManyWithoutCreatorInput
+    weeklyReports?: WeeklyReportUncheckedCreateNestedManyWithoutUserInput
+    assignedMilestones?: RoadmapMilestoneUncheckedCreateNestedManyWithoutAssigneeInput
+    manualBooks?: ManualBookUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutRoadmapLogsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRoadmapLogsInput, UserUncheckedCreateWithoutRoadmapLogsInput>
+  }
+
+  export type ProjectRoadmapUpsertWithoutLogsInput = {
+    update: XOR<ProjectRoadmapUpdateWithoutLogsInput, ProjectRoadmapUncheckedUpdateWithoutLogsInput>
+    create: XOR<ProjectRoadmapCreateWithoutLogsInput, ProjectRoadmapUncheckedCreateWithoutLogsInput>
+    where?: ProjectRoadmapWhereInput
+  }
+
+  export type ProjectRoadmapUpdateToOneWithWhereWithoutLogsInput = {
+    where?: ProjectRoadmapWhereInput
+    data: XOR<ProjectRoadmapUpdateWithoutLogsInput, ProjectRoadmapUncheckedUpdateWithoutLogsInput>
+  }
+
+  export type ProjectRoadmapUpdateWithoutLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneRequiredWithoutRoadmapNestedInput
+    milestones?: RoadmapMilestoneUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type ProjectRoadmapUncheckedUpdateWithoutLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    project_id?: StringFieldUpdateOperationsInput | string
+    roadmap_title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: StringFieldUpdateOperationsInput | string
+    deadline?: StringFieldUpdateOperationsInput | string
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    milestones?: RoadmapMilestoneUncheckedUpdateManyWithoutRoadmapNestedInput
+  }
+
+  export type RoadmapMilestoneUpsertWithoutLogsInput = {
+    update: XOR<RoadmapMilestoneUpdateWithoutLogsInput, RoadmapMilestoneUncheckedUpdateWithoutLogsInput>
+    create: XOR<RoadmapMilestoneCreateWithoutLogsInput, RoadmapMilestoneUncheckedCreateWithoutLogsInput>
+    where?: RoadmapMilestoneWhereInput
+  }
+
+  export type RoadmapMilestoneUpdateToOneWithWhereWithoutLogsInput = {
+    where?: RoadmapMilestoneWhereInput
+    data: XOR<RoadmapMilestoneUpdateWithoutLogsInput, RoadmapMilestoneUncheckedUpdateWithoutLogsInput>
+  }
+
+  export type RoadmapMilestoneUpdateWithoutLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    roadmap?: ProjectRoadmapUpdateOneRequiredWithoutMilestonesNestedInput
+    assignee?: UserUpdateOneWithoutAssignedMilestonesNestedInput
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateWithoutLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    assigned_to?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutRoadmapLogsInput = {
+    update: XOR<UserUpdateWithoutRoadmapLogsInput, UserUncheckedUpdateWithoutRoadmapLogsInput>
+    create: XOR<UserCreateWithoutRoadmapLogsInput, UserUncheckedCreateWithoutRoadmapLogsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRoadmapLogsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRoadmapLogsInput, UserUncheckedUpdateWithoutRoadmapLogsInput>
+  }
+
+  export type UserUpdateWithoutRoadmapLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRoadmapLogsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    diaries?: DiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    activities?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    houseRules?: HouseRuleUncheckedUpdateManyWithoutCreatorNestedInput
+    dutySchedules?: DutyScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    schedules?: ScheduleUncheckedUpdateManyWithoutCreatorNestedInput
+    projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    projectDiaries?: ProjectDiaryUncheckedUpdateManyWithoutCreatorNestedInput
+    weeklyReports?: WeeklyReportUncheckedUpdateManyWithoutUserNestedInput
+    assignedMilestones?: RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeNestedInput
+    manualBooks?: ManualBookUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type DiaryCreateManyCreatorInput = {
@@ -18636,6 +27368,41 @@ export namespace Prisma {
     report_period: string
     file_path: string
     generated_at?: Date | string
+  }
+
+  export type RoadmapProgressLogCreateManyUserInput = {
+    id?: string
+    roadmap_id: string
+    milestone_id?: string | null
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapMilestoneCreateManyAssigneeInput = {
+    id?: string
+    roadmap_id: string
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualBookCreateManyCreatorInput = {
+    id?: string
+    category_id: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type DiaryUpdateWithoutCreatorInput = {
@@ -18847,6 +27614,113 @@ export namespace Prisma {
     generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RoadmapProgressLogUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    roadmap?: ProjectRoadmapUpdateOneRequiredWithoutLogsNestedInput
+    milestone?: RoadmapMilestoneUpdateOneWithoutLogsNestedInput
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    milestone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    milestone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapMilestoneUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    roadmap?: ProjectRoadmapUpdateOneRequiredWithoutMilestonesNestedInput
+    logs?: RoadmapProgressLogUpdateManyWithoutMilestoneNestedInput
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: RoadmapProgressLogUncheckedUpdateManyWithoutMilestoneNestedInput
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateManyWithoutAssigneeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualBookUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: ManualCategoryUpdateOneRequiredWithoutManualsNestedInput
+  }
+
+  export type ManualBookUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualBookUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type DiaryCreateManyScheduleInput = {
     id?: string
     title: string
@@ -18999,6 +27873,184 @@ export namespace Prisma {
     generated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ManualBookCreateManyCategoryInput = {
+    id?: string
+    title: string
+    content: string
+    order?: number
+    access_role?: string
+    created_by: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ManualBookUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutManualBooksNestedInput
+  }
+
+  export type ManualBookUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_by?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManualBookUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    access_role?: StringFieldUpdateOperationsInput | string
+    created_by?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapMilestoneCreateManyRoadmapInput = {
+    id?: string
+    assigned_to?: string | null
+    title: string
+    description?: string | null
+    start_date?: string | null
+    deadline?: string | null
+    progress_percentage?: number
+    status?: string
+    activity_note?: string | null
+    order?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type RoadmapProgressLogCreateManyRoadmapInput = {
+    id?: string
+    milestone_id?: string | null
+    user_id: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapMilestoneUpdateWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignee?: UserUpdateOneWithoutAssignedMilestonesNestedInput
+    logs?: RoadmapProgressLogUpdateManyWithoutMilestoneNestedInput
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assigned_to?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logs?: RoadmapProgressLogUncheckedUpdateManyWithoutMilestoneNestedInput
+  }
+
+  export type RoadmapMilestoneUncheckedUpdateManyWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assigned_to?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: NullableStringFieldUpdateOperationsInput | string | null
+    progress_percentage?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    activity_note?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogUpdateWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    milestone?: RoadmapMilestoneUpdateOneWithoutLogsNestedInput
+    user?: UserUpdateOneRequiredWithoutRoadmapLogsNestedInput
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    milestone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyWithoutRoadmapInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    milestone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogCreateManyMilestoneInput = {
+    id?: string
+    roadmap_id: string
+    user_id: string
+    action: string
+    details?: string | null
+    timestamp?: Date | string
+  }
+
+  export type RoadmapProgressLogUpdateWithoutMilestoneInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    roadmap?: ProjectRoadmapUpdateOneRequiredWithoutLogsNestedInput
+    user?: UserUpdateOneRequiredWithoutRoadmapLogsNestedInput
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateWithoutMilestoneInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoadmapProgressLogUncheckedUpdateManyWithoutMilestoneInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roadmap_id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -19016,6 +28068,18 @@ export namespace Prisma {
      * @deprecated Use ProjectCountOutputTypeDefaultArgs instead
      */
     export type ProjectCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ManualCategoryCountOutputTypeDefaultArgs instead
+     */
+    export type ManualCategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ManualCategoryCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectRoadmapCountOutputTypeDefaultArgs instead
+     */
+    export type ProjectRoadmapCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectRoadmapCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RoadmapMilestoneCountOutputTypeDefaultArgs instead
+     */
+    export type RoadmapMilestoneCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RoadmapMilestoneCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -19064,6 +28128,26 @@ export namespace Prisma {
      * @deprecated Use CombinedWeeklyReportDefaultArgs instead
      */
     export type CombinedWeeklyReportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CombinedWeeklyReportDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ManualCategoryDefaultArgs instead
+     */
+    export type ManualCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ManualCategoryDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ManualBookDefaultArgs instead
+     */
+    export type ManualBookArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ManualBookDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ProjectRoadmapDefaultArgs instead
+     */
+    export type ProjectRoadmapArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProjectRoadmapDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RoadmapMilestoneDefaultArgs instead
+     */
+    export type RoadmapMilestoneArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RoadmapMilestoneDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RoadmapProgressLogDefaultArgs instead
+     */
+    export type RoadmapProgressLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RoadmapProgressLogDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

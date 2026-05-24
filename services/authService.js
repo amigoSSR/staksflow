@@ -12,11 +12,18 @@ const SALT_ROUNDS = 12;
  * @returns {Object} created user (without password)
  */
 const register = async ({ username, email, password }) => {
-  username = username.trim();
+  username = username.trim().toLowerCase(); // Normalize to lowercase for SQLite case-insensitivity
   email    = email.trim().toLowerCase();
 
-  // Check existing
-  const existingUser = await prisma.user.findUnique({ where: { username } });
+  // Check existing (normalized check)
+  const existingUser = await prisma.user.findFirst({ 
+    where: { 
+      OR: [
+        { username: username }, // Already lowercased
+        // No mode: 'insensitive' for SQLite in Prisma, so we rely on normalization
+      ]
+    } 
+  });
   if (existingUser) throw new Error('Username sudah digunakan');
 
   const existingEmail = await prisma.user.findUnique({ where: { email } });
@@ -41,15 +48,17 @@ const register = async ({ username, email, password }) => {
  * @returns {Object} user (without password)
  */
 const login = async ({ identifier, password }) => {
-  identifier = identifier.trim().toLowerCase();
+  const originalIdentifier = identifier.trim();
+  const lowerIdentifier = originalIdentifier.toLowerCase();
 
-  // Prisma doesn't have native case-insensitive OR for SQLite natively, but username and email are exact for login usually.
-  // Actually we will check username OR email using OR.
+  // SQLite is case-sensitive. We check original for existing mixed-case usernames 
+  // and lowercase for emails/newly normalized usernames.
   const user = await prisma.user.findFirst({
     where: {
       OR: [
-        { username: identifier },
-        { email: identifier }
+        { email: lowerIdentifier },
+        { username: lowerIdentifier },
+        { username: originalIdentifier }
       ]
     }
   });

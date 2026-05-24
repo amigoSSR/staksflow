@@ -87,12 +87,16 @@ router.post('/promote-first-admin', async (req, res) => {
     if (existingAdmin)
       return res.status(400).json({ success: false, error: 'Admin sudah ada. Gunakan panel admin untuk mengubah role.' });
       
-    const userToPromote = await prisma.user.findUnique({ where: { username } });
+    const userToPromote = await prisma.user.findFirst({ 
+      where: { 
+        username: { in: [username.trim(), username.trim().toLowerCase()] } 
+      } 
+    });
     if (!userToPromote)
       return res.status(404).json({ success: false, error: `User '${username}' tidak ditemukan. Daftar dulu.` });
 
     await prisma.user.update({
-      where: { username },
+      where: { id: userToPromote.id },
       data: { role: 'admin' }
     });
     

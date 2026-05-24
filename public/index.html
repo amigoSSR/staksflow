@@ -28,6 +28,256 @@
     />
 
     <link rel="stylesheet" href="/style.css" />
+    <style>
+      #viewManualBook {
+        height: calc(100vh - 80px); /* Increased height slightly */
+        margin: 0 -28px;
+        background: var(--bg-1);
+        animation: fadeIn 0.4s ease;
+        display: flex;
+        flex-direction: column;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .manual-container {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 32px; /* Added significant gap */
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        padding: 24px; /* Added padding around the container */
+        background: var(--bg-1);
+      }
+      .manual-sidebar {
+        background: var(--bg-card);
+        border: 1px solid var(--border); /* Changed to full border */
+        border-radius: 20px; /* Rounded card look */
+        display: flex;
+        flex-direction: column;
+        z-index: 5;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      }
+      .manual-sidebar-header {
+        padding: 30px 24px;
+        background: rgba(255,255,255,0.01);
+        border-bottom: 1px solid var(--border);
+      }
+      .manual-nav {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 0;
+      }
+      /* Custom Scrollbar for Sidebar */
+      .manual-nav::-webkit-scrollbar { width: 3px; }
+      .manual-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+      .manual-content-wrapper {
+        flex: 1;
+        overflow-y: auto;
+        background: var(--bg-card); /* Changed to bg-card */
+        border: 1px solid var(--border);
+        border-radius: 20px; /* Rounded card look */
+        display: flex;
+        flex-direction: column;
+        scroll-behavior: smooth;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      }
+      .manual-reading-container {
+        width: 100%;
+        max-width: 960px; /* Reading Mode focus */
+        margin: 0 auto;
+        padding: 60px 50px;
+        animation: slideInRight 0.3s ease;
+      }
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      .manual-cat-group {
+        margin-bottom: 16px;
+        padding: 0 16px;
+      }
+      .manual-cat-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        font-size: 11.5px;
+        font-weight: 800;
+        color: var(--text-3);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        border-radius: 10px;
+      }
+      .manual-cat-label:hover {
+        color: var(--text-1);
+        background: rgba(255,255,255,0.03);
+      }
+      .manual-cat-label i:first-child {
+        font-size: 15px;
+        color: var(--accent);
+      }
+      .manual-tut-list {
+        list-style: none;
+        padding: 6px 0;
+        margin: 0;
+      }
+      .manual-tut-link {
+        padding: 10px 16px 10px 44px;
+        font-size: 13.5px;
+        color: var(--text-2);
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 8px;
+        margin: 2px 0;
+      }
+      .manual-tut-link:hover {
+        color: var(--text-1);
+        background: rgba(255,255,255,0.04);
+        transform: translateX(4px);
+      }
+      .manual-tut-link.active {
+        color: #fff;
+        background: var(--accent);
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(var(--accent-rgb), 0.2);
+      }
+      .manual-reader .manual-breadcrumb {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .manual-reader .manual-title {
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--text-1);
+        margin-bottom: 16px;
+        line-height: 1;
+        letter-spacing: -1px;
+      }
+      .manual-reader .manual-meta {
+        font-size: 13px;
+        color: var(--text-3);
+        margin-bottom: 50px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      /* Rich Content Refinement */
+      .manual-rich-content {
+        font-size: 16.5px;
+        line-height: 1.8;
+        color: var(--text-2);
+      }
+      .manual-rich-content h2 { 
+        font-size: 26px; 
+        font-weight: 800;
+        margin: 60px 0 24px 0; 
+        color: var(--text-1); 
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .manual-rich-content h2::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+      .manual-rich-content h3 { 
+        font-size: 20px; 
+        font-weight: 700;
+        margin: 40px 0 16px 0; 
+        color: var(--text-1); 
+      }
+      .manual-rich-content p { margin-bottom: 24px; }
+      .manual-rich-content ul, .manual-rich-content ol { 
+        margin-bottom: 30px; 
+        padding-left: 30px; 
+      }
+      .manual-rich-content li { margin-bottom: 14px; }
+      
+      .manual-rich-content .tip-box, 
+      .manual-rich-content .info-box, 
+      .manual-rich-content .warn-box { 
+        padding: 30px; 
+        border-radius: 16px; 
+        margin: 40px 0; 
+        display: flex;
+        gap: 20px;
+        border: 1px solid transparent;
+      }
+      .manual-rich-content .tip-box { background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.1); }
+      .manual-rich-content .info-box { background: rgba(59, 130, 246, 0.08); border-color: rgba(59, 130, 246, 0.1); }
+      .manual-rich-content .warn-box { background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.1); }
+
+      .manual-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        padding: 100px 40px;
+        max-width: 600px;
+        margin: 0 auto;
+        animation: fadeIn 0.6s ease;
+      }
+      .placeholder-icon {
+        width: 140px;
+        height: 140px;
+        background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), rgba(var(--accent-rgb), 0.05));
+        border-radius: 40px;
+        transform: rotate(-10deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 64px;
+        color: var(--accent);
+        margin-bottom: 40px;
+        border: 1px solid rgba(var(--accent-rgb), 0.1);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      }
+
+      @media (max-width: 1100px) {
+        .manual-container { grid-template-columns: 280px 1fr; }
+        .manual-reading-container { padding: 40px 30px; }
+      }
+
+      @media (max-width: 768px) {
+        .manual-container { grid-template-columns: 1fr; }
+        .manual-sidebar {
+          position: absolute;
+          left: -320px;
+          z-index: 100;
+          height: 100%;
+          width: 320px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .manual-sidebar.open {
+          left: 0;
+          box-shadow: 0 0 100px rgba(0,0,0,0.5);
+        }
+        .manual-reading-container { padding: 40px 20px; }
+        .manual-reader .manual-title { font-size: 32px; }
+      }
+    </style>
   </head>
 
   <body>
@@ -166,6 +416,15 @@
               </li>
             </ul>
           </div>
+          <div class="nav-section">
+            <div class="nav-label">BANTUAN</div>
+            <ul class="nav-list" id="helpList">
+              <li class="nav-item" data-tab="manual" id="nav-manual">
+                <i class="bi bi-journal-bookmark-fill"></i>
+                <span>Manual Book</span>
+              </li>
+            </ul>
+          </div>
         </nav>
 
         <!-- Sidebar Stats -->
@@ -226,21 +485,23 @@
 
         <!-- Filter Bar -->
         <div class="filter-bar" id="userFilterBar">
-          <div class="filter-tabs" id="diaryFilterContainer" style="display: flex; gap: 8px; align-items: center;">
-            <span style="font-size: 13px; font-weight: 500; opacity: 0.8;"><i class="bi bi-funnel-fill"></i> Filter Proyek:</span>
+          <div class="filter-group">
+            <span class="filter-label"><i class="bi bi-funnel-fill"></i> Filter Proyek</span>
             <select id="filterProjectSelect" class="sort-select" style="max-width: 250px;">
               <option value="all">Semua Proyek</option>
             </select>
           </div>
-          <div class="filter-right">
-            <select
-              id="sortSelect"
-              class="sort-select"
-              aria-label="Urutkan diary"
-            >
-              <option value="newest">⬇ Terbaru</option>
-              <option value="oldest">⬆ Terlama</option>
-              <option value="title">🔤 Judul A-Z</option>
+          <div class="filter-group">
+            <span class="filter-label"><i class="bi bi-sort-down"></i> Urutkan</span>
+            <div class="sort-btn-group" id="sortBtnGroup">
+              <button class="sort-btn active" data-value="newest" title="Terbaru"><i class="bi bi-clock-history"></i></button>
+              <button class="sort-btn" data-value="oldest" title="Terlama"><i class="bi bi-hourglass-split"></i></button>
+              <button class="sort-btn" data-value="title" title="A-Z"><i class="bi bi-sort-alpha-down"></i></button>
+            </div>
+            <select id="sortSelect" class="hidden">
+              <option value="newest">Terbaru</option>
+              <option value="oldest">Terlama</option>
+              <option value="title">A-Z</option>
             </select>
           </div>
         </div>
@@ -284,6 +545,48 @@
           </div>
           <div class="projects-grid" id="myProjectsGrid">
             <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- ─── MANUAL BOOK VIEW ─── -->
+        <div id="viewManualBook" class="hidden">
+          <div class="manual-container">
+            <!-- Manual Sidebar -->
+            <aside class="manual-sidebar">
+              <div class="manual-sidebar-header">
+                <div class="search-box">
+                  <i class="bi bi-search"></i>
+                  <input type="text" id="manualSearchInput" placeholder="Cari panduan..." oninput="searchManuals()" />
+                </div>
+              </div>
+              <nav class="manual-nav" id="manualSidebarList">
+                <!-- Sidebar content injected here -->
+                <div class="spinner" style="margin:20px auto;"></div>
+              </nav>
+            </aside>
+
+            <!-- Manual Content Area -->
+            <main class="manual-content-wrapper" id="manualContentWrapper">
+              <div id="manualContentArea">
+                <div class="manual-placeholder">
+                  <div class="placeholder-icon">
+                    <i class="bi bi-journal-richtext"></i>
+                  </div>
+                  <h2>Pilih Panduan untuk Memulai</h2>
+                  <p>Selamat datang di Pusat Bantuan STAKS Flow. Silakan pilih salah satu kategori di samping untuk menemukan informasi detail mengenai fitur dan cara penggunaan aplikasi.</p>
+                  <div class="placeholder-stats">
+                    <div class="p-stat">
+                      <span class="p-num">15+</span>
+                      <span class="p-lbl">Tutorial</span>
+                    </div>
+                    <div class="p-stat">
+                      <span class="p-num">24/7</span>
+                      <span class="p-lbl">Akses</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
           </div>
         </div>
       </main>
@@ -591,28 +894,204 @@
       role="dialog"
       aria-modal="true"
     >
-      <div class="modal modal-lg" id="projectDetailsModal" style="max-width: 800px;">
+      <div class="modal modal-lg" id="projectDetailsModal" style="max-width: 900px;">
         <div class="modal-header">
           <h2 class="modal-title" id="projectDetailsTitle">Detail Proyek</h2>
           <button class="modal-close" id="projectDetailsClose" aria-label="Tutup modal">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="modal-body" style="padding: 20px; max-height: 70vh; overflow-y: auto;">
-          <div class="project-details-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
-            <div>
-              <h3 style="font-size: 14px; margin-bottom: 8px; font-weight: 600; opacity: 0.9;">DESKRIPSI PROYEK</h3>
-              <p id="projectDetailsDesc" style="opacity: 0.8; font-size: 14px; line-height: 1.6; margin-bottom: 24px; white-space: pre-wrap;"></p>
-              
-              <h3 style="font-size: 14px; margin-bottom: 12px; font-weight: 600; opacity: 0.9;"><i class="bi bi-clock-history"></i> TIMELINE DIARY PROYEK</h3>
-              <div class="diary-timeline" id="projectDetailTimeline" style="margin-left: 0; padding-top: 10px;"></div>
-            </div>
-            <div style="border-left: 1px solid var(--border-color, rgba(255,255,255,0.1)); padding-left: 20px;">
-              <h3 style="font-size: 14px; margin-bottom: 12px; font-weight: 600; opacity: 0.9;"><i class="bi bi-people-fill"></i> ANGGOTA PROYEK</h3>
-              <div id="projectDetailsMembersList" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        <div class="modal-body" style="padding: 20px; max-height: 80vh; overflow-y: auto;">
+          <!-- Tabs for Project Details -->
+          <div style="display:flex; gap:12px; border-bottom:1px solid var(--border); margin-bottom:24px; padding-bottom: 2px; overflow-x: auto;">
+            <button class="tab-btn active" data-ptab="overview"><i class="bi bi-info-circle"></i> Overview</button>
+            <button class="tab-btn" data-ptab="roadmap"><i class="bi bi-map"></i> Project Roadmap & Goals</button>
+            <button class="tab-btn" data-ptab="diaries"><i class="bi bi-journal-text"></i> Activity Diaries</button>
+          </div>
+
+          <div id="ptab-overview" class="ptab-content">
+            <div class="project-details-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+              <div>
+                <h3 style="font-size: 13px; margin-bottom: 12px; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">Deskripsi Proyek</h3>
+                <p id="projectDetailsDesc" style="opacity: 0.9; font-size: 15px; line-height: 1.7; margin-bottom: 32px; white-space: pre-wrap; color: var(--text-1);"></p>
+                
+                <div style="background: rgba(59, 130, 246, 0.04); border: 1px solid rgba(59, 130, 246, 0.1); border-radius: 12px; padding: 20px;">
+                   <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--accent-2); font-weight: 700;">Tip: Manajemen Roadmap</h4>
+                   <p style="font-size: 13px; opacity: 0.7; line-height: 1.5;">Hanya <b>Project Leader</b> yang dapat mengelola roadmap dan milestone. Mentees dapat memantau progres secara real-time di tab Roadmap.</p>
+                </div>
+              </div>
+              <div style="border-left: 1px solid var(--border); padding-left: 24px;">
+                <h3 style="font-size: 13px; margin-bottom: 16px; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;"><i class="bi bi-people-fill"></i> Anggota Tim</h3>
+                <div id="projectDetailsMembersList" style="display: flex; flex-direction: column; gap: 14px;"></div>
+              </div>
             </div>
           </div>
+
+          <div id="ptab-roadmap" class="ptab-content hidden">
+            <div id="structuredRoadmapContainer">
+               <div class="loading-state"><div class="spinner"></div></div>
+            </div>
+          </div>
+
+          <div id="ptab-diaries" class="ptab-content hidden">
+            <h3 style="font-size: 13px; margin-bottom: 16px; font-weight: 700; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;"><i class="bi bi-clock-history"></i> Riwayat Aktivitas Diary</h3>
+            <div class="diary-timeline" id="projectDetailTimeline" style="margin-left: 0; padding-top: 10px;"></div>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <!-- MODAL: ADD/EDIT MILESTONE (USER/LEADER SIDE) -->
+    <div class="modal-overlay" id="uMilestoneModalOverlay">
+      <div class="modal" style="max-width: 520px;">
+        <div class="modal-header">
+          <h2 class="modal-title" id="uMilestoneModalTitle">Manage Milestone</h2>
+          <button class="modal-close" onclick="document.getElementById('uMilestoneModalOverlay').classList.remove('open')"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <form id="uMilestoneForm" class="modal-form">
+          <input type="hidden" id="uMilestoneFormId" />
+          <input type="hidden" id="uMilestoneProjectId" />
+          <div class="form-group">
+            <label>Judul Milestone *</label>
+            <input type="text" id="uMilestoneFormTitle" required placeholder="Contoh: Initial Prototype" />
+          </div>
+          <div class="form-group">
+            <label>Deskripsi & Goal</label>
+            <textarea id="uMilestoneFormDesc" rows="3" placeholder="Jelaskan apa yang ingin dicapai..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Target Tanggal</label>
+              <input type="date" id="uMilestoneFormTarget" required />
+            </div>
+            <div class="form-group">
+              <label>Progress (%)</label>
+              <input type="number" id="uMilestoneFormProgress" min="0" max="100" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Ditugaskan Ke</label>
+            <select id="uMilestoneFormAssignee">
+              <option value="">— Belum Ditugaskan —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="uMilestoneFormStatus">
+              <option value="pending">Pending</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Catatan Progress / Aktivitas</label>
+            <textarea id="uMilestoneFormNote" rows="2" placeholder="Apa yang sedang/sudah dikerjakan?"></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="document.getElementById('uMilestoneModalOverlay').classList.remove('open')">Batal</button>
+            <button type="submit" class="btn-save">Simpan Milestone</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: EDIT ROADMAP SETTINGS (LEADER SIDE) -->
+    <div class="modal-overlay" id="uEditRoadmapModalOverlay">
+      <div class="modal modal-sm">
+        <div class="modal-header">
+          <h2 class="modal-title">Edit Pengaturan Roadmap</h2>
+          <button class="modal-close" onclick="document.getElementById('uEditRoadmapModalOverlay').classList.remove('open')"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <form id="uEditRoadmapForm" class="modal-form">
+          <input type="hidden" id="uerProjectId" />
+          <div class="form-group">
+            <label>Judul Roadmap *</label>
+            <input type="text" id="uerTitle" required />
+          </div>
+          <div class="form-group">
+            <label>Deskripsi / Visi</label>
+            <textarea id="uerDesc" rows="2"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Target Selesai (Read-only)</label>
+              <input type="date" id="uerTarget" disabled style="background:rgba(255,255,255,0.05); color:var(--text-3);" />
+              <div style="font-size:10px; color:var(--warn); margin-top:4px;"><i class="bi bi-info-circle"></i> Gunakan tombol <b>"Revisi Deadline"</b> untuk mengubah target selesai.</div>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select id="uerStatus">
+                <option value="planned">Planned</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="document.getElementById('uEditRoadmapModalOverlay').classList.remove('open')">Batal</button>
+            <button type="submit" class="btn-save">Simpan Perubahan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: REVISE ROADMAP DEADLINE (LEADER SIDE) -->
+    <div class="modal-overlay" id="uReviseRoadmapModalOverlay">
+      <div class="modal modal-sm">
+        <div class="modal-header">
+          <h2 class="modal-title">Revisi Deadline Roadmap</h2>
+          <button class="modal-close" onclick="document.getElementById('uReviseRoadmapModalOverlay').classList.remove('open')"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <form id="uReviseRoadmapForm" class="modal-form">
+          <input type="hidden" id="urevProjectId" />
+          <div class="form-group">
+            <label>Deadline Saat Ini</label>
+            <input type="text" id="urevOldTarget" disabled style="background:rgba(255,255,255,0.05); color:var(--text-3);" />
+          </div>
+          <div class="form-group">
+            <label>Deadline Baru *</label>
+            <input type="date" id="urevNewTarget" required />
+          </div>
+          <div class="form-group">
+            <label>Alasan Revisi *</label>
+            <textarea id="urevReason" rows="3" required placeholder="Jelaskan alasan perubahan deadline agar diketahui Admin..."></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="document.getElementById('uReviseRoadmapModalOverlay').classList.remove('open')">Batal</button>
+            <button type="submit" class="btn-save" style="background:var(--warn);"><i class="bi bi-check-lg"></i> Simpan Revisi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL: INIT ROADMAP (LEADER SIDE) -->
+    <div class="modal-overlay" id="uInitRoadmapModalOverlay">
+      <div class="modal modal-sm">
+        <div class="modal-header">
+          <h2 class="modal-title">Inisialisasi Roadmap Proyek</h2>
+          <button class="modal-close" onclick="document.getElementById('uInitRoadmapModalOverlay').classList.remove('open')"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <form id="uInitRoadmapForm" class="modal-form">
+          <input type="hidden" id="uirProjectId" />
+          <div class="form-group">
+            <label>Judul Roadmap *</label>
+            <input type="text" id="uirTitle" required placeholder="Contoh: Product Launch Roadmap" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mulai</label>
+              <input type="date" id="uirStart" required />
+            </div>
+            <div class="form-group">
+              <label>Target Selesai *</label>
+              <input type="date" id="uirTarget" required />
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" onclick="document.getElementById('uInitRoadmapModalOverlay').classList.remove('open')">Batal</button>
+            <button type="submit" class="btn-save">Buat Roadmap</button>
+          </div>
+        </form>
       </div>
     </div>
 

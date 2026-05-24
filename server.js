@@ -1,22 +1,22 @@
 require('dotenv').config();
-const express    = require('express');
-const cors       = require('cors');
-const path       = require('path');
-const helmet     = require('helmet');
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const helmet = require('helmet');
 const compression = require('compression');
-const rateLimit  = require('express-rate-limit');
-const morgan     = require('morgan');
+const rateLimit = require('express-rate-limit');
+const morgan = require('morgan');
 const { Server } = require('socket.io');
 const cron = require('node-cron');
 const weeklyReportService = require('./services/weeklyReportService');
 
-const authRouter      = require('./routes/auth');
-const diariesRouter   = require('./routes/diaries');
-const adminRouter     = require('./routes/admin');
+const authRouter = require('./routes/auth');
+const diariesRouter = require('./routes/diaries');
+const adminRouter = require('./routes/admin');
 const communityRouter = require('./routes/community');
-const projectsRouter  = require('./routes/projects');
+const projectsRouter = require('./routes/projects');
 
-const app  = express();
+const app = express();
 const PORT = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -24,18 +24,20 @@ const isProd = process.env.NODE_ENV === 'production';
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc:  ["'self'"],
-      scriptSrc:   ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://fonts.googleapis.com"],
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.jsdelivr.net", "https://fonts.googleapis.com"],
       scriptSrcAttr: ["'unsafe-inline'"],
-      styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"],
-      fontSrc:     ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net"],
-      imgSrc:      ["'self'", "data:", "blob:"],
-      frameSrc:    ["'self'", "blob:"],
-      objectSrc:   ["'self'", "blob:"],
-      connectSrc:  ["'self'", "ws:", "wss:"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:"],
+      imgSrc: ["'self'", "data:", "blob:", "https:", "http:"],
+      frameSrc: ["'self'", "blob:"],
+      objectSrc: ["'self'", "blob:"],
+      connectSrc: ["'self'", "ws:", "wss:", "http://178.128.109.116:3010", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
     },
   },
   crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  hsts: false, // Matikan HSTS karena aplikasi belum menggunakan SSL/HTTPS (mencegah ERR_SSL_PROTOCOL_ERROR)
 }));
 
 // ── Compression ───────────────────────────────────────────────────────────────
@@ -44,10 +46,22 @@ app.use(compression());
 // ── CORS ──────────────────────────────────────────────────────────────────────
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
-  : ['http://localhost:3000'];
+  : ['http://localhost:3000', 'http://localhost:3010', 'http://178.128.109.116:3010', 'http://178.128.109.116:3000'];
 
 app.use(cors({
-  origin: isProd ? allowedOrigins : '*',
+  origin: (origin, callback) => {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (isProd) {
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    } else {
+      callback(null, true);
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -71,7 +85,7 @@ const authLimiter = rateLimit({
 });
 
 app.use('/api', generalLimiter);
-app.use('/api/auth/login',    authLimiter);
+app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 
 // ── HTTP Logging ──────────────────────────────────────────────────────────────
@@ -88,10 +102,11 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 
 // ── API Routes ────────────────────────────────────────────────────────────────
-app.use('/api/auth',      authRouter);
-app.use('/api/diaries',   diariesRouter);
-app.use('/api/projects',  projectsRouter);
-app.use('/api/admin',     adminRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/diaries', diariesRouter);
+app.use('/api/projects', projectsRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/manual', require('./routes/manual'));
 app.use('/api/community', communityRouter);
 
 // ── Health check ──────────────────────────────────────────────────────────────
@@ -180,7 +195,7 @@ cron.schedule('0 1 * * 1', async () => {
 
 // Log next scheduled run on startup
 (function logNextCronRun() {
-  const now  = new Date();
+  const now = new Date();
   // Find next Monday 01:00 WIB
   const jakartaNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
   const daysUntilMon = (1 - jakartaNow.getDay() + 7) % 7 || 7;
@@ -188,7 +203,7 @@ cron.schedule('0 1 * * 1', async () => {
   nextMon.setDate(jakartaNow.getDate() + daysUntilMon);
   nextMon.setHours(1, 0, 0, 0);
   console.log(`📅 Weekly report auto-gen scheduled: every Monday 01:00 WIB`);
-  console.log(`   Next run ≈ ${nextMon.toLocaleDateString('id-ID', { weekday:'long', year:'numeric', month:'long', day:'numeric' })} 01:00 WIB\n`);
+  console.log(`   Next run ≈ ${nextMon.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} 01:00 WIB\n`);
 })();
 
 // ── Handle Port Conflict ──────────────────────────────────────────────────────
@@ -212,4 +227,4 @@ const shutdown = () => {
   setTimeout(() => process.exit(1), 10000);
 };
 process.on('SIGTERM', shutdown);
-process.on('SIGINT',  shutdown);
+process.on('SIGINT', shutdown);

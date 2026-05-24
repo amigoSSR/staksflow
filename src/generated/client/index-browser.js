@@ -236,6 +236,68 @@ exports.Prisma.CombinedWeeklyReportScalarFieldEnum = {
   total_activities: 'total_activities'
 };
 
+exports.Prisma.ManualCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  order: 'order',
+  icon: 'icon',
+  access_role: 'access_role',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ManualBookScalarFieldEnum = {
+  id: 'id',
+  category_id: 'category_id',
+  title: 'title',
+  content: 'content',
+  order: 'order',
+  access_role: 'access_role',
+  created_by: 'created_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ProjectRoadmapScalarFieldEnum = {
+  id: 'id',
+  project_id: 'project_id',
+  roadmap_title: 'roadmap_title',
+  description: 'description',
+  start_date: 'start_date',
+  deadline: 'deadline',
+  progress_percentage: 'progress_percentage',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.RoadmapMilestoneScalarFieldEnum = {
+  id: 'id',
+  roadmap_id: 'roadmap_id',
+  assigned_to: 'assigned_to',
+  title: 'title',
+  description: 'description',
+  start_date: 'start_date',
+  deadline: 'deadline',
+  progress_percentage: 'progress_percentage',
+  status: 'status',
+  activity_note: 'activity_note',
+  order: 'order',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.RoadmapProgressLogScalarFieldEnum = {
+  id: 'id',
+  roadmap_id: 'roadmap_id',
+  milestone_id: 'milestone_id',
+  user_id: 'user_id',
+  action: 'action',
+  details: 'details',
+  timestamp: 'timestamp'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -259,7 +321,12 @@ exports.Prisma.ModelName = {
   ProjectMember: 'ProjectMember',
   ProjectDiary: 'ProjectDiary',
   WeeklyReport: 'WeeklyReport',
-  CombinedWeeklyReport: 'CombinedWeeklyReport'
+  CombinedWeeklyReport: 'CombinedWeeklyReport',
+  ManualCategory: 'ManualCategory',
+  ManualBook: 'ManualBook',
+  ProjectRoadmap: 'ProjectRoadmap',
+  RoadmapMilestone: 'RoadmapMilestone',
+  RoadmapProgressLog: 'RoadmapProgressLog'
 };
 
 /**
