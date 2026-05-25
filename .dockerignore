@@ -1,0 +1,7 @@
+node_modules
+.git
+.env
+prisma/dev.db
+npm-debug.log
+.firebase
+.cache

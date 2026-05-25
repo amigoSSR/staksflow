@@ -14,7 +14,7 @@ generator client {
 // 3. Jalankan command: npx prisma db push
 // ─────────────────────────────────────────────────────────────
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

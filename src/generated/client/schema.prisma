@@ -36,6 +36,7 @@ model User {
   weeklyReports      WeeklyReport[]
   roadmapLogs        RoadmapProgressLog[]
   assignedMilestones RoadmapMilestone[]
+  manualBooks        ManualBook[]
 
   @@map("users")
 }
@@ -199,6 +200,38 @@ model CombinedWeeklyReport {
   @@map("combined_weekly_reports")
 }
 
+model ManualCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  order       Int      @default(0)
+  icon        String   @default("bi-journal-text")
+  access_role String   @default("user") // "admin" or "user"
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  manuals ManualBook[]
+
+  @@map("manual_categories")
+}
+
+model ManualBook {
+  id          String   @id @default(uuid())
+  category_id String
+  title       String
+  content     String // Markdown or HTML content
+  order       Int      @default(0)
+  access_role String   @default("user") // "admin" or "user"
+  created_by  String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  category ManualCategory @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  creator  User           @relation(fields: [created_by], references: [id])
+
+  @@map("manual_books")
+}
+
 model ProjectRoadmap {
   id                  String   @id @default(uuid())
   project_id          String   @unique
@@ -228,6 +261,7 @@ model RoadmapMilestone {
   deadline            String?
   progress_percentage Int      @default(0)
   status              String   @default("pending") // pending, ongoing, completed
+  activity_note       String?
   order               Int      @default(0)
   created_at          DateTime @default(now())
   updated_at          DateTime @updatedAt

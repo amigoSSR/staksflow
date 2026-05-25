@@ -147,85 +147,90 @@ app.use((err, req, res, next) => {
 });
 
 // ── Start Server ──────────────────────────────────────────────────────────────
-const server = app.listen(PORT, () => {
-  console.log(`\n🚀 STAKS FLOW [${process.env.NODE_ENV || 'development'}] running at http://localhost:${PORT}`);
-  console.log(`🔐 Auth  → http://localhost:${PORT}/api/auth`);
-  console.log(`📋 Diaries → http://localhost:${PORT}/api/diaries`);
-  console.log(`🏘️  Comm  → http://localhost:${PORT}/api/community`);
-  console.log(`❤️  Health→ http://localhost:${PORT}/api/health\n`);
-});
+// ── Export for Vercel ────────────────────────────────────────────────────────
+module.exports = app;
 
-// ── Socket.IO ─────────────────────────────────────────────────────────────────
-const io = new Server(server, {
-  cors: {
-    origin: isProd ? allowedOrigins : '*',
-    methods: ['GET', 'POST'],
-    credentials: true,
-  },
-  transports: ['websocket', 'polling'],
-  pingTimeout: 60000,
-  pingInterval: 25000,
-});
-
-app.set('io', io);
-
-io.on('connection', (socket) => {
-  socket.on('join_admin', () => {
-    socket.join('admin_room');
+// Only listen if not running in production (Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  const server = app.listen(PORT, () => {
+    console.log(`\n🚀 STAKS FLOW [${process.env.NODE_ENV || 'development'}] running at http://localhost:${PORT}`);
+    console.log(`🔐 Auth  → http://localhost:${PORT}/api/auth`);
+    console.log(`📋 Diaries → http://localhost:${PORT}/api/diaries`);
+    console.log(`🏘️  Comm  → http://localhost:${PORT}/api/community`);
+    console.log(`❤️  Health→ http://localhost:${PORT}/api/health\n`);
   });
-  socket.on('disconnect', () => {
-    // cleanup if needed
+
+  // Socket.IO
+  const io = new Server(server, {
+    cors: {
+      origin: isProd ? allowedOrigins : '*',
+      methods: ['GET', 'POST'],
+      credentials: true,
+    },
+    transports: ['websocket', 'polling'],
+    pingTimeout: 60000,
+    pingInterval: 25000,
   });
-});
 
-// ── Weekly automated report generation at 01:00 WIB every Monday ─────────────
-// Fires every Monday at 01:00 AM Asia/Jakarta (WIB, UTC+8)
-cron.schedule('0 1 * * 1', async () => {
-  const ts = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
-  console.log(`\n⏱️  [${ts}] Auto-generating weekly reports...`);
-  try {
-    const result = await weeklyReportService.generateWeeklyReports();
-    console.log(`✅ Weekly reports auto-generated: ${result.created_count} file(s) for period ${result.period}\n`);
-  } catch (err) {
-    console.error('❌ Weekly report auto-generation failed:', err.message);
-  }
-}, {
-  scheduled: true,
-  timezone: 'Asia/Jakarta'
-});
+  app.set('io', io);
 
-// Log next scheduled run on startup
-(function logNextCronRun() {
-  const now = new Date();
-  // Find next Monday 01:00 WIB
-  const jakartaNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
-  const daysUntilMon = (1 - jakartaNow.getDay() + 7) % 7 || 7;
-  const nextMon = new Date(jakartaNow);
-  nextMon.setDate(jakartaNow.getDate() + daysUntilMon);
-  nextMon.setHours(1, 0, 0, 0);
-  console.log(`📅 Weekly report auto-gen scheduled: every Monday 01:00 WIB`);
-  console.log(`   Next run ≈ ${nextMon.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} 01:00 WIB\n`);
-})();
-
-// ── Handle Port Conflict ──────────────────────────────────────────────────────
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`\n❌ Port ${PORT} sudah dipakai.`);
-    console.error(`   Jalankan: kill $(lsof -t -i:${PORT})\n`);
-    process.exit(1);
-  } else {
-    throw err;
-  }
-});
-
-// ── Graceful Shutdown ─────────────────────────────────────────────────────────
-const shutdown = () => {
-  console.log('\n🛑 Shutting down gracefully...');
-  server.close(() => {
-    console.log('✅ Server closed.');
-    process.exit(0);
+  io.on('connection', (socket) => {
+    socket.on('join_admin', () => {
+      socket.join('admin_room');
+    });
+    socket.on('disconnect', () => {
+      // cleanup if needed
+    });
   });
-  setTimeout(() => process.exit(1), 10000);
-};
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+
+  // ── Weekly automated report generation at 01:00 WIB every Monday ─────────────
+  cron.schedule('0 1 * * 1', async () => {
+    const ts = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
+    console.log(`\n⏱️  [${ts}] Auto-generating weekly reports...`);
+    try {
+      const result = await weeklyReportService.generateWeeklyReports();
+      console.log(`✅ Weekly reports auto-generated: ${result.created_count} file(s) for period ${result.period}\n`);
+    } catch (err) {
+      console.error('❌ Weekly report auto-generation failed:', err.message);
+    }
+  }, {
+    scheduled: true,
+    timezone: 'Asia/Jakarta'
+  });
+
+  // Log next scheduled run on startup
+  (function logNextCronRun() {
+    const now = new Date();
+    // Find next Monday 01:00 WIB
+    const jakartaNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+    const daysUntilMon = (1 - jakartaNow.getDay() + 7) % 7 || 7;
+    const nextMon = new Date(jakartaNow);
+    nextMon.setDate(jakartaNow.getDate() + daysUntilMon);
+    nextMon.setHours(1, 0, 0, 0);
+    console.log(`📅 Weekly report auto-gen scheduled: every Monday 01:00 WIB`);
+    console.log(`   Next run ≈ ${nextMon.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} 01:00 WIB\n`);
+  })();
+
+  // ── Handle Port Conflict ──────────────────────────────────────────────────────
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n❌ Port ${PORT} sudah dipakai.`);
+      console.error(`   Jalankan: kill $(lsof -t -i:${PORT})\n`);
+      process.exit(1);
+    } else {
+      throw err;
+    }
+  });
+
+  // ── Graceful Shutdown ─────────────────────────────────────────────────────────
+  const shutdown = () => {
+    console.log('\n🛑 Shutting down gracefully...');
+    server.close(() => {
+      console.log('✅ Server closed.');
+      process.exit(0);
+    });
+    setTimeout(() => process.exit(1), 10000);
+  };
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
+}
